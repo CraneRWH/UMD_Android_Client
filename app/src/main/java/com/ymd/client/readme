@@ -1,0 +1,15 @@
+项目目录结构(依据mvp模式划分)
+    model           对外提供数据，理论上对外只和presenter层交互
+        bean        实体数据
+        constant    常量数据
+        helper      数据提供帮助类，如数据库等
+    view            提供更新ui的接口供presenter使用
+    component       组件层，ui显示相关的四大组件及自定义view控件
+        activity
+        fragment
+        adapter
+        widget      自定义控件
+        event       EventBus 注册事件，一般也是用于更新ui
+    presenter       逻辑处理类 对上承接view层操作逻辑处理，对下获取model层数据处理后传递到view层展示
+    utils           工具方法类
+    common          retrofit + rxjava 事件订阅处理，暂未划分到mvp各层
