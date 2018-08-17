@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.ymd.client.component.widget.progress.BackgroundLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/progress_background"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:padding="16dp"
+    android:background="@android:color/transparent"
+    android:gravity="center"
+    android:minWidth="@dimen/mar_pad_len_250px"
+    android:minHeight="@dimen/mar_pad_len_250px"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:id="@+id/progress_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/progress_label"
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/white"
+        android:textSize="14sp"
+        android:layout_marginLeft="@dimen/mar_pad_len_18px"
+        android:layout_marginRight="@dimen/mar_pad_len_18px"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="4dp"/>
+
+    <TextView
+        android:id="@+id/progress_details_label"
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/white"
+        android:textSize="13sp"/>
+</com.ymd.client.component.widget.progress.BackgroundLayout>

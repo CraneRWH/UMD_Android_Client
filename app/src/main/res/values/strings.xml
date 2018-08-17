@@ -1,3 +1,5 @@
 <resources>
-    <string name="app_name">ymd</string>
+    <string name="app_name">优买单</string>
+
+    <string name="default_progress_text">加载中...</string>
 </resources>
