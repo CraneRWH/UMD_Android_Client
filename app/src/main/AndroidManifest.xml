@@ -14,7 +14,6 @@
         android:screenOrientation="portrait"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
         <meta-data
             android:name="android.max_aspect"
             android:value="2.1" />
@@ -29,13 +28,15 @@
                 android:resource="@xml/file_paths" />
         </provider>
 
-        <activity android:name=".component.activity.MainActivity">
+        <activity android:name=".component.activity.main.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".component.activity.login.LoginActivity" >
+        </activity>
+        <activity android:name=".component.activity.login.RegisterActivity"></activity>
     </application>
 
 </manifest>

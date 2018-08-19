@@ -1,22 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
 
-    <color name="common_color_white">#ffffff</color>
     <color name="common_color_gray_bg">#f3f3f3</color>
-    <color name="common_color_gray_middle_bg">#E5E5E5</color>
-    <color name="common_color_gray_light_bg">#d4d4d4</color>
-    <color name="common_color_unchecked_bg">#ccc</color>
     <color name="common_color_deep_grey">#979797</color>
-    <color name="common_color_deeper_grey">#bfbfbf</color>
-    <color name="common_color_title_color">#333333</color>
-    <color name="transparent">#00000000</color>
-    <color name="half_transparent">#40000000</color>
     <color name="common_color_black_txt">#171717</color>
-    <color name="common_color_red">#ff5657</color>
 
     <color name="common_color_bg">#33c5c0</color>
-    <color name="half_common_color_bg">#8C33c5c0</color>
+
+    <!-- 标题底色 灰色 -->
+    <!--<color name="bg_header">#58b948</color>-->
+    <color name="bg_header">#FFFFFF</color>
+    <color name="background_tab_pressed">#6633B5E5</color>
+    <!-- 透明色 -->
+    <color name="transparent">#00000000</color>
+    <!-- 课程表——绿色 -->
+    <color name="btn_blue_pressed">#0066FF</color>
+    <color name="gray">#cccccc</color>
+    <!-- 白色 -->
+    <color name="white">#FFFFFF</color>
+    <!-- 黑色 -->
+    <color name="black">#353535</color>
+    <color name="black_blue">#0c3b64</color>
+    <!-- 深灰 -->
+    <color name="gray_dark">#2e2e2e</color>
+    <!-- 灰黄色 -->
+    <color name="light_gray">#9A9A9A</color>
+    <!-- 通用浅灰色背景色 -->
+    <color name="bg_common_gray">#ebebeb</color>
+    <!-- 蓝色 -->
+    <color name="blue">#32ABFE</color>
+
+    <color name="text_gray">#A9A9A9</color>
+
 </resources>
