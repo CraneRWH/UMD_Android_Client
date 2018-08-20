@@ -57,14 +57,14 @@ public class MainActivity extends BaseActivity {
                     case R.id.navigation_home:
                         chooseMainItem(0);
                         break;
-                    case R.id.navigation_sao:
+                  /*  case R.id.navigation_sao:
+                        chooseMainItem(1);
+                        break;*/
+                    case R.id.navigation_order:
                         chooseMainItem(1);
                         break;
-                    case R.id.navigation_order:
-                        chooseMainItem(2);
-                        break;
                     case R.id.navigation_mine:
-                        chooseMainItem(3);
+                        chooseMainItem(2);
                         break;
                     default:
                         break;
@@ -85,22 +85,22 @@ public class MainActivity extends BaseActivity {
                     fragmentTransaction.add(R.id.fragmentLayout, homePageFragment, "home");
                     mainFragments.put(0,homePageFragment);
                 }
-                else if (tag == 1) {
+                /*else if (tag == 1) {
                     saoFragment = new MainSaoFragment();		//扫一扫选项卡
                     fragmentTransaction.add(R.id.fragmentLayout, saoFragment, "sao");
                     mainFragments.put(1,saoFragment);
-                }
-                else if (tag == 2) {
+                }*/
+                else if (tag == 1) {
                     orderFragment = new MainOrderFragment();		//订单选项卡
 
                     fragmentTransaction.add(R.id.fragmentLayout, orderFragment, "order");
-                    mainFragments.put(2,orderFragment);
+                    mainFragments.put(1,orderFragment);
                 }
-                else if (tag == 3) {
+                else if (tag == 2) {
                     mineFragment = new MainMineFragment();		//“我的”选项卡
 
                     fragmentTransaction.add(R.id.fragmentLayout, mineFragment, "mine");
-                    mainFragments.put(3, mineFragment);
+                    mainFragments.put(2, mineFragment);
                 }
             }
             for(int key : mainFragments.keySet()) {

@@ -13,4 +13,20 @@
         <attr name="shadow_bottom" format="reference" />
     </declare-styleable>
     <attr name="SwipeBackLayoutStyle" format="reference" />
+    <declare-styleable name="custom">
+
+        <attr name="canPullUp" format="boolean"></attr>
+        <attr name="canPullDown" format="boolean"></attr>
+
+        <attr name="myGravity">
+            <enum name="left" value="0" /> 		<!-- 左对齐 -->
+            <enum name="right" value="1"/>		<!-- 右对齐 -->
+            <enum name="center" value="2"/>		<!-- 居中 -->
+            <enum name="center_horizontal" value="3"></enum>	<!-- 水平居中 -->
+            <enum name="center_vertical" value="4"></enum>	<!-- 垂直居中 -->
+        </attr>
+        <attr name="pointSize" format="dimension"/>
+        <attr name="chooseSrc" format="reference"/>
+        <attr name="noChooseSrc" format="reference"/>
+    </declare-styleable>
 </resources>

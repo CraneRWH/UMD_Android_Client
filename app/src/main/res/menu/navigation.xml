@@ -4,28 +4,28 @@
 
     <item
         android:id="@+id/navigation_home"
-        android:icon="@drawable/main_home_icon_selector"
+        android:icon="@mipmap/main_home_page_green_icon"
         android:enabled="true"
         app:showAsAction="ifRoom"
         android:title="首页" />
 
-    <item
+<!--    <item
         android:id="@+id/navigation_sao"
         android:icon="@drawable/main_sao_icon_selector"
         android:enabled="true"
         app:showAsAction="ifRoom"
-        android:title="扫一扫" />
+        android:title="扫一扫" />-->
 
     <item
         android:id="@+id/navigation_order"
-        android:icon="@drawable/main_order_icon_selector"
+        android:icon="@mipmap/main_order_gray_icon"
         android:enabled="true"
         app:showAsAction="ifRoom"
         android:title="订单" />
 
     <item
         android:id="@+id/navigation_mine"
-        android:icon="@drawable/main_mine_icon_selector"
+        android:icon="@mipmap/main_mine_gray_icon"
         android:enabled="true"
         app:showAsAction="ifRoom"
         android:title="我的" />

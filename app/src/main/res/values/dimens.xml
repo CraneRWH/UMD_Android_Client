@@ -22,4 +22,6 @@
     <!-- 顶部状态栏中,右侧按钮高度 -->
     <dimen name="header_layout_view_height">30dp</dimen>
     <dimen name="common_btnBack_dimen">23dip</dimen>
+
+    <dimen name="poster_point_size">7dp</dimen>
 </resources>

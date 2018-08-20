@@ -10,7 +10,7 @@
 
     <!-- 标题底色 灰色 -->
     <!--<color name="bg_header">#58b948</color>-->
-    <color name="bg_header">#FFFFFF</color>
+    <color name="bg_header">#5BCC7E</color>
     <color name="background_tab_pressed">#6633B5E5</color>
     <!-- 透明色 -->
     <color name="transparent">#00000000</color>
@@ -33,4 +33,7 @@
 
     <color name="text_gray">#A9A9A9</color>
 
+    <color name="bg_color">#FFFFFF</color>
+
+    <color name="red">#FF0000</color>			<!-- 纯红 -->
 </resources>
