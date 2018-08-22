@@ -3,7 +3,10 @@ package com.ymd.client.component.activity.homePage;
 import android.content.Context;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -156,7 +159,7 @@ public class MainHomePageFragment extends Fragment {
         bigLayout.setOnRefreshListener(new PullToRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh(PullToRefreshLayout pullToRefreshLayout) {
-
+                refreshHandler.sendEmptyMessageDelayed(0, 3000);
             }
 
             @Override
@@ -168,6 +171,8 @@ public class MainHomePageFragment extends Fragment {
         setFunctionItem();
         setYouHuiItem();
     }
+
+
 
     private void setPicture() {
         //设置播放时间间隔
@@ -318,4 +323,17 @@ public class MainHomePageFragment extends Fragment {
     public interface OnFragmentInteractionListener {
         void onFragmentInteraction(Uri uri);
     }
+    private Handler refreshHandler = new Handler()
+    {
+        @Override
+        public void handleMessage(Message msg)
+        {
+            // 千万别忘了告诉控件刷新完毕了哦！
+            try {
+                bigLayout.refreshFinish(PullToRefreshLayout.SUCCEED);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    };
 }
