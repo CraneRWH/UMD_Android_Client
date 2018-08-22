@@ -1,6 +1,8 @@
 package com.ymd.client.component.activity.main;
 
+import android.app.Activity;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -12,6 +14,7 @@ import android.view.MenuItem;
 import com.ymd.client.R;
 import com.ymd.client.common.base.BaseActivity;
 import com.ymd.client.component.activity.homePage.MainHomePageFragment;
+import com.ymd.client.component.activity.login.LoginByPWActivity;
 import com.ymd.client.component.activity.mine.MainMineFragment;
 import com.ymd.client.component.activity.order.MainOrderFragment;
 import com.ymd.client.component.activity.sao.MainSaoFragment;
@@ -42,6 +45,15 @@ public class MainActivity extends BaseActivity {
     private MainSaoFragment saoFragment;
     private MainOrderFragment orderFragment;
     private MainMineFragment mineFragment;
+
+    /**
+     * 启动
+     * @param context
+     */
+    public static void startAction(Activity context) {
+        Intent intent = new Intent(context, MainActivity.class);
+        context.startActivity(intent);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

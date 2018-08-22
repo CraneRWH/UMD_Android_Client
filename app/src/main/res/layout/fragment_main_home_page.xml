@@ -3,8 +3,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:custom="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/tools"
     android:background="@color/bg_color"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    app:ignore="NamespaceTypo">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -116,7 +118,13 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent" >
 
-                        <com.ymd.client.component.widget.viewPager.MyViewPager
+                        <com.jude.rollviewpager.RollPagerView
+                            android:id="@+id/rollPagerView"
+                            android:layout_width="match_parent"
+                            android:layout_height="150dp"
+                            app:rollviewpager_play_delay="3000"
+                            />
+                        <!--<com.ymd.client.component.widget.viewPager.MyViewPager
                             android:id="@+id/viewPager"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
@@ -137,7 +145,7 @@
                         <com.ymd.client.component.widget.viewPager.MyPosterView
                             android:id="@+id/homePoster"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent" />
+                            android:layout_height="match_parent" />-->
                     </FrameLayout>
                 </LinearLayout>
 
@@ -154,7 +162,6 @@
                         android:paddingBottom="7dp"
                         android:paddingLeft="15dp"
                         android:paddingTop="15dp"
-                        android:text="车辆体检项目"
                         android:textColor="@color/black"
                         android:visibility="gone"
                         android:textSize="16sp" />
@@ -204,11 +211,13 @@
                             android:layout_height="wrap_content"
                             android:id="@+id/horizontalScrollView"
                             android:layout_alignParentTop="true"
+                            android:scrollbars="none"
                             android:layout_centerHorizontal="true">
                             <LinearLayout
                                 android:id="@+id/youhuiServiceLayout"
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
+                                android:layout_height="150dp"
+                                android:layout_margin="10dp"
                                 android:orientation="horizontal">
                             </LinearLayout>
                         </HorizontalScrollView>

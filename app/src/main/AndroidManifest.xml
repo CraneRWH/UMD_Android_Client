@@ -28,15 +28,30 @@
                 android:resource="@xml/file_paths" />
         </provider>
 
-        <activity android:name=".component.activity.main.MainActivity">
+        <!--主页面-->
+        <activity android:name=".component.activity.main.MainActivity"
+            android:launchMode="singleTop"/>
+
+        <!--验证码登录-->
+        <activity android:name=".component.activity.login.LoginActivity"/>
+
+        <!--密码登录-->
+        <activity android:name=".component.activity.login.LoginByPWActivity"/>
+
+        <!--启动页面-->
+        <activity android:name=".component.activity.login.LogoActivity">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".component.activity.login.LoginActivity" />
+
+        <!--注册页面-->
         <activity android:name=".component.activity.login.RegisterActivity" />
+
+
         <activity android:name=".component.activity.mine.SettingActivity" />
         <activity android:name=".component.activity.mine.PersonInfoActivity" />
         <activity android:name=".component.activity.mine.MyUbActivity" />

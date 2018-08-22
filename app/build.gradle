@@ -63,4 +63,6 @@ dependencies {
     //OKHttp网络请求库
     implementation 'com.squareup.okhttp3:okhttp:3.4.1'
     implementation 'com.squareup.okhttp3:logging-interceptor:3.4.1'
+
+    implementation 'com.jude:rollviewpager:1.2.9'
 }

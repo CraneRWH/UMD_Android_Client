@@ -1,6 +1,7 @@
 package com.ymd.client.component.activity.homePage;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -12,6 +13,9 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.jude.rollviewpager.RollPagerView;
+import com.jude.rollviewpager.adapter.StaticPagerAdapter;
+import com.jude.rollviewpager.hintview.ColorPointHintView;
 import com.ymd.client.R;
 import com.ymd.client.component.adapter.MySimpleAdapter;
 import com.ymd.client.component.widget.pullRefreshView.PullToRefreshLayout;
@@ -50,9 +54,9 @@ public class MainHomePageFragment extends Fragment {
     private TextView stateTv;
     private ImageView stateIv;
     private RelativeLayout headView;
-    private MyViewPager viewPager;
-    private LinearLayout imageNumBar;
-    private MyPosterView homePoster;
+    /*    private MyViewPager viewPager;
+        private LinearLayout imageNumBar;
+        private MyPosterView homePoster;*/
     private LinearLayout layout;
     private MyGridView gridView;
     private MyGridView gridView2;
@@ -66,6 +70,7 @@ public class MainHomePageFragment extends Fragment {
     private PullToRefreshLayout bigLayout;
 
     private LinearLayout youhuiServiceLayout;
+    private RollPagerView mRollViewPager;
 
     public MainHomePageFragment() {
         // Required empty public constructor
@@ -131,9 +136,9 @@ public class MainHomePageFragment extends Fragment {
         stateTv = (TextView) view.findViewById(R.id.state_tv);
         stateIv = (ImageView) view.findViewById(R.id.state_iv);
         headView = (RelativeLayout) view.findViewById(R.id.head_view);
-        viewPager = (MyViewPager) view.findViewById(R.id.viewPager);
+      /*  viewPager = (MyViewPager) view.findViewById(R.id.viewPager);
         imageNumBar = (LinearLayout) view.findViewById(R.id.imageNumBar);
-        homePoster = (MyPosterView) view.findViewById(R.id.homePoster);
+        homePoster = (MyPosterView) view.findViewById(R.id.homePoster);*/
         layout = (LinearLayout) view.findViewById(R.id.layout);
         gridView = (MyGridView) view.findViewById(R.id.gridView);
         listView = (MListView) view.findViewById(R.id.listView);
@@ -146,6 +151,7 @@ public class MainHomePageFragment extends Fragment {
         bigLayout = (PullToRefreshLayout) view.findViewById(R.id.bigLayout);
 
         youhuiServiceLayout = (LinearLayout) view.findViewById(R.id.youhuiServiceLayout);
+        mRollViewPager = (RollPagerView) view.findViewById(R.id.rollPagerView);
 
         bigLayout.setOnRefreshListener(new PullToRefreshLayout.OnRefreshListener() {
             @Override
@@ -158,13 +164,28 @@ public class MainHomePageFragment extends Fragment {
 
             }
         });
-
+        setPicture();
         setFunctionItem();
         setYouHuiItem();
     }
 
     private void setPicture() {
+        //设置播放时间间隔
+        mRollViewPager.setPlayDelay(3000);
+        //设置透明度
+        mRollViewPager.setAnimationDurtion(500);
+        //设置适配器
+        mRollViewPager.setAdapter(new TestNormalAdapter());
 
+        //设置指示器（顺序依次）
+        //自定义指示器图片
+        //设置圆点指示器颜色
+        //设置文字指示器
+        //隐藏指示器
+        //mRollViewPager.setHintView(new IconHintView(this, R.drawable.point_focus, R.drawable.point_normal));
+        mRollViewPager.setHintView(new ColorPointHintView(getActivity(), getActivity().getColor(R.color.color_orange),Color.WHITE));
+        //mRollViewPager.setHintView(new TextHintView(this));
+        //mRollViewPager.setHintView(null);
     }
 
     private void setFunctionItem() {
@@ -259,13 +280,38 @@ public class MainHomePageFragment extends Fragment {
             //通过View寻找ID实例化控件
             ImageView img= (ImageView) view.findViewById(R.id.itemImage);
             //实例化TextView控件
-         //   TextView tv= (TextView) view.findViewById(R.id.textView);
+            //   TextView tv= (TextView) view.findViewById(R.id.textView);
             //将int数组中的数据放到ImageView中
-            img.setImageResource(ToolUtil.changeInteger(map.get("icon")));
+            img.setImageResource(ToolUtil.changeInteger(list.get(x).get("icon")));
             //给TextView添加文字
-        //    tv.setText("第"+(x+1)+"张");
+            //    tv.setText("第"+(x+1)+"张");
             //把行布局放到linear里
             youhuiServiceLayout.addView(view);
+        }
+    }
+
+    private class TestNormalAdapter extends StaticPagerAdapter {
+        private int[] imgs = {
+                R.mipmap.adver_icon_1,
+                R.mipmap.adver_icon_1,
+                R.mipmap.adver_icon_1,
+                R.mipmap.adver_icon_1
+        };
+
+
+        @Override
+        public View getView(ViewGroup container, int position) {
+            ImageView view = new ImageView(container.getContext());
+            view.setImageResource(imgs[position]);
+            view.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            view.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+            return view;
+        }
+
+
+        @Override
+        public int getCount() {
+            return imgs.length;
         }
     }
 

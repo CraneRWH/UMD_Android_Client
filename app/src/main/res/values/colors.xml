@@ -38,4 +38,12 @@
     <color name="bg_color">#FFFFFF</color>
 
     <color name="red">#FF0000</color>			<!-- 纯红 -->
+
+    <!-- 通用橙色 -->
+    <color name="color_orange">#F4793C</color>
+    <color name="main_red">#F76968</color>
+
+    <color name="main_gray">#F2F2F2</color>
+
+    <color name="head_white">#F8F8F8</color>
 </resources>
