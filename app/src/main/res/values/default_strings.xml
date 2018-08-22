@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="fragment_name">用户</string>
+    <string name="fragment_person">个人信息</string>
+    <string name="fragment_my_ub">我的U币</string>
+    <string name="fragment_my_collection">我的收藏</string>
+    <string name="fragment_my_rate">我的评价</string>
+    <string name="fragment_my_cards">我的券包</string>
+    <string name="fragment_links">联系客服</string>
+    <string name="fragment_my_banks">我的银行卡</string>
+    <string name="fragment_intro">推荐有礼</string>
+    <string name="fragment_coop">我要合作</string>
+
+    <string name="setting_title">设置</string>
+
+</resources>

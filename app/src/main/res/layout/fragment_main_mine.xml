@@ -1,15 +1,402 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/bg_common_gray"
+    android:orientation="vertical"
+    android:scrollbars="none"
     tools:context=".component.activity.mine.MainMineFragment">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="我的"
-        android:layout_gravity="center"
-        />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-</FrameLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/mar_pad_len_260px"
+            android:background="@color/bg_header"
+            android:orientation="horizontal"
+            android:padding="@dimen/mar_pad_len_22px">
+
+            <com.ymd.client.component.widget.CircleImageView
+                android:id="@+id/fragment_person_iv"
+                android:layout_width="@dimen/mar_pad_len_160px"
+                android:layout_height="@dimen/mar_pad_len_160px"
+                android:layout_gravity="center"
+                android:src="@mipmap/ic_launcher"
+                app:civ_fill_color="@color/white" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:paddingLeft="@dimen/mar_pad_len_20px"
+                android:paddingRight="@dimen/mar_pad_len_20px">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/fragment_name"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/text_size_32px"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:id="@+id/fragment_person"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/mar_pad_len_16px"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/fragment_person"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_size_28px" />
+
+                    <ImageView
+                        android:layout_width="@dimen/mar_pad_len_28px"
+                        android:layout_height="@dimen/mar_pad_len_28px"
+                        android:layout_marginLeft="@dimen/mar_pad_len_16px"
+                        android:src="@mipmap/icon_mine_person" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/fragment_setting"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@mipmap/icon_mine_setting" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/fragment_mine_my_ub"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/mar_pad_len_100px"
+            android:background="@drawable/view_click"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingLeft="@dimen/mar_pad_len_22px"
+            android:paddingRight="@dimen/mar_pad_len_22px">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@mipmap/icon_mine_ub" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/mar_pad_len_22px"
+                android:text="@string/fragment_my_ub"
+                android:textColor="@color/common_text_color"
+                android:textSize="@dimen/text_size_32px" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_vertical|right"
+                android:paddingLeft="@dimen/mar_pad_len_22px"
+                android:paddingRight="@dimen/mar_pad_len_30px"
+                android:text="105"
+                android:textColor="@color/bg_header"
+                android:textSize="@dimen/text_size_32px" />
+
+            <ImageView
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:src="@mipmap/icon_mine_arrow" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/fragment_mine_my_collection"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/mar_pad_len_100px"
+            android:layout_marginTop="@dimen/mar_pad_len_20px"
+            android:background="@drawable/view_click"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingLeft="@dimen/mar_pad_len_22px"
+            android:paddingRight="@dimen/mar_pad_len_22px">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@mipmap/icon_mine_ub" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:paddingLeft="@dimen/mar_pad_len_22px"
+                android:text="@string/fragment_my_collection"
+                android:textColor="@color/common_text_color"
+                android:textSize="@dimen/text_size_32px" />
+
+            <ImageView
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:src="@mipmap/icon_mine_arrow" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:orientation="vertical">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.1dp"
+                android:layout_marginLeft="@dimen/mar_pad_len_20px"
+                android:layout_marginRight="@dimen/mar_pad_len_20px"
+                android:background="@color/bg_common_gray" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/fragment_mine_my_rate"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/mar_pad_len_100px"
+            android:background="@drawable/view_click"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingLeft="@dimen/mar_pad_len_22px"
+            android:paddingRight="@dimen/mar_pad_len_22px">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@mipmap/icon_mine_ub" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:paddingLeft="@dimen/mar_pad_len_22px"
+                android:text="@string/fragment_my_rate"
+                android:textColor="@color/common_text_color"
+                android:textSize="@dimen/text_size_32px" />
+
+            <ImageView
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:src="@mipmap/icon_mine_arrow" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:orientation="vertical">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.1dp"
+                android:layout_marginLeft="@dimen/mar_pad_len_20px"
+                android:layout_marginRight="@dimen/mar_pad_len_20px"
+                android:background="@color/bg_common_gray" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/fragment_mine_my_cards"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/mar_pad_len_100px"
+            android:background="@drawable/view_click"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingLeft="@dimen/mar_pad_len_22px"
+            android:paddingRight="@dimen/mar_pad_len_22px">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@mipmap/icon_mine_ub" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:paddingLeft="@dimen/mar_pad_len_22px"
+                android:text="@string/fragment_my_cards"
+                android:textColor="@color/common_text_color"
+                android:textSize="@dimen/text_size_32px" />
+
+            <ImageView
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:src="@mipmap/icon_mine_arrow" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:orientation="vertical">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.1dp"
+                android:layout_marginLeft="@dimen/mar_pad_len_20px"
+                android:layout_marginRight="@dimen/mar_pad_len_20px"
+                android:background="@color/bg_common_gray" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/fragment_mine_links"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/mar_pad_len_100px"
+            android:background="@drawable/view_click"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingLeft="@dimen/mar_pad_len_22px"
+            android:paddingRight="@dimen/mar_pad_len_22px">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@mipmap/icon_mine_ub" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:paddingLeft="@dimen/mar_pad_len_22px"
+                android:text="@string/fragment_links"
+                android:textColor="@color/common_text_color"
+                android:textSize="@dimen/text_size_32px" />
+
+            <ImageView
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:src="@mipmap/icon_mine_arrow" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/fragment_mine_banks"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/mar_pad_len_100px"
+            android:layout_marginTop="@dimen/mar_pad_len_20px"
+            android:background="@drawable/view_click"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingLeft="@dimen/mar_pad_len_22px"
+            android:paddingRight="@dimen/mar_pad_len_22px">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@mipmap/icon_mine_ub" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:paddingLeft="@dimen/mar_pad_len_22px"
+                android:text="@string/fragment_my_banks"
+                android:textColor="@color/common_text_color"
+                android:textSize="@dimen/text_size_32px" />
+
+            <ImageView
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:src="@mipmap/icon_mine_arrow" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:orientation="vertical">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.1dp"
+                android:layout_marginLeft="@dimen/mar_pad_len_20px"
+                android:layout_marginRight="@dimen/mar_pad_len_20px"
+                android:background="@color/bg_common_gray" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/fragment_mine_introduce"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/mar_pad_len_100px"
+            android:background="@drawable/view_click"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingLeft="@dimen/mar_pad_len_22px"
+            android:paddingRight="@dimen/mar_pad_len_22px">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@mipmap/icon_mine_ub" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:paddingLeft="@dimen/mar_pad_len_22px"
+                android:text="@string/fragment_intro"
+                android:textColor="@color/common_text_color"
+                android:textSize="@dimen/text_size_32px" />
+
+            <ImageView
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:src="@mipmap/icon_mine_arrow" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:orientation="vertical">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.1dp"
+                android:layout_marginLeft="@dimen/mar_pad_len_20px"
+                android:layout_marginRight="@dimen/mar_pad_len_20px"
+                android:background="@color/bg_common_gray" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/fragment_mine_cooperation"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/mar_pad_len_100px"
+            android:background="@drawable/view_click"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingLeft="@dimen/mar_pad_len_22px"
+            android:paddingRight="@dimen/mar_pad_len_22px">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@mipmap/icon_mine_ub" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:paddingLeft="@dimen/mar_pad_len_22px"
+                android:text="@string/fragment_coop"
+                android:textColor="@color/common_text_color"
+                android:textSize="@dimen/text_size_32px" />
+
+            <ImageView
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:src="@mipmap/icon_mine_arrow" />
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>

@@ -31,12 +31,22 @@
         <activity android:name=".component.activity.main.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".component.activity.login.LoginActivity" >
-        </activity>
-        <activity android:name=".component.activity.login.RegisterActivity"></activity>
+        <activity android:name=".component.activity.login.LoginActivity" />
+        <activity android:name=".component.activity.login.RegisterActivity" />
+        <activity android:name=".component.activity.mine.SettingActivity" />
+        <activity android:name=".component.activity.mine.PersonInfoActivity" />
+        <activity android:name=".component.activity.mine.MyUbActivity" />
+        <activity android:name=".component.activity.mine.MyCollectionActivity" />
+        <activity android:name=".component.activity.mine.MyRatesActivity" />
+        <activity android:name=".component.activity.mine.MyCardsActivity" />
+        <activity android:name=".component.activity.mine.LinkServiceActivity" />
+        <activity android:name=".component.activity.mine.MyBanksActivity" />
+        <activity android:name=".component.activity.mine.IntroduceActivity" />
+        <activity android:name=".component.activity.mine.CooperationActivity"></activity>
     </application>
 
 </manifest>

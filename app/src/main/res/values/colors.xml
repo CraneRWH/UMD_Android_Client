@@ -7,6 +7,8 @@
     <color name="common_color_black_txt">#171717</color>
 
     <color name="common_color_bg">#33c5c0</color>
+    <color name="common_color_gray_light_bg">#d4d4d4</color>
+    <color name="common_text_color">#4d4d4d</color>
 
     <!-- 标题底色 灰色 -->
     <!--<color name="bg_header">#58b948</color>-->

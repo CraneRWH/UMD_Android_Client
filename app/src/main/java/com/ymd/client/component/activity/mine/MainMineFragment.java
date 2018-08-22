@@ -1,7 +1,6 @@
 package com.ymd.client.component.activity.mine;
 
-import android.content.Context;
-import android.net.Uri;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -10,22 +9,23 @@ import android.view.ViewGroup;
 
 import com.ymd.client.R;
 
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
 /**
- *
- *   作者:rongweihe
- *   日期:2018/8/18
- *   描述:    “我的”选项卡
- *   修改历史:
- *
+ * 作者:rongweihe
+ * 日期:2018/8/18
+ * 描述:    “我的”选项卡
+ * 修改历史:
  */
 public class MainMineFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
+    View mView;
+
     private String mParam1;
     private String mParam2;
-
-    private OnFragmentInteractionListener mListener;
 
     public MainMineFragment() {
         // Required empty public constructor
@@ -52,36 +52,68 @@ public class MainMineFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_main_mine, container, false);
-    }
-
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        /*if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
+        if (mView != null) {
+            ViewGroup parent = (ViewGroup) mView.getParent();
+            if (parent != null) {
+                parent.removeView(mView);
+            }
+            return mView;
         } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }*/
+            mView = inflater.inflate(R.layout.fragment_main_mine, container, false);
+        }
+        ButterKnife.bind(this, mView);
+        return mView;
     }
 
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
+    @OnClick({R.id.fragment_mine_my_ub, R.id.fragment_mine_my_collection, R.id.fragment_mine_my_rate,
+            R.id.fragment_mine_my_cards, R.id.fragment_mine_links, R.id.fragment_mine_banks,
+            R.id.fragment_mine_introduce, R.id.fragment_mine_cooperation, R.id.fragment_setting,
+            R.id.fragment_person, R.id.fragment_person_iv})
+    void click(View view) {
+        switch (view.getId()) {
+            case R.id.fragment_setting:
+                //设置
+                startActivity(new Intent(getContext(), SettingActivity.class));
+                break;
+            case R.id.fragment_person_iv:
+                //个人信息
+            case R.id.fragment_person:
+                //个人信息
+                startActivity(new Intent(getContext(), PersonInfoActivity.class));
+                break;
+            case R.id.fragment_mine_my_ub:
+                //我的U币
+                startActivity(new Intent(getContext(), MyUbActivity.class));
+                break;
+            case R.id.fragment_mine_my_collection:
+                startActivity(new Intent(getContext(), MyCollectionActivity.class));
+                //我的收藏
+                break;
+            case R.id.fragment_mine_my_rate:
+                startActivity(new Intent(getContext(), MyRatesActivity.class));
+                //我的评价
+                break;
+            case R.id.fragment_mine_my_cards:
+                startActivity(new Intent(getContext(), MyCardsActivity.class));
+                //我的券包
+                break;
+            case R.id.fragment_mine_links:
+                startActivity(new Intent(getContext(), LinkServiceActivity.class));
+                //联系客服
+                break;
+            case R.id.fragment_mine_banks:
+                startActivity(new Intent(getContext(), MyBanksActivity.class));
+                //我的银行卡
+                break;
+            case R.id.fragment_mine_introduce:
+                startActivity(new Intent(getContext(), IntroduceActivity.class));
+                //推荐有礼
+                break;
+            case R.id.fragment_mine_cooperation:
+                startActivity(new Intent(getContext(), CooperationActivity.class));
+                //我要合作
+                break;
 
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
+        }
     }
 }
