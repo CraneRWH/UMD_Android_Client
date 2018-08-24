@@ -18,6 +18,10 @@
         <attr name="canPullUp" format="boolean"></attr>
         <attr name="canPullDown" format="boolean"></attr>
 
+        <attr name="chooseColor" format="color"/>
+        <attr name="noChooseColor" format="color"/>
+        <attr name="defaultValue" format="string"/>
+
         <attr name="myGravity">
             <enum name="left" value="0" /> 		<!-- 左对齐 -->
             <enum name="right" value="1"/>		<!-- 右对齐 -->

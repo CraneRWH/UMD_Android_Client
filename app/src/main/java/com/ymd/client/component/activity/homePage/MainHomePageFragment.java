@@ -4,9 +4,11 @@ import android.content.Context;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -52,28 +54,19 @@ public class MainHomePageFragment extends Fragment {
     private LinearLayout locationLlt;
     private ImageView saoIv;
     private RelativeLayout searchLayout;
-    private ImageView pullIcon;
-    private ImageView refreshingIcon;
-    private TextView stateTv;
-    private ImageView stateIv;
     private RelativeLayout headView;
     /*    private MyViewPager viewPager;
         private LinearLayout imageNumBar;
         private MyPosterView homePoster;*/
     private LinearLayout layout;
     private MyGridView gridView;
-    private MyGridView gridView2;
-    private MListView listView;
     private PullableScrollView scrollView;
-    private ImageView pullupIcon;
-    private ImageView loadingIcon;
-    private TextView loadstateTv;
-    private ImageView loadstateIv;
     private RelativeLayout loadmoreView;
     private PullToRefreshLayout bigLayout;
 
     private LinearLayout youhuiServiceLayout;
     private RollPagerView mRollViewPager;
+    private LinearLayout imageNumBar;
 
     public MainHomePageFragment() {
         // Required empty public constructor
@@ -105,7 +98,6 @@ public class MainHomePageFragment extends Fragment {
         return view;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
@@ -134,27 +126,19 @@ public class MainHomePageFragment extends Fragment {
         locationLlt = (LinearLayout) view.findViewById(R.id.location_llt);
         saoIv = (ImageView) view.findViewById(R.id.sao_iv);
         searchLayout = (RelativeLayout) view.findViewById(R.id.search_layout);
-        pullIcon = (ImageView) view.findViewById(R.id.pull_icon);
-        refreshingIcon = (ImageView) view.findViewById(R.id.refreshing_icon);
-        stateTv = (TextView) view.findViewById(R.id.state_tv);
-        stateIv = (ImageView) view.findViewById(R.id.state_iv);
         headView = (RelativeLayout) view.findViewById(R.id.head_view);
       /*  viewPager = (MyViewPager) view.findViewById(R.id.viewPager);
         imageNumBar = (LinearLayout) view.findViewById(R.id.imageNumBar);
         homePoster = (MyPosterView) view.findViewById(R.id.homePoster);*/
         layout = (LinearLayout) view.findViewById(R.id.layout);
         gridView = (MyGridView) view.findViewById(R.id.gridView);
-        listView = (MListView) view.findViewById(R.id.listView);
         scrollView = (PullableScrollView) view.findViewById(R.id.scrollView);
-        pullupIcon = (ImageView) view.findViewById(R.id.pullup_icon);
-        loadingIcon = (ImageView) view.findViewById(R.id.loading_icon);
-        loadstateTv = (TextView) view.findViewById(R.id.loadstate_tv);
-        loadstateIv = (ImageView) view.findViewById(R.id.loadstate_iv);
         loadmoreView = (RelativeLayout) view.findViewById(R.id.loadmore_view);
         bigLayout = (PullToRefreshLayout) view.findViewById(R.id.bigLayout);
 
         youhuiServiceLayout = (LinearLayout) view.findViewById(R.id.youhuiServiceLayout);
         mRollViewPager = (RollPagerView) view.findViewById(R.id.rollPagerView);
+        imageNumBar = (LinearLayout) view.findViewById(R.id.imageNumBar);
 
         bigLayout.setOnRefreshListener(new PullToRefreshLayout.OnRefreshListener() {
             @Override
@@ -173,14 +157,17 @@ public class MainHomePageFragment extends Fragment {
     }
 
 
-
+    /**
+     * 设置广告图片
+     */
     private void setPicture() {
         //设置播放时间间隔
         mRollViewPager.setPlayDelay(3000);
         //设置透明度
         mRollViewPager.setAnimationDurtion(500);
+        TestNormalAdapter advAdapter = new TestNormalAdapter();
         //设置适配器
-        mRollViewPager.setAdapter(new TestNormalAdapter());
+        mRollViewPager.setAdapter(advAdapter);
 
         //设置指示器（顺序依次）
         //自定义指示器图片
@@ -188,15 +175,53 @@ public class MainHomePageFragment extends Fragment {
         //设置文字指示器
         //隐藏指示器
         //mRollViewPager.setHintView(new IconHintView(this, R.drawable.point_focus, R.drawable.point_normal));
-        mRollViewPager.setHintView(new ColorPointHintView(getActivity(), getActivity().getColor(R.color.color_orange),Color.WHITE));
+        //   mRollViewPager.setHintView(new ColorPointHintView(getActivity(), getActivity().getColor(R.color.color_orange),Color.WHITE));
         //mRollViewPager.setHintView(new TextHintView(this));
-        //mRollViewPager.setHintView(null);
+        /*mRollViewPager.setHintView(null);
+        mRollViewPager.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                int position = mRollViewPager.getGravity();
+                setHintView(position);
+            }
+        });
+        imageNumBar.removeAllViews();
+        for(int i= 0 ; i < advAdapter.getCount(); i ++ ) {
+            View view=LayoutInflater.from(getActivity()).inflate(R.layout.main_adv_hint_item , youhuiServiceLayout,false);
+
+            TextView textView = (TextView) view.findViewById(R.id.itemText);
+
+            if (i == mRollViewPager.getGravity()) {
+                textView.setBackgroundResource(R.color.bg_header);
+            } else {
+                textView.setBackgroundResource(R.color.text_gray);
+            }
+            imageNumBar.addView(textView);
+        }*/
     }
 
+    /**
+     * 设置广告导航的颜色
+     * @param position
+     */
+    private void setHintView(int position) {
+        for (int i = 0 ; i < imageNumBar.getChildCount(); i ++ ) {
+            if (position == i) {
+                imageNumBar.getChildAt(i).setBackgroundResource(R.color.bg_header);
+            } else {
+                imageNumBar.getChildAt(i).setBackgroundResource(R.color.text_gray);
+            }
+        }
+    }
+
+    /**
+     * 设置功能选项
+     */
     private void setFunctionItem() {
         List<Map<String ,Object>> list = new ArrayList<>();
         Map<String, Object> map = new HashMap<>();
-        map.put("name","美食");
+        map.put("name","美事");
         map.put("icon", R.mipmap.food_item_icon);
         list.add(map);
 
@@ -259,22 +284,22 @@ public class MainHomePageFragment extends Fragment {
     private void setYouHuiItem() {
         List<Map<String ,Object>> list = new ArrayList<>();
         Map<String, Object> map = new HashMap<>();
-        map.put("name","美食");
+        map.put("name","food_item_icon");
         map.put("icon", R.mipmap.youhui1_icon);
         list.add(map);
 
         map = new HashMap<>();
-        map.put("name","酒店");
+        map.put("name","hospital_item_icon");
         map.put("icon", R.mipmap.youhui2_icon);
         list.add(map);
 
         map = new HashMap<>();
-        map.put("name","爱车");
+        map.put("name","car_item_icon");
         map.put("icon", R.mipmap.youhui1_icon);
         list.add(map);
 
         map = new HashMap<>();
-        map.put("name","美容美发");
+        map.put("name","meirong_item_icon");
         map.put("icon", R.mipmap.youhui2_icon);
         list.add(map);
 

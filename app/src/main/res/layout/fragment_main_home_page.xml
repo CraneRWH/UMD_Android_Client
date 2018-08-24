@@ -16,35 +16,37 @@
         >
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="35dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/mar_pad_len_20px"
+            android:layout_marginTop="@dimen/mar_pad_len_20px"
             android:gravity="center_vertical"
             android:orientation="horizontal"
             >
             <LinearLayout
                 android:id="@+id/location_llt"
                 android:layout_width="wrap_content"
-                android:layout_height="35dp"
+                android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
                 >
                 <ImageView
                     android:layout_width="15dp"
                     android:layout_height="15dp"
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginLeft="@dimen/mar_pad_len_20px"
                     android:src="@mipmap/location_white_icon"/>
                 <TextView
                     android:id="@+id/location_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
+                    android:layout_marginLeft="@dimen/mar_pad_len_20px"
                     android:text="北京"
                     android:textColor="@color/white"
-                    android:textSize="12sp"
+                    android:textSize="@dimen/text_size_30px"
                     />
                 <ImageView
                     android:layout_width="12dp"
                     android:layout_height="12dp"
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginLeft="@dimen/mar_pad_len_20px"
                     android:src="@mipmap/arrow_right_white_icon"
                     />
             </LinearLayout>
@@ -55,38 +57,45 @@
                 />
             <ImageView
                 android:id="@+id/sao_iv"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:src="@mipmap/sao_white_icon"
-                android:layout_marginRight="10dp"
-                />
-        </LinearLayout>
-        <RelativeLayout
-            android:id="@+id/search_layout"
-            android:layout_width="match_parent"
-            android:layout_height="35dp"
-            android:background="@mipmap/search_bg_white"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginBottom="10dp"
-            >
-            <ImageView
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_marginLeft="10dp"
-                android:src="@mipmap/search_gray_icon"
-                android:layout_centerVertical="true"
-                />
-            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:text="第一家大排档"
-                android:textColor="@color/gray"
-                android:layout_centerInParent="true"
-                android:textSize="12sp"
+                android:src="@mipmap/sao_white_icon"
+                android:layout_marginRight="@dimen/mar_pad_len_20px"
                 />
-        </RelativeLayout>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/mar_pad_len_84px"
+            android:orientation="vertical"
+            >
+            <RelativeLayout
+                android:id="@+id/search_layout"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/mar_pad_len_64px"
+                android:background="@mipmap/search_bg_white"
+                android:layout_marginLeft="@dimen/mar_pad_len_20px"
+                android:layout_marginRight="@dimen/mar_pad_len_20px"
+                android:layout_marginBottom="@dimen/mar_pad_len_20px"
+                >
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/mar_pad_len_20px"
+                    android:src="@mipmap/search_gray_icon"
+                    android:layout_centerVertical="true"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:text="第一家大排档"
+                    android:textColor="@color/text_gray"
+                    android:layout_centerInParent="true"
+                    android:textSize="@dimen/text_size_28px"
+                    />
+            </RelativeLayout>
+        </LinearLayout>
+
     </LinearLayout>
 
     <com.ymd.client.component.widget.pullRefreshView.PullToRefreshLayout
@@ -121,7 +130,7 @@
                         <com.jude.rollviewpager.RollPagerView
                             android:id="@+id/rollPagerView"
                             android:layout_width="match_parent"
-                            android:layout_height="150dp"
+                            android:layout_height="@dimen/mar_pad_len_196px"
                             app:rollviewpager_play_delay="3000"
                             />
                         <!--<com.ymd.client.component.widget.viewPager.MyViewPager
@@ -132,20 +141,17 @@
                             android:persistentDrawingCache="animation"
                             android:visibility="gone" />
 
-                        <LinearLayout
-                            android:id="@+id/imageNumBar"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="bottom"
-                            android:layout_marginBottom="5dip"
-                            android:gravity="center"
-                            android:orientation="horizontal"
-                            android:visibility="gone" />
+
 
                         <com.ymd.client.component.widget.viewPager.MyPosterView
                             android:id="@+id/homePoster"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent" />-->
+                        <LinearLayout
+                            android:id="@+id/imageNumBar"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/mar_pad_len_6px"
+                            android:orientation="horizontal" />
                     </FrameLayout>
                 </LinearLayout>
 
@@ -153,6 +159,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/white"
+                    android:layout_marginTop="@dimen/mar_pad_len_20px"
+                    android:layout_marginBottom="@dimen/mar_pad_len_20px"
                     android:orientation="vertical">
 
                     <TextView
@@ -170,7 +178,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@color/white"
-                        android:minHeight="100dp"
                         android:orientation="vertical" >
 
                         <com.ymd.client.component.widget.recyclerView.MyGridView
@@ -189,21 +196,32 @@
                     android:background="@color/white"
                     android:orientation="vertical">
 
-                    <TextView
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@color/bg_color"
-                        android:paddingBottom="7dp"
-                        android:paddingLeft="15dp"
-                        android:paddingTop="15dp"
-                        android:text="优惠服务"
-                        android:textColor="@color/black"
-                        android:textSize="16sp" />
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="@dimen/mar_pad_len_20px"
+                        android:layout_marginTop="@dimen/mar_pad_len_10px"
+                        android:orientation="horizontal">
 
+                        <View
+                            android:layout_width="@dimen/mar_pad_len_3px"
+                            android:layout_height="match_parent"
+                            android:background="@color/bg_header" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/mar_pad_len_12px"
+                            android:background="@color/bg_color"
+                            android:text="优惠服务"
+                            android:textColor="@color/common_text_color"
+                            android:textSize="@dimen/text_size_32px" />
+                    </LinearLayout>
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@color/white"
+                        android:layout_marginTop="@dimen/mar_pad_len_30px"
                         android:orientation="vertical" >
 
                         <HorizontalScrollView
@@ -216,11 +234,12 @@
                             <LinearLayout
                                 android:id="@+id/youhuiServiceLayout"
                                 android:layout_width="match_parent"
-                                android:layout_height="150dp"
-                                android:layout_margin="10dp"
+                                android:layout_height="@dimen/mar_pad_len_332px"
+                                android:layout_margin="@dimen/mar_pad_len_20px"
                                 android:orientation="horizontal">
                             </LinearLayout>
                         </HorizontalScrollView>
+
                     </LinearLayout>
                 </LinearLayout>
                 <LinearLayout
@@ -228,31 +247,72 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@color/bg_color"
-                        android:paddingBottom="7dp"
-                        android:paddingLeft="15dp"
-                        android:paddingTop="15dp"
-                        android:text="品质商家"
-                        android:textColor="@color/black"
-                        android:textSize="16sp" />
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal"
+                        android:layout_marginLeft="@dimen/mar_pad_len_20px"
+                        android:layout_marginTop="@dimen/mar_pad_len_10px"
+                        >
+                        <View
+                            android:layout_width="@dimen/mar_pad_len_3px"
+                            android:layout_height="match_parent"
+                            android:background="@color/bg_header"
+                            />
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/bg_color"
+                            android:text="品质商家"
+                            android:textColor="@color/common_text_color"
+                            android:layout_marginLeft="@dimen/mar_pad_len_12px"
+                            android:textSize="@dimen/text_size_32px" />
+                    </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@color/white"
-                        android:minHeight="150dp"
                         android:orientation="vertical" >
 
-                        <com.ymd.client.component.widget.recyclerView.MListView
-                            android:id="@+id/listView"
+                        <LinearLayout
+                            android:id="@+id/businessView"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            android:layout_height="45dp"
                             android:background="@color/white"
-                            android:divider="@color/bg_color"
-                            android:dividerHeight="1dp" />
+                            android:orientation="horizontal" >
+
+                            <com.ymd.client.component.widget.other.MyChooseItemView
+                                android:id="@id/chooseItem0"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                custom:defaultValue="@string/zonghe_paixu_str" />
+
+                            <com.ymd.client.component.widget.other.MyChooseItemView
+                                android:id="@id/chooseItem1"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                custom:defaultValue="@string/sale_most_str" />
+                            <com.ymd.client.component.widget.other.MyChooseItemView
+                                android:id="@id/chooseItem2"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                custom:defaultValue="@string/good_most_str" />
+                            <com.ymd.client.component.widget.other.MyChooseItemView
+                                android:id="@id/chooseItem3"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                custom:defaultValue="@string/near_most_str" />
+                        </LinearLayout>
+
+                        <android.support.v4.view.ViewPager
+                            android:id="@+id/businessViewPager"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"></android.support.v4.view.ViewPager>
 
                     </LinearLayout>
                 </LinearLayout>

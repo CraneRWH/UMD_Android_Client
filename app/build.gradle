@@ -65,4 +65,7 @@ dependencies {
     implementation 'com.squareup.okhttp3:logging-interceptor:3.4.1'
 
     implementation 'com.jude:rollviewpager:1.2.9'
+
+    /*Gson*/
+    implementation 'com.squareup.retrofit2:converter-gson:2.0.2'
 }

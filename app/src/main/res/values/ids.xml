@@ -2,4 +2,16 @@
 <resources>
     <item type="id" name="statusbarutil_fake_status_bar_view" />
     <item type="id" name="statusbarutil_translucent_view" />
+
+
+    <item name="chooseItem0" type="id"></item>
+    <item name="chooseItem1" type="id"></item>
+    <item name="chooseItem2" type="id"></item>
+    <item name="chooseItem3" type="id"></item>
+    <item name="chooseItem4" type="id"></item>
+
+    <item name="emptyLayout" type="id"/>
+    <item name="emptyView" type="id"/>
+    <item name="listView" type="id"/>
+
 </resources>

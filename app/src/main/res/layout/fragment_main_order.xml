@@ -3,15 +3,56 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     tools:context=".component.activity.order.MainOrderFragment">
 
     <include layout="@layout/header_white_bar"/>
-    <TextView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="订单"
-        android:layout_gravity="center"
-        />
+        android:background="@color/white"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:id="@+id/businessView"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/mar_pad_len_72px"
+            android:background="@color/white"
+            android:orientation="horizontal" >
+
+            <com.ymd.client.component.widget.other.MyChooseItemView
+                android:id="@id/chooseItem0"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                custom:noChooseColor="@color/text_gray_dark"
+                custom:defaultValue="@string/all_order_str" />
+
+            <com.ymd.client.component.widget.other.MyChooseItemView
+                android:id="@id/chooseItem1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                custom:noChooseColor="@color/text_gray_dark"
+                custom:defaultValue="@string/wait_pay_str" />
+            <com.ymd.client.component.widget.other.MyChooseItemView
+                android:id="@id/chooseItem2"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                custom:noChooseColor="@color/text_gray_dark"
+                custom:defaultValue="@string/return_pay_str" />
+        </LinearLayout>
+
+        <View style="@style/view_detail_item_separator"
+            android:layout_height="@dimen/mar_pad_len_1px"
+            android:background="@color/gray"/>
+        <android.support.v4.view.ViewPager
+            android:id="@+id/businessViewPager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"></android.support.v4.view.ViewPager>
+
+    </LinearLayout>
 
 </LinearLayout>

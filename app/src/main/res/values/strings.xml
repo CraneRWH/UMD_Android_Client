@@ -21,4 +21,13 @@
     <string name="loading">正在加载...</string>
     <string name="load_succeed">加载成功</string>
     <string name="load_fail">加载失败</string>
+
+    <string name="zonghe_paixu_str">综合排序</string>
+    <string name="sale_most_str">销量最高</string>
+    <string name="good_most_str">好评最多</string>
+    <string name="near_most_str">距离最近</string>
+
+    <string name="all_order_str">全部订单</string>
+    <string name="wait_pay_str">待付款</string>
+    <string name="return_pay_str">退款</string>
 </resources>

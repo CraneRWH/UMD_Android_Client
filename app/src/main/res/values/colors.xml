@@ -33,7 +33,8 @@
     <!-- 蓝色 -->
     <color name="blue">#32ABFE</color>
 
-    <color name="text_gray">#A9A9A9</color>
+    <color name="text_gray">#ebebeb</color>
+    <color name="text_gray_dark">#808080</color>
 
     <color name="bg_color">#FFFFFF</color>
 
