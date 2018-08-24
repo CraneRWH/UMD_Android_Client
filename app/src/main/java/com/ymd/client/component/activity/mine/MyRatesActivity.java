@@ -11,6 +11,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+/**
+ * 我的-我的评价
+ */
 public class MyRatesActivity extends BaseActivity {
     @BindView(R.id.base_title)
     TextView mTxtTitle;

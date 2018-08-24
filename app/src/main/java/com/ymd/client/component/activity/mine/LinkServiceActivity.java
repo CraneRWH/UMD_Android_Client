@@ -11,6 +11,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+/**
+ * 我的-联系客服
+ */
 public class LinkServiceActivity extends BaseActivity {
     @BindView(R.id.base_title)
     TextView mTxtTitle;

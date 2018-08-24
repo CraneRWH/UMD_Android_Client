@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:state_enabled="false">
+        <shape>
+            <!-- 实心 -->
+            <solid android:color="@color/bg_header" />
+            <!-- 圆角 -->
+            <corners android:radius="@dimen/mar_pad_len_10px"/>
+        </shape>
+    </item>
+    <item android:state_pressed="true">
+        <shape>
+            <solid android:color="@color/bg_header" /><!--填充色-->
+            <corners android:radius="@dimen/mar_pad_len_10px"/>
+        </shape>
+    </item>
+    <item>
+        <shape>
+            <!-- 实心 -->
+            <solid android:color="@color/bg_header" />
+            <!-- 圆角 -->
+            <corners android:radius="@dimen/mar_pad_len_10px"/>
+        </shape>
+    </item>
+</selector>

@@ -11,6 +11,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+/**
+ * 我的-推荐有礼
+ */
 public class IntroduceActivity extends BaseActivity {
     @BindView(R.id.base_title)
     TextView mTxtTitle;

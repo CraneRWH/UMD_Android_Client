@@ -1,7 +1,7 @@
 package com.ymd.client.component.activity.mine;
 
 import android.os.Bundle;
-import android.widget.ImageView;
+import android.view.View;
 import android.widget.TextView;
 
 import com.ymd.client.R;
@@ -12,6 +12,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+/**
+ * 我的-设置
+ */
 public class SettingActivity extends BaseActivity {
 
     @BindView(R.id.base_title)
@@ -27,7 +30,7 @@ public class SettingActivity extends BaseActivity {
     }
 
     @OnClick(R.id.base_back)
-    void back(){
+    void back() {
         finish();
     }
 
@@ -35,5 +38,21 @@ public class SettingActivity extends BaseActivity {
     protected void setStatusBar(int resourcesId) {
         super.setStatusBar(resourcesId);
         StatusBarUtils.StatusBarLightMode(this, true);
+    }
+
+    @OnClick({R.id.setting_alter_pw, R.id.setting_alter_ges_pw, R.id.setting_alter_phone})
+    void click(View view) {
+        switch (view.getId()) {
+            case R.id.setting_alter_pw:
+                //修改登陆密码
+                break;
+            case R.id.setting_alter_ges_pw:
+                //修改手势密码
+                break;
+            case R.id.setting_alter_phone:
+                //修改注册手机号
+                break;
+        }
+
     }
 }

@@ -11,6 +11,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+/**
+ * 我的-个人信息
+ */
 public class PersonInfoActivity extends BaseActivity {
 
     @BindView(R.id.base_title)
@@ -22,7 +25,7 @@ public class PersonInfoActivity extends BaseActivity {
         setContentView(R.layout.activity_person_info);
         ButterKnife.bind(this);
         setStatusBar(R.color.white);
-        mTxtTitle.setText("个人信息");
+        mTxtTitle.setText(getResources().getString(R.string.fragment_person));
     }
 
     @OnClick(R.id.base_back)

@@ -1,12 +1,139 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/bg_common_gray"
     android:orientation="vertical"
     tools:context=".component.activity.mine.SettingActivity">
 
-    <include layout="@layout/layout_title_base"/>
+    <include layout="@layout/layout_title_base" />
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.1dp"
+        android:background="@color/bg_common_gray" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/setting_alter_pw"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/mar_pad_len_100px"
+            android:layout_marginTop="0.1dp"
+            android:background="@drawable/view_click"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingLeft="@dimen/mar_pad_len_22px"
+            android:paddingRight="@dimen/mar_pad_len_22px">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@mipmap/icon_mine_ub" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:paddingLeft="@dimen/mar_pad_len_22px"
+                android:text="@string/setting_alter_pw"
+                android:textColor="@color/common_text_color"
+                android:textSize="@dimen/text_size_32px" />
+
+            <ImageView
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:src="@mipmap/icon_mine_arrow" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.1dp"
+            android:layout_marginLeft="@dimen/mar_pad_len_20px"
+            android:layout_marginRight="@dimen/mar_pad_len_20px"
+            android:background="@color/bg_common_gray" />
+
+        <LinearLayout
+            android:id="@+id/setting_alter_ges_pw"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/mar_pad_len_100px"
+            android:layout_marginTop="0.1dp"
+            android:background="@drawable/view_click"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingLeft="@dimen/mar_pad_len_22px"
+            android:paddingRight="@dimen/mar_pad_len_22px">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@mipmap/icon_mine_ub" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:paddingLeft="@dimen/mar_pad_len_22px"
+                android:text="@string/setting_ges_pw"
+                android:textColor="@color/common_text_color"
+                android:textSize="@dimen/text_size_32px" />
+
+            <ImageView
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:src="@mipmap/icon_mine_arrow" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.1dp"
+            android:layout_marginLeft="@dimen/mar_pad_len_20px"
+            android:layout_marginRight="@dimen/mar_pad_len_20px"
+            android:background="@color/bg_common_gray" />
+
+        <LinearLayout
+            android:id="@+id/setting_alter_phone"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/mar_pad_len_100px"
+            android:layout_marginTop="0.1dp"
+            android:background="@drawable/view_click"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingLeft="@dimen/mar_pad_len_22px"
+            android:paddingRight="@dimen/mar_pad_len_22px">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@mipmap/icon_mine_ub" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:paddingLeft="@dimen/mar_pad_len_22px"
+                android:text="@string/setting_alter_phone"
+                android:textColor="@color/common_text_color"
+                android:textSize="@dimen/text_size_32px" />
+
+            <ImageView
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:src="@mipmap/icon_mine_arrow" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/setting_logout"
+        style="@style/btn_bg"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/mar_pad_len_200px"
+        android:layout_marginLeft="@dimen/mar_pad_len_22px"
+        android:layout_marginRight="@dimen/mar_pad_len_22px"
+        android:text="@string/setting_logout" />
 </LinearLayout>
