@@ -14,7 +14,7 @@ import com.ymd.client.R;
  *
  *   作者:rongweihe
  *   日期:2018/8/18
- *   描述:    “扫一扫”选项卡
+ *   描述:    “sao_white_icon”选项卡
  *   修改历史:
  *
  */

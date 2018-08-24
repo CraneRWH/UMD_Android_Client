@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="font_size_32px">
+        <item name="android:textSize">@dimen/text_size_32px</item>
+        <item name="android:textColor">@color/common_text_color</item>
+    </style>
+    <style name="font_size_30px_black">
+        <item name="android:textSize">@dimen/text_size_32px</item>
+        <item name="android:textColor">@color/common_text_color</item>
+    </style>
+    <style name="font_size_30px_green">
+        <item name="android:textSize">@dimen/text_size_32px</item>
+        <item name="android:textColor">@color/bg_header</item>
+    </style>
+    <style name="font_size_28px_green">
+        <item name="android:textSize">@dimen/text_size_28px</item>
+        <item name="android:textColor">@color/bg_header</item>
+    </style>
+    <style name="font_size_28px_gray_">
+        <item name="android:textSize">@dimen/text_size_28px</item>
+        <item name="android:textColor">@color/text_gray_dark</item>
+    </style>
+
+    <style name="font_size_24px_gray_">
+        <item name="android:textSize">@dimen/text_size_24px</item>
+        <item name="android:textColor">@color/text_gray_dark</item>
+    </style>
+</resources>

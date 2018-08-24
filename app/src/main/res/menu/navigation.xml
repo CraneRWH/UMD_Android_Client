@@ -14,7 +14,7 @@
         android:icon="@drawable/main_sao_icon_selector"
         android:enabled="true"
         app:showAsAction="ifRoom"
-        android:title="扫一扫" />-->
+        android:title="sao_white_icon" />-->
 
     <item
         android:id="@+id/navigation_order"

@@ -1,6 +1,7 @@
 package com.ymd.client.common.base.fragment;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import android.os.Bundle;
@@ -112,6 +113,7 @@ public abstract class PageFragment extends Fragment {
 		@Override
 		public void handleMessage(Message msg) {
 			clearData();
+			successHandler.sendEmptyMessage(0);
 		//	queryData();
 		}
 	};
@@ -165,7 +167,7 @@ public abstract class PageFragment extends Fragment {
 		public void handleMessage(Message msg) {
 			try {
 				String resultStr = ToolUtil.changeString(msg.obj);
-				ArrayList<Map<String,Object>> data = new ArrayList<>() /*= (ArrayList<Map<String,Object>>)ToolUtil.analyseJsonArray(resultStr, getDataKey())*/;
+				List<Map<String,Object>> data = getDataList(); /*= (ArrayList<Map<String,Object>>)ToolUtil.analyseJsonArray(resultStr, getDataKey())*/;
 				if (!data.isEmpty()) {
 					queryDatas.addAll(data);
 				}
@@ -184,12 +186,13 @@ public abstract class PageFragment extends Fragment {
 						@Override
 						public void handleMessage(Message msg)
 						{
-							if (refreshLayout != null)
+							if (refreshLayout != null) {
 								try {
 									refreshLayout.refreshFinish(PullToRefreshLayout.SUCCEED);
 								} catch (Exception e) {
 									e.printStackTrace();
 								}
+							}
 							//		refreshLayout = null;
 						}
 					}.sendEmptyMessageDelayed(0, 1000);
@@ -333,7 +336,6 @@ public abstract class PageFragment extends Fragment {
 
 	//	protected abstract int getContentView();	//获取Fragment的布局
 //	protected abstract String getHeadTitle();	//获取标题
-	protected abstract String getService();		//获取数据的服务名称
 	protected abstract String getMethod();		//获取数据的接口名称
 	protected abstract Map<String,String> getParams();		//获取数据的参数；
 	protected abstract int[] getItemLayouts();
@@ -342,4 +344,5 @@ public abstract class PageFragment extends Fragment {
 	protected abstract String[] getFrom();		//列表数据中单个数据的key值列表
 	protected abstract int[] getTo();			//getFrom()的key值相对应item布局中的控件id，这里是一一对应的关系，getFrom()与getTo()是按排列顺序进行映射，故排列和数量必须相同
 
+	protected abstract List<Map<String,Object>> getDataList();
 }

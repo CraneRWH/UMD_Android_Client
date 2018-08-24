@@ -100,7 +100,31 @@ public class MainOrderFragment extends Fragment {
                 }
             });
         }
+
+
+        try {
+            chooseItemViews = new MyChooseItemView[4];
+            for (int i = 0 ; i < status ; i ++ ) {
+                OrderPageFragment fragment = new OrderPageFragment();
+            /*    fragment.setFragmentPageWarnNumListener(new MyServicePageFragment.FragmentPageWarnNumListener() {
+
+                    @Override
+                    public void setPageWarn(int position, Object num) {
+                        chooseItemViews[position].setWarnNum(num);
+                    }
+
+                    @Override
+                    public void setAllPageWarn(String data) {
+                        setCardNum(data);
+                    }
+                });*/
+                pageFragments.add(fragment);
+            }
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
         chooseItem(0);
+        viewPagerListener();
     }
 
     protected void chooseItem(int position) {
@@ -120,6 +144,7 @@ public class MainOrderFragment extends Fragment {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
     }
 
     protected void viewPagerListener() {
