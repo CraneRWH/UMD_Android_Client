@@ -2,7 +2,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:custom="http://schemas.android.com/apk/res-auto"
     android:background="@color/white"
     android:descendantFocusability="blocksDescendants"
     android:orientation="vertical">
@@ -16,7 +15,6 @@
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:gravity="center_horizontal"
-            android:visibility="gone"
             >
             <ImageView
                 android:layout_width="wrap_content"
@@ -29,26 +27,14 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:textColor="@color/text_gray_dark"
+                android:text="空"
                 android:layout_marginTop="15dp"
                 android:textSize="@dimen/text_size_36px"/>
         </LinearLayout>
-        <com.ymd.client.component.widget.pullRefreshView.PullToRefreshLayout
-            android:id="@id/bigLayout"
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            >
-            <include layout="@layout/refresh_head"/>
-            <com.ymd.client.component.widget.pullRefreshView.PullableListView
-                android:id="@id/listView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:listSelector="@null"
-                android:divider="@color/common_text_color"
-                android:background="@null"
-                custom:canPullUp="false"
-                />
-            <include layout="@layout/load_more"/>
-        </com.ymd.client.component.widget.pullRefreshView.PullToRefreshLayout>
+            android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
     </RelativeLayout>
 
 </LinearLayout>

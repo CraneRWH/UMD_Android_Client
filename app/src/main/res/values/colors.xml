@@ -34,7 +34,9 @@
     <color name="blue">#32ABFE</color>
 
     <color name="text_gray">#ebebeb</color>
+    <color name="text_gray2">#b3b3b3</color>
     <color name="text_gray_dark">#808080</color>
+    <color name="text_orange">#ff8f21</color>
 
     <color name="bg_color">#FFFFFF</color>
 

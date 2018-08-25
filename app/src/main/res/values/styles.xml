@@ -41,7 +41,7 @@
 
     <style name="view_detail_item_separator">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">1dip</item>
+        <item name="android:layout_height">@dimen/mar_pad_len_1_2px</item>
         <item name="android:background">@color/text_gray</item>
     </style>
 
@@ -55,4 +55,8 @@
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:windowNoTitle">true</item>
     </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>

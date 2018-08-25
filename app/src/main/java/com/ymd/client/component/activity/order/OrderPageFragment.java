@@ -1,7 +1,11 @@
 package com.ymd.client.component.activity.order;
 
 import android.os.Build;
+import android.os.Bundle;
 import android.support.annotation.RequiresApi;
+import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,8 +13,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.ymd.client.R;
+import com.ymd.client.common.base.OnUMDItemClickListener;
 import com.ymd.client.common.base.fragment.PageFragment;
+import com.ymd.client.component.activity.order.detail.OrderDetailActivity;
 import com.ymd.client.component.adapter.MySimpleAdapter;
+import com.ymd.client.component.adapter.order.OrderPageAdapter;
 import com.ymd.client.utils.ToolUtil;
 
 import java.util.ArrayList;
@@ -26,66 +33,36 @@ import java.util.Map;
  * 功能简介:
  * 修改历史:
  */
-public class OrderPageFragment extends PageFragment {
+public class OrderPageFragment extends Fragment {
 
+    private RecyclerView recyclerView;
     @Override
-    protected String getMethod() {
-        return "";
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
     }
 
     @Override
-    protected Map<String, String> getParams() {
-        return null;
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_order_page, container, false);
+        initView(view);
+        return view;
     }
 
-    @Override
-    protected int[] getItemLayouts() {
-        return new int[]{
-            R.layout.item_fragment_order_page,
-                R.layout.item_fragment_order_page,
-                R.layout.item_fragment_order_page
-        };
+    private void initView(View view) {
+        recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+        recyclerView.setLayoutManager(layoutManager);
+        OrderPageAdapter adapter = new OrderPageAdapter(getDataList(), getContext());
+        adapter.setListener(new OnUMDItemClickListener() {
+            @Override
+            public void onClick(Object data, View view, int position) {
+                OrderDetailActivity.startAction(getActivity());
+            }
+        });
+        recyclerView.setAdapter(adapter);
     }
 
-    @Override
-    protected String[] getEmptyAlarts() {
-        return new String[]{
-                "无",
-                "无",
-                "无"
-        };
-    }
-
-    @Override
-    protected String getDataKey() {
-        return "";
-    }
-
-    @Override
-    protected String[] getFrom() {
-        return new String[]{
-                "name",
-                "statusName",
-        //        "product_list",
-                "u_money",
-                "all_num",
-                "money"
-        };
-    }
-
-    @Override
-    protected int[] getTo() {
-        return new int[]{
-                R.id.name_tv,
-                R.id.status_name_tv,
-        //        R.id.product_list_lt,
-                R.id.u_money_tv,
-                R.id.all_product_num_tv,
-                R.id.pay_money_tv
-        };
-    }
-
-    @Override
     protected List<Map<String, Object>> getDataList() {
 
         List<Map<String, Object>> list = new ArrayList<>();
@@ -122,34 +99,5 @@ public class OrderPageFragment extends PageFragment {
         map.put("money", 30);
         list.add(map);
         return list;
-    }
-
-    @Override
-    protected void setFormat() {
-        getAdapter().setViewListener(new MySimpleAdapter.MyViewListener() {
-            @RequiresApi(api = Build.VERSION_CODES.M)
-            @Override
-            public void callBackViewListener(Map<String, Object> data, View view, ViewGroup parent, int position) {
-                if (ToolUtil.changeInteger(data.get("status")) >2) {
-                    ((TextView)view.findViewById(R.id.status_name_tv)).setTextColor(getActivity().getColor(R.color.text_gray_dark));
-                    view.findViewById(R.id.btn1).setVisibility(View.VISIBLE);
-                } else {
-                    ((TextView)view.findViewById(R.id.status_name_tv)).setTextColor(getActivity().getColor(R.color.bg_header));
-                    view.findViewById(R.id.btn1).setVisibility(View.GONE);
-                }
-                List<Map<String,Object>> products = (List<Map<String, Object>>) data.get("product_list");
-                LinearLayout linearLayout = view.findViewById(R.id.product_list_lt);
-                linearLayout.removeAllViews();
-                for (Map<String,Object> item : products) {
-                    View v = LayoutInflater.from(getContext()).inflate(R.layout.item_fragment_order_page_product, null);
-                    TextView nameView = v.findViewById(R.id.product_name_tv);
-                    TextView numView = v.findViewById(R.id.product_num_tv);
-                    nameView.setText(ToolUtil.changeString(item.get("name")));
-                    numView.setText("x" + item.get("num"));
-                    linearLayout.addView(view);
-                }
-
-            }
-        });
     }
 }

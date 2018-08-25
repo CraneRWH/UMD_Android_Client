@@ -77,6 +77,13 @@ public abstract class PageFragment extends Fragment {
 			}
 		});
 
+		chooseItem(0);
+
+		try {
+			resetData();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
@@ -223,17 +230,17 @@ public abstract class PageFragment extends Fragment {
 	 * 显示某种状态下的列表信息
 	 */
 	private void resetData() throws Exception {
-		if (queryDatas.isEmpty()) {
+	/*	if (queryDatas.isEmpty()) {
 			listView.setVisibility(View.GONE);
 			emptyLayout.setVisibility(View.VISIBLE);
 			emptyView.setText(getEmptyAlarts()[chooseStatus]);
 		}
 		else {
 			listView.setVisibility(View.VISIBLE);
-			emptyLayout.setVisibility(View.GONE);
+			emptyLayout.setVisibility(View.GONE);*/
 //			listView.setSelection(lp);
 //			lp = queryDatas.size();
-			MySimpleAdapter adapter = new MySimpleAdapter(getActivity(), queryDatas, getItemLayouts()[chooseStatus],
+			MySimpleAdapter adapter = new MySimpleAdapter(getActivity(), getDataList(), getItemLayouts()[chooseStatus],
 					getFrom(), getTo());
 			listView.setAdapter(adapter);
 			setFormat();
@@ -256,7 +263,7 @@ public abstract class PageFragment extends Fragment {
 				}
 			});
 			nextData();
-		}
+	//	}
 	}
 
 	protected void nextData(){

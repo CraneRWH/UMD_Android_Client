@@ -30,4 +30,9 @@
     <string name="all_order_str">全部订单</string>
     <string name="wait_pay_str">待付款</string>
     <string name="return_pay_str">退款</string>
+    <string name="title_activity_order_detail">订单</string>
+
+    <string name="daodian_ziqu_str">到店自取</string>
+    <string name="daodian_yongcan_str">到店用餐</string>
+    <string name="waimai_str">外卖配送</string>
 </resources>

@@ -2,7 +2,7 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical"
     >
     <View style="@style/view_detail_item_separator"
@@ -25,14 +25,16 @@
             android:id="@+id/name_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="@style/font_size_32px"
+            style="@style/font_size_32px_black"
             android:text="独一处"
             android:layout_margin="@dimen/mar_pad_len_20px"
             />
-        <ImageView
+        <TextView
+            android:id="@+id/product_num_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@mipmap/arrow_right_gray_icon"/>
+            android:layout_marginLeft="@dimen/mar_pad_len_20px"
+            style="@style/font_size_28px_gray_" />
         <View
             android:layout_width="0dp"
             android:layout_height="1dp"

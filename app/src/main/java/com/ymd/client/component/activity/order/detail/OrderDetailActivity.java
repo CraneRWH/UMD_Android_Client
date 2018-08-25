@@ -1,17 +1,17 @@
-package com.ymd.client.component.activity.order;
+package com.ymd.client.component.activity.order.detail;
 
-import android.net.Uri;
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.ymd.client.R;
+import com.ymd.client.common.base.BaseActivity;
+import com.ymd.client.component.activity.order.OrderPageFragment;
 import com.ymd.client.component.adapter.AppFragmentPageAdapter;
 import com.ymd.client.component.widget.other.MyChooseItemView;
 
@@ -20,72 +20,71 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.Unbinder;
+
 
 /**
  * 作者:rongweihe
- * 日期:2018/8/18
- * 描述:    “订单”选项卡
+ * 日期:2018/8/25
+ * 描述:    “订单详情界面”
  * 修改历史:
  */
-public class MainOrderFragment extends Fragment {
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-    @BindView(R.id.txtTitle)
-    TextView txtTitle;
-    @BindView(R.id.businessView)
-    LinearLayout businessView;
-    @BindView(R.id.businessViewPager)
-    ViewPager businessViewPager;
-    Unbinder unbinder;
+public class OrderDetailActivity extends BaseActivity {
+
     @BindView(R.id.chooseItem0)
     MyChooseItemView chooseItem0;
     @BindView(R.id.chooseItem1)
     MyChooseItemView chooseItem1;
     @BindView(R.id.chooseItem2)
     MyChooseItemView chooseItem2;
+    @BindView(R.id.businessView)
+    LinearLayout businessView;
+    @BindView(R.id.businessViewPager)
+    ViewPager businessViewPager;
 
-
-    private List<Fragment> fragmentList;
-
-    private List<MyChooseItemView> textViewList;
 
     public int chooseStatus = 0;
     protected int status;
+    @BindView(R.id.warn_num_tv)
+    TextView warnNumTv;
+    @BindView(R.id.order_money_tv)
+    TextView orderMoneyTv;
+    @BindView(R.id.product_money_tv)
+    TextView productMoneyTv;
+    @BindView(R.id.dis_tv)
+    TextView disTv;
+    @BindView(R.id.submit_btn)
+    TextView submitBtn;
 
-//    private OnFragmentInteractionListener mListener;
+    private List<Fragment> fragmentList;
+    private List<MyChooseItemView> textViewList;
 
-    public MainOrderFragment() {
-        // Required empty public constructor
-    }
-
-    public static MainOrderFragment newInstance(String param1, String param2) {
-        MainOrderFragment fragment = new MainOrderFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
+    /**
+     * 启动
+     *
+     * @param context
+     */
+    public static void startAction(Activity context) {
+        Intent intent = new Intent(context, OrderDetailActivity.class);
+        context.startActivity(intent);
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_main_order, container, false);
-        unbinder = ButterKnife.bind(this, view);
-        initView(view);
-        return view;
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_order_detail);
+        ButterKnife.bind(this);
+        initView();
     }
 
-    private void initView(View view) {
-        txtTitle.setText("订单");
+    private void initView() {
+        setTitle("订单");
         status = 3;
-        fragmentList=new ArrayList<Fragment>();
-        fragmentList.add(new OrderPageFragment());
-        fragmentList.add(new OrderPageFragment());
-        fragmentList.add(new OrderPageFragment());
+        fragmentList = new ArrayList<Fragment>();
+        fragmentList.add(new OrderDetailFragment());
+        fragmentList.add(new OrderDetailFragment());
+        fragmentList.add(new OrderDetailFragment());
 
-        textViewList=new ArrayList<MyChooseItemView>();
+        textViewList = new ArrayList<MyChooseItemView>();
         textViewList.add(chooseItem0);
         textViewList.add(chooseItem1);
         textViewList.add(chooseItem2);
@@ -93,6 +92,11 @@ public class MainOrderFragment extends Fragment {
         chooseItem(0);
     }
 
+    /**
+     * 选择显示第几个选项卡
+     *
+     * @param position
+     */
     protected void chooseItem(int position) {
         chooseStatus = position;
 /*        Bundle bundle = new Bundle();
@@ -112,8 +116,9 @@ public class MainOrderFragment extends Fragment {
 
     }
 
+
     protected void viewPagerListener() {
-        for (int i = 0 ; i < textViewList.size() ; i ++ ) {
+        for (int i = 0; i < textViewList.size(); i++) {
             final int position = i;
             textViewList.get(i).setOnClickListener(new View.OnClickListener() {
 
@@ -124,7 +129,7 @@ public class MainOrderFragment extends Fragment {
                 }
             });
         }
-        businessViewPager.setAdapter(new AppFragmentPageAdapter(getChildFragmentManager(),fragmentList));
+        businessViewPager.setAdapter(new AppFragmentPageAdapter(getSupportFragmentManager(), fragmentList));
         businessViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -142,19 +147,4 @@ public class MainOrderFragment extends Fragment {
             }
         });
     }
-/*
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
-*/
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        unbinder.unbind();
-    }
-
 }
