@@ -27,7 +27,10 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
 /**
- * A simple {@link Fragment} subclass.
+ * 作者:rongweihe
+ * 日期:2018/8/25
+ * 描述:    “订单详情界面”
+ * 修改历史:
  */
 public class OrderDetailFragment extends Fragment {
 

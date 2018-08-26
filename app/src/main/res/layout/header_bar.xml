@@ -1,70 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <RelativeLayout
-        android:id="@+id/rl_main_title"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/height_top_bar"
-        android:background="@color/bg_header">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rl_main_title"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/mar_pad_len_88px"
+    android:background="@color/bg_header">
 
-        <ImageView
-            android:id="@+id/iv_back"
-            android:layout_width="@dimen/common_btnBack_dimen"
-            android:layout_height="@dimen/common_btnBack_dimen"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="10dip"
-            android:layout_marginStart="10dp"
-            android:clickable="true"
-            android:onClick="back"
-            android:src="@mipmap/icon_back" />
+    <ImageView
+        android:id="@+id/iv_back"
+        android:layout_width="@dimen/common_btnBack_dimen"
+        android:layout_height="@dimen/common_btnBack_dimen"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="10dip"
+        android:layout_marginStart="10dp"
+        android:clickable="true"
+        android:onClick="back"
+        android:src="@mipmap/arrow_left_white_icon" />
 
-        <TextView
-            android:id="@+id/txtTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:maxWidth="240dp"
-            android:layout_centerInParent="true"
-            android:ellipsize="end"
-            android:gravity="start"
-            android:maxLines="1"
-            android:text="@string/app_name"
-            android:textColor="@color/black"
-            android:textSize="18sp" />
+    <TextView
+        android:id="@+id/txtTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:ellipsize="end"
+        android:gravity="start"
+        android:maxLines="1"
+        android:maxWidth="240dp"
+        android:text="@string/app_name"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_size_36px" />
 
-        <ImageView
-            android:id="@+id/imgFilter"
-            android:layout_width="@dimen/common_btnBack_dimen"
-            android:layout_height="match_parent"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="10dip"
-            android:layout_marginRight="10dip"
-            android:clickable="true"
-            android:visibility="gone" />
+    <ImageView
+        android:id="@+id/imgFilter"
+        android:layout_width="@dimen/common_btnBack_dimen"
+        android:layout_height="match_parent"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="10dip"
+        android:layout_marginRight="10dip"
+        android:clickable="true"
+        android:visibility="gone" />
 
-        <Button
-            android:id="@+id/btnRight"
-            style="@style/NavigationButtonStyle"
-            android:layout_width="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:textColor="@color/black"
-            android:visibility="gone" />
+    <Button
+        android:id="@+id/btnRight"
+        style="@style/NavigationButtonStyle"
+        android:layout_width="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:textColor="@color/black"
+        android:visibility="gone" />
 
-        <Button
-            android:id="@+id/btnOneSubmit"
-            style="@style/NavigationButtonStyle"
-            android:layout_width="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:textColor="@color/black"
-            android:visibility="gone" />
+    <Button
+        android:id="@+id/btnOneSubmit"
+        style="@style/NavigationButtonStyle"
+        android:layout_width="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:textColor="@color/black"
+        android:visibility="gone" />
 
 
-    </RelativeLayout>
-</layout>
+</RelativeLayout>
