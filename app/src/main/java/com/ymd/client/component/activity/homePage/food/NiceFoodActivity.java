@@ -36,10 +36,10 @@ import butterknife.ButterKnife;
 /**
  * 作者:rongweihe
  * 日期:2018/8/25
- * 描述:    “订单详情界面”
+ * 描述:    美事
  * 修改历史:
  */
-public class NiceFoodActivity extends BaseActivity {
+public class NiceFoodActivity extends BaseActivity implements ViewPager.OnPageChangeListener {
 
     @BindView(R.id.search_layout)
     RelativeLayout searchLayout;
@@ -94,10 +94,12 @@ public class NiceFoodActivity extends BaseActivity {
                         viewPager.setCurrentItem(checkedId);
                     }
                 });
-    //    viewPager.setOnPageChangeListener(this);
-      /*  initTab();//动态产生RadioButton
-        initViewPager();*/
+        viewPager.setOnPageChangeListener(this);
+        initTab();//动态产生RadioButton
+        initViewPager();
         rgChannel.check(0);
+
+        setTab(0);
     }
 
     private void setYouHuiItem() {
@@ -156,43 +158,60 @@ public class NiceFoodActivity extends BaseActivity {
         channelList.add(new TabObject("汉堡薯条"));
         channelList.add(new TabObject("意大利面"));
         channelList.add(new TabObject("包子粥店"));
-        channelList.add(new TabObject("全部"));
-        channelList.add(new TabObject("全部"));
-        channelList.add(new TabObject("全部"));
-        channelList.add(new TabObject("全部"));
+        channelList.add(new TabObject("烧饼店"));
+        channelList.add(new TabObject("驴肉火烧"));
+        channelList.add(new TabObject("麻辣烫"));
+        channelList.add(new TabObject("半天妖"));
         for(int i=0;i<channelList.size();i++){
             RadioButton rb=(RadioButton)LayoutInflater.from(this).
                     inflate(R.layout.tab_rb, null);
             rb.setId(i);
             rb.setText(channelList.get(i).getName());
             RadioGroup.LayoutParams params=new
-                    RadioGroup.LayoutParams(RadioGroup.LayoutParams.WRAP_CONTENT,
+                    RadioGroup.LayoutParams((int) getResources().getDimension(R.dimen.mar_pad_len_200px),
                     RadioGroup.LayoutParams.WRAP_CONTENT);
             rgChannel.addView(rb,params);
         }
 
     }
-    /*private void initViewPager(){
-        List<Channel> channelList= ChannelDb.getSelectedChannel();
+
+    private void initViewPager(){
+        List<TabObject> channelList=new ArrayList<>();
+        channelList.add(new TabObject("全部"));
+        channelList.add(new TabObject("快捷便当"));
+        channelList.add(new TabObject("汉堡薯条"));
+        channelList.add(new TabObject("意大利面"));
+        channelList.add(new TabObject("包子粥店"));
+        channelList.add(new TabObject("烧饼店"));
+        channelList.add(new TabObject("驴肉火烧"));
+        channelList.add(new TabObject("麻辣烫"));
+        channelList.add(new TabObject("半天妖"));
         for(int i=0;i<channelList.size();i++){
-            NewsFragment frag=new NewsFragment();
-            Bundle bundle=new Bundle();
+            FoodListFragment frag= FoodListFragment.newInstance();
+      /*      Bundle bundle=new Bundle();
             bundle.putString("weburl", channelList.get(i).getWeburl());
             bundle.putString("name", channelList.get(i).getName());
-            frag.setArguments(bundle);     //向Fragment传入数据
+            frag.setArguments(bundle);  */   //向Fragment传入数据
             fragmentList.add(frag);
         }
         adapter=new PageFragmentAdapter(super.getSupportFragmentManager(),fragmentList);
         viewPager.setAdapter(adapter);
         //viewPager.setOffscreenPageLimit(0);
     }
-*/
+
     /**
      * 滑动ViewPager时调整ScroollView的位置以便显示按钮
      * @param idx
      */
     private void setTab(int idx){
+
+        for(int i = 0 ; i < rgChannel.getChildCount(); i ++) {
+            RadioButton item=(RadioButton)rgChannel.getChildAt(i);
+
+            item.setTextColor(getResources().getColor(R.color.text_gray_dark));
+        }
         RadioButton rb=(RadioButton)rgChannel.getChildAt(idx);
+        rb.setTextColor(getResources().getColor(R.color.bg_header));
         rb.setChecked(true);
         int left=rb.getLeft();
         int width=rb.getMeasuredWidth();
@@ -201,5 +220,20 @@ public class NiceFoodActivity extends BaseActivity {
         int screenWidth=metrics.widthPixels;
         int len=left+width/2-screenWidth/2;
         hvChannel.smoothScrollTo(len, 0);//滑动ScroollView
+    }
+
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+    }
+
+    @Override
+    public void onPageSelected(int position) {
+        setTab(position);
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int state) {
+
     }
 }

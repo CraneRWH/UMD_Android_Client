@@ -96,6 +96,7 @@
         android:layout_marginTop="@dimen/mar_pad_len_20px"
         android:paddingTop="@dimen/mar_pad_len_28px"
         android:paddingBottom="@dimen/mar_pad_len_24px"
+        android:background="@color/white"
         android:orientation="vertical">
 
         <HorizontalScrollView
@@ -130,6 +131,7 @@
                 android:id="@id/chooseItem0"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
+                custom:noChooseColor="@color/text_gray_dark"
                 android:layout_weight="1"
                 custom:defaultValue="综合排序" />
 
@@ -137,12 +139,14 @@
                 android:id="@id/chooseItem1"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
+                custom:noChooseColor="@color/text_gray_dark"
                 android:layout_weight="1"
                 custom:defaultValue="销量" />
             <com.ymd.client.component.widget.other.MyChooseItemView
                 android:id="@id/chooseItem2"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
+                custom:noChooseColor="@color/text_gray_dark"
                 android:layout_weight="1"
                 custom:defaultValue="好评" />
             <com.ymd.client.component.widget.other.MyChooseItemView
@@ -150,9 +154,10 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                custom:noChooseColor="@color/text_gray_dark"
                 custom:defaultValue="距离" />
         </LinearLayout>
-
+        <View style="@style/view_detail_item_separator"/>
         <android.support.v4.view.ViewPager
             android:id="@+id/businessViewPager"
             android:layout_width="match_parent"
