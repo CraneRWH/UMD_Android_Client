@@ -18,4 +18,13 @@
     <string name="setting_alter_phone">修改注册手机号</string>
     <string name="setting_logout">退出登陆</string>
 
+    <string name="person_info_alter_img">修改头像</string>
+    <string name="person_info_nickname">昵称</string>
+    <string name="person_info_phone">手机号</string>
+    <string name="person_info_sex">性别</string>
+    <string name="person_info_birthday">出生日期</string>
+    
+    <string name="my_ub_in">收入</string>
+    <string name="my_ub_out">支出</string>
+
 </resources>

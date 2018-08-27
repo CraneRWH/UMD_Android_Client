@@ -10,6 +10,9 @@
     <item name="chooseItem3" type="id"></item>
     <item name="chooseItem4" type="id"></item>
 
+    <item name="my_ub_choose0" type="id"/>
+    <item name="my_ub_choose1" type="id"/>
+
     <item name="emptyLayout" type="id"/>
     <item name="emptyView" type="id"/>
     <item name="listView" type="id"/>

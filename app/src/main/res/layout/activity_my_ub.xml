@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -9,4 +10,43 @@
 
     <include layout="@layout/layout_title_base"/>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:id="@+id/businessView"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/mar_pad_len_72px"
+            android:background="@color/white"
+            android:orientation="horizontal" >
+
+            <com.ymd.client.component.widget.other.MyChooseItemView
+                android:id="@id/my_ub_choose0"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                custom:noChooseColor="@color/common_text_color"
+                custom:defaultValue="@string/my_ub_in" />
+
+            <com.ymd.client.component.widget.other.MyChooseItemView
+                android:id="@id/my_ub_choose1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                custom:noChooseColor="@color/common_text_color"
+                custom:defaultValue="@string/my_ub_out" />
+        </LinearLayout>
+
+        <View style="@style/view_detail_item_separator"
+            android:layout_height="@dimen/mar_pad_len_1px"
+            android:background="@color/gray"/>
+        <android.support.v4.view.ViewPager
+            android:id="@+id/my_ub_viewpager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+    </LinearLayout>
 </LinearLayout>
