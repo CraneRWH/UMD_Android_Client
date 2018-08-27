@@ -1,4 +1,4 @@
-package com.ymd.client.component.activity.sao;
+package com.ymd.client.component.activity.homePage.food;
 
 import android.content.Context;
 import android.net.Uri;
@@ -11,28 +11,28 @@ import android.view.ViewGroup;
 import com.ymd.client.R;
 
 /**
- *
- *   作者:rongweihe
- *   日期:2018/8/18
- *   描述:    “sao_white_icon”选项卡
- *   修改历史:
- *
+ * 作者:rongweihe
+ * 日期:2018/8/25
+ * 描述:    各种美食的列表
+ * 修改历史:
  */
-public class MainSaoFragment extends Fragment {
+public class FoodListFragment extends Fragment {
+    // TODO: Rename parameter arguments, choose names that match
+    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
+    // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
 
-    public MainSaoFragment() {
+    public FoodListFragment() {
         // Required empty public constructor
     }
-
-    public static MainSaoFragment newInstance(String param1, String param2) {
-        MainSaoFragment fragment = new MainSaoFragment();
+    public static FoodListFragment newInstance(String param1, String param2) {
+        FoodListFragment fragment = new FoodListFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -53,7 +53,7 @@ public class MainSaoFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_main_sao, container, false);
+        return inflater.inflate(R.layout.fragment_food_list, container, false);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -66,12 +66,7 @@ public class MainSaoFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        /*if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }*/
+
     }
 
     @Override

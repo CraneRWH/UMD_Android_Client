@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    tools:context=".component.activity.order.MainOrderFragment">
+
+    <include layout="@layout/header_white_bar"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@color/white"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:id="@+id/businessView"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/mar_pad_len_72px"
+            android:background="@color/white"
+            android:orientation="horizontal" >
+
+            <com.ymd.client.component.widget.other.MyChooseItemView
+                android:id="@id/chooseItem0"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                custom:noChooseColor="@color/text_gray_dark"
+                custom:defaultValue="@string/daodian_yongcan_str" />
+
+            <com.ymd.client.component.widget.other.MyChooseItemView
+                android:id="@id/chooseItem1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                custom:noChooseColor="@color/text_gray_dark"
+                custom:defaultValue="@string/daodian_ziqu_str" />
+            <com.ymd.client.component.widget.other.MyChooseItemView
+                android:id="@id/chooseItem2"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                custom:noChooseColor="@color/text_gray_dark"
+                custom:defaultValue="@string/waimai_str" />
+        </LinearLayout>
+
+        <View style="@style/view_detail_item_separator"
+            android:layout_height="@dimen/mar_pad_len_1px"
+            android:background="@color/gray"/>
+        <android.support.v4.view.ViewPager
+            android:id="@+id/businessViewPager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"></android.support.v4.view.ViewPager>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/mar_pad_len_105px"
+        android:orientation="horizontal"
+        >
+        <RelativeLayout
+            android:layout_width="@dimen/mar_pad_len_105px"
+            android:layout_height="@dimen/mar_pad_len_105px"
+            android:paddingRight="@dimen/mar_pad_len_14px"
+            >
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/shopping_car_gray_icon"
+                android:layout_centerInParent="true"
+                android:layout_marginLeft="@dimen/mar_pad_len_20px"
+                />
+            <TextView
+                android:id="@+id/warn_num_tv"
+                android:layout_width="@dimen/mar_pad_len_34px"
+                android:layout_height="@dimen/mar_pad_len_34px"
+                android:background="@drawable/shape_circle_red"
+                android:textSize="@dimen/text_size_20px"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="@dimen/mar_pad_len_16px"
+                android:textColor="@color/white"
+                android:text="2"
+                android:gravity="center"
+                />
+        </RelativeLayout>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            >
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:orientation="horizontal"
+                android:layout_height="wrap_content">
+                <TextView
+                    style="@style/font_size_36px_black"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="总计：" />
+                <TextView
+                    android:id="@+id/order_money_tv"
+                    style="@style/font_size_36px_black"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="@dimen/mar_pad_len_20px"
+                android:layout_height="wrap_content">
+                <TextView
+                    style="@style/font_size_24px_gray"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="商品金额：" />
+                <TextView
+                    android:id="@+id/product_money_tv"
+                    style="@style/font_size_24px_gray"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="65.00" />
+
+                <TextView
+                    android:id="@+id/dis_tv"
+                    style="@style/font_size_24px_green"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/mar_pad_len_20px"
+                    android:text="享受8.6折优惠" />
+            </LinearLayout>
+        </LinearLayout>
+        
+        <TextView
+            android:id="@+id/submit_btn"
+            android:gravity="center"
+            android:layout_width="@dimen/mar_pad_len_210px"
+            android:layout_height="match_parent"
+            android:textColor="@color/white"
+            android:background="@color/text_orange"
+            android:text="去结算"
+            android:textSize="@dimen/text_size_36px"
+            />
+    </LinearLayout>
+</LinearLayout>

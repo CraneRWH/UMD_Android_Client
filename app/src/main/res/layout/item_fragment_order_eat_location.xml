@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/mar_pad_len_25px"
+    android:gravity="center"
+    >
+
+    <LinearLayout
+        android:id="@+id/mainView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@mipmap/baojian_white_icon"
+        android:orientation="vertical"
+        android:gravity="center"
+        >
+        <TextView
+            android:id="@+id/name_tv"
+            style="@style/font_size_32px_black"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="牡丹亭"
+            android:singleLine="true"
+            android:ellipsize="end"
+            />
+        <TextView
+            android:id="@+id/desc_tv"
+            style="@style/font_size_24px_black"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="可容纳8-10人"
+            android:singleLine="true"
+            android:ellipsize="end"
+            android:layout_marginTop="5dp"
+            />
+    </LinearLayout>
+</LinearLayout>

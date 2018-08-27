@@ -13,6 +13,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -22,6 +23,7 @@ import com.jude.rollviewpager.RollPagerView;
 import com.jude.rollviewpager.adapter.StaticPagerAdapter;
 import com.jude.rollviewpager.hintview.ColorPointHintView;
 import com.ymd.client.R;
+import com.ymd.client.component.activity.homePage.food.NiceFoodActivity;
 import com.ymd.client.component.adapter.MySimpleAdapter;
 import com.ymd.client.component.widget.pullRefreshView.PullToRefreshLayout;
 import com.ymd.client.component.widget.pullRefreshView.PullableScrollView;
@@ -279,6 +281,14 @@ public class MainHomePageFragment extends Fragment {
                     }
                 });
         gridView.setAdapter(adapter);
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                if (i == 0) {
+                    NiceFoodActivity.startAction(getActivity());
+                }
+            }
+        });
     }
 
     private void setYouHuiItem() {
