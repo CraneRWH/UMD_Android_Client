@@ -35,4 +35,5 @@
     <string name="daodian_ziqu_str">到店自取</string>
     <string name="daodian_yongcan_str">到店用餐</string>
     <string name="waimai_str">外卖配送</string>
+    <string name="title_activity_seller_detail">SellerDetailActivity</string>
 </resources>

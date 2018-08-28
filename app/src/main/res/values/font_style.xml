@@ -56,6 +56,11 @@
         <item name="android:textColor">@color/text_gray_dark</item>
     </style>
 
+    <style name="font_size_28px_black">
+        <item name="android:textSize">@dimen/text_size_28px</item>
+        <item name="android:textColor">@color/common_text_color</item>
+    </style>
+
     <style name="font_size_26px_gray_">
         <item name="android:textSize">@dimen/text_size_26px</item>
         <item name="android:textColor">@color/text_gray_dark</item>

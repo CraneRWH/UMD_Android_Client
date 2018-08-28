@@ -1,7 +1,9 @@
 package com.ymd.client.component.adapter.order;
 
 import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
 import android.content.Context;
+import android.os.Build;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -45,15 +47,16 @@ public class OrderPageAdapter extends RecyclerView.Adapter<OrderPageAdapter.View
         return holder;
     }
 
+    @SuppressLint("ResourceAsColor")
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
 
         Map<String,Object> data = datas.get(position);
         if (ToolUtil.changeInteger(data.get("status")) >2) {
-            holder.statusNameTv.setTextColor(mContext.getColor(R.color.text_gray_dark));
+            holder.statusNameTv.setTextColor(R.color.text_gray_dark);
             holder.btn1.setVisibility(View.VISIBLE);
         } else {
-            holder.statusNameTv.setTextColor(mContext.getColor(R.color.bg_header));
+            holder.statusNameTv.setTextColor(R.color.bg_header);
             holder.btn1.setVisibility(View.GONE);
         }
         List<Map<String,Object>> products = (List<Map<String, Object>>) data.get("product_list");

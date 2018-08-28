@@ -27,7 +27,13 @@ public class MyChooseItemView extends LinearLayout {
 	private int chooseColor = 0;
 	private int noChooseColor = 0;
 //	private int textColor = 0;
-	
+
+	private float textSize;
+/*
+	private float paddingTop;
+	private float paddingBottom;
+*/
+
 	private int warnNum = -1;
 	
 	public MyChooseItemView(Context context, AttributeSet attrs) {
@@ -43,6 +49,10 @@ public class MyChooseItemView extends LinearLayout {
 		noChooseColor = type.getColor(R.styleable.custom_noChooseColor, getResources().getColor(R.color.text_gray));
 //		textColor = type.getColor(R.styleable.custom_textColor, getResources().getColor(R.color.dimGray));
 		defaultStr = type.getString(R.styleable.custom_defaultValue);
+		textSize = type.getDimension(R.styleable.custom_textSize, 0);
+
+//		paddingTop = type.getDimension(R.styleable.custom_paddingTop, 0);
+//		paddingBottom = type.getDimension(R.styleable.custom_paddingBottom, 0);
 		
 		warnView.setBackgroundColor(chooseColor);
 		if (defaultStr == null) {
@@ -85,6 +95,10 @@ public class MyChooseItemView extends LinearLayout {
 	
 	public void setDefault() {
 		itemView.setText(defaultStr);
+		if (textSize > 0) {
+			itemView.setTextSize(textSize);
+		}
+	/*	itemView.setPadding(0, (int)paddingTop, 0, (int)paddingBottom);*/
 	}
 	
 	public void setWarnNum(int num) {

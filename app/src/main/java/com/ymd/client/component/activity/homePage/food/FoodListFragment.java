@@ -11,6 +11,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.ymd.client.R;
+import com.ymd.client.common.base.OnUMDItemClickListener;
+import com.ymd.client.component.activity.homePage.food.seller.SellerDetailActivity;
 import com.ymd.client.component.adapter.food.FoodListAdapter;
 
 import java.util.ArrayList;
@@ -74,6 +76,12 @@ public class FoodListFragment extends Fragment {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
         FoodListAdapter adapter = new FoodListAdapter(getData(), getContext());
+        adapter.setListener(new OnUMDItemClickListener() {
+            @Override
+            public void onClick(Object data, View view, int position) {
+                SellerDetailActivity.startAction(getActivity());
+            }
+        });
         recyclerView.setAdapter(adapter);
     }
 
@@ -82,7 +90,7 @@ public class FoodListFragment extends Fragment {
         Map<String, Object> map = new HashMap<>();
         map.put("name", "半天妖烤鱼");
         map.put("distance","253m");
-        map.put("point",4.3);
+        map.put("point",4);
         map.put("work_time", "9:00~21:30");
         map.put("dis_str","全场");
         map.put("dis_num", "8.6折");

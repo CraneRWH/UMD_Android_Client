@@ -41,6 +41,7 @@
     <color name="text_red_orange">#ff2b21</color>
 
     <color name="bg_color">#FFFFFF</color>
+    <color name="bg_gray">#F5F5F5</color>
 
     <color name="red">#FF0000</color>			<!-- 纯红 -->
 
