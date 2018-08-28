@@ -11,7 +11,7 @@
     </item>
     <item
         android:id="@+android:id/progress"
-        android:drawable="@drawable/yellow_small_star_icon">
+        android:drawable="@mipmap/star_yellow_icon">
     </item>
 
 </layer-list>
