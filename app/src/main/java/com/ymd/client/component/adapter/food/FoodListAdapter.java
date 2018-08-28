@@ -1,0 +1,115 @@
+package com.ymd.client.component.adapter.food;
+
+import android.content.Context;
+import android.graphics.Paint;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RatingBar;
+import android.widget.TextView;
+
+import com.ymd.client.R;
+import com.ymd.client.common.base.OnUMDItemClickListener;
+import com.ymd.client.utils.ToolUtil;
+
+import java.util.List;
+import java.util.Map;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
+/**
+ * 作者:rongweihe
+ * 日期:2018/8/24  时间:22:52
+ * 描述:  订单列表的Adapter
+ * 修改历史:
+ */
+public class FoodListAdapter extends RecyclerView.Adapter<FoodListAdapter.ViewHolder> {
+
+    private List<Map<String, Object>> datas;
+    private Context mContext;
+
+    private OnUMDItemClickListener listener;
+
+    public FoodListAdapter(List<Map<String, Object>> datas, Context mContext) {
+        this.datas = datas;
+        this.mContext = mContext;
+    }
+
+    @Override
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_fragment_food_list, parent, false);
+        ViewHolder holder = new ViewHolder(view);
+        return holder;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    @Override
+    public void onBindViewHolder(ViewHolder holder, int position) {
+
+        Map<String, Object> data = datas.get(position);
+        holder.nameTv.setText(ToolUtil.changeString(data.get("name")));
+        holder.distanceTv.setText(ToolUtil.changeString(data.get("distance")));
+        holder.scoreBarView.setRating((float) data.get("point"));
+        holder.workTimeTv.setText(ToolUtil.changeString(data.get("work_time")));
+        holder.disStrTv.setText(ToolUtil.changeString(data.get("dis_str")));
+        holder.disNumTv.setText(ToolUtil.changeString(data.get("dis_num")));
+        holder.priceTv.setText("¥" + data.get("price"));
+        holder.unitTv.setText("/"+ data.get("unit"));
+        List<String> disStrs = (List<String>) data.get("diss");
+        //开始添加数据
+        for (int x = 0; x < disStrs.size(); x++) {
+            //寻找行布局，第一个参数为行布局ID，第二个参数为这个行布局需要放到那个容器上
+            View view = LayoutInflater.from(mContext).inflate(R.layout.item_fragment_food_list_l, holder.giftLayout, false);
+
+            TextView name_tv = (TextView) view.findViewById(R.id.item_tv);
+            holder.giftLayout.addView(view);
+        }
+    }
+
+    @Override
+    public int getItemCount() {
+        return datas.size();
+    }
+
+    public OnUMDItemClickListener getListener() {
+        return listener;
+    }
+
+    public void setListener(OnUMDItemClickListener listener) {
+        this.listener = listener;
+    }
+
+    static class ViewHolder extends RecyclerView.ViewHolder {
+        @BindView(R.id.icon_iv)
+        ImageView iconIv;
+        @BindView(R.id.name_tv)
+        TextView nameTv;
+        @BindView(R.id.distance_tv)
+        TextView distanceTv;
+        @BindView(R.id.scoreBarView)
+        RatingBar scoreBarView;
+        @BindView(R.id.work_time_tv)
+        TextView workTimeTv;
+        @BindView(R.id.dis_str_tv)
+        TextView disStrTv;
+        @BindView(R.id.dis_num_tv)
+        TextView disNumTv;
+        @BindView(R.id.price_tv)
+        TextView priceTv;
+        @BindView(R.id.unit_tv)
+        TextView unitTv;
+        @BindView(R.id.giftLayout)
+        LinearLayout giftLayout;
+
+        ViewHolder(View view) {
+            super(view);
+            ButterKnife.bind(this, view);
+        }
+    }
+}

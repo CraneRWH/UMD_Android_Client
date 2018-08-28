@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    >
+    <TextView
+        android:id="@+id/item_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/text_size_22px"
+        android:textColor="@color/text_red_orange"
+        android:background="@mipmap/rect_pink_red_edge"
+        android:paddingRight="@dimen/mar_pad_len_10px"
+        android:paddingBottom="@dimen/mar_pad_len_4px"
+        android:paddingTop="@dimen/mar_pad_len_4px"
+        android:paddingLeft="@dimen/mar_pad_len_10px"
+        android:layout_marginRight="@dimen/mar_pad_len_14px"
+        />
+</LinearLayout>
