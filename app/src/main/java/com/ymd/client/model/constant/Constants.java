@@ -17,5 +17,6 @@ public class Constants {
     public static final String KEY = "21E4ACD4CD5D4619B063F40C5A454F7D";//密钥
 
     public static final int REQUEST_CODE_CAMERA = 0x01;
+    public static final int REQUEST_CODE_STORE = 0x02;
     public static final String GES_KEY = "GES_KEY";
 }

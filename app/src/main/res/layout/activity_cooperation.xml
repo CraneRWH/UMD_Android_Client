@@ -4,67 +4,317 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
     tools:context=".component.activity.mine.SettingActivity">
 
     <include layout="@layout/layout_title_base" />
 
-    <ImageView
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:src="@mipmap/icon_collaborate_banner" />
+        android:scrollbars="none">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/mar_pad_len_88px"
-        android:gravity="center_vertical"
-        android:paddingLeft="@dimen/mar_pad_len_20px"
-        android:paddingRight="@dimen/mar_pad_len_20px"
-        android:text="商家信息" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/mar_pad_len_88px"
-        android:background="@drawable/coo_background_with_line"
-        android:layout_marginLeft="@dimen/mar_pad_len_20px"
-        android:layout_marginRight="@dimen/mar_pad_len_20px"
-        android:orientation="horizontal">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:gravity="center_vertical"
-            android:paddingLeft="@dimen/mar_pad_len_20px"
-            android:paddingRight="@dimen/mar_pad_len_20px"
-            android:textColor="@color/text_gray_dark"
-            android:text="店主姓名：" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:gravity="center_vertical"
-            android:textColor="@color/common_text_color"
-            android:text="张三" />
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/mar_pad_len_88px"
-        android:background="@drawable/coo_background_with_line"
-        android:layout_marginLeft="@dimen/mar_pad_len_20px"
-        android:layout_marginRight="@dimen/mar_pad_len_20px"
-        android:layout_marginTop="@dimen/mar_pad_len_20px"
-        android:orientation="horizontal">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:gravity="center_vertical"
-            android:paddingLeft="@dimen/mar_pad_len_20px"
-            android:paddingRight="@dimen/mar_pad_len_20px"
-            android:textColor="@color/text_gray_dark"
-            android:text="联系电话：" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:gravity="center_vertical"
-            android:textColor="@color/text_gray_dark"
-            android:text="13612121214" />
-    </LinearLayout>
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/icon_collaborate_banner" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/mar_pad_len_88px"
+                android:gravity="center_vertical"
+                android:paddingLeft="@dimen/mar_pad_len_20px"
+                android:paddingRight="@dimen/mar_pad_len_20px"
+                android:text="商家信息"
+                android:textSize="@dimen/text_size_36px" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/mar_pad_len_88px"
+                android:layout_marginLeft="@dimen/mar_pad_len_20px"
+                android:layout_marginRight="@dimen/mar_pad_len_20px"
+                android:background="@drawable/coo_background_with_line"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="@dimen/mar_pad_len_20px"
+                    android:paddingRight="@dimen/mar_pad_len_20px"
+                    android:text="店主姓名："
+                    android:textColor="@color/text_gray_dark" />
+
+                <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:gravity="center_vertical"
+                    android:maxLength="11"
+                    android:singleLine="true"
+                    android:text="张三"
+                    android:textColor="@color/common_text_color"
+                    android:textColorHint="@color/text_gray_dark"
+                    android:textSize="@dimen/text_size_32px" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/mar_pad_len_88px"
+                android:layout_marginLeft="@dimen/mar_pad_len_20px"
+                android:layout_marginRight="@dimen/mar_pad_len_20px"
+                android:layout_marginTop="@dimen/mar_pad_len_20px"
+                android:background="@drawable/coo_background_with_line"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="@dimen/mar_pad_len_20px"
+                    android:paddingRight="@dimen/mar_pad_len_20px"
+                    android:text="联系电话："
+                    android:textColor="@color/text_gray_dark" />
+
+                <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:gravity="center_vertical"
+                    android:hint="13612121214"
+                    android:maxLength="11"
+                    android:singleLine="true"
+                    android:textColor="@color/common_text_color"
+                    android:textColorHint="@color/text_gray_dark"
+                    android:textSize="@dimen/text_size_32px" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/cooperation_choose_type"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/mar_pad_len_88px"
+                android:layout_marginLeft="@dimen/mar_pad_len_20px"
+                android:layout_marginRight="@dimen/mar_pad_len_20px"
+                android:layout_marginTop="@dimen/mar_pad_len_20px"
+                android:background="@drawable/coo_background_with_line"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="@dimen/mar_pad_len_20px"
+                    android:paddingRight="@dimen/mar_pad_len_20px"
+                    android:text="商家类型："
+                    android:textColor="@color/text_gray_dark" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:hint="酒店"
+                    android:paddingRight="@dimen/mar_pad_len_20px"
+                    android:textColor="@color/common_text_color"
+                    android:textColorHint="@color/text_gray_dark" />
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:paddingRight="@dimen/mar_pad_len_20px"
+                    android:src="@mipmap/icon_collaborate_arrows" />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/mar_pad_len_88px"
+                android:gravity="center_vertical"
+                android:paddingLeft="@dimen/mar_pad_len_20px"
+                android:paddingRight="@dimen/mar_pad_len_20px"
+                android:text="商家资质"
+                android:textSize="@dimen/text_size_36px" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/mar_pad_len_20px"
+                android:paddingRight="@dimen/mar_pad_len_20px"
+                android:weightSum="3">
+
+                <LinearLayout
+                    android:id="@+id/cooperation_choose_license"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/mar_pad_len_10px"
+                    android:layout_weight="1"
+                    android:background="@drawable/coo_background_with_line_no_corner"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/cooperation_choose_license_iv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@mipmap/icon_collaborate_camera" />
+
+                    <TextView
+                        android:id="@+id/cooperation_choose_license_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/cooperation_choose_license"
+                        android:layout_marginTop="@dimen/mar_pad_len_10px"
+                        android:text="营业执照" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/cooperation_choose_identify_x"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/mar_pad_len_10px"
+                    android:layout_weight="1"
+                    android:background="@drawable/coo_background_with_line_no_corner"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/cooperation_choose_id_x"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@mipmap/icon_collaborate_camera" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/mar_pad_len_10px"
+                        android:text="身份证正面" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/cooperation_choose_identify_y"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/coo_background_with_line_no_corner"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/cooperation_choose_id_y"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@mipmap/icon_collaborate_camera" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/mar_pad_len_10px"
+                        android:text="身份证反面" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/mar_pad_len_20px"
+                android:paddingTop="@dimen/mar_pad_len_10px"
+                android:paddingRight="@dimen/mar_pad_len_20px"
+                android:weightSum="3">
+
+                <LinearLayout
+                    android:id="@+id/cooperation_choose_hygiene"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/mar_pad_len_10px"
+                    android:layout_weight="1"
+                    android:background="@drawable/coo_background_with_line_no_corner"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/cooperation_choose_hygiene_iv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@mipmap/icon_collaborate_camera" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/cooperation_choose_license"
+                        android:layout_marginTop="@dimen/mar_pad_len_10px"
+                        android:text="营业执照" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/cooperation_choose_other1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/mar_pad_len_10px"
+                    android:layout_weight="1"
+                    android:background="@drawable/coo_background_with_line_no_corner"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/cooperation_choose_other1_iv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@mipmap/icon_collaborate_camera" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/mar_pad_len_10px"
+                        android:text="身份证正面" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/cooperation_choose_other2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/coo_background_with_line_no_corner"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/cooperation_choose_other_iv2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@mipmap/icon_collaborate_camera" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/mar_pad_len_10px"
+                        android:text="身份证反面" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/cooperation_submit"
+                style="@style/btn_bg"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/mar_pad_len_88px"
+                android:layout_marginBottom="@dimen/mar_pad_len_60px"
+                android:layout_marginLeft="@dimen/mar_pad_len_22px"
+                android:layout_marginRight="@dimen/mar_pad_len_22px"
+                android:text="提交" />
+        </LinearLayout>
+    </ScrollView>
 
 </LinearLayout>
