@@ -213,7 +213,6 @@
                         android:layout_height="match_parent"
                         custom:noChooseColor="@color/text_gray_dark"
                         android:layout_weight="1"
-                        custom:textSize="@dimen/text_size_32px"
                         custom:defaultValue="点餐" />
 
                     <com.ymd.client.component.widget.other.MyChooseItemView
@@ -222,7 +221,6 @@
                         android:layout_height="match_parent"
                         custom:noChooseColor="@color/text_gray_dark"
                         android:layout_weight="1"
-                        custom:textSize="@dimen/text_size_32px"
                         custom:defaultValue="点评" />
                     <com.ymd.client.component.widget.other.MyChooseItemView
                         android:id="@id/chooseItem2"
@@ -230,7 +228,6 @@
                         android:layout_height="match_parent"
                         custom:noChooseColor="@color/text_gray_dark"
                         android:layout_weight="1"
-                        custom:textSize="@dimen/text_size_32px"
                         custom:defaultValue="商家" />
                 </LinearLayout>
                 <View style="@style/view_detail_item_separator"

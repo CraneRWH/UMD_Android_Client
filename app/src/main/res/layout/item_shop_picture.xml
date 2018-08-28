@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingTop="@dimen/mar_pad_len_20px"
+    android:paddingRight="@dimen/mar_pad_len_30px"
+    >
+    <ImageView
+        android:id="@+id/item_iv"
+        android:layout_width="@dimen/mar_pad_len_168px"
+        android:layout_height="@dimen/mar_pad_len_168px"
+        android:scaleType="centerCrop"
+        />
+</LinearLayout>

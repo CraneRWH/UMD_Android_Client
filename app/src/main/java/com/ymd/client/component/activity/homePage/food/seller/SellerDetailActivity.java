@@ -8,12 +8,10 @@ import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RatingBar;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.ymd.client.R;
 import com.ymd.client.common.base.BaseActivity;
-import com.ymd.client.component.activity.homePage.food.NiceFoodActivity;
 import com.ymd.client.component.activity.order.OrderPageFragment;
 import com.ymd.client.component.adapter.AppFragmentPageAdapter;
 import com.ymd.client.component.widget.other.MyChooseItemView;
@@ -93,8 +91,8 @@ public class SellerDetailActivity extends BaseActivity {
         status = 3;
         fragmentList=new ArrayList<Fragment>();
         fragmentList.add(new ChooseDishesFragment());
-        fragmentList.add(new OrderPageFragment());
-        fragmentList.add(new OrderPageFragment());
+        fragmentList.add(new EvaluateSellerFragment());
+        fragmentList.add(new SellerDetailFragment());
 
         textViewList=new ArrayList<MyChooseItemView>();
         textViewList.add(chooseItem0);
