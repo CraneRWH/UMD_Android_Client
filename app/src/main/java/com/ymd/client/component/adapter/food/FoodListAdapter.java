@@ -55,7 +55,7 @@ public class FoodListAdapter extends RecyclerView.Adapter<FoodListAdapter.ViewHo
         Map<String, Object> data = datas.get(position);
         holder.nameTv.setText(ToolUtil.changeString(data.get("name")));
         holder.distanceTv.setText(ToolUtil.changeString(data.get("distance")));
-        holder.scoreBarView.setRating((float) data.get("point"));
+        holder.scoreBarView.setRating(ToolUtil.changeFloat(data.get("point")));
         holder.workTimeTv.setText(ToolUtil.changeString(data.get("work_time")));
         holder.disStrTv.setText(ToolUtil.changeString(data.get("dis_str")));
         holder.disNumTv.setText(ToolUtil.changeString(data.get("dis_num")));
@@ -68,8 +68,17 @@ public class FoodListAdapter extends RecyclerView.Adapter<FoodListAdapter.ViewHo
             View view = LayoutInflater.from(mContext).inflate(R.layout.item_fragment_food_list_l, holder.giftLayout, false);
 
             TextView name_tv = (TextView) view.findViewById(R.id.item_tv);
+            name_tv.setText(disStrs.get(x));
             holder.giftLayout.addView(view);
         }
+        holder.rootView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (listener != null) {
+                    listener.onClick(data, holder.rootView, position);
+                }
+            }
+        });
     }
 
     @Override
@@ -86,6 +95,7 @@ public class FoodListAdapter extends RecyclerView.Adapter<FoodListAdapter.ViewHo
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
+        View rootView;
         @BindView(R.id.icon_iv)
         ImageView iconIv;
         @BindView(R.id.name_tv)
@@ -109,6 +119,7 @@ public class FoodListAdapter extends RecyclerView.Adapter<FoodListAdapter.ViewHo
 
         ViewHolder(View view) {
             super(view);
+            rootView = view;
             ButterKnife.bind(this, view);
         }
     }

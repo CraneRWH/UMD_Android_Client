@@ -90,6 +90,17 @@ public class ToolUtil {
 		return 0D;
 	}
 
+	public static float changeFloat(Object object) {
+		if (object != null) {
+			try {
+				return Float.parseFloat(object.toString());
+			} catch(Exception e){
+				LogUtil.d(object + "不能转化为float型");
+			}
+		}
+		return 0f;
+	}
+
 	public static boolean changeBoolean(Object object) {
 		if ( object != null ) {
 			try {

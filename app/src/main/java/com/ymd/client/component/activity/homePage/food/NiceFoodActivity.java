@@ -64,6 +64,7 @@ public class NiceFoodActivity extends BaseActivity implements ViewPager.OnPageCh
 
     private PageFragmentAdapter adapter=null;
     private List<Fragment> fragmentList=new ArrayList<Fragment>();
+
     /**
      * 启动
      *

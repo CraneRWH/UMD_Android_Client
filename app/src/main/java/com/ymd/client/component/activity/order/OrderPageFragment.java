@@ -53,7 +53,7 @@ public class OrderPageFragment extends Fragment {
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
-        OrderPageAdapter adapter = new OrderPageAdapter(getDataList(), getContext());
+        OrderPageAdapter adapter = new OrderPageAdapter(getDataList(), getActivity());
         adapter.setListener(new OnUMDItemClickListener() {
             @Override
             public void onClick(Object data, View view, int position) {

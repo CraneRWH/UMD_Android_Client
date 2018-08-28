@@ -3,14 +3,17 @@
 
     <item
         android:id="@+android:id/background"
+        android:left="@dimen/mar_pad_len_20px"
         android:drawable="@mipmap/star_black_icon">
     </item>
     <item
         android:id="@+android:id/secondaryProgress"
+        android:left="@dimen/mar_pad_len_20px"
         android:drawable="@mipmap/star_yellow_icon">
     </item>
     <item
         android:id="@+android:id/progress"
+        android:left="@dimen/mar_pad_len_20px"
         android:drawable="@mipmap/star_yellow_icon">
     </item>
 

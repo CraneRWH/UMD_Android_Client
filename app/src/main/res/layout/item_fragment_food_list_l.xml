@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:textSize="@dimen/text_size_22px"
         android:textColor="@color/text_red_orange"
-        android:background="@mipmap/rect_pink_red_edge"
+        android:background="@drawable/shape_rect_pink_red_edge"
         android:paddingRight="@dimen/mar_pad_len_10px"
         android:paddingBottom="@dimen/mar_pad_len_4px"
         android:paddingTop="@dimen/mar_pad_len_4px"
