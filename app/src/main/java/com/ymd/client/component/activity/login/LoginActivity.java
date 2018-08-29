@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.ymd.client.R;
 import com.ymd.client.common.base.BaseActivity;
@@ -25,7 +26,7 @@ public class LoginActivity extends BaseActivity {
 
     private EditText mobileNumber;
     private EditText mobileCode;
-    private Button mobileCodeBtn;
+    private TextView mobileCodeBtn;
     private Button loginBtn;
     private ImageView weixinIv;
     private ImageView qqIv;
@@ -51,9 +52,10 @@ public class LoginActivity extends BaseActivity {
 
     private void initView() {
         //    setStatusBar(R.color.head_white);
+        setStatusBar(R.color.bg_header);
         mobileNumber = (EditText) findViewById(R.id.mobileNumber);
         mobileCode = (EditText) findViewById(R.id.mobileCode);
-        mobileCodeBtn = (Button) findViewById(R.id.mobileCodeBtn);
+        mobileCodeBtn = (TextView) findViewById(R.id.mobileCodeBtn);
         loginBtn = (Button) findViewById(R.id.login_btn);
         weixinIv = (ImageView) findViewById(R.id.weixin_iv);
         qqIv = (ImageView) findViewById(R.id.qq_iv);
@@ -83,6 +85,8 @@ public class LoginActivity extends BaseActivity {
 
     private void submit() {
         // validate
+        MainActivity.startAction(this);
+        finish();
         String mobileNumberString = mobileNumber.getText().toString().trim();
         if (TextUtils.isEmpty(mobileNumberString)) {
             ToastUtil.ToastMessage(this, "请输入手机号", ToastUtil.WARN);
@@ -95,8 +99,6 @@ public class LoginActivity extends BaseActivity {
             return;
         }
 
-        MainActivity.startAction(this);
-        finish();
     }
 
     private void getPhoneCode() {

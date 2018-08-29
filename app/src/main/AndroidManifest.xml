@@ -54,45 +54,48 @@
 
         <!-- 注册页面 -->
         <activity android:name=".component.activity.login.RegisterActivity" />
-        <!--我的-设置-->
+        <!-- 我的-设置 -->
         <activity android:name=".component.activity.mine.SettingActivity" />
-        <!--我的-个人信息-->
+        <!-- 我的-个人信息 -->
         <activity android:name=".component.activity.mine.PersonInfoActivity" />
-        <!--我的-我的U币-->
+        <!-- 我的-我的U币 -->
         <activity android:name=".component.activity.mine.MyUbActivity" />
-        <!--我的-我的收藏-->
+        <!-- 我的-我的收藏 -->
         <activity android:name=".component.activity.mine.MyCollectionActivity" />
-        <!--我的-我的评价-->
+        <!-- 我的-我的评价 -->
         <activity android:name=".component.activity.mine.MyRatesActivity" />
-        <!--我的-我的卡券-->
+        <!-- 我的-我的卡券 -->
         <activity android:name=".component.activity.mine.MyCardsActivity" />
-        <!--我的-联系客服-->
+        <!-- 我的-联系客服 -->
         <activity android:name=".component.activity.mine.LinkServiceActivity" />
-        <!--我的-我的银行卡-->
+        <!-- 我的-我的银行卡 -->
         <activity android:name=".component.activity.mine.MyBanksActivity" />
-        <!--我的-推荐有礼-->
+        <!-- 我的-推荐有礼 -->
         <activity android:name=".component.activity.mine.IntroduceActivity" />
-        <!--我的-我要合作-->
+        <!-- 我的-我要合作 -->
         <activity android:name=".component.activity.mine.CooperationActivity" />
         <activity
             android:name=".component.activity.order.detail.OrderDetailActivity"
             android:label="@string/title_activity_order_detail"
             android:theme="@style/AppTheme" />
         <activity android:name=".component.activity.homePage.food.NiceFoodActivity" />
-        <!--我的-设置-修改登陆密码-->
+        <!-- 我的-设置-修改登陆密码 -->
         <activity android:name=".component.activity.mine.config.AlterLoginPwActivity" />
-        <!--我的-设置-修改注册手机号-->
+        <!-- 我的-设置-修改注册手机号 -->
         <activity android:name=".component.activity.mine.config.AlterRegPhoneActivity" />
-        <!--我的-设置-设置手势密码-->
+        <!-- 我的-设置-设置手势密码 -->
         <activity android:name=".component.activity.mine.config.SetGesActivity" />
-        <!--我的-设置-修改手势密码-->
-        <activity android:name=".component.activity.mine.config.AlterGesActivity"/>
+        <!-- 我的-设置-修改手势密码 -->
+        <activity android:name=".component.activity.mine.config.AlterGesActivity" />
         <activity android:name=".component.widget.takephoto.app.TakePhotoActivity" />
         <activity android:name="com.soundcloud.android.crop.CropImageActivity" />
         <activity
             android:name=".component.activity.homePage.food.seller.SellerDetailActivity"
             android:label="@string/title_activity_seller_detail"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme" />
+        <activity android:name=".component.activity.homePage.food.seller.CommentSellerActivity" />
+        <activity android:name=".component.activity.homePage.food.seller.ComplaintSellerActivity" />
+        <activity android:name=".component.activity.homePage.search.SearchActivity"></activity>
     </application>
 
 </manifest>

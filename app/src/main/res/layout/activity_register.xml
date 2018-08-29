@@ -1,9 +1,252 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".component.activity.login.RegisterActivity">
+    android:background="@color/white"
+    android:orientation="vertical">
 
-</android.support.constraint.ConstraintLayout>
+    <include layout="@layout/header_bar" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/mar_pad_len_50px"
+                android:background="@drawable/shape_rect_corner_gray_edge"
+                android:layout_marginLeft="@dimen/mar_pad_len_20px"
+                android:paddingLeft="@dimen/mar_pad_len_20px"
+                android:layout_marginRight="@dimen/mar_pad_len_20px">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="+86"
+                        android:textColor="@color/common_text_color"
+                        android:textSize="@dimen/text_size_32px" />
+
+                    <ImageView
+                        android:layout_width="10dp"
+                        android:layout_height="10dp"
+                        android:layout_marginLeft="10dp"
+                        android:src="@mipmap/dao_sanjiao_black_icon"
+                        android:visibility="gone"/>
+
+                    <EditText
+                        android:id="@+id/mobileNumber"
+                        android:layout_width="0dp"
+                        android:layout_height="35dp"
+                        android:layout_weight="1"
+                        android:background="@null"
+                        android:hint="请输入手机号"
+                        android:inputType="number"
+                        android:paddingLeft="@dimen/mar_pad_len_20px"
+                        android:singleLine="true"
+                        android:textColor="@color/text_gray2"
+                        android:textSize="@dimen/text_size_32px" />
+                </LinearLayout>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/mar_pad_len_30px"
+                android:paddingLeft="@dimen/mar_pad_len_20px"
+                android:paddingRight="@dimen/mar_pad_len_20px">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="45dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/shape_rect_corner_gray_edge"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="验证码"
+                            android:textColor="@color/black"
+                            android:visibility="gone"
+                            android:textSize="16sp" />
+
+                        <EditText
+                            android:id="@+id/mobileCode"
+                            android:layout_width="0dp"
+                            android:layout_height="35dp"
+                            android:layout_weight="1"
+                            android:background="@null"
+                            android:hint="请输入验证码"
+                            android:inputType="number"
+                            android:paddingLeft="10dp"
+                            android:singleLine="true"
+                            android:textColor="@color/text_gray2"
+                            android:textSize="@dimen/text_size_32px" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/mobileCodeBtn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="45dp"
+                        android:gravity="center"
+                        android:layout_marginLeft="@dimen/mar_pad_len_20px"
+                        android:paddingLeft="@dimen/mar_pad_len_30px"
+                        android:paddingRight="@dimen/mar_pad_len_30px"
+                        android:background="@drawable/shape_rect_corner_green"
+                        android:text="获取验证码"
+                        android:textSize="@dimen/text_size_32px"
+                        android:textColor="#fefefe" />
+                </LinearLayout>
+
+            </RelativeLayout>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/mar_pad_len_30px"
+                android:background="@drawable/shape_rect_corner_gray_edge"
+                android:layout_marginLeft="@dimen/mar_pad_len_20px"
+                android:paddingLeft="@dimen/mar_pad_len_20px"
+                android:layout_marginRight="@dimen/mar_pad_len_20px">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:id="@+id/password_et"
+                        android:layout_width="0dp"
+                        android:layout_height="35dp"
+                        android:layout_weight="1"
+                        android:background="@null"
+                        android:hint="确认密码"
+                        android:inputType="textPassword"
+                        android:singleLine="true"
+                        android:textColor="@color/text_gray2"
+                        android:textSize="@dimen/text_size_32px" />
+                </LinearLayout>
+            </RelativeLayout>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/mar_pad_len_12px"
+                android:paddingLeft="10dp"
+                android:text="密码长度8-32位，必须包含数字、字母、符号至少两种或以上的元素"
+                android:textColor="@color/text_gray_dark"
+                android:textSize="@dimen/text_size_22px" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/mar_pad_len_30px"
+                android:background="@drawable/shape_rect_corner_gray_edge"
+                android:layout_marginLeft="@dimen/mar_pad_len_20px"
+                android:paddingLeft="@dimen/mar_pad_len_20px"
+                android:layout_marginRight="@dimen/mar_pad_len_20px">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:id="@+id/invite_code_et"
+                        android:layout_width="0dp"
+                        android:layout_height="35dp"
+                        android:layout_weight="1"
+                        android:background="@null"
+                        android:hint="请输入邀请码，可为空"
+                        android:inputType="number"
+                        android:singleLine="true"
+                        android:textColor="@color/text_gray2"
+                        android:textSize="@dimen/text_size_32px" />
+                </LinearLayout>
+            </RelativeLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/mar_pad_len_20px"
+                android:gravity="center_vertical"
+                android:layout_marginTop="@dimen/mar_pad_len_30px"
+                >
+                <CheckBox
+                    android:id="@+id/agree_cb"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:button="@drawable/checkbox_circle_selector"
+                    android:paddingLeft="@dimen/mar_pad_len_20px"
+                    android:textSize="@dimen/text_size_24px"
+                    android:textColor="@color/text_gray2"
+                    android:text="我同意"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/text_size_24px"
+                    android:textColor="@color/bg_header"
+                    android:text="《注册与服务协议》"
+                    />
+            </LinearLayout>
+            <Button
+                android:id="@+id/login_btn"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="@dimen/mar_pad_len_100px"
+                android:layout_marginRight="@dimen/mar_pad_len_20px"
+                android:layout_marginLeft="@dimen/mar_pad_len_20px"
+                android:background="@drawable/shape_rect_corner_green"
+                android:text="立即注册"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size_36px" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                >
+                <CheckBox
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="自动登录"
+                    android:textColor="@color/white"
+                    android:textSize="14sp"
+                    android:checked="false"
+                    android:visibility="invisible"
+                    android:paddingLeft="5dp"
+                    />
+                <TextView
+                    android:id="@+id/to_login_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="已有账号登录"
+                    android:textColor="@color/text_gray_dark"
+                    android:textSize="@dimen/text_size_26px"
+                    android:padding="@dimen/mar_pad_len_20px"
+                    android:layout_gravity="right"
+                    />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

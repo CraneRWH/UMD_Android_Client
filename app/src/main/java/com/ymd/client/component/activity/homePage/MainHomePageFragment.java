@@ -24,6 +24,7 @@ import com.jude.rollviewpager.adapter.StaticPagerAdapter;
 import com.jude.rollviewpager.hintview.ColorPointHintView;
 import com.ymd.client.R;
 import com.ymd.client.component.activity.homePage.food.NiceFoodActivity;
+import com.ymd.client.component.activity.homePage.search.SearchActivity;
 import com.ymd.client.component.adapter.MySimpleAdapter;
 import com.ymd.client.component.widget.pullRefreshView.PullToRefreshLayout;
 import com.ymd.client.component.widget.pullRefreshView.PullableScrollView;
@@ -151,6 +152,13 @@ public class MainHomePageFragment extends Fragment {
             @Override
             public void onLoadMore(PullToRefreshLayout pullToRefreshLayout) {
 
+            }
+        });
+
+        searchLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SearchActivity.startAction(getActivity());
             }
         });
         setPicture();

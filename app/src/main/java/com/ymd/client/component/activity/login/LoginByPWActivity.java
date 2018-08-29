@@ -46,7 +46,7 @@ public class LoginByPWActivity extends BaseActivity {
     }
 
     private void initView() {
-        setStatusBar(R.color.head_white);
+        setStatusBar(R.color.bg_header);
 
         mobileNumber = (EditText) findViewById(R.id.mobileNumber);
         mobileNumber.setOnClickListener(new View.OnClickListener() {
@@ -79,6 +79,9 @@ public class LoginByPWActivity extends BaseActivity {
     }
 
     private void submit() {
+
+        MainActivity.startAction(this);
+        finish();
         String mobileNumberString = mobileNumber.getText().toString().trim();
         if (TextUtils.isEmpty(mobileNumberString)) {
             ToastUtil.ToastMessage(this, "请输入手机号", ToastUtil.WARN);
@@ -91,8 +94,6 @@ public class LoginByPWActivity extends BaseActivity {
             return;
         }
 
-        MainActivity.startAction(this);
-        finish();
     }
 
 }

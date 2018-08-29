@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.ymd.client.R;
 import com.ymd.client.common.base.OnUMDItemClickListener;
 import com.ymd.client.common.base.fragment.PageFragment;
+import com.ymd.client.component.activity.homePage.food.seller.CommentSellerActivity;
 import com.ymd.client.component.activity.order.detail.OrderDetailActivity;
 import com.ymd.client.component.adapter.MySimpleAdapter;
 import com.ymd.client.component.adapter.order.OrderPageAdapter;
@@ -58,6 +59,14 @@ public class OrderPageFragment extends Fragment {
             @Override
             public void onClick(Object data, View view, int position) {
                 OrderDetailActivity.startAction(getActivity());
+            }
+        });
+        adapter.setBtnClickListener(new OrderPageAdapter.OnBtnClickListener() {
+            @Override
+            public void onClick(Object data, int position, int id) {
+                if (id == R.id.btn3) {
+                    CommentSellerActivity.startAction(getActivity());
+                }
             }
         });
         recyclerView.setAdapter(adapter);

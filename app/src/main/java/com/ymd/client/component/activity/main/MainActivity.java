@@ -59,7 +59,7 @@ public class MainActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        setStatusBar(R.color.bg_header);
         navigationView = (BottomNavigationView) findViewById(R.id.navigation);
         BottomNavigationViewHelper.disableShiftMode(navigationView);
         navigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -123,6 +123,11 @@ public class MainActivity extends BaseActivity {
                 else {
                     fragmentTransaction.hide(mainFragments.get(key));
                 }
+            }
+            if (tag == 1) {
+                setStatusBar(R.color.head_white);
+            } else {
+                setStatusBar(R.color.bg_header);
             }
         } catch (Exception e) {
             e.printStackTrace();

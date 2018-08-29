@@ -51,7 +51,7 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:textColor="@color/black"
+        android:textColor="@color/white"
         android:visibility="gone" />
 
     <Button
@@ -61,7 +61,7 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:textColor="@color/black"
+        android:textColor="@color/white"
         android:visibility="gone" />
 
 

@@ -25,7 +25,7 @@ public class BaseActivity extends AppCompatActivity {
 
     // 维持一个context，方便子类Toast或者其它要使用context的地方获取
     public Context currentactivity;
-    private int headResourcesID = R.color.bg_header;
+    private int headResourcesID = R.color.head_white;
 
     @Override
     protected void onCreate(Bundle arg0) {

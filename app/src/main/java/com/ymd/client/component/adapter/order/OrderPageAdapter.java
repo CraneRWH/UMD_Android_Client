@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.ymd.client.R;
 import com.ymd.client.common.base.OnUMDItemClickListener;
+import com.ymd.client.component.activity.homePage.food.seller.CommentSellerActivity;
 import com.ymd.client.utils.ToolUtil;
 
 import java.util.List;
@@ -34,6 +35,7 @@ public class OrderPageAdapter extends RecyclerView.Adapter<OrderPageAdapter.View
     private Context mContext;
 
     private OnUMDItemClickListener listener;
+    private OnBtnClickListener btnClickListener;
 
     public OrderPageAdapter(List<Map<String, Object>> datas, Context mContext) {
         this.datas = datas;
@@ -79,6 +81,14 @@ public class OrderPageAdapter extends RecyclerView.Adapter<OrderPageAdapter.View
                 }
             }
         });
+        holder.btn3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (btnClickListener != null) {
+                    btnClickListener.onClick(data, position, holder.btn3.getId());
+                }
+            }
+        });
     }
 
     @Override
@@ -92,6 +102,14 @@ public class OrderPageAdapter extends RecyclerView.Adapter<OrderPageAdapter.View
 
     public void setListener(OnUMDItemClickListener listener) {
         this.listener = listener;
+    }
+
+    public OnBtnClickListener getBtnClickListener() {
+        return btnClickListener;
+    }
+
+    public void setBtnClickListener(OnBtnClickListener btnClickListener) {
+        this.btnClickListener = btnClickListener;
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
@@ -122,5 +140,9 @@ public class OrderPageAdapter extends RecyclerView.Adapter<OrderPageAdapter.View
             this.btn3 = (Button) rootView.findViewById(R.id.btn3);
         }
 
+    }
+
+    public interface OnBtnClickListener {
+        public void onClick(Object data, int position, int id);
     }
 }

@@ -77,6 +77,12 @@ public class SellerDetailFragment extends Fragment {
         setShopData();
         setManageData();
         setServiceData();
+        complaintBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ComplaintSellerActivity.startAction(getActivity());
+            }
+        });
         return view;
     }
 
