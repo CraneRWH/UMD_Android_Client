@@ -18,5 +18,14 @@ public class Constants {
 
     public static final int REQUEST_CODE_CAMERA = 0x01;
     public static final int REQUEST_CODE_STORE = 0x02;
+
+    //我要合作拍照
+    public static final int REQUEST_LICENSE = 0x10;//营业执照
+    public static final int REQUEST_ID_X = 0x11;//身份证正面
+    public static final int REQUEST_ID_Y = 0x12;//身份证反面
+    public static final int REQUEST_HYGIENE = 0x13;//卫生许可证
+    public static final int REQUEST_OTHER1 = 0x14;//其他证
+    public static final int REQUEST_OTHER2 = 0x15;//其他证
+
     public static final String GES_KEY = "GES_KEY";
 }

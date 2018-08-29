@@ -18,6 +18,7 @@ import com.squareup.picasso.Picasso;
 import com.ymd.client.R;
 import com.ymd.client.UApplication;
 import com.ymd.client.common.base.BaseActivity;
+import com.ymd.client.component.widget.dialog.CommonDialogs;
 import com.ymd.client.component.widget.takephoto.app.TakePhoto;
 import com.ymd.client.component.widget.takephoto.app.TakePhotoImpl;
 import com.ymd.client.component.widget.takephoto.model.InvokeParam;
@@ -69,8 +70,32 @@ public class CooperationActivity extends BaseActivity implements TakePhoto.TakeR
     @BindView(R.id.cooperation_choose_license_tv)
     TextView mTxtLicense;
 
-    private final String[] PERMISSIONS = new String[]{Manifest.permission.READ_EXTERNAL_STORAGE
-            , Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.READ_CALENDAR, Manifest.permission.CAMERA};
+    @BindView(R.id.cooperation_choose_id_x)
+    ImageView mIvIdX;
+    @BindView(R.id.cooperation_choose_id_x_tv)
+    TextView mTxtIdX;
+
+    @BindView(R.id.cooperation_choose_id_y)
+    ImageView mIvIdY;
+    @BindView(R.id.cooperation_choose_id_y_tv)
+    TextView mTxtIdY;
+
+    @BindView(R.id.cooperation_choose_hygiene_iv)
+    ImageView mIvHygiene;
+    @BindView(R.id.cooperation_choose_hygiene_tv)
+    TextView mTxtHygiene;
+
+    @BindView(R.id.cooperation_choose_other1_iv)
+    ImageView mIvOther1;
+    @BindView(R.id.cooperation_choose_other1_tv)
+    TextView mTxtOther1;
+
+    @BindView(R.id.cooperation_choose_other2_iv)
+    ImageView mIvOther2;
+    @BindView(R.id.cooperation_choose_other2_tv)
+    TextView mTxtOther2;
+
+    private int tempCode = 0;//拍照请求码
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -137,8 +162,9 @@ public class CooperationActivity extends BaseActivity implements TakePhoto.TakeR
         mLayoutHygiene.setLayoutParams(params);
         mLayoutOther1.setLayoutParams(params);
 
-        applyPermissions();
-
+        /**
+         * 先创建文件夹，默认开启权限了
+         */
         initDir();
     }
 
@@ -158,10 +184,12 @@ public class CooperationActivity extends BaseActivity implements TakePhoto.TakeR
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         switch (requestCode) {
-            case Constants.REQUEST_CODE_STORE:
+            case Constants.REQUEST_CODE_CAMERA:
                 if (PermissionUtils.isPermissionRequestSuccess(grantResults)) {
                     // 权限申请成功
+                    applyPermissions();
                 } else {
+                    tempCode = 0;
                     showReqPermissionsDialog();
                 }
                 break;
@@ -207,42 +235,80 @@ public class CooperationActivity extends BaseActivity implements TakePhoto.TakeR
         switch (view.getId()) {
             case R.id.cooperation_choose_license:
                 //营业执照
-                customHelper.onClick(takePhoto);
+                tempCode = Constants.REQUEST_LICENSE;
                 break;
             case R.id.cooperation_choose_identify_x:
                 //身份证正面
+                tempCode = Constants.REQUEST_ID_X;
                 break;
             case R.id.cooperation_choose_identify_y:
                 //身份证反面
+                tempCode = Constants.REQUEST_ID_Y;
                 break;
             case R.id.cooperation_choose_hygiene:
                 //卫生许可证
+                tempCode = Constants.REQUEST_HYGIENE;
                 break;
             case R.id.cooperation_choose_other1:
                 //其他证
+                tempCode = Constants.REQUEST_OTHER1;
                 break;
             case R.id.cooperation_choose_other2:
                 //其他证
+                tempCode = Constants.REQUEST_OTHER2;
                 break;
         }
+        /**
+         * 先申请权限
+         */
+        applyPermissions();
     }
 
     @Override
     public void takeSuccess(TResult result) {
-        Log.e(TAG, "takeSuccess：" + result.getImage().getCompressPath());
+        switch (tempCode) {
+            case Constants.REQUEST_LICENSE:
+                //营业执照
+                handlePhotoReult(mIvLicense, mTxtLicense, result.getImage().getCompressPath());
+                break;
+            case Constants.REQUEST_ID_X:
+                //身份证正面
+                handlePhotoReult(mIvIdX, mTxtIdX, result.getImage().getCompressPath());
+                break;
+            case Constants.REQUEST_ID_Y:
+                //身份证反面
+                handlePhotoReult(mIvIdY, mTxtIdY, result.getImage().getCompressPath());
+                break;
+            case Constants.REQUEST_HYGIENE:
+                //卫生许可证
+                handlePhotoReult(mIvHygiene, mTxtHygiene, result.getImage().getCompressPath());
+                break;
+            case Constants.REQUEST_OTHER1:
+                //其他证
+                handlePhotoReult(mIvOther1, mTxtOther1, result.getImage().getCompressPath());
+                break;
+            case Constants.REQUEST_OTHER2:
+                //其他证
+                handlePhotoReult(mIvOther2, mTxtOther2, result.getImage().getCompressPath());
+                break;
+        }
+    }
 
-        Picasso.with(this).load(new File(result.getImage().getCompressPath())).into(mIvLicense);
-        mTxtLicense.setVisibility(View.GONE);
+    void handlePhotoReult(ImageView iv, TextView tv, String url) {
+        tempCode = 0;
+        Picasso.with(this).load(new File(url)).into(iv);
+        tv.setVisibility(View.GONE);
+        iv.setTag(url);
     }
 
     @Override
     public void takeFail(TResult result, String msg) {
-        Log.e(TAG, "takeFail：" + msg);
+        tempCode = 0;
     }
 
     @Override
     public void takeCancel() {
-
+        tempCode = 0;
     }
 
     @Override
@@ -254,27 +320,45 @@ public class CooperationActivity extends BaseActivity implements TakePhoto.TakeR
         return type;
     }
 
-
+    /**
+     * 申请权限
+     */
     private void applyPermissions() {
-        PermissionUtils.checkAndRequestMorePermissions(this, PERMISSIONS, Constants.REQUEST_CODE_STORE, new PermissionUtils.PermissionRequestSuccessCallBack() {
+        PermissionUtils.checkPermission(this, Manifest.permission.CAMERA,
+                new PermissionUtils.PermissionCheckCallBack() {
+                    @Override
+                    public void onHasPermission() {
+                        customHelper.onClick(takePhoto);
+                    }
 
-            @Override
-            public void onHasPermission() {
+                    @Override
+                    public void onUserHasAlreadyTurnedDown(String... permission) {
+                        showReqPermissionsDialog();
+                    }
 
-            }
-        });
+                    @Override
+                    public void onUserHasAlreadyTurnedDownAndDontAsk(String... permission) {
+                        PermissionUtils.requestPermission(CooperationActivity.this, Manifest.permission.CAMERA, Constants.REQUEST_CODE_CAMERA);
+                    }
+                });
     }
 
     /**
      * 随便的弹框
      */
     private void showReqPermissionsDialog() {
-//        showCommonDialogs("申请权限", "需要读写SD卡权限才能实现功能，请转到应用的设置界面，请开启应用的相关权限。", "前往", "取消", new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {
-//                PermissionUtils.toAppSetting(CooperationActivity.this);
-//            }
-//        }, null);
+        CommonDialogs.showSelectDialog(this, "申请权限", "拍照需要开启相机权限才能实现功能，请转到应用的设置界面，请开启应用的相关权限。", "前往", "取消",
+                new CommonDialogs.DialogClickListener() {
+                    @Override
+                    public void confirm() {
+                        PermissionUtils.toAppSetting(CooperationActivity.this);
+                    }
+
+                    @Override
+                    public void cancel() {
+
+                    }
+                });
     }
 
     /**

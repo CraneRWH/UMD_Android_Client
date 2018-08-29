@@ -1,6 +1,7 @@
 package com.ymd.client.component.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,10 +12,14 @@ import android.widget.LinearLayout;
 
 import com.ymd.client.R;
 import com.ymd.client.common.base.OnUMDItemClickListener;
+import com.ymd.client.component.activity.mine.evaluation.AddEvaluationActivity;
 import com.ymd.client.utils.ScreenUtil;
 
 import java.util.List;
 import java.util.Map;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class MyRateAdapter extends RecyclerView.Adapter<MyRateAdapter.ViewHolder> {
 
@@ -22,6 +27,16 @@ public class MyRateAdapter extends RecyclerView.Adapter<MyRateAdapter.ViewHolder
     private Context mContext;
 
     private OnUMDItemClickListener listener;
+
+    private View.OnClickListener mButtonListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            int position = (int) v.getTag();
+            Map<String, Object> bean = datas.get(position);
+
+            mContext.startActivity(new Intent(mContext, AddEvaluationActivity.class));
+        }
+    };
 
     public MyRateAdapter(List<Map<String, Object>> datas, Context mContext) {
         this.datas = datas;
@@ -39,14 +54,17 @@ public class MyRateAdapter extends RecyclerView.Adapter<MyRateAdapter.ViewHolder
     public void onBindViewHolder(ViewHolder holder, int position) {
         Map<String, Object> data = datas.get(position);
 
-        int width =(ScreenUtil.getScreenWidthPix(mContext) - ScreenUtil.dip2px(mContext, 88))/3;
+        int width = (ScreenUtil.getScreenWidthPix(mContext) - ScreenUtil.dip2px(mContext, 88)) / 3;
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(width, width);
         holder.mImg3.setLayoutParams(params);
 
-        params.rightMargin = ScreenUtil.dip2px(mContext,9);
+        params.rightMargin = ScreenUtil.dip2px(mContext, 9);
         holder.mImg1.setLayoutParams(params);
         holder.mImg2.setLayoutParams(params);
 
+        //追加评价
+        holder.mAddEva.setTag(position);
+        holder.mAddEva.setOnClickListener(mButtonListener);
     }
 
     @Override
@@ -64,21 +82,22 @@ public class MyRateAdapter extends RecyclerView.Adapter<MyRateAdapter.ViewHolder
 
     static class ViewHolder extends RecyclerView.ViewHolder {
 
+        @BindView(R.id.my_rate_img)
         GridLayout gridLayout;
 
+        @BindView(R.id.item_my_rate_img1)
         ImageView mImg1;
+        @BindView(R.id.item_my_rate_img2)
         ImageView mImg2;
+        @BindView(R.id.item_my_rate_img3)
         ImageView mImg3;
+
+        @BindView(R.id.item_my_rate_add_eva)
+        View mAddEva;//追加评价
 
         public ViewHolder(View rootView) {
             super(rootView);
-
-            gridLayout = rootView.findViewById(R.id.my_rate_img);
-
-            mImg1 = rootView.findViewById(R.id.item_my_rate_img1);
-            mImg2 = rootView.findViewById(R.id.item_my_rate_img2);
-            mImg3 = rootView.findViewById(R.id.item_my_rate_img3);
-
+            ButterKnife.bind(this, rootView);
         }
     }
 }

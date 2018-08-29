@@ -73,7 +73,7 @@
                 android:id="@+id/fragment_setting"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:src="@mipmap/icon_mine_setting" />
+                android:src="@mipmap/icon_me_set" />
         </LinearLayout>
 
         <LinearLayout
@@ -89,7 +89,7 @@
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:src="@mipmap/icon_mine_ub" />
+                android:src="@mipmap/icon_me_gold" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -110,10 +110,7 @@
                 android:textColor="@color/bg_header"
                 android:textSize="@dimen/text_size_32px" />
 
-            <ImageView
-                android:layout_width="18dp"
-                android:layout_height="18dp"
-                android:src="@mipmap/icon_mine_arrow" />
+            <ImageView style="@style/default_arrow_right"/>
 
         </LinearLayout>
 
@@ -131,7 +128,7 @@
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:src="@mipmap/icon_mine_ub" />
+                android:src="@mipmap/icon_me_collect" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -142,10 +139,7 @@
                 android:textColor="@color/common_text_color"
                 android:textSize="@dimen/text_size_32px" />
 
-            <ImageView
-                android:layout_width="18dp"
-                android:layout_height="18dp"
-                android:src="@mipmap/icon_mine_arrow" />
+            <ImageView style="@style/default_arrow_right"/>
         </LinearLayout>
 
         <LinearLayout
@@ -175,7 +169,7 @@
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:src="@mipmap/icon_mine_ub" />
+                android:src="@mipmap/icon_me_evaluate" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -186,10 +180,7 @@
                 android:textColor="@color/common_text_color"
                 android:textSize="@dimen/text_size_32px" />
 
-            <ImageView
-                android:layout_width="18dp"
-                android:layout_height="18dp"
-                android:src="@mipmap/icon_mine_arrow" />
+            <ImageView style="@style/default_arrow_right"/>
         </LinearLayout>
 
         <LinearLayout
@@ -219,7 +210,7 @@
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:src="@mipmap/icon_mine_ub" />
+                android:src="@mipmap/icon_me_ticket" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -230,10 +221,7 @@
                 android:textColor="@color/common_text_color"
                 android:textSize="@dimen/text_size_32px" />
 
-            <ImageView
-                android:layout_width="18dp"
-                android:layout_height="18dp"
-                android:src="@mipmap/icon_mine_arrow" />
+            <ImageView style="@style/default_arrow_right"/>
         </LinearLayout>
 
         <LinearLayout
@@ -263,7 +251,7 @@
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:src="@mipmap/icon_mine_ub" />
+                android:src="@mipmap/icon_me_service" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -274,10 +262,7 @@
                 android:textColor="@color/common_text_color"
                 android:textSize="@dimen/text_size_32px" />
 
-            <ImageView
-                android:layout_width="18dp"
-                android:layout_height="18dp"
-                android:src="@mipmap/icon_mine_arrow" />
+            <ImageView style="@style/default_arrow_right"/>
         </LinearLayout>
 
         <LinearLayout
@@ -294,7 +279,7 @@
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:src="@mipmap/icon_mine_ub" />
+                android:src="@mipmap/icon_me_card" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -305,10 +290,7 @@
                 android:textColor="@color/common_text_color"
                 android:textSize="@dimen/text_size_32px" />
 
-            <ImageView
-                android:layout_width="18dp"
-                android:layout_height="18dp"
-                android:src="@mipmap/icon_mine_arrow" />
+            <ImageView style="@style/default_arrow_right"/>
         </LinearLayout>
 
         <LinearLayout
@@ -338,7 +320,7 @@
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:src="@mipmap/icon_mine_ub" />
+                android:src="@mipmap/icon_me_gift" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -349,10 +331,7 @@
                 android:textColor="@color/common_text_color"
                 android:textSize="@dimen/text_size_32px" />
 
-            <ImageView
-                android:layout_width="18dp"
-                android:layout_height="18dp"
-                android:src="@mipmap/icon_mine_arrow" />
+            <ImageView style="@style/default_arrow_right"/>
         </LinearLayout>
 
         <LinearLayout
@@ -382,7 +361,7 @@
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:src="@mipmap/icon_mine_ub" />
+                android:src="@mipmap/icon_me_cooperation" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -393,10 +372,7 @@
                 android:textColor="@color/common_text_color"
                 android:textSize="@dimen/text_size_32px" />
 
-            <ImageView
-                android:layout_width="18dp"
-                android:layout_height="18dp"
-                android:src="@mipmap/icon_mine_arrow" />
+            <ImageView style="@style/default_arrow_right"/>
         </LinearLayout>
     </LinearLayout>
 </ScrollView>

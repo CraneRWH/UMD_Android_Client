@@ -23,7 +23,7 @@
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:src="@mipmap/icon_collaborate_banner" />
+                android:background="@mipmap/icon_collaborate_banner" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -194,6 +194,7 @@
                         android:src="@mipmap/icon_collaborate_camera" />
 
                     <TextView
+                        android:id="@+id/cooperation_choose_id_x_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/mar_pad_len_10px"
@@ -216,6 +217,7 @@
                         android:src="@mipmap/icon_collaborate_camera" />
 
                     <TextView
+                        android:id="@+id/cooperation_choose_id_y_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/mar_pad_len_10px"
@@ -250,6 +252,7 @@
                         android:src="@mipmap/icon_collaborate_camera" />
 
                     <TextView
+                        android:id="@+id/cooperation_choose_hygiene_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/cooperation_choose_license"
@@ -275,6 +278,7 @@
                         android:src="@mipmap/icon_collaborate_camera" />
 
                     <TextView
+                        android:id="@+id/cooperation_choose_other1_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/mar_pad_len_10px"
@@ -291,12 +295,13 @@
                     android:orientation="vertical">
 
                     <ImageView
-                        android:id="@+id/cooperation_choose_other_iv2"
+                        android:id="@+id/cooperation_choose_other2_iv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:src="@mipmap/icon_collaborate_camera" />
 
                     <TextView
+                        android:id="@+id/cooperation_choose_other2_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/mar_pad_len_10px"

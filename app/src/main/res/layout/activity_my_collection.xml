@@ -18,7 +18,7 @@
         <com.ymd.client.component.widget.icindicator.MagicIndicator
             android:id="@+id/my_collection_indicator"
             android:layout_width="wrap_content"
-            android:layout_height="@dimen/mar_pad_len_88px" />
+            android:layout_height="@dimen/mar_pad_len_72px" />
     </LinearLayout>
 
     <View
