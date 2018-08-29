@@ -61,4 +61,8 @@
     <string name="selected">已选</string>
     <string name="limit_exceeded">最多能选 %d 张</string>
 
+    <string name="pointMessage">温馨提示</string>
+    <string name="cancel">取消</string>
+    <string name="sure">我知道了</string>
+    <string name="ok">确定</string>
 </resources>

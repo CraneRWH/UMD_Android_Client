@@ -8,4 +8,36 @@
         <item name="android:textColor">@color/white</item>
         <item name="android:textSize">16sp</item>
     </style>
+
+    <!-- Dialog样式 -->
+    <style name="DialogStyle" parent="@android:style/Theme.Dialog">
+        <item name="android:windowFrame">@null</item>
+        <!-- 边框 -->
+        <item name="android:windowIsFloating">true</item>
+        <!-- 是否浮现在activity之上 -->
+        <item name="android:windowIsTranslucent">false</item>
+        <!-- 半透明 -->
+        <item name="android:windowNoTitle">true</item>
+        <!-- 无标题 -->
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowContentOverlay">@null</item>
+    </style>
+    <style name="dialogAnim" parent="android:Animation">
+        <item name="android:windowEnterAnimation">@anim/dialog_show</item>
+        <item name="android:windowExitAnimation">@anim/dialog_dismiss</item>
+    </style>
+
+    <style name="divider_horizontal">
+        <!-- 水平分割线 -->
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">0.1dp</item>
+        <item name="android:background">@color/common_color_gray_bg</item>
+    </style>
+
+    <style name="divider_vertical">
+        <!-- 垂直分割线 -->
+        <item name="android:layout_width">0.1dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:background">@color/common_color_gray_bg</item>
+    </style>
 </resources>

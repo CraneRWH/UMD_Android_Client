@@ -37,8 +37,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
-
 /**
  * 我的-我要合作
  */
@@ -72,7 +70,7 @@ public class CooperationActivity extends BaseActivity implements TakePhoto.TakeR
     TextView mTxtLicense;
 
     private final String[] PERMISSIONS = new String[]{Manifest.permission.READ_EXTERNAL_STORAGE
-            , Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.READ_CALENDAR,Manifest.permission.CAMERA};
+            , Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.READ_CALENDAR, Manifest.permission.CAMERA};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -279,14 +277,33 @@ public class CooperationActivity extends BaseActivity implements TakePhoto.TakeR
 //        }, null);
     }
 
+    /**
+     * 创建保存应用数据的包名文件夹
+     * temp 拍照临时文件夹
+     * cache 裁剪图片的文件夹
+     */
     private void initDir() {
-        File file = new File(Environment.getExternalStorageDirectory()
-                .getAbsolutePath() + UApplication.getGobalApplication().getPackageName());
-
+        File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath() +
+                File.separator + UApplication.getGobalApplication().getPackageName());
         File dirFile = new File(file.getAbsolutePath());
+
+        File fileTemp = new File(Environment.getExternalStorageDirectory() + File.separator
+                + UApplication.getGobalApplication().getPackageName() + File.separator + "temp");
+
+        File fileCache = new File(Environment.getExternalStorageDirectory() + File.separator
+                + UApplication.getGobalApplication().getPackageName() + File.separator + "cache");
+
+        //包名文件夹
         if (!dirFile.exists()) {
             dirFile.mkdirs();
-        } else {
+        }
+        //拍照临时文件夹
+        if (!fileTemp.exists()) {
+            fileTemp.mkdirs();
+        }
+        //裁剪图片的文件夹
+        if (!fileCache.exists()) {
+            fileCache.mkdirs();
         }
     }
 }

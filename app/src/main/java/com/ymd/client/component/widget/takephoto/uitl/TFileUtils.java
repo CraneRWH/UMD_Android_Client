@@ -4,6 +4,8 @@ import android.content.Context;
 import android.os.Environment;
 import android.util.Log;
 
+import com.ymd.client.UApplication;
+
 import java.io.File;
 
 /**
@@ -16,13 +18,14 @@ import java.io.File;
  */
 public class TFileUtils {
     private static final String TAG = "TFileUtils";
-    private static String DEFAULT_DISK_CACHE_DIR = "ymd_cache";
+   // private static String DEFAULT_DISK_CACHE_DIR = "ymd_cache";
 
     public static File getPhotoCacheDir(Context context, File file) {
         //File cacheDir = context.getCacheDir();
-        File cacheDir = Environment.getExternalStorageDirectory();
+        String cacheDir = Environment.getExternalStorageDirectory() + File.separator
+                + UApplication.getGobalApplication().getPackageName() + File.separator + "cache";
         if (cacheDir != null) {
-            File mCacheDir = new File(cacheDir, DEFAULT_DISK_CACHE_DIR);
+            File mCacheDir = new File(cacheDir);
             if (!mCacheDir.mkdirs() && (!mCacheDir.exists() || !mCacheDir.isDirectory())) {
                 return file;
             } else {

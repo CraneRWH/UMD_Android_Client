@@ -11,6 +11,7 @@ import android.support.v4.content.FileProvider;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.ymd.client.UApplication;
 import com.ymd.client.component.widget.takephoto.model.TException;
 import com.ymd.client.component.widget.takephoto.model.TExceptionType;
 
@@ -55,7 +56,9 @@ public class TUriParse {
      */
     public static Uri getTempUri(Context context) {
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
-        File file = new File(Environment.getExternalStorageDirectory(), "/temp/" + timeStamp + ".jpg");
+        File file = new File(Environment.getExternalStorageDirectory() + File.separator
+                + UApplication.getGobalApplication().getPackageName() + File.separator + "temp",
+                timeStamp + ".jpg");
         if (!file.getParentFile().exists()) {
             file.getParentFile().mkdirs();
         }
