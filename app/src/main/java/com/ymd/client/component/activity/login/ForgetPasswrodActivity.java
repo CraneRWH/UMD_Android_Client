@@ -8,7 +8,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -23,12 +22,12 @@ import butterknife.ButterKnife;
 /**
  * 包名:com.ymd.client.component.activity.login
  * 类名:
- * 时间:2018/8/21 0021Time:16:08
+ * 时间:2018/8/29 0021Time:16:08
  * 作者:荣维鹤
- * 功能简介: 注册
+ * 功能简介: 忘记密码
  * 修改历史:
  */
-public class RegisterActivity extends BaseActivity {
+public class ForgetPasswrodActivity extends BaseActivity {
 
     @BindView(R.id.mobileNumber)
     EditText mobileNumber;
@@ -38,34 +37,29 @@ public class RegisterActivity extends BaseActivity {
     TextView mobileCodeBtn;
     @BindView(R.id.password_et)
     EditText passwordEt;
-    @BindView(R.id.invite_code_et)
-    EditText inviteCodeEt;
-    @BindView(R.id.agree_cb)
-    CheckBox agreeCb;
     @BindView(R.id.login_btn)
     Button loginBtn;
-    @BindView(R.id.to_login_btn)
-    TextView toLoginBtn;
 
     /**
      * 启动
      * @param context
      */
     public static void startAction(Activity context) {
-        Intent intent = new Intent(context, RegisterActivity.class);
+        Intent intent = new Intent(context, ForgetPasswrodActivity.class);
         context.startActivity(intent);
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_register);
+        setContentView(R.layout.activity_forget_passwrod);
         ButterKnife.bind(this);
         initView();
     }
 
+
     private void initView() {
-        setTitle("注册");
+        setTitle("忘记密码");
         setStatusBar(R.color.bg_header);
         mobileCodeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -77,12 +71,6 @@ public class RegisterActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 submit();
-            }
-        });
-        toLoginBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                LoginActivity.startAction(RegisterActivity.this);
             }
         });
     }

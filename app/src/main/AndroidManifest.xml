@@ -95,7 +95,8 @@
             android:theme="@style/AppTheme" />
         <activity android:name=".component.activity.homePage.food.seller.CommentSellerActivity" />
         <activity android:name=".component.activity.homePage.food.seller.ComplaintSellerActivity" />
-        <activity android:name=".component.activity.homePage.search.SearchActivity"></activity>
+        <activity android:name=".component.activity.homePage.search.SearchActivity" />
+        <activity android:name=".component.activity.login.ForgetPasswrodActivity"></activity>
     </application>
 
 </manifest>

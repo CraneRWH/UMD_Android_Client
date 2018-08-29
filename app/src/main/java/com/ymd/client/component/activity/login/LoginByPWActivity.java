@@ -73,7 +73,7 @@ public class LoginByPWActivity extends BaseActivity {
         forgetPasswordBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                ForgetPasswrodActivity.startAction(LoginByPWActivity.this);
             }
         });
     }
