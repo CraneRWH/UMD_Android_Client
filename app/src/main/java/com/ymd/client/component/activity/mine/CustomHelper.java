@@ -3,10 +3,10 @@ package com.ymd.client.component.activity.mine;
 import android.net.Uri;
 import android.os.Environment;
 
+import com.ymd.client.UApplication;
 import com.ymd.client.component.widget.takephoto.app.TakePhoto;
 import com.ymd.client.component.widget.takephoto.compress.CompressConfig;
 import com.ymd.client.component.widget.takephoto.model.CropOptions;
-import com.ymd.client.component.widget.takephoto.model.LubanOptions;
 import com.ymd.client.component.widget.takephoto.model.TakePhotoOptions;
 
 import java.io.File;
@@ -41,7 +41,9 @@ public class CustomHelper {
     }
 
     public void onClick(TakePhoto takePhoto) {
-        File file = new File(Environment.getExternalStorageDirectory(), "/ymd_temp/" + System.currentTimeMillis() + ".jpg");
+        File file = new File(Environment.getExternalStorageDirectory() + File.separator
+                + UApplication.getGobalApplication().getPackageName() + File.separator + "temp",
+                System.currentTimeMillis() + ".jpg");
         if (!file.getParentFile().exists()) {
             file.getParentFile().mkdirs();
         }
