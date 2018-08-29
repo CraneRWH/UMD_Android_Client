@@ -17,6 +17,7 @@ import com.ymd.client.common.base.OnUMDItemClickListener;
 import com.ymd.client.common.base.fragment.PageFragment;
 import com.ymd.client.component.activity.homePage.food.seller.CommentSellerActivity;
 import com.ymd.client.component.activity.order.detail.OrderDetailActivity;
+import com.ymd.client.component.activity.order.pay.OrderPayActivity;
 import com.ymd.client.component.adapter.MySimpleAdapter;
 import com.ymd.client.component.adapter.order.OrderPageAdapter;
 import com.ymd.client.utils.ToolUtil;
@@ -66,6 +67,8 @@ public class OrderPageFragment extends Fragment {
             public void onClick(Object data, int position, int id) {
                 if (id == R.id.btn3) {
                     CommentSellerActivity.startAction(getActivity());
+                } else if (id == R.id.btn2) {
+                    OrderPayActivity.startAction(getActivity());
                 }
             }
         });

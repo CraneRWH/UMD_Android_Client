@@ -89,8 +89,7 @@
         <activity android:name=".component.activity.mine.config.AlterGesActivity" />
         <activity android:name=".component.widget.takephoto.app.TakePhotoActivity" />
         <activity android:name="com.soundcloud.android.crop.CropImageActivity" />
-        <activity android:name=".component.activity.mine.evaluation.AddEvaluationActivity"/>
-
+        <activity android:name=".component.activity.mine.evaluation.AddEvaluationActivity" />
         <activity
             android:name=".component.activity.homePage.food.seller.SellerDetailActivity"
             android:label="@string/title_activity_seller_detail"
@@ -98,7 +97,9 @@
         <activity android:name=".component.activity.homePage.food.seller.CommentSellerActivity" />
         <activity android:name=".component.activity.homePage.food.seller.ComplaintSellerActivity" />
         <activity android:name=".component.activity.homePage.search.SearchActivity" />
-        <activity android:name=".component.activity.login.ForgetPasswrodActivity"></activity>
+        <activity android:name=".component.activity.login.ForgetPasswrodActivity" />
+        <activity android:name=".component.activity.order.pay.OrderPayActivity" />
+        <activity android:name=".component.activity.order.pay.OrderPayResultActivity"></activity>
     </application>
 
 </manifest>

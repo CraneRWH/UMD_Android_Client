@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.ymd.client.R;
 import com.ymd.client.common.base.BaseActivity;
 import com.ymd.client.component.activity.order.OrderPageFragment;
+import com.ymd.client.component.activity.order.pay.OrderPayActivity;
 import com.ymd.client.component.adapter.AppFragmentPageAdapter;
 import com.ymd.client.component.widget.other.MyChooseItemView;
 
@@ -60,7 +61,6 @@ public class OrderDetailActivity extends BaseActivity {
 
     /**
      * 启动
-     *
      * @param context
      */
     public static void startAction(Activity context) {
@@ -90,6 +90,13 @@ public class OrderDetailActivity extends BaseActivity {
         textViewList.add(chooseItem2);
         viewPagerListener();
         chooseItem(0);
+
+        submitBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                OrderPayActivity.startAction(OrderDetailActivity.this);
+            }
+        });
     }
 
     /**
