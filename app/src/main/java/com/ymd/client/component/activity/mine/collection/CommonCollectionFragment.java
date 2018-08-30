@@ -1,47 +1,52 @@
-package com.ymd.client.component.activity.mine.ub;
-
+package com.ymd.client.component.activity.mine.collection;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.ymd.client.R;
-import com.ymd.client.common.base.OnUMDItemClickListener;
 import com.ymd.client.component.adapter.CommonRecyclerAdapter;
-import com.ymd.client.component.adapter.UbFragmentAdapter;
+import com.ymd.client.component.adapter.MyRateAdapter;
 import com.ymd.client.component.widget.zrecyclerview.ProgressStyle;
 import com.ymd.client.component.widget.zrecyclerview.ZRecyclerView;
 import com.ymd.client.utils.ToastUtil;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-/**
- * 首页-我的U币-支出
- */
-public class UbOutFragment extends Fragment {
+public class CommonCollectionFragment extends Fragment {
 
     View mView;
     @BindView(R.id.ubfragment_recycle_view)
     ZRecyclerView recyclerView;
     @BindView(R.id.ubfragment_recycler_empty)
-    View mEmptyView;
+    ImageView mEmptyView;
 
-    UbFragmentAdapter mAdapter;
-
+    MyRateAdapter mAdapter;
     int page = 1;
+
+    int currentPosition = 0;
+
+    public CommonCollectionFragment() {
+    }
+
+    public static final Fragment newInstance(int position) {
+        CommonCollectionFragment fragment = new CommonCollectionFragment();
+        Bundle bundle = new Bundle();
+        bundle.putInt("position", position);
+        fragment.setArguments(bundle);
+        return fragment;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -51,6 +56,7 @@ public class UbOutFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        currentPosition = (int) getArguments().get("position");
         if (mView != null) {
             ViewGroup parent = (ViewGroup) mView.getParent();
             if (parent != null) {
@@ -62,17 +68,20 @@ public class UbOutFragment extends Fragment {
         }
         ButterKnife.bind(this, mView);
         initView();
+
+        loadData();
         return mView;
     }
 
     private void initView() {
         recyclerView.setLayoutManager(
                 new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
-        DividerItemDecoration divider = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
-        divider.setDrawable(ContextCompat.getDrawable(getContext(), R.drawable.default_recyclerview_divider));
+
+        DividerItemDecoration divider = new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL);
+        divider.setDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.default_recyclerview_divider));
         recyclerView.addItemDecoration(divider);
 
-        mAdapter = new UbFragmentAdapter(getContext());
+        mAdapter = new MyRateAdapter(getContext());
         mAdapter.setOnItemClickListener(new CommonRecyclerAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
@@ -95,49 +104,27 @@ public class UbOutFragment extends Fragment {
                 refreshList(getDataList());
             }
         });
+    }
 
+
+    private void loadData() {
         refreshList(getDataList());
     }
 
-    protected List<Map<String, Object>> getDataList() {
-
-        List<Map<String, Object>> list = new ArrayList<>();
-        Map<String, Object> map = new HashMap<>();
-        List<Map<String, Object>> productList = new ArrayList<>();
-        Map<String, Object> product = new HashMap<>();
-        product.put("name", "麻辣烫");
-        product.put("num", 2);
-        productList.add(product);
-        map.put("name", "麻辣烫");
-        map.put("statusName", "订单已完成");
-        map.put("status", 3);
-        map.put("u_money", 20);
-        map.put("product_list", productList);
-        map.put("all_num", 2);
-        map.put("money", 30);
-        list.add(map);
-
-        map = new HashMap<>();
-        productList = new ArrayList<>();
-        product = new HashMap<>();
-        product.put("name", "麻辣烫");
-        product.put("num", 2);
-        productList.add(product);
-        product.put("name", "麻辣烫");
-        product.put("num", 2);
-        productList.add(product);
-        map.put("name", "朝鲜面");
-        map.put("statusName", "订单已提交");
-        map.put("status", 1);
-        map.put("u_money", 20);
-        map.put("product_list", productList);
-        map.put("all_num", 4);
-        map.put("money", 30);
-        list.add(map);
+    protected List<String> getDataList() {
+        List<String> list = new ArrayList<>();
+        list.add(String.valueOf(currentPosition));
+        list.add(String.valueOf(currentPosition));
+        list.add(String.valueOf(currentPosition));
+        list.add(String.valueOf(page));
+        list.add(String.valueOf(page));
+        list.add(String.valueOf(page));
+        list.add(String.valueOf(page));
         return list;
     }
 
-    public void refreshList(List<Map<String, Object>> beans) {
+    public void refreshList(List<String> beans) {
+        Log.d("loadData",String.valueOf(currentPosition));
         if (beans == null || beans.size() == 0) {
             recyclerView.loadMoreComplete();
             recyclerView.refreshComplete();
@@ -158,5 +145,10 @@ public class UbOutFragment extends Fragment {
             mEmptyView.setVisibility(View.GONE);
             recyclerView.setVisibility(View.VISIBLE);
         }
+    }
+
+    public void showError(String msg) {
+        recyclerView.loadMoreComplete();
+        recyclerView.refreshComplete();
     }
 }

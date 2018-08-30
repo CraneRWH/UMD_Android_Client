@@ -27,7 +27,7 @@
         android:background="@color/bg_common_gray" />
 
     <android.support.v4.view.ViewPager
-        android:id="@+id/my_collection_viewpager"
+        android:id="@+id/my_collection_fragment_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 </LinearLayout>

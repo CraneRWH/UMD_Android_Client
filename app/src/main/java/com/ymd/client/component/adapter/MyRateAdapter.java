@@ -3,56 +3,51 @@ package com.ymd.client.component.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.ymd.client.R;
-import com.ymd.client.common.base.OnUMDItemClickListener;
 import com.ymd.client.component.activity.mine.evaluation.AddEvaluationActivity;
 import com.ymd.client.utils.ScreenUtil;
-
-import java.util.List;
-import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MyRateAdapter extends RecyclerView.Adapter<MyRateAdapter.ViewHolder> {
-
-    private List<Map<String, Object>> datas;
-    private Context mContext;
-
-    private OnUMDItemClickListener listener;
+public class MyRateAdapter extends CommonRecyclerAdapter<String> {
 
     private View.OnClickListener mButtonListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             int position = (int) v.getTag();
-            Map<String, Object> bean = datas.get(position);
+            String bean = getContentList().get(position);
 
             mContext.startActivity(new Intent(mContext, AddEvaluationActivity.class));
         }
     };
 
-    public MyRateAdapter(List<Map<String, Object>> datas, Context mContext) {
-        this.datas = datas;
-        this.mContext = mContext;
+    public MyRateAdapter(Context mContext) {
+        super(mContext);
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_my_rate, parent, false);
-        ViewHolder holder = new ViewHolder(view);
-        return holder;
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = mLayoutInflater.inflate(R.layout.item_my_rate, parent,
+                false);
+        return new ViewHolder(view, mItemClickListener);
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
-        Map<String, Object> data = datas.get(position);
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        bindCouponListHolder((ViewHolder) holder, position);
+    }
+
+    private void bindCouponListHolder(ViewHolder holder, int position) {
+
+        String data = getContentList().get(position);
 
         int width = (ScreenUtil.getScreenWidthPix(mContext) - ScreenUtil.dip2px(mContext, 88)) / 3;
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(width, width);
@@ -65,19 +60,8 @@ public class MyRateAdapter extends RecyclerView.Adapter<MyRateAdapter.ViewHolder
         //追加评价
         holder.mAddEva.setTag(position);
         holder.mAddEva.setOnClickListener(mButtonListener);
-    }
-
-    @Override
-    public int getItemCount() {
-        return datas.size();
-    }
-
-    public OnUMDItemClickListener getListener() {
-        return listener;
-    }
-
-    public void setListener(OnUMDItemClickListener listener) {
-        this.listener = listener;
+        //名称
+        holder.mProjectName.setText(data);
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
@@ -95,7 +79,10 @@ public class MyRateAdapter extends RecyclerView.Adapter<MyRateAdapter.ViewHolder
         @BindView(R.id.item_my_rate_add_eva)
         View mAddEva;//追加评价
 
-        public ViewHolder(View rootView) {
+        @BindView(R.id.name_tv)
+        TextView mProjectName;
+
+        public ViewHolder(View rootView, CommonRecyclerAdapter.OnItemClickListener listener) {
             super(rootView);
             ButterKnife.bind(this, rootView);
         }

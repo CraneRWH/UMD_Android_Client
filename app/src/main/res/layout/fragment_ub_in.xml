@@ -8,35 +8,20 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/text_gray">
 
-        <LinearLayout
-            android:id="@+id/fragment_emptyLayout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center_horizontal"
-            android:orientation="vertical">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="120dp" />
-
-            <TextView
-                android:id="@id/emptyView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:gravity="center"
-                android:text="空"
-                android:textColor="@color/text_gray_dark"
-                android:textSize="@dimen/text_size_36px" />
-        </LinearLayout>
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recyclerView"
+        <com.ymd.client.component.widget.zrecyclerview.ZRecyclerView
+            android:id="@+id/ubfragment_recycle_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
-    </RelativeLayout>
 
+        <ImageView
+            android:id="@+id/ubfragment_recycler_empty"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:visibility="gone" />
+    </RelativeLayout>
 </LinearLayout>

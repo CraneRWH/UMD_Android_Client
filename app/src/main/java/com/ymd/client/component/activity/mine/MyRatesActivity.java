@@ -1,6 +1,8 @@
 package com.ymd.client.component.activity.mine;
 
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -9,9 +11,13 @@ import android.widget.TextView;
 import com.ymd.client.R;
 import com.ymd.client.common.base.BaseActivity;
 import com.ymd.client.common.base.OnUMDItemClickListener;
+import com.ymd.client.component.adapter.CommonRecyclerAdapter;
 import com.ymd.client.component.adapter.MyRateAdapter;
 import com.ymd.client.component.adapter.UbFragmentAdapter;
+import com.ymd.client.component.widget.zrecyclerview.ProgressStyle;
+import com.ymd.client.component.widget.zrecyclerview.ZRecyclerView;
 import com.ymd.client.utils.StatusBarUtils;
+import com.ymd.client.utils.ToastUtil;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -30,10 +36,12 @@ public class MyRatesActivity extends BaseActivity {
     TextView mTxtTitle;
 
     @BindView(R.id.my_rate_recyclerView)
-    RecyclerView recyclerView;
-
+    ZRecyclerView recyclerView;
     @BindView(R.id.my_rate_emptyLayout)
     View mEmptyView;
+
+    MyRateAdapter mAdapter;
+    int page = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,54 +66,78 @@ public class MyRatesActivity extends BaseActivity {
     }
 
     private void init() {
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(layoutManager);
-        MyRateAdapter adapter = new MyRateAdapter(getDataList(), this);
-        adapter.setListener(new OnUMDItemClickListener() {
+
+        recyclerView.setLayoutManager(
+                new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+
+        DividerItemDecoration divider = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
+        divider.setDrawable(ContextCompat.getDrawable(this, R.drawable.default_recyclerview_divider));
+        recyclerView.addItemDecoration(divider);
+
+        mAdapter = new MyRateAdapter(this);
+        mAdapter.setOnItemClickListener(new CommonRecyclerAdapter.OnItemClickListener() {
             @Override
-            public void onClick(Object data, View view, int position) {
-                // OrderDetailActivity.startAction(getActivity());
+            public void onItemClick(View view, int position) {
             }
         });
-        recyclerView.setAdapter(adapter);
-        mEmptyView.setVisibility(View.GONE);
+        recyclerView.setAdapter(mAdapter);
+        recyclerView.setRefreshProgressStyle(ProgressStyle.BallPulse);
+        recyclerView.setLoadingMoreProgressStyle(ProgressStyle.BallRotate);
+
+        recyclerView.setLoadingListener(new ZRecyclerView.LoadingListener() {
+            @Override
+            public void onRefresh() {
+                page = 1;
+                refreshList(getDataList());
+            }
+
+            @Override
+            public void onLoadMore() {
+                page++;
+                refreshList(getDataList());
+            }
+        });
+
+        refreshList(getDataList());
     }
 
-    protected List<Map<String, Object>> getDataList() {
-
-        List<Map<String, Object>> list = new ArrayList<>();
-        Map<String, Object> map = new HashMap<>();
-        List<Map<String, Object>> productList = new ArrayList<>();
-        Map<String, Object> product = new HashMap<>();
-        product.put("name", "麻辣烫");
-        product.put("num", 2);
-        productList.add(product);
-        map.put("name", "麻辣烫");
-        map.put("statusName", "订单已完成");
-        map.put("status", 3);
-        map.put("u_money", 20);
-        map.put("product_list", productList);
-        map.put("all_num", 2);
-        map.put("money", 30);
-        list.add(map);
-
-        map = new HashMap<>();
-        productList = new ArrayList<>();
-        product = new HashMap<>();
-        product.put("name", "麻辣烫");
-        product.put("num", 2);
-        productList.add(product);
-        product.put("name", "麻辣烫");
-        product.put("num", 2);
-        productList.add(product);
-        map.put("name", "朝鲜面");
-        map.put("statusName", "订单已提交");
-        map.put("status", 1);
-        map.put("u_money", 20);
-        map.put("product_list", productList);
-        map.put("all_num", 4);
-        map.put("money", 30);
-        list.add(map);
+    protected List<String> getDataList() {
+        List<String> list = new ArrayList<>();
+        list.add(String.valueOf(page));
+        list.add(String.valueOf(page));
+        list.add(String.valueOf(page));
+        list.add(String.valueOf(page));
+        list.add(String.valueOf(page));
+        list.add(String.valueOf(page));
+        list.add(String.valueOf(page));
         return list;
+    }
+
+    public void refreshList(List<String> beans) {
+        if (beans == null || beans.size() == 0) {
+            recyclerView.loadMoreComplete();
+            recyclerView.refreshComplete();
+            if (page == 1) {
+                mEmptyView.setVisibility(View.VISIBLE);
+                recyclerView.setVisibility(View.GONE);
+            } else {
+                ToastUtil.ToastMessage(this,"没有更多的数据了");
+            }
+        } else {
+            if (page == 1) {
+                mAdapter.addItems(beans);
+                recyclerView.refreshComplete();
+            } else {
+                recyclerView.loadMoreComplete();
+                mAdapter.appendItems(beans);
+            }
+            mEmptyView.setVisibility(View.GONE);
+            recyclerView.setVisibility(View.VISIBLE);
+        }
+    }
+
+    public void showError(String msg) {
+        recyclerView.loadMoreComplete();
+        recyclerView.refreshComplete();
     }
 }
