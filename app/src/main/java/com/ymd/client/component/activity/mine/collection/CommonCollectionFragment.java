@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.ymd.client.R;
+import com.ymd.client.component.adapter.CommonCollectionAdapter;
 import com.ymd.client.component.adapter.CommonRecyclerAdapter;
 import com.ymd.client.component.adapter.MyRateAdapter;
 import com.ymd.client.component.widget.zrecyclerview.ProgressStyle;
@@ -32,7 +33,7 @@ public class CommonCollectionFragment extends Fragment {
     @BindView(R.id.ubfragment_recycler_empty)
     ImageView mEmptyView;
 
-    MyRateAdapter mAdapter;
+    CommonCollectionAdapter mAdapter;
     int page = 1;
 
     int currentPosition = 0;
@@ -81,7 +82,7 @@ public class CommonCollectionFragment extends Fragment {
         divider.setDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.default_recyclerview_divider));
         recyclerView.addItemDecoration(divider);
 
-        mAdapter = new MyRateAdapter(getContext());
+        mAdapter = new CommonCollectionAdapter(getContext());
         mAdapter.setOnItemClickListener(new CommonRecyclerAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
@@ -124,7 +125,7 @@ public class CommonCollectionFragment extends Fragment {
     }
 
     public void refreshList(List<String> beans) {
-        Log.d("loadData",String.valueOf(currentPosition));
+        Log.d("loadData", String.valueOf(currentPosition));
         if (beans == null || beans.size() == 0) {
             recyclerView.loadMoreComplete();
             recyclerView.refreshComplete();
@@ -132,7 +133,7 @@ public class CommonCollectionFragment extends Fragment {
                 mEmptyView.setVisibility(View.VISIBLE);
                 recyclerView.setVisibility(View.GONE);
             } else {
-                ToastUtil.ToastMessage(getContext(),"没有更多的数据了");
+                ToastUtil.ToastMessage(getContext(), "没有更多的数据了");
             }
         } else {
             if (page == 1) {

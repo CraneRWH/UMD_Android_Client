@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/mar_pad_len_30px"
+        android:paddingLeft="@dimen/mar_pad_len_20px"
+        android:paddingRight="@dimen/mar_pad_len_20px"
+        android:paddingTop="@dimen/mar_pad_len_20px">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/icon_iv"
+                android:layout_width="@dimen/mar_pad_len_180px"
+                android:layout_height="@dimen/mar_pad_len_180px"
+                android:scaleType="centerCrop"
+                android:src="@mipmap/nice_good_icon1" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/mar_pad_len_40px"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/name_tv"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="兰州拉面"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/text_size_32px" />
+
+                    <TextView
+                        android:id="@+id/distance_tv"
+                        style="@style/font_size_24px_gray_"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="224m" />
+                </LinearLayout>
+
+                <RatingBar
+                    android:id="@+id/scoreBarView"
+                    style="@style/roomRatingBar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/mar_pad_len_20px"
+                    android:isIndicator="true"
+                    android:numStars="5"
+                    android:stepSize="0.1" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/mar_pad_len_20px"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/font_size_24px_gray_"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="营业时间：" />
+
+                    <TextView
+                        android:id="@+id/work_time_tv"
+                        style="@style/font_size_24px_gray_"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="营业时间：" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="bottom"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/font_size_24px_black"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="活动优惠：" />
+
+                    <TextView
+                        android:id="@+id/dis_str_tv"
+                        style="@style/font_size_24px_black"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="全场" />
+
+                    <TextView
+                        android:id="@+id/dis_num_tv"
+                        style="@style/font_size_36px_orange"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="8.6折" />
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:layout_weight="1" />
+
+                    <TextView
+                        android:id="@+id/price_tv"
+                        style="@style/font_size_36px_orange"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="¥86"
+                        android:textSize="@dimen/text_size_48px" />
+
+                    <TextView
+                        android:id="@+id/unit_tv"
+                        style="@style/font_size_36px_orange"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="/人" />
+                </LinearLayout>
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/mar_pad_len_14px"
+            android:scrollbars="none">
+
+            <LinearLayout
+                android:id="@+id/item_common_coll_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"/>
+        </HorizontalScrollView>
+    </LinearLayout>
+
+
+    <View style="@style/view_detail_item_separator" />
+</LinearLayout>

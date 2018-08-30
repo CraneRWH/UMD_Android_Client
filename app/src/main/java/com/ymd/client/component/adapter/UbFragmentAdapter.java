@@ -7,9 +7,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.ymd.client.R;
-import com.ymd.client.utils.ToolUtil;
-
-import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -17,14 +14,14 @@ import butterknife.ButterKnife;
 /**
  * 我的U币Adapter
  */
-public class UbFragmentAdapter extends CommonRecyclerAdapter<Map<String, Object>> {
+public class UbFragmentAdapter extends CommonRecyclerAdapter<String> {
 
 
     private View.OnClickListener mButtonListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             int position = (int) v.getTag();
-            Map<String, Object> bean = getContentList().get(position);
+            String bean = getContentList().get(position);
         }
     };
 
@@ -46,9 +43,9 @@ public class UbFragmentAdapter extends CommonRecyclerAdapter<Map<String, Object>
 
     private void bindCouponListHolder(ViewHolder holder, int position) {
 
-        Map<String, Object> data = getContentList().get(position);
+        String data = getContentList().get(position);
 
-        holder.mProductName.setText(ToolUtil.changeString(data.get("name")));
+        holder.mProductName.setText(data);
     }
 
     static class ViewHolder extends RecyclerViewHolder {

@@ -3,24 +3,19 @@ package com.ymd.client.component.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.GridLayout;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.ymd.client.R;
 import com.ymd.client.component.activity.mine.evaluation.AddEvaluationActivity;
-import com.ymd.client.utils.ScreenUtil;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-/**
- * 我的评价-adapter
- */
-public class MyRateAdapter extends CommonRecyclerAdapter<String> {
+public class CommonCollectionAdapter extends CommonRecyclerAdapter<String> {
 
     private View.OnClickListener mButtonListener = new View.OnClickListener() {
         @Override
@@ -32,13 +27,13 @@ public class MyRateAdapter extends CommonRecyclerAdapter<String> {
         }
     };
 
-    public MyRateAdapter(Context mContext) {
+    public CommonCollectionAdapter(Context mContext) {
         super(mContext);
     }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = mLayoutInflater.inflate(R.layout.item_my_rate, parent,
+        View view = mLayoutInflater.inflate(R.layout.item_common_collection, parent,
                 false);
         return new ViewHolder(view, mItemClickListener);
     }
@@ -52,38 +47,23 @@ public class MyRateAdapter extends CommonRecyclerAdapter<String> {
 
         String data = getContentList().get(position);
 
-        int width = (ScreenUtil.getScreenWidthPix(mContext) - ScreenUtil.dip2px(mContext, 88)) / 3;
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(width, width);
-        holder.mImg3.setLayoutParams(params);
+        holder.giftLayout.removeAllViewsInLayout();
+      //  for (int x = 0; x < disStrs.size(); x++) {
+            View view = LayoutInflater.from(mContext).inflate(R.layout.item_fragment_food_list_l, holder.giftLayout, false);
+            TextView name_tv = (TextView) view.findViewById(R.id.item_tv);
+            name_tv.setText(data);
+            holder.giftLayout.addView(view);
+       // }
 
-        params.rightMargin = ScreenUtil.dip2px(mContext, 9);
-        holder.mImg1.setLayoutParams(params);
-        holder.mImg2.setLayoutParams(params);
-
-        //追加评价
-        holder.mAddEva.setTag(position);
-        holder.mAddEva.setOnClickListener(mButtonListener);
-        //名称
-        holder.mProjectName.setText(data);
+        holder.name_tv.setText(data);
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
 
-        @BindView(R.id.my_rate_img)
-        GridLayout gridLayout;
-
-        @BindView(R.id.item_my_rate_img1)
-        ImageView mImg1;
-        @BindView(R.id.item_my_rate_img2)
-        ImageView mImg2;
-        @BindView(R.id.item_my_rate_img3)
-        ImageView mImg3;
-
-        @BindView(R.id.item_my_rate_add_eva)
-        View mAddEva;//追加评价
-
         @BindView(R.id.name_tv)
-        TextView mProjectName;
+        TextView name_tv;
+        @BindView(R.id.item_common_coll_layout)
+        LinearLayout giftLayout;
 
         public ViewHolder(View rootView, CommonRecyclerAdapter.OnItemClickListener listener) {
             super(rootView);

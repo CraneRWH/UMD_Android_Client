@@ -132,10 +132,10 @@ public class MyCollectionActivity extends BaseActivity {
      */
     private void initMagicIndicator() {
         if (CHANNELS.length > 5) {
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, UIUtil.dip2px(this, 42));
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, UIUtil.dip2px(this, 34));
             mIndicator.setLayoutParams(params);
         } else {
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, UIUtil.dip2px(this, 42));
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, UIUtil.dip2px(this, 34));
             params.gravity = Gravity.CENTER_HORIZONTAL;
             mIndicator.setLayoutParams(params);
         }
@@ -184,7 +184,7 @@ public class MyCollectionActivity extends BaseActivity {
         titleContainer.setDividerDrawable(new ColorDrawable() {
             @Override
             public int getIntrinsicWidth() {
-                return UIUtil.dip2px(MyCollectionActivity.this, 8);
+                return UIUtil.dip2px(MyCollectionActivity.this, 4);
             }
         });
 
