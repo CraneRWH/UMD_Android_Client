@@ -12,7 +12,12 @@ import android.widget.TextView;
 import com.ymd.client.R;
 import com.ymd.client.common.base.BaseActivity;
 import com.ymd.client.component.activity.main.MainActivity;
+import com.ymd.client.model.constant.URLConstant;
 import com.ymd.client.utils.ToastUtil;
+import com.ymd.client.web.WebUtil;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 包名:com.ymd.client.component.activity.login
@@ -80,8 +85,7 @@ public class LoginByPWActivity extends BaseActivity {
 
     private void submit() {
 
-        MainActivity.startAction(this);
-        finish();
+
         String mobileNumberString = mobileNumber.getText().toString().trim();
         if (TextUtils.isEmpty(mobileNumberString)) {
             ToastUtil.ToastMessage(this, "请输入手机号", ToastUtil.WARN);
@@ -94,6 +98,26 @@ public class LoginByPWActivity extends BaseActivity {
             return;
         }
 
+        Map<String,Object> params = new HashMap<>();
+        params.put("password", mobileCodeString);
+        params.put("phone", mobileNumberString);
+        params.put("role", "0");
+        WebUtil.getInstance().requestPOST(this, URLConstant.LOGIN, params, new WebUtil.WebCallBack() {
+            @Override
+            public void onWebSuccess(String result) {
+                toMaiin();
+            }
+
+            @Override
+            public void onWebFailed(String errorMsg) {
+
+            }
+        });
+    }
+
+    private void toMaiin() {
+        MainActivity.startAction(this);
+        finish();
     }
 
 }

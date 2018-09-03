@@ -7,6 +7,7 @@ import android.support.multidex.MultiDexApplication;
 import com.raizlabs.android.dbflow.config.FlowManager;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 import com.ymd.client.model.bean.User;
+import com.ymd.client.web.WebUtil;
 
 import java.util.List;
 
@@ -61,6 +62,7 @@ public class UApplication extends MultiDexApplication {
         //dbflow数据库初始化
         FlowManager.init(this);
 
+        WebUtil.initInstance(getApplicationContext());
         initUser();
     }
 

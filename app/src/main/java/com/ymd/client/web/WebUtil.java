@@ -34,7 +34,7 @@ import okhttp3.Response;
  */
 
 public class WebUtil {
-    public static String webUrl = "http://192.168.9.107/";
+    public static String webUrl = "http://192.168.1.41:8080/ymd-rest-api/app/";
 
 
     private static volatile WebUtil mInstance;//单利引用
@@ -125,7 +125,8 @@ public class WebUtil {
      * @param isDialog 是否弹出dialog
      * @param callback 回调方法
      */
-    public void requestPOST(Context context, final String method,
+    public void requestPOST(Context context,
+                            final String method,
                             Map<String, Object> params,  //附加信息
                             boolean isLogin,    //是否需要传递userId
                             boolean isDialog,   //是否显示弹出框
@@ -137,6 +138,22 @@ public class WebUtil {
                 .url(webUrl + method)
                 .build();
         requestHttp(request, method, callback);
+    }
+
+    /**
+     * POST请求方式
+     *
+     * @param context  调用的Context
+     * @param method   接口名称
+     * @param params   额外添加的参数
+     * @param callback 回调方法
+     */
+    public void requestPOST(Context context,
+                            final String method,
+                            Map<String, Object> params,  //附加信息
+                            final WebCallBack callback) {
+
+       requestPOST(context, method, params, true, true, callback);
     }
 
     /**
@@ -337,7 +354,7 @@ public class WebUtil {
         okHttpHandler.post(new Runnable() {
             @Override
             public void run() {
-                //              dismissLoadingDialog();
+                              dismissLoadingDialog();
                 if (callBack != null) {
                     try {
                         Gson gson = new Gson();
