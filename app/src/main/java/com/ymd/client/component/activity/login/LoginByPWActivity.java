@@ -102,6 +102,7 @@ public class LoginByPWActivity extends BaseActivity {
         params.put("password", mobileCodeString);
         params.put("phone", mobileNumberString);
         params.put("role", "0");
+        params.put("type", "0");
         WebUtil.getInstance().requestPOST(this, URLConstant.LOGIN, params, new WebUtil.WebCallBack() {
             @Override
             public void onWebSuccess(String result) {

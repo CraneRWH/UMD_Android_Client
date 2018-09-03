@@ -361,10 +361,10 @@ public class WebUtil {
                         JSONObject resultJson = new JSONObject(result);
                         System.out.println(result);
                         LogUtil.busD(result);
-                        if (!(resultJson.optInt("result") == 0)) {
+                        if (!(resultJson.optInt("code") == 0)) {
                             LogUtil.busD("查询失败");
                             callBack.onWebFailed(result);
-                        } else if (resultJson.optInt("result") == 0) {
+                        } else if (resultJson.optInt("code") == 0) {
                             callBack.onWebSuccess(result);
                         }
                     } catch (Exception e) {

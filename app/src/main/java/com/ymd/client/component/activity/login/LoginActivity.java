@@ -108,6 +108,7 @@ public class LoginActivity extends BaseActivity {
         params.put("code", mobileCodeString);
         params.put("phone", mobileNumberString);
         params.put("role", "0");
+        params.put("type", "1");
         WebUtil.getInstance().requestPOST(this, URLConstant.LOGIN, params, new WebUtil.WebCallBack() {
             @Override
             public void onWebSuccess(String result) {
