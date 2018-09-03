@@ -120,12 +120,13 @@ public class RegisterActivity extends BaseActivity {
         WebUtil.getInstance().requestPOST(this, "ymdConsumer/addConsumer", params, new WebUtil.WebCallBack() {
             @Override
             public void onWebSuccess(String result) {
+                ToastUtil.ToastMessage(RegisterActivity.this, "注册成功");
                 toLogin();
             }
 
             @Override
             public void onWebFailed(String errorMsg) {
-
+                ToastUtil.ToastMessage(RegisterActivity.this, "注册失败", ToastUtil.WRONG);
             }
         });
     }
@@ -149,6 +150,7 @@ public class RegisterActivity extends BaseActivity {
             @Override
             public void onWebSuccess(String result) {
                 Log.d("Register", result);
+                ToastUtil.ToastMessage(RegisterActivity.this, "发送验证码成功");
                 timeTask = new TimeTask();
                 timeTask.execute();
             }
@@ -157,6 +159,7 @@ public class RegisterActivity extends BaseActivity {
             public void onWebFailed(String errorMsg) {
                 Log.d("Register", errorMsg);
 
+                ToastUtil.ToastMessage(RegisterActivity.this, "发送验证码失败", ToastUtil.WRONG);
                 mobileCodeBtn.setClickable(true);
             }
         });

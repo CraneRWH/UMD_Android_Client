@@ -141,6 +141,7 @@ public class LoginActivity extends BaseActivity {
             @Override
             public void onWebSuccess(String result) {
                 Log.d("Register", result);
+                ToastUtil.ToastMessage(LoginActivity.this, "发送验证码成功");
                 timeTask = new TimeTask();
                 timeTask.execute();
             }
@@ -149,6 +150,7 @@ public class LoginActivity extends BaseActivity {
             public void onWebFailed(String errorMsg) {
                 Log.d("Register", errorMsg);
 
+                ToastUtil.ToastMessage(LoginActivity.this, "发送验证码失败", ToastUtil.WRONG);
                 mobileCodeBtn.setClickable(true);
             }
         });
