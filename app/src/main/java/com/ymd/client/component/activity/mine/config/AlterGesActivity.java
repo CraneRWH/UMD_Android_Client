@@ -7,6 +7,7 @@ import android.widget.TextView;
 
 import com.ymd.client.R;
 import com.ymd.client.common.base.BaseActivity;
+import com.ymd.client.component.widget.dialog.CommonDialogs;
 import com.ymd.client.component.widget.lock.LockPatternUtil;
 import com.ymd.client.component.widget.lock.LockPatternView;
 import com.ymd.client.model.constant.Constants;
@@ -157,6 +158,42 @@ public class AlterGesActivity extends BaseActivity {
         //弹出对话框，提示忘记手势密码
         ToastUtil.ToastMessage(this, "忘记手势密码");
         aCache.remove(Constants.GES_KEY);
+
+
+        CommonDialogs.showSelectDialog(this, "温馨提示", "已失败5次，请验证账号后重新设置", "去设置", "我知道了", new CommonDialogs.DialogClickListener() {
+            @Override
+            public void confirm() {
+
+                ToastUtil.ToastMessage(AlterGesActivity.this, "忘记手势密码");
+                aCache.remove(Constants.GES_KEY);
+
+//                User user = AppApplication.user;
+//                user.isGesture = User.HAVEN0T_GES;
+//                AppApplication.user = user;
+//                user.update();
+//
+//                startActivityWithNoData(VerifyGestureActivity.this, VerifyLoginActivity.class);
+                finish();
+            }
+
+            @Override
+            public void cancel() {
+
+                //5次后将退出登录状态
+//                aCache.remove(AppApplication.user.merchantNo);
+//                User user = AppApplication.user;
+//                user.isGesture = User.HAVEN0T_GES;
+//                user.isLogin = User.NO_LOGIN;
+//                AppApplication.user = user;
+//                AppApplication.islogin = false;
+//                AppApplication.user = null;
+//                user.update();
+//
+//                EventBus.getDefault().post(new BaseEvent.UpdateUserStatus());
+                aCache.remove(Constants.GES_KEY);
+                finish();
+            }
+        });
     }
 
     public void verifySuccess() {

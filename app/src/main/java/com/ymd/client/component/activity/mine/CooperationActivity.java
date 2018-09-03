@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -18,6 +17,7 @@ import com.squareup.picasso.Picasso;
 import com.ymd.client.R;
 import com.ymd.client.UApplication;
 import com.ymd.client.common.base.BaseActivity;
+import com.ymd.client.component.activity.mine.coo.CustomHelper;
 import com.ymd.client.component.widget.dialog.CommonDialogs;
 import com.ymd.client.component.widget.takephoto.app.TakePhoto;
 import com.ymd.client.component.widget.takephoto.app.TakePhotoImpl;
@@ -187,7 +187,7 @@ public class CooperationActivity extends BaseActivity implements TakePhoto.TakeR
             case Constants.REQUEST_CODE_CAMERA:
                 if (PermissionUtils.isPermissionRequestSuccess(grantResults)) {
                     // 权限申请成功
-                    applyPermissions();
+                    customHelper.onClick(takePhoto);
                 } else {
                     tempCode = 0;
                     showReqPermissionsDialog();
