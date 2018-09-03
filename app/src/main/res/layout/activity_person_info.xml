@@ -14,6 +14,7 @@
         android:background="@color/white" />
 
     <LinearLayout
+        android:id="@+id/person_alter_head"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/view_click"
@@ -32,6 +33,7 @@
             android:textSize="@dimen/text_size_32px" />
 
         <ImageView
+            android:id="@+id/person_alter_head_iv"
             android:layout_width="@dimen/mar_pad_len_120px"
             android:layout_height="@dimen/mar_pad_len_120px"
             android:layout_marginRight="@dimen/mar_pad_len_30px"
@@ -74,7 +76,7 @@
             android:paddingLeft="@dimen/mar_pad_len_22px"
             android:paddingRight="@dimen/mar_pad_len_30px"
             android:text="无名氏"
-            android:textColor="@color/common_text_color"
+            android:textColor="@color/text_gray_dark"
             android:textSize="@dimen/text_size_32px" />
 
         <ImageView style="@style/default_arrow_right" />
@@ -112,7 +114,7 @@
             android:paddingLeft="@dimen/mar_pad_len_22px"
             android:paddingRight="@dimen/mar_pad_len_30px"
             android:text="135XXXX6972"
-            android:textColor="@color/common_text_color"
+            android:textColor="@color/text_gray_dark"
             android:textSize="@dimen/text_size_32px" />
 
         <ImageView style="@style/default_arrow_right" />
@@ -150,7 +152,7 @@
             android:paddingLeft="@dimen/mar_pad_len_22px"
             android:paddingRight="@dimen/mar_pad_len_30px"
             android:text="男"
-            android:textColor="@color/common_text_color"
+            android:textColor="@color/text_gray_dark"
             android:textSize="@dimen/text_size_32px" />
 
         <ImageView style="@style/default_arrow_right" />
@@ -188,7 +190,7 @@
             android:paddingLeft="@dimen/mar_pad_len_22px"
             android:paddingRight="@dimen/mar_pad_len_30px"
             android:text="1995.04.28"
-            android:textColor="@color/common_text_color"
+            android:textColor="@color/text_gray_dark"
             android:textSize="@dimen/text_size_32px" />
 
         <ImageView style="@style/default_arrow_right" />

@@ -12,7 +12,7 @@ public class Constants {
 
     //文件根目录
     public final static String ROOT_PATH = "ymd";
-    public final static String IMAGE_PATH = "/images";
+    public final static String IMAGE_PATH = "/temp";
 
     public static final String KEY = "21E4ACD4CD5D4619B063F40C5A454F7D";//密钥
 

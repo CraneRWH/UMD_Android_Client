@@ -74,4 +74,15 @@
     <string name="refresh_done">刷新完成</string>
     <string name="loading_done">加载完成</string>
     <string name="listview_header_last_time">上次更新时间：</string>
+
+    <string name="choose_photo_title">更改头像</string>
+    <array name="choose_photo">
+        <item>从相册中选取</item>
+        <item>拍照</item>
+    </array>
+    <string name="choose_photo_no_card">存储卡不存在</string>
+    <string name="choose_photo_no_photo">没有找到照片</string>
+    <string name="choose_photo_no_avaiable_photo">没有可用的存储卡</string>
+    <string name="choose_photo_no_program">未找到系统相机程序</string>
+    <string name="choose_photo_no_file_found">未在存储卡中找到这个文件</string>
 </resources>
