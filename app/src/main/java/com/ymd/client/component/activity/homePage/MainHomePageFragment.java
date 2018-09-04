@@ -34,8 +34,10 @@ import com.ymd.client.component.widget.other.MyChooseItemView;
 import com.ymd.client.component.widget.pullRefreshView.PullToRefreshLayout;
 import com.ymd.client.component.widget.pullRefreshView.PullableScrollView;
 import com.ymd.client.component.widget.recyclerView.MyGridView;
+import com.ymd.client.model.constant.URLConstant;
 import com.ymd.client.model.info.LocationInfo;
 import com.ymd.client.utils.ToolUtil;
+import com.ymd.client.web.WebUtil;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -190,6 +192,7 @@ public class MainHomePageFragment extends Fragment {
         textViewList.add(chooseItem2);
         textViewList.add(chooseItem3);
         setPicture();
+        requestPicture();
         setFunctionItem();
         setYouHuiItem();
 
@@ -204,8 +207,9 @@ public class MainHomePageFragment extends Fragment {
             });
         }
         chooseItem(0);
-        setFoodList();
 
+        setFoodList();
+        requestYH();
         onRefresh();
     }
 
@@ -238,6 +242,21 @@ public class MainHomePageFragment extends Fragment {
             e.printStackTrace();
         }
 
+    }
+
+    private void requestPicture() {
+
+        WebUtil.getInstance().requestPOST(getActivity(), URLConstant.UMD_PIC, null, new WebUtil.WebCallBack() {
+            @Override
+            public void onWebSuccess(String result) {
+
+            }
+
+            @Override
+            public void onWebFailed(String errorMsg) {
+
+            }
+        });
     }
 
     /**
@@ -380,6 +399,23 @@ public class MainHomePageFragment extends Fragment {
         });
     }
 
+    private void requestYH() {
+        Map<String,Object> params = new HashMap<>();
+        params.put("countyId","130406");
+        WebUtil.getInstance().requestPOST(getActivity(), URLConstant.UMD_UH_PIC, params,
+                new WebUtil.WebCallBack() {
+                    @Override
+                    public void onWebSuccess(String result) {
+
+                    }
+
+                    @Override
+                    public void onWebFailed(String errorMsg) {
+
+                    }
+                });
+    }
+
     private void setYouHuiItem() {
         List<Map<String ,Object>> list = new ArrayList<>();
         Map<String, Object> map = new HashMap<>();
@@ -465,6 +501,52 @@ public class MainHomePageFragment extends Fragment {
             }
         }
     };
+
+    /**
+     *
+     */
+    int page = 1;
+
+    /**
+     * 根据城市获取商户列表
+     * @param type
+     */
+    private void requestMerchant(int type){
+        Map<String,Object> params = new HashMap<>();
+        params.put("latitude","0");
+        params.put("longitude", "0");
+        params.put("pageNum", page);
+        params.put("city", "");
+        params.put("county","");
+        String method = URLConstant.COMPREHENSIVE_MERCHANT;
+        switch (type){
+            case 0:
+                method = URLConstant.COMPREHENSIVE_MERCHANT;
+                break;
+            case 1:
+                method = URLConstant.SALES_MERCHANT;
+                break;
+            case 2:
+                method = URLConstant.PRAISE_MERCHANT;
+                break;
+            case 3:
+                method = URLConstant.NEAR_MERCHANT;
+                break;
+        }
+        WebUtil.getInstance().requestPOST(getActivity(), method, params,
+                new WebUtil.WebCallBack() {
+                    @Override
+                    public void onWebSuccess(String result) {
+
+                    }
+
+                    @Override
+                    public void onWebFailed(String errorMsg) {
+
+                    }
+                });
+
+    }
 
 
     private List getData() {

@@ -5,6 +5,7 @@ import android.os.Handler;
 
 import com.google.gson.Gson;
 import com.ymd.client.component.widget.dialog.LoadingDialog;
+import com.ymd.client.utils.CommonShared;
 import com.ymd.client.utils.DialogUtil;
 import com.ymd.client.utils.LogUtil;
 import com.ymd.client.utils.ToastUtil;
@@ -111,6 +112,7 @@ public class WebUtil {
         String GET_URL = attachHttpGetParams(webUrl + method, params);
         Request request = new Request.Builder()
                 .url(GET_URL)
+                .addHeader("token", CommonShared.getString(CommonShared.LOGIN_TOKEN,""))
                 .get()
                 .build();
         requestHttp(request, method, callback);
@@ -136,6 +138,7 @@ public class WebUtil {
         RequestBody requestBody = paramsBuilder(context, method, params, isLogin, isDialog);
         Request request = new Request.Builder()
                 .post(requestBody)
+                .addHeader("token", CommonShared.getString(CommonShared.LOGIN_TOKEN,""))
                 .url(webUrl + method)
                 .build();
         requestHttp(request, method, callback);
@@ -176,6 +179,7 @@ public class WebUtil {
         RequestBody requestBody = paramsBuilder(context, method, params, isLogin,isDialog);
         Request request = new Request.Builder()
                 .post(requestBody)
+                .addHeader("token", CommonShared.getString(CommonShared.LOGIN_TOKEN,""))
                 .url(webUrl + method)
                 .build();
         requestHttp(request, method, callback);
@@ -201,6 +205,7 @@ public class WebUtil {
         RequestBody requestBody = paramsBuilder(context, method, params,isLogin, isDialog);
         Request request = new Request.Builder()
                 .put(requestBody)
+                .addHeader("token", CommonShared.getString(CommonShared.LOGIN_TOKEN,""))
                 .url(webUrl + method)
                 .build();
         requestHttp(request, method, callback);
@@ -364,7 +369,7 @@ public class WebUtil {
                         LogUtil.showD(result);
                         if (!(resultJson.optInt("code") == 0)) {
                             LogUtil.showD("查询失败");
-                            ToastUtil.ToastMessage(appContext, resultJson.optString("message"), ToastUtil.WRONG);
+                            ToastUtil.ToastMessage(appContext, resultJson.optString("msg"), ToastUtil.WRONG);
                             callBack.onWebFailed(result);
                         } else if (resultJson.optInt("code") == 0) {
                             callBack.onWebSuccess(result);

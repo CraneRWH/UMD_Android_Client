@@ -47,6 +47,7 @@ public class OrderDetailBaofangAdapter extends RecyclerView.Adapter<OrderDetailB
         return holder;
     }
 
+    @SuppressLint("ResourceAsColor")
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
@@ -57,12 +58,12 @@ public class OrderDetailBaofangAdapter extends RecyclerView.Adapter<OrderDetailB
 
         if (ToolUtil.changeBoolean(data.get("isChoose"))) {
             holder.mainView.setBackgroundResource(R.mipmap.baojian_green_icon);
-            holder.name_tv.setTextColor(mContext.getColor(R.color.white));
-            holder.desc_tv.setTextColor(mContext.getColor(R.color.white));
+            holder.name_tv.setTextColor(R.color.white);
+            holder.desc_tv.setTextColor(R.color.white);
         } else {
             holder.mainView.setBackgroundResource(R.mipmap.baojian_white_icon);
-            holder.name_tv.setTextColor(mContext.getColor(R.color.common_text_color));
-            holder.desc_tv.setTextColor(mContext.getColor(R.color.common_text_color));
+            holder.name_tv.setTextColor(R.color.common_text_color);
+            holder.desc_tv.setTextColor(R.color.common_text_color);
         }
 
         holder.rootView.setOnClickListener(new View.OnClickListener() {

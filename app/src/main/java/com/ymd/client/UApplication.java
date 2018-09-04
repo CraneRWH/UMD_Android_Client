@@ -1,15 +1,11 @@
 package com.ymd.client;
 
-import android.app.Service;
 import android.content.Context;
-import android.os.Vibrator;
 import android.support.multidex.MultiDex;
 import android.support.multidex.MultiDexApplication;
 
-import com.baidu.mapapi.SDKInitializer;
 import com.raizlabs.android.dbflow.config.FlowManager;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
-import com.ymd.client.common.base.service.AndroidLocationService;
 import com.ymd.client.model.bean.User;
 import com.ymd.client.model.info.LoginInfo;
 import com.ymd.client.web.WebUtil;

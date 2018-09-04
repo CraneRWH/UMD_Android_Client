@@ -16,6 +16,8 @@ public class CommonShared {
 	private static SharedPreferences defaultSharedPreferences = PreferenceManager.getDefaultSharedPreferences(UApplication.getInstance());
 	private static Editor editor = sharedPreferences.edit();
 
+	public static  final String LOGIN_TOKEN = "loginToken";
+
 	public static String getString(String key, String defaultValue) {
 		return sharedPreferences.getString(key, defaultValue);
 	}

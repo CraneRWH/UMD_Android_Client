@@ -13,8 +13,13 @@ import com.ymd.client.R;
 import com.ymd.client.common.base.BaseActivity;
 import com.ymd.client.component.activity.main.MainActivity;
 import com.ymd.client.model.constant.URLConstant;
+import com.ymd.client.model.info.LoginInfo;
+import com.ymd.client.utils.CommonShared;
 import com.ymd.client.utils.ToastUtil;
 import com.ymd.client.web.WebUtil;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -111,7 +116,7 @@ public class LoginByPWActivity extends BaseActivity {
         WebUtil.getInstance().requestPOST(this, URLConstant.LOGIN, params, new WebUtil.WebCallBack() {
             @Override
             public void onWebSuccess(String result) {
-                toMaiin();
+                toMaiin(result);
             }
 
             @Override
@@ -121,9 +126,17 @@ public class LoginByPWActivity extends BaseActivity {
         });
     }
 
-    private void toMaiin() {
-        MainActivity.startAction(this);
-        finish();
-    }
 
+    private void toMaiin(String result) {
+        try {
+            JSONObject jsonObject = new JSONObject(result);
+            JSONObject userStr = jsonObject.optJSONObject("user");
+            LoginInfo.setLoginInfo(userStr.toString());
+            CommonShared.setString(CommonShared.LOGIN_TOKEN, jsonObject.optString("token"));
+            MainActivity.startAction(this);
+            finish();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
 }

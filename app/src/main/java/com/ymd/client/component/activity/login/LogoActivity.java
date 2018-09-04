@@ -50,8 +50,8 @@ public class LogoActivity extends AppCompatActivity {
     };
 
     private void toMainActivity() {
-    //    LoginActivity.startAction(this);
-            startActivity(new Intent(getApplicationContext(), MainActivity.class));
+        LoginActivity.startAction(this);
+    //        startActivity(new Intent(getApplicationContext(), MainActivity.class));
             finish();
     }
 
