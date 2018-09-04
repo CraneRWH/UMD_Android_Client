@@ -34,6 +34,11 @@ public class LoginByPWActivity extends BaseActivity {
     private Button loginBtn;
     private TextView forgetPasswordBtn;
 
+    @Override
+    public void back(View view) {
+        LoginActivity.startAction(this);
+        finish();
+    }
     /**
      * 启动
      * @param context

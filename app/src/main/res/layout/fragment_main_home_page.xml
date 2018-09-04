@@ -309,10 +309,10 @@
                                 custom:defaultValue="@string/near_most_str" />
                         </LinearLayout>
 
-                        <android.support.v4.view.ViewPager
-                            android:id="@+id/businessViewPager"
+                        <android.support.v7.widget.RecyclerView
+                            android:id="@+id/recyclerView"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"></android.support.v4.view.ViewPager>
+                            android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
 
                     </LinearLayout>
                 </LinearLayout>

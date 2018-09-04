@@ -1,12 +1,17 @@
 package com.ymd.client;
 
+import android.app.Service;
 import android.content.Context;
+import android.os.Vibrator;
 import android.support.multidex.MultiDex;
 import android.support.multidex.MultiDexApplication;
 
+import com.baidu.mapapi.SDKInitializer;
 import com.raizlabs.android.dbflow.config.FlowManager;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
+import com.ymd.client.common.base.service.AndroidLocationService;
 import com.ymd.client.model.bean.User;
+import com.ymd.client.model.info.LoginInfo;
 import com.ymd.client.web.WebUtil;
 
 import java.util.List;
@@ -46,14 +51,20 @@ public class UApplication extends MultiDexApplication {
     public static User user = null;
     public static boolean islogin = false;
 
+    private static UApplication me;
+
+    public static UApplication getInstance() {
+        return me;
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();
 
+        me = this;
         //初始化
         init();
     }
-
     private void init() {
         app = getApplicationContext();
 
@@ -62,8 +73,10 @@ public class UApplication extends MultiDexApplication {
         //dbflow数据库初始化
         FlowManager.init(this);
 
+        LoginInfo.initInstance(getApplicationContext());
         WebUtil.initInstance(getApplicationContext());
         initUser();
+
     }
 
     private void initUser() {

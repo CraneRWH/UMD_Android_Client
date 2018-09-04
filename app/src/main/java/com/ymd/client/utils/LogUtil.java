@@ -21,7 +21,7 @@ public class LogUtil {
 
     private static final String TAG_BUS = "##CranePay";
 
-    public static void busD(String msg) {
+    public static void showD(String msg) {
         if (isDebug) {
             if (msg == null) {
                 msg = "null";

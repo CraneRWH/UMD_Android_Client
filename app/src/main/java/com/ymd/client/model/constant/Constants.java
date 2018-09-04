@@ -28,4 +28,6 @@ public class Constants {
     public static final int REQUEST_OTHER2 = 0x15;//其他证
 
     public static final String GES_KEY = "GES_KEY";
+
+    public static final String LOCATION_ACTION = "locationAction";
 }

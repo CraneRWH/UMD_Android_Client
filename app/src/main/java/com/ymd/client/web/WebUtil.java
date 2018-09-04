@@ -7,6 +7,7 @@ import com.google.gson.Gson;
 import com.ymd.client.component.widget.dialog.LoadingDialog;
 import com.ymd.client.utils.DialogUtil;
 import com.ymd.client.utils.LogUtil;
+import com.ymd.client.utils.ToastUtil;
 import com.ymd.client.utils.ToolUtil;
 
 import org.json.JSONObject;
@@ -106,7 +107,7 @@ public class WebUtil {
         }
 
         Gson gson = new Gson();
-        LogUtil.busD("▶▶ " + method + " ▶ " + gson.toJson(params));
+        LogUtil.showD("▶▶ " + method + " ▶ " + gson.toJson(params));
         String GET_URL = attachHttpGetParams(webUrl + method, params);
         Request request = new Request.Builder()
                 .url(GET_URL)
@@ -230,7 +231,7 @@ public class WebUtil {
         }
 
         Gson gson = new Gson();
-        LogUtil.busD("▶▶ " + method + " ▶ " + gson.toJson(params));
+        LogUtil.showD("▶▶ " + method + " ▶ " + gson.toJson(params));
         System.out.println("▶▶ " + method + " ▶ " + gson.toJson(params));
         RequestBody requestBody = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), gson.toJson(params));
         return requestBody;
@@ -255,7 +256,7 @@ public class WebUtil {
                     if (response.isSuccessful()) {
                         String result = response.body().string();
 
-                        LogUtil.busD("★★ " + method + " ★ " + result);
+                        LogUtil.showD("★★ " + method + " ★ " + result);
                         successCallBack(result, callback);
                     } else {
                         failedCallBack("服务器错误", callback);
@@ -293,7 +294,7 @@ public class WebUtil {
             if (i != params.size() - 1) {
                 stringBuffer.append("&");
             }
-            LogUtil.busD("stringBuffer  " + stringBuffer.toString());
+            LogUtil.showD("stringBuffer  " + stringBuffer.toString());
         }
 
         return url + stringBuffer.toString();
@@ -360,9 +361,10 @@ public class WebUtil {
                         Gson gson = new Gson();
                         JSONObject resultJson = new JSONObject(result);
                         System.out.println(result);
-                        LogUtil.busD(result);
+                        LogUtil.showD(result);
                         if (!(resultJson.optInt("code") == 0)) {
-                            LogUtil.busD("查询失败");
+                            LogUtil.showD("查询失败");
+                            ToastUtil.ToastMessage(appContext, resultJson.optString("message"), ToastUtil.WRONG);
                             callBack.onWebFailed(result);
                         } else if (resultJson.optInt("code") == 0) {
                             callBack.onWebSuccess(result);

@@ -1,19 +1,18 @@
 package com.ymd.client.component.activity.homePage;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.net.Uri;
-import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -21,23 +20,28 @@ import android.widget.TextView;
 
 import com.jude.rollviewpager.RollPagerView;
 import com.jude.rollviewpager.adapter.StaticPagerAdapter;
-import com.jude.rollviewpager.hintview.ColorPointHintView;
 import com.ymd.client.R;
+import com.ymd.client.common.base.OnUMDItemClickListener;
 import com.ymd.client.component.activity.homePage.food.NiceFoodActivity;
+import com.ymd.client.component.activity.homePage.food.seller.SellerDetailActivity;
 import com.ymd.client.component.activity.homePage.search.SearchActivity;
 import com.ymd.client.component.adapter.MySimpleAdapter;
+import com.ymd.client.component.adapter.food.FoodListAdapter;
+import com.ymd.client.component.widget.other.MyChooseItemView;
 import com.ymd.client.component.widget.pullRefreshView.PullToRefreshLayout;
 import com.ymd.client.component.widget.pullRefreshView.PullableScrollView;
-import com.ymd.client.component.widget.recyclerView.MListView;
 import com.ymd.client.component.widget.recyclerView.MyGridView;
-import com.ymd.client.component.widget.viewPager.MyPosterView;
-import com.ymd.client.component.widget.viewPager.MyViewPager;
+import com.ymd.client.model.info.LocationInfo;
 import com.ymd.client.utils.ToolUtil;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 /**
  * 作者:rongweihe
@@ -49,27 +53,51 @@ public class MainHomePageFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
+    Unbinder unbinder;
+    @BindView(R.id.location_tv)
+    TextView locationTv;
+    @BindView(R.id.location_llt)
+    LinearLayout locationLlt;
+    @BindView(R.id.sao_iv)
+    ImageView saoIv;
+    @BindView(R.id.search_layout)
+    RelativeLayout searchLayout;
+    @BindView(R.id.rollPagerView)
+    RollPagerView rollPagerView;
+    @BindView(R.id.imageNumBar)
+    LinearLayout imageNumBar;
+    @BindView(R.id.layout)
+    LinearLayout layout;
+    @BindView(R.id.gridView)
+    MyGridView gridView;
+    @BindView(R.id.youhuiServiceLayout)
+    LinearLayout youhuiServiceLayout;
+    @BindView(R.id.horizontalScrollView)
+    HorizontalScrollView horizontalScrollView;
+    @BindView(R.id.chooseItem0)
+    MyChooseItemView chooseItem0;
+    @BindView(R.id.chooseItem1)
+    MyChooseItemView chooseItem1;
+    @BindView(R.id.chooseItem2)
+    MyChooseItemView chooseItem2;
+    @BindView(R.id.chooseItem3)
+    MyChooseItemView chooseItem3;
+    @BindView(R.id.businessView)
+    LinearLayout businessView;
+    @BindView(R.id.recyclerView)
+    RecyclerView recyclerView;
+    @BindView(R.id.scrollView)
+    PullableScrollView scrollView;
+    @BindView(R.id.bigLayout)
+    PullToRefreshLayout bigLayout;
+
     private String mParam1;
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
-    private TextView locationTv;
-    private LinearLayout locationLlt;
-    private ImageView saoIv;
-    private RelativeLayout searchLayout;
-    private RelativeLayout headView;
-    /*    private MyViewPager viewPager;
-        private LinearLayout imageNumBar;
-        private MyPosterView homePoster;*/
-    private LinearLayout layout;
-    private MyGridView gridView;
-    private PullableScrollView scrollView;
-    private RelativeLayout loadmoreView;
-    private PullToRefreshLayout bigLayout;
 
-    private LinearLayout youhuiServiceLayout;
-    private RollPagerView mRollViewPager;
-    private LinearLayout imageNumBar;
+
+    private List<MyChooseItemView> textViewList;
 
     public MainHomePageFragment() {
         // Required empty public constructor
@@ -97,7 +125,9 @@ public class MainHomePageFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_main_home_page, container, false);
-        initView(view);
+        unbinder = ButterKnife.bind(this, view);
+
+        initView();
         return view;
     }
 
@@ -124,24 +154,7 @@ public class MainHomePageFragment extends Fragment {
         mListener = null;
     }
 
-    private void initView(View view) {
-        locationTv = (TextView) view.findViewById(R.id.location_tv);
-        locationLlt = (LinearLayout) view.findViewById(R.id.location_llt);
-        saoIv = (ImageView) view.findViewById(R.id.sao_iv);
-        searchLayout = (RelativeLayout) view.findViewById(R.id.search_layout);
-        headView = (RelativeLayout) view.findViewById(R.id.head_view);
-      /*  viewPager = (MyViewPager) view.findViewById(R.id.viewPager);
-        imageNumBar = (LinearLayout) view.findViewById(R.id.imageNumBar);
-        homePoster = (MyPosterView) view.findViewById(R.id.homePoster);*/
-        layout = (LinearLayout) view.findViewById(R.id.layout);
-        gridView = (MyGridView) view.findViewById(R.id.gridView);
-        scrollView = (PullableScrollView) view.findViewById(R.id.scrollView);
-        loadmoreView = (RelativeLayout) view.findViewById(R.id.loadmore_view);
-        bigLayout = (PullToRefreshLayout) view.findViewById(R.id.bigLayout);
-
-        youhuiServiceLayout = (LinearLayout) view.findViewById(R.id.youhuiServiceLayout);
-        mRollViewPager = (RollPagerView) view.findViewById(R.id.rollPagerView);
-        imageNumBar = (LinearLayout) view.findViewById(R.id.imageNumBar);
+    private void initView() {
 
         bigLayout.setOnRefreshListener(new PullToRefreshLayout.OnRefreshListener() {
             @Override
@@ -161,23 +174,74 @@ public class MainHomePageFragment extends Fragment {
                 SearchActivity.startAction(getActivity());
             }
         });
+
+        textViewList = new ArrayList<MyChooseItemView>();
+        textViewList.add(chooseItem0);
+        textViewList.add(chooseItem1);
+        textViewList.add(chooseItem2);
+        textViewList.add(chooseItem3);
         setPicture();
         setFunctionItem();
         setYouHuiItem();
+
+        for (int i = 0 ; i < textViewList.size() ; i ++ ) {
+            final int position = i;
+            textViewList.get(i).setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View arg0) {
+                    chooseItem(position);
+                }
+            });
+        }
+        chooseItem(0);
+        setFoodList();
+
+        onRefresh();
     }
 
+    private void setFoodList() {
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        recyclerView.setLayoutManager(layoutManager);
+        FoodListAdapter adapter = new FoodListAdapter(getData(), getContext());
+        adapter.setListener(new OnUMDItemClickListener() {
+            @Override
+            public void onClick(Object data, View view, int position) {
+                SellerDetailActivity.startAction(getActivity());
+            }
+        });
+        recyclerView.setAdapter(adapter);
+    }
+
+    public int chooseStatus = 0;
+
+    protected void chooseItem(int position) {
+        chooseStatus = position;
+        try {
+            for (int i = 0; i < textViewList.size(); i++) {
+                if (i == position) {
+                    textViewList.get(i).setChoose(true);
+                } else {
+                    textViewList.get(i).setChoose(false);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
 
     /**
      * 设置广告图片
      */
     private void setPicture() {
         //设置播放时间间隔
-        mRollViewPager.setPlayDelay(3000);
+        rollPagerView.setPlayDelay(3000);
         //设置透明度
-        mRollViewPager.setAnimationDurtion(500);
+        rollPagerView.setAnimationDurtion(500);
         TestNormalAdapter advAdapter = new TestNormalAdapter();
         //设置适配器
-        mRollViewPager.setAdapter(advAdapter);
+        rollPagerView.setAdapter(advAdapter);
 
         //设置指示器（顺序依次）
         //自定义指示器图片
@@ -211,12 +275,20 @@ public class MainHomePageFragment extends Fragment {
         }*/
     }
 
+    /*
+     * 刷新城市名称和车辆信息
+     */
+    public void onRefresh() {
+//        locationTv.setText(LocationInfo.getInstance().getLocationInfo().getChooseCity());
+    }
+
     /**
      * 设置广告导航的颜色
+     *
      * @param position
      */
     private void setHintView(int position) {
-        for (int i = 0 ; i < imageNumBar.getChildCount(); i ++ ) {
+        for (int i = 0; i < imageNumBar.getChildCount(); i++) {
             if (position == i) {
                 imageNumBar.getChildAt(i).setBackgroundResource(R.color.bg_header);
             } else {
@@ -229,54 +301,54 @@ public class MainHomePageFragment extends Fragment {
      * 设置功能选项
      */
     private void setFunctionItem() {
-        List<Map<String ,Object>> list = new ArrayList<>();
+        List<Map<String, Object>> list = new ArrayList<>();
         Map<String, Object> map = new HashMap<>();
-        map.put("name","美事");
+        map.put("name", "美事");
         map.put("icon", R.mipmap.food_item_icon);
         list.add(map);
 
         map = new HashMap<>();
-        map.put("name","酒店");
+        map.put("name", "酒店");
         map.put("icon", R.mipmap.hospital_item_icon);
         list.add(map);
 
         map = new HashMap<>();
-        map.put("name","爱车");
+        map.put("name", "爱车");
         map.put("icon", R.mipmap.car_item_icon);
         list.add(map);
 
         map = new HashMap<>();
-        map.put("name","美容美发");
+        map.put("name", "美容美发");
         map.put("icon", R.mipmap.meirong_item_icon);
         list.add(map);
 
         map = new HashMap<>();
-        map.put("name","电影");
+        map.put("name", "电影");
         map.put("icon", R.mipmap.movie_item_icon);
         list.add(map);
 
         map = new HashMap<>();
-        map.put("name","生鲜");
+        map.put("name", "生鲜");
         map.put("icon", R.mipmap.shengxian_item_icon);
         list.add(map);
 
         map = new HashMap<>();
-        map.put("name","金融");
+        map.put("name", "金融");
         map.put("icon", R.mipmap.jinrong_item_icon);
         list.add(map);
 
         map = new HashMap<>();
-        map.put("name","洗浴");
+        map.put("name", "洗浴");
         map.put("icon", R.mipmap.xiyu_item_icon);
         list.add(map);
 
         map = new HashMap<>();
-        map.put("name","KTV");
+        map.put("name", "KTV");
         map.put("icon", R.mipmap.ktv_item_icon);
         list.add(map);
 
         map = new HashMap<>();
-        map.put("name","其他分类");
+        map.put("name", "其他分类");
         map.put("icon", R.mipmap.other_item_icon);
         list.add(map);
 
@@ -300,33 +372,33 @@ public class MainHomePageFragment extends Fragment {
     }
 
     private void setYouHuiItem() {
-        List<Map<String ,Object>> list = new ArrayList<>();
+        List<Map<String, Object>> list = new ArrayList<>();
         Map<String, Object> map = new HashMap<>();
-        map.put("name","food_item_icon");
+        map.put("name", "food_item_icon");
         map.put("icon", R.mipmap.youhui1_icon);
         list.add(map);
 
         map = new HashMap<>();
-        map.put("name","hospital_item_icon");
+        map.put("name", "hospital_item_icon");
         map.put("icon", R.mipmap.youhui2_icon);
         list.add(map);
 
         map = new HashMap<>();
-        map.put("name","car_item_icon");
+        map.put("name", "car_item_icon");
         map.put("icon", R.mipmap.youhui1_icon);
         list.add(map);
 
         map = new HashMap<>();
-        map.put("name","meirong_item_icon");
+        map.put("name", "meirong_item_icon");
         map.put("icon", R.mipmap.youhui2_icon);
         list.add(map);
 
         //开始添加数据
-        for(int x=0; x<list.size(); x++){
+        for (int x = 0; x < list.size(); x++) {
             //寻找行布局，第一个参数为行布局ID，第二个参数为这个行布局需要放到那个容器上
-            View view=LayoutInflater.from(getActivity()).inflate(R.layout.main_preferential_item , youhuiServiceLayout,false);
+            View view = LayoutInflater.from(getActivity()).inflate(R.layout.main_preferential_item, youhuiServiceLayout, false);
             //通过View寻找ID实例化控件
-            ImageView img= (ImageView) view.findViewById(R.id.itemImage);
+            ImageView img = (ImageView) view.findViewById(R.id.itemImage);
             //实例化TextView控件
             //   TextView tv= (TextView) view.findViewById(R.id.textView);
             //将int数组中的数据放到ImageView中
@@ -336,6 +408,12 @@ public class MainHomePageFragment extends Fragment {
             //把行布局放到linear里
             youhuiServiceLayout.addView(view);
         }
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
     }
 
     private class TestNormalAdapter extends StaticPagerAdapter {
@@ -366,11 +444,10 @@ public class MainHomePageFragment extends Fragment {
     public interface OnFragmentInteractionListener {
         void onFragmentInteraction(Uri uri);
     }
-    private Handler refreshHandler = new Handler()
-    {
+
+    private Handler refreshHandler = new Handler() {
         @Override
-        public void handleMessage(Message msg)
-        {
+        public void handleMessage(Message msg) {
             // 千万别忘了告诉控件刷新完毕了哦！
             try {
                 bigLayout.refreshFinish(PullToRefreshLayout.SUCCEED);
@@ -379,4 +456,61 @@ public class MainHomePageFragment extends Fragment {
             }
         }
     };
+
+
+    private List getData() {
+        List<Map<String,Object>> list = new ArrayList<>();
+        Map<String, Object> map = new HashMap<>();
+        map.put("name", "半天妖烤鱼");
+        map.put("distance","253m");
+        map.put("point",4);
+        map.put("work_time", "9:00~21:30");
+        map.put("dis_str","全场");
+        map.put("dis_num", "8.6折");
+        map.put("price", 86);
+        map.put("unit","人");
+        List<String> diss = new ArrayList<>();
+        diss.add("全场8.9折优惠");
+        diss.add("早餐免费领豆浆");
+        diss.add("上午9:00至12:00有7折优惠");
+        map.put("diss", diss);
+
+        list.add(map);
+
+        map = new HashMap<>();
+        map.put("name", "驴肉火烧");
+        map.put("distance","253m");
+        map.put("point",4.3);
+        map.put("work_time", "9:00~21:30");
+        map.put("dis_str","全场");
+        map.put("dis_num", "8.6折");
+        map.put("price", 86);
+        map.put("unit","人");
+        diss = new ArrayList<>();
+        diss.add("全场8.9折优惠");
+        diss.add("早餐免费领豆浆");
+        diss.add("上午9:00至12:00有7折优惠");
+        map.put("diss", diss);
+
+        list.add(map);
+
+        map = new HashMap<>();
+        map.put("name", "沙县小吃");
+        map.put("distance","253m");
+        map.put("point",4.3);
+        map.put("work_time", "9:00~21:30");
+        map.put("dis_str","全场");
+        map.put("dis_num", "8.6折");
+        map.put("price", 86);
+        map.put("unit","人");
+        diss = new ArrayList<>();
+        diss.add("全场8.9折优惠");
+        diss.add("早餐免费领豆浆");
+        diss.add("上午9:00至12:00有7折优惠");
+        map.put("diss", diss);
+
+        list.add(map);
+
+        return list;
+    }
 }
