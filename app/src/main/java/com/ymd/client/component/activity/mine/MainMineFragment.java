@@ -6,9 +6,12 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.ymd.client.R;
+import com.ymd.client.component.widget.CircleImageView;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -26,6 +29,13 @@ public class MainMineFragment extends Fragment {
 
     private String mParam1;
     private String mParam2;
+
+    @BindView(R.id.fragment_person_iv)
+    CircleImageView mHeadView;//头像
+    @BindView(R.id.fragment_person_nickname)
+    TextView mNickName;//昵称
+    @BindView(R.id.fragment_my_ub)
+    TextView mMyUbCount;//我的U币
 
     public MainMineFragment() {
         // Required empty public constructor

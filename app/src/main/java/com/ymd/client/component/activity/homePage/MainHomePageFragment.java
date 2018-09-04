@@ -1,6 +1,7 @@
 package com.ymd.client.component.activity.homePage;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -24,6 +25,7 @@ import com.jude.rollviewpager.adapter.StaticPagerAdapter;
 import com.jude.rollviewpager.hintview.ColorPointHintView;
 import com.ymd.client.R;
 import com.ymd.client.component.activity.homePage.food.NiceFoodActivity;
+import com.ymd.client.component.activity.homePage.scan.ScanCodeActivity;
 import com.ymd.client.component.activity.homePage.search.SearchActivity;
 import com.ymd.client.component.adapter.MySimpleAdapter;
 import com.ymd.client.component.widget.pullRefreshView.PullToRefreshLayout;
@@ -159,6 +161,12 @@ public class MainHomePageFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 SearchActivity.startAction(getActivity());
+            }
+        });
+        saoIv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().startActivity(new Intent(getContext(), ScanCodeActivity.class));
             }
         });
         setPicture();

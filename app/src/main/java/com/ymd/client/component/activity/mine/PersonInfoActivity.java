@@ -1,13 +1,21 @@
 package com.ymd.client.component.activity.mine;
 
 import android.Manifest;
+import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.util.Log;
+import android.view.Gravity;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bigkoo.pickerview.builder.TimePickerBuilder;
+import com.bigkoo.pickerview.listener.OnTimeSelectListener;
+import com.bigkoo.pickerview.view.TimePickerView;
 import com.squareup.picasso.Picasso;
 import com.ymd.client.R;
 import com.ymd.client.common.base.BaseActivity;
@@ -16,13 +24,15 @@ import com.ymd.client.component.widget.photo.ChoiceImageCallBack;
 import com.ymd.client.component.widget.photo.ChoiceImageUtil;
 import com.ymd.client.component.widget.photo.selectphoto.Bimp;
 import com.ymd.client.component.widget.photo.selectphoto.FileUtils;
-import com.ymd.client.component.widget.takephoto.permission.PermissionManager;
 import com.ymd.client.model.constant.Constants;
 import com.ymd.client.utils.PermissionUtils;
 import com.ymd.client.utils.StatusBarUtils;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -38,9 +48,17 @@ public class PersonInfoActivity extends BaseActivity {
 
     @BindView(R.id.person_alter_head_iv)
     ImageView mIvHead;//头像
+    @BindView(R.id.person_nickname)
+    TextView mTxtNickName;//昵称
+    @BindView(R.id.person_phone)
+    TextView mTxtPhone;//手机号
+    @BindView(R.id.person_sex)
+    TextView mTxtSex;//性别
+    @BindView(R.id.person_birth)
+    TextView mTxtBirth;//出生日期
 
-    ChoiceImageUtil ciutil;
-    String chooseImgUrl = "";
+    ChoiceImageUtil ciutil;//图片选择工具
+    private TimePickerView pickerView;//时间选择器
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +69,8 @@ public class PersonInfoActivity extends BaseActivity {
         mTxtTitle.setText(getResources().getString(R.string.fragment_person));
 
         ciutil = new ChoiceImageUtil(this);
+
+        initTimePicker();
     }
 
     @OnClick(R.id.base_back)
@@ -82,6 +102,7 @@ public class PersonInfoActivity extends BaseActivity {
                     }
                 });
     }
+
     /**
      * 申请权限
      */
@@ -148,7 +169,6 @@ public class PersonInfoActivity extends BaseActivity {
                     @Override
                     public void onChoiceImage(String path, boolean falg) {
                         super.onChoiceImage(path, falg);
-                        //TODO showProressview();
                         Bitmap bm = null;
                         try {
                             // 压缩原照片
@@ -165,10 +185,63 @@ public class PersonInfoActivity extends BaseActivity {
                         // 压缩好后照片的地址
                         String fileUrl = FileUtils.SDPATH + newStr + ".jpeg";
 
-
                         Picasso.with(PersonInfoActivity.this).load(new File(fileUrl)).into(mIvHead);
                     }
                 });
     }
 
+    @OnClick(R.id.person_layout_birth)
+    void alterBirth() {
+        pickerView.show();
+    }
+
+    /**
+     * 获取时间
+     * @param date 选择的时间
+     * @return 截取的年月日
+     */
+    private String getTime(Date date) {
+        SimpleDateFormat format = new SimpleDateFormat("yyyy.MM.dd");
+        return format.format(date);
+    }
+
+    /**
+     * 初始化时间选择器
+     */
+    private void initTimePicker() {
+        Calendar endDate = Calendar.getInstance();//结束时间
+        Calendar startDate = Calendar.getInstance();//开始时间
+        startDate.set(1900, 1, 1);
+
+        Calendar selectedDate = Calendar.getInstance();
+        selectedDate.set(1990, 0, 1);//选中的时间
+        pickerView = new TimePickerBuilder(this, new OnTimeSelectListener() {
+            @Override
+            public void onTimeSelect(Date date, View v) {
+                mTxtBirth.setText(getTime(date));
+            }
+        })
+                .setType(new boolean[]{true, true, true, false, false, false})
+                .setDate(selectedDate)
+                .setRangDate(startDate, endDate)
+                .build();
+
+        Dialog mDialog = pickerView.getDialog();
+        if (mDialog != null) {
+            FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
+                    ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT,
+                    Gravity.BOTTOM);
+
+            params.leftMargin = 0;
+            params.rightMargin = 0;
+            pickerView.getDialogContainerLayout().setLayoutParams(params);
+
+            Window dialogWindow = mDialog.getWindow();
+            if (dialogWindow != null) {
+                dialogWindow.setWindowAnimations(com.bigkoo.pickerview.R.style.picker_view_slide_anim);//修改动画样式
+                dialogWindow.setGravity(Gravity.BOTTOM);//改成Bottom,底部显示
+            }
+        }
+    }
 }

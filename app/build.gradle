@@ -66,12 +66,9 @@ dependencies {
     //OKHttp网络请求库
     implementation 'com.squareup.okhttp3:okhttp:3.4.1'
     implementation 'com.squareup.okhttp3:logging-interceptor:3.4.1'
-
     implementation 'com.jude:rollviewpager:1.2.9'
-
     /*Gson*/
     implementation 'com.squareup.retrofit2:converter-gson:2.0.2'
-
     implementation('com.soundcloud.android.crop:lib_crop:1.0.0') {
         exclude group: 'com.android.support'
     }
@@ -82,4 +79,6 @@ dependencies {
         exclude group: 'com.android.support'
     }
     implementation 'com.squareup.picasso:picasso:2.5.2'
+    implementation 'com.contrarywind:Android-PickerView:4.1.6'
+    implementation files('libs/zxing-core-3.2.1.jar')
 }

@@ -69,6 +69,7 @@
             android:textSize="@dimen/text_size_32px" />
 
         <TextView
+            android:id="@+id/person_nickname"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -107,6 +108,7 @@
             android:textSize="@dimen/text_size_32px" />
 
         <TextView
+            android:id="@+id/person_phone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -145,6 +147,7 @@
             android:textSize="@dimen/text_size_32px" />
 
         <TextView
+            android:id="@+id/person_sex"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -167,6 +170,7 @@
         android:background="@color/bg_common_gray" />
 
     <LinearLayout
+        android:id="@+id/person_layout_birth"
         android:layout_width="match_parent"
         android:layout_height="@dimen/mar_pad_len_100px"
         android:background="@drawable/view_click"
@@ -183,6 +187,7 @@
             android:textSize="@dimen/text_size_32px" />
 
         <TextView
+            android:id="@+id/person_birth"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
