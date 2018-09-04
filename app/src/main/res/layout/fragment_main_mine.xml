@@ -39,6 +39,7 @@
                 android:paddingRight="@dimen/mar_pad_len_20px">
 
                 <TextView
+                    android:id="@+id/fragment_person_nickname"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/fragment_name"
@@ -100,6 +101,7 @@
                 android:textSize="@dimen/text_size_32px" />
 
             <TextView
+                android:id="@+id/fragment_my_ub"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"

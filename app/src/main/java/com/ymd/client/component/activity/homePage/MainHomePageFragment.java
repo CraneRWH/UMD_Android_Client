@@ -1,6 +1,8 @@
 package com.ymd.client.component.activity.homePage;
 
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -24,6 +26,7 @@ import com.ymd.client.R;
 import com.ymd.client.common.base.OnUMDItemClickListener;
 import com.ymd.client.component.activity.homePage.food.NiceFoodActivity;
 import com.ymd.client.component.activity.homePage.food.seller.SellerDetailActivity;
+import com.ymd.client.component.activity.homePage.scan.ScanCodeActivity;
 import com.ymd.client.component.activity.homePage.search.SearchActivity;
 import com.ymd.client.component.adapter.MySimpleAdapter;
 import com.ymd.client.component.adapter.food.FoodListAdapter;
@@ -174,6 +177,12 @@ public class MainHomePageFragment extends Fragment {
                 SearchActivity.startAction(getActivity());
             }
         });
+        saoIv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().startActivity(new Intent(getContext(), ScanCodeActivity.class));
+            }
+        });
 
         textViewList = new ArrayList<MyChooseItemView>();
         textViewList.add(chooseItem0);
@@ -301,54 +310,54 @@ public class MainHomePageFragment extends Fragment {
      * 设置功能选项
      */
     private void setFunctionItem() {
-        List<Map<String, Object>> list = new ArrayList<>();
+        List<Map<String ,Object>> list = new ArrayList<>();
         Map<String, Object> map = new HashMap<>();
-        map.put("name", "美事");
+        map.put("name","美事");
         map.put("icon", R.mipmap.food_item_icon);
         list.add(map);
 
         map = new HashMap<>();
-        map.put("name", "酒店");
+        map.put("name","酒店");
         map.put("icon", R.mipmap.hospital_item_icon);
         list.add(map);
 
         map = new HashMap<>();
-        map.put("name", "爱车");
+        map.put("name","爱车");
         map.put("icon", R.mipmap.car_item_icon);
         list.add(map);
 
         map = new HashMap<>();
-        map.put("name", "美容美发");
+        map.put("name","美容美发");
         map.put("icon", R.mipmap.meirong_item_icon);
         list.add(map);
 
         map = new HashMap<>();
-        map.put("name", "电影");
+        map.put("name","电影");
         map.put("icon", R.mipmap.movie_item_icon);
         list.add(map);
 
         map = new HashMap<>();
-        map.put("name", "生鲜");
+        map.put("name","生鲜");
         map.put("icon", R.mipmap.shengxian_item_icon);
         list.add(map);
 
         map = new HashMap<>();
-        map.put("name", "金融");
+        map.put("name","金融");
         map.put("icon", R.mipmap.jinrong_item_icon);
         list.add(map);
 
         map = new HashMap<>();
-        map.put("name", "洗浴");
+        map.put("name","洗浴");
         map.put("icon", R.mipmap.xiyu_item_icon);
         list.add(map);
 
         map = new HashMap<>();
-        map.put("name", "KTV");
+        map.put("name","KTV");
         map.put("icon", R.mipmap.ktv_item_icon);
         list.add(map);
 
         map = new HashMap<>();
-        map.put("name", "其他分类");
+        map.put("name","其他分类");
         map.put("icon", R.mipmap.other_item_icon);
         list.add(map);
 
@@ -372,33 +381,33 @@ public class MainHomePageFragment extends Fragment {
     }
 
     private void setYouHuiItem() {
-        List<Map<String, Object>> list = new ArrayList<>();
+        List<Map<String ,Object>> list = new ArrayList<>();
         Map<String, Object> map = new HashMap<>();
-        map.put("name", "food_item_icon");
+        map.put("name","food_item_icon");
         map.put("icon", R.mipmap.youhui1_icon);
         list.add(map);
 
         map = new HashMap<>();
-        map.put("name", "hospital_item_icon");
+        map.put("name","hospital_item_icon");
         map.put("icon", R.mipmap.youhui2_icon);
         list.add(map);
 
         map = new HashMap<>();
-        map.put("name", "car_item_icon");
+        map.put("name","car_item_icon");
         map.put("icon", R.mipmap.youhui1_icon);
         list.add(map);
 
         map = new HashMap<>();
-        map.put("name", "meirong_item_icon");
+        map.put("name","meirong_item_icon");
         map.put("icon", R.mipmap.youhui2_icon);
         list.add(map);
 
         //开始添加数据
-        for (int x = 0; x < list.size(); x++) {
+        for(int x=0; x<list.size(); x++){
             //寻找行布局，第一个参数为行布局ID，第二个参数为这个行布局需要放到那个容器上
-            View view = LayoutInflater.from(getActivity()).inflate(R.layout.main_preferential_item, youhuiServiceLayout, false);
+            View view=LayoutInflater.from(getActivity()).inflate(R.layout.main_preferential_item , youhuiServiceLayout,false);
             //通过View寻找ID实例化控件
-            ImageView img = (ImageView) view.findViewById(R.id.itemImage);
+            ImageView img= (ImageView) view.findViewById(R.id.itemImage);
             //实例化TextView控件
             //   TextView tv= (TextView) view.findViewById(R.id.textView);
             //将int数组中的数据放到ImageView中
