@@ -48,6 +48,7 @@ public class LoginActivity extends BaseActivity {
 
     /**
      * 启动
+     *
      * @param context
      */
     public static void startAction(Activity context) {
@@ -110,14 +111,14 @@ public class LoginActivity extends BaseActivity {
             return;
         }
 
-        Map<String,Object> params = new HashMap<>();
+        Map<String, Object> params = new HashMap<>();
         params.put("code", mobileCodeString);
         params.put("phone", mobileNumberString);
         params.put("role", "0");
         params.put("type", "1");
         WebUtil.getInstance().requestPOST(this, URLConstant.LOGIN, params, new WebUtil.WebCallBack() {
             @Override
-            public void onWebSuccess(String result) {
+            public void onWebSuccess(JSONObject result) {
                 toMaiin(result);
             }
 
@@ -129,17 +130,12 @@ public class LoginActivity extends BaseActivity {
 
     }
 
-    private void toMaiin(String result) {
-        try {
-            JSONObject jsonObject = new JSONObject(result);
-            JSONObject userStr = jsonObject.optJSONObject("user");
-            LoginInfo.setLoginInfo(userStr.toString());
-            CommonShared.setString(CommonShared.LOGIN_TOKEN, jsonObject.optString("token"));
-            MainActivity.startAction(this);
-            finish();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+    private void toMaiin(JSONObject jsonObject) {
+        JSONObject userStr = jsonObject.optJSONObject("user");
+        LoginInfo.setLoginInfo(userStr.toString());
+        CommonShared.setString(CommonShared.LOGIN_TOKEN, jsonObject.optString("token"));
+        MainActivity.startAction(this);
+        finish();
     }
 
     private void getPhoneCode() {
@@ -149,12 +145,12 @@ public class LoginActivity extends BaseActivity {
             return;
         }
         mobileCodeBtn.setClickable(false);
-        Map<String,Object> params = new HashMap<>();
+        Map<String, Object> params = new HashMap<>();
         params.put("phone", ToolUtil.changeString(mobileNumber.getText()));
         WebUtil.getInstance().requestPOST(this, URLConstant.GET_PHONE_CODE, params, true, true, new WebUtil.WebCallBack<Object>() {
             @Override
-            public void onWebSuccess(String result) {
-                Log.d("Register", result);
+            public void onWebSuccess(JSONObject result) {
+                Log.d("Register", result.toString());
                 ToastUtil.ToastMessage(LoginActivity.this, "发送验证码成功");
                 timeTask = new TimeTask();
                 timeTask.execute();
@@ -175,6 +171,7 @@ public class LoginActivity extends BaseActivity {
      */
     class TimeTask extends AsyncTask<Void, Integer, Boolean> {
         int time = 60;
+
         @Override
         protected void onPreExecute() {
             mobileCodeBtn.setText("(60s)");
@@ -198,7 +195,7 @@ public class LoginActivity extends BaseActivity {
         @Override
         protected Boolean doInBackground(Void... params) {
             while (true) {
-                if (time >=0) {
+                if (time >= 0) {
                     try {
                         Thread.sleep(1000);
                         time--;

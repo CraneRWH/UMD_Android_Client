@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.multidex.MultiDex;
 import android.support.multidex.MultiDexApplication;
 
+import com.bumptech.glide.Glide;
 import com.raizlabs.android.dbflow.config.FlowManager;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 import com.ymd.client.model.bean.User;
@@ -56,7 +57,7 @@ public class UApplication extends MultiDexApplication {
     @Override
     public void onCreate() {
         super.onCreate();
-
+        initGlide(this);
         me = this;
         //初始化
         init();
@@ -72,6 +73,7 @@ public class UApplication extends MultiDexApplication {
         LoginInfo.initInstance(getApplicationContext());
         WebUtil.initInstance(getApplicationContext());
         initUser();
+
 
     }
 
@@ -100,4 +102,18 @@ public class UApplication extends MultiDexApplication {
     public static Context getGobalApplication() {
         return app;
     }
+
+    public static void initGlide(Context cxt) {
+        final Context context = cxt.getApplicationContext();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                //下面用到的url最好是不存在的，目的只是为了初始化Glide
+                Glide.with(context).load("/sdcard/xxx.jpg").into(1, 1);
+                Glide.with(context).load("http://sdcard/xxx.jpg").into(1, 1);
+            }
+        }, "init_glide").start();
+
+    }
+
 }

@@ -44,8 +44,10 @@ public class LoginByPWActivity extends BaseActivity {
         LoginActivity.startAction(this);
         finish();
     }
+
     /**
      * 启动
+     *
      * @param context
      */
     public static void startAction(Activity context) {
@@ -108,14 +110,14 @@ public class LoginByPWActivity extends BaseActivity {
             return;
         }
 
-        Map<String,Object> params = new HashMap<>();
+        Map<String, Object> params = new HashMap<>();
         params.put("password", mobileCodeString);
         params.put("phone", mobileNumberString);
         params.put("role", "0");
         params.put("type", "0");
         WebUtil.getInstance().requestPOST(this, URLConstant.LOGIN, params, new WebUtil.WebCallBack() {
             @Override
-            public void onWebSuccess(String result) {
+            public void onWebSuccess(JSONObject result) {
                 toMaiin(result);
             }
 
@@ -127,16 +129,11 @@ public class LoginByPWActivity extends BaseActivity {
     }
 
 
-    private void toMaiin(String result) {
-        try {
-            JSONObject jsonObject = new JSONObject(result);
-            JSONObject userStr = jsonObject.optJSONObject("user");
-            LoginInfo.setLoginInfo(userStr.toString());
-            CommonShared.setString(CommonShared.LOGIN_TOKEN, jsonObject.optString("token"));
-            MainActivity.startAction(this);
-            finish();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+    private void toMaiin(JSONObject jsonObject) {
+        JSONObject userStr = jsonObject.optJSONObject("user");
+        LoginInfo.setLoginInfo(userStr.toString());
+        CommonShared.setString(CommonShared.LOGIN_TOKEN, jsonObject.optString("token"));
+        MainActivity.startAction(this);
+        finish();
     }
 }

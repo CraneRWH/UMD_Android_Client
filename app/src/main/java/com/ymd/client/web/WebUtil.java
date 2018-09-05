@@ -342,7 +342,7 @@ public class WebUtil {
         /**
          * 响应成功
          */
-        void onWebSuccess(String result);
+        void onWebSuccess(JSONObject result);
 
         /**
          * 响应失败
@@ -372,7 +372,7 @@ public class WebUtil {
                             ToastUtil.ToastMessage(appContext, resultJson.optString("msg"), ToastUtil.WRONG);
                             callBack.onWebFailed(result);
                         } else if (resultJson.optInt("code") == 0) {
-                            callBack.onWebSuccess(result);
+                            callBack.onWebSuccess(resultJson);
                         }
                     } catch (Exception e) {
                         callBack.onWebFailed(result);

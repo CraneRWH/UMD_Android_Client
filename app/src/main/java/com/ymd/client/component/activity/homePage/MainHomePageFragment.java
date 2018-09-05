@@ -20,6 +20,9 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.jude.rollviewpager.RollPagerView;
 import com.jude.rollviewpager.adapter.StaticPagerAdapter;
 import com.ymd.client.R;
@@ -34,10 +37,14 @@ import com.ymd.client.component.widget.other.MyChooseItemView;
 import com.ymd.client.component.widget.pullRefreshView.PullToRefreshLayout;
 import com.ymd.client.component.widget.pullRefreshView.PullableScrollView;
 import com.ymd.client.component.widget.recyclerView.MyGridView;
+import com.ymd.client.model.bean.homePage.PictureObject;
 import com.ymd.client.model.constant.URLConstant;
 import com.ymd.client.model.info.LocationInfo;
 import com.ymd.client.utils.ToolUtil;
 import com.ymd.client.web.WebUtil;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -191,10 +198,17 @@ public class MainHomePageFragment extends Fragment {
         textViewList.add(chooseItem1);
         textViewList.add(chooseItem2);
         textViewList.add(chooseItem3);
-        setPicture();
-        requestPicture();
+
+        String picture = "{\"msg\":\"success\",\"code\":0,\"list\":[{\"name\":\"as\",\"url\":\"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1536121560488&di=f9cb9a1309058242731c4e3f6cf098c2&imgtype=0&src=http%3A%2F%2Fpic2.ooopic.com%2F13%2F49%2F08%2F78bOOOPICe2_1024.jpg\",\"weight\":\"32\",\"status\":\"1\",\"page\":\"156165165\"},{\"name\":\"15\",\"url\":\"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1536121560485&di=81badb2a442991adb9193a287c996c47&imgtype=0&src=http%3A%2F%2Fh.hiphotos.baidu.com%2Fzhidao%2Fpic%2Fitem%2F3b87e950352ac65c870094e3f9f2b21193138a1d.jpg\",\"weight\":\"1\",\"status\":\"1\",\"page\":\"1\"},{\"name\":\"阿萨\",\"url\":\"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1536121560485&di=76919292ceb4648e94987afcaa4e30e0&imgtype=0&src=http%3A%2F%2Fb.hiphotos.baidu.com%2Fzhidao%2Fpic%2Fitem%2F2cf5e0fe9925bc318d90f62459df8db1ca1370b9.jpg\",\"weight\":\"1\",\"status\":\"1\",\"page\":\"15651561531\"}]}";
+        try {
+            JSONObject json = new JSONObject(picture);
+
+            setPicture(json.optString("list"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    //    requestPicture();
         setFunctionItem();
-        setYouHuiItem();
 
         for (int i = 0 ; i < textViewList.size() ; i ++ ) {
             final int position = i;
@@ -209,7 +223,8 @@ public class MainHomePageFragment extends Fragment {
         chooseItem(0);
 
         setFoodList();
-        requestYH();
+    //    requestYH();
+        setYouHuiItem();
         onRefresh();
     }
 
@@ -248,8 +263,8 @@ public class MainHomePageFragment extends Fragment {
 
         WebUtil.getInstance().requestPOST(getActivity(), URLConstant.UMD_PIC, null, new WebUtil.WebCallBack() {
             @Override
-            public void onWebSuccess(String result) {
-
+            public void onWebSuccess(JSONObject resultJson) {
+                setPicture(resultJson.optString("list"));
             }
 
             @Override
@@ -262,12 +277,13 @@ public class MainHomePageFragment extends Fragment {
     /**
      * 设置广告图片
      */
-    private void setPicture() {
+    private void setPicture(String picturesJson) {
+        List<PictureObject> list = new Gson().fromJson(picturesJson, new TypeToken<List<PictureObject>>(){}.getType());
         //设置播放时间间隔
         rollPagerView.setPlayDelay(3000);
         //设置透明度
         rollPagerView.setAnimationDurtion(500);
-        TestNormalAdapter advAdapter = new TestNormalAdapter();
+        TestNormalAdapter advAdapter = new TestNormalAdapter(list);
         //设置适配器
         rollPagerView.setAdapter(advAdapter);
 
@@ -405,7 +421,7 @@ public class MainHomePageFragment extends Fragment {
         WebUtil.getInstance().requestPOST(getActivity(), URLConstant.UMD_UH_PIC, params,
                 new WebUtil.WebCallBack() {
                     @Override
-                    public void onWebSuccess(String result) {
+                    public void onWebSuccess(JSONObject resultJson) {
 
                     }
 
@@ -462,28 +478,27 @@ public class MainHomePageFragment extends Fragment {
     }
 
     private class TestNormalAdapter extends StaticPagerAdapter {
-        private int[] imgs = {
-                R.mipmap.adver_icon_1,
-                R.mipmap.adver_icon_1,
-                R.mipmap.adver_icon_1,
-                R.mipmap.adver_icon_1
-        };
+        private List<PictureObject> datas;
 
+        public TestNormalAdapter(List<PictureObject> datas) {
+            this.datas = datas;
+        }
 
         @Override
         public View getView(ViewGroup container, int position) {
             ImageView view = new ImageView(container.getContext());
-            view.setImageResource(imgs[position]);
+        //    view.setImageResource(imgs[position]);
             view.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            Glide.with(getActivity()).load(datas.get(position).getUrl()).into(view);
             view.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
             return view;
         }
 
-
         @Override
         public int getCount() {
-            return imgs.length;
+            return datas.size();
         }
+
     }
 
     public interface OnFragmentInteractionListener {
@@ -536,7 +551,7 @@ public class MainHomePageFragment extends Fragment {
         WebUtil.getInstance().requestPOST(getActivity(), method, params,
                 new WebUtil.WebCallBack() {
                     @Override
-                    public void onWebSuccess(String result) {
+                    public void onWebSuccess(JSONObject resultJson) {
 
                     }
 

@@ -19,6 +19,8 @@ import com.ymd.client.utils.ToastUtil;
 import com.ymd.client.utils.ToolUtil;
 import com.ymd.client.web.WebUtil;
 
+import org.json.JSONObject;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -119,7 +121,7 @@ public class RegisterActivity extends BaseActivity {
         params.put("phone",mobileNumberString);
         WebUtil.getInstance().requestPOST(this, "ymdConsumer/addConsumer", params, new WebUtil.WebCallBack() {
             @Override
-            public void onWebSuccess(String result) {
+            public void onWebSuccess(JSONObject result) {
                 ToastUtil.ToastMessage(RegisterActivity.this, "注册成功");
                 toLogin();
             }
@@ -148,8 +150,8 @@ public class RegisterActivity extends BaseActivity {
         params.put("phone", ToolUtil.changeString(mobileNumber.getText()));
         WebUtil.getInstance().requestPOST(this, URLConstant.GET_PHONE_CODE, params, true, true, new WebUtil.WebCallBack<Object>() {
             @Override
-            public void onWebSuccess(String result) {
-                Log.d("Register", result);
+            public void onWebSuccess(JSONObject result) {
+                Log.d("Register", result.toString());
                 ToastUtil.ToastMessage(RegisterActivity.this, "发送验证码成功");
                 timeTask = new TimeTask();
                 timeTask.execute();
