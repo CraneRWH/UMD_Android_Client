@@ -3,18 +3,11 @@ package com.ymd.client.component.activity.login;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
-import android.text.TextUtils;
 
-import com.amap.api.location.AMapLocation;
-import com.amap.api.location.AMapLocationClient;
-import com.amap.api.location.AMapLocationClientOption;
-import com.amap.api.location.AMapLocationListener;
-import com.amap.api.location.AMapLocationQualityReport;
 import com.ymd.client.R;
 import com.ymd.client.common.base.service.LocationIntentService;
 import com.ymd.client.component.activity.main.MainActivity;
@@ -25,8 +18,6 @@ import com.ymd.client.utils.CommonShared;
 import com.ymd.client.web.WebUtil;
 
 import org.json.JSONObject;
-
-import butterknife.internal.Utils;
 
 /**
  * 作者:rongweihe
@@ -63,7 +54,7 @@ public class LogoActivity extends AppCompatActivity {
     };
 
     private void requestCities() {
-        String citysStr =  "[\n" +
+       /* String citysStr =  "[\n" +
                 "    {\n" +
                 "      \"cityID\": \"1529\",\n" +
                 "      \"cityName\": \"阿拉善盟\",\n" +
@@ -1852,8 +1843,8 @@ public class LogoActivity extends AppCompatActivity {
                 "  ]";
         CommonShared.setString(LocationInfo.CITYS_INFO_SETTING, citysStr);
         LocationInfo.getInstance().refreshCitiesData();
-        toLoginHandler.sendEmptyMessage(0);
-       /* WebUtil.getInstance().requestPOST(this, URLConstant.QUERY_CITY_DATA, null,
+        toLoginHandler.sendEmptyMessage(0);*/
+        WebUtil.getInstance().requestPOST(this, URLConstant.QUERY_CITY_DATA, null,
                 new WebUtil.WebCallBack() {
                     @Override
                     public void onWebSuccess(JSONObject result) {
@@ -1866,7 +1857,7 @@ public class LogoActivity extends AppCompatActivity {
                     public void onWebFailed(String errorMsg) {
 
                     }
-                });*/
+                });
     }
     private void toMainActivity() {
     //    LoginActivity.startAction(this);

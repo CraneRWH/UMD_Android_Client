@@ -39,6 +39,7 @@ import com.ymd.client.component.widget.pullRefreshView.PullableScrollView;
 import com.ymd.client.component.widget.recyclerView.MyGridView;
 import com.ymd.client.model.bean.city.CityEntity;
 import com.ymd.client.model.bean.homePage.DiscountsMerchantEntity;
+import com.ymd.client.model.bean.homePage.MerchantInfoEntity;
 import com.ymd.client.model.bean.homePage.PictureEntity;
 import com.ymd.client.model.constant.URLConstant;
 import com.ymd.client.model.info.LocationInfo;
@@ -206,15 +207,15 @@ public class MainHomePageFragment extends Fragment {
         textViewList.add(chooseItem2);
         textViewList.add(chooseItem3);
 
-        String picture = "{\"msg\":\"success\",\"code\":0,\"list\":[{\"name\":\"as\",\"url\":\"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1536121560488&di=f9cb9a1309058242731c4e3f6cf098c2&imgtype=0&src=http%3A%2F%2Fpic2.ooopic.com%2F13%2F49%2F08%2F78bOOOPICe2_1024.jpg\",\"weight\":\"32\",\"status\":\"1\",\"page\":\"156165165\"},{\"name\":\"15\",\"url\":\"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1536121560485&di=81badb2a442991adb9193a287c996c47&imgtype=0&src=http%3A%2F%2Fh.hiphotos.baidu.com%2Fzhidao%2Fpic%2Fitem%2F3b87e950352ac65c870094e3f9f2b21193138a1d.jpg\",\"weight\":\"1\",\"status\":\"1\",\"page\":\"1\"},{\"name\":\"阿萨\",\"url\":\"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1536121560485&di=76919292ceb4648e94987afcaa4e30e0&imgtype=0&src=http%3A%2F%2Fb.hiphotos.baidu.com%2Fzhidao%2Fpic%2Fitem%2F2cf5e0fe9925bc318d90f62459df8db1ca1370b9.jpg\",\"weight\":\"1\",\"status\":\"1\",\"page\":\"15651561531\"}]}";
+       /* String picture = "{\"msg\":\"success\",\"code\":0,\"list\":[{\"name\":\"as\",\"url\":\"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1536121560488&di=f9cb9a1309058242731c4e3f6cf098c2&imgtype=0&src=http%3A%2F%2Fpic2.ooopic.com%2F13%2F49%2F08%2F78bOOOPICe2_1024.jpg\",\"weight\":\"32\",\"status\":\"1\",\"page\":\"156165165\"},{\"name\":\"15\",\"url\":\"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1536121560485&di=81badb2a442991adb9193a287c996c47&imgtype=0&src=http%3A%2F%2Fh.hiphotos.baidu.com%2Fzhidao%2Fpic%2Fitem%2F3b87e950352ac65c870094e3f9f2b21193138a1d.jpg\",\"weight\":\"1\",\"status\":\"1\",\"page\":\"1\"},{\"name\":\"阿萨\",\"url\":\"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1536121560485&di=76919292ceb4648e94987afcaa4e30e0&imgtype=0&src=http%3A%2F%2Fb.hiphotos.baidu.com%2Fzhidao%2Fpic%2Fitem%2F2cf5e0fe9925bc318d90f62459df8db1ca1370b9.jpg\",\"weight\":\"1\",\"status\":\"1\",\"page\":\"15651561531\"}]}";
         try {
             JSONObject json = new JSONObject(picture);
 
             setPicture(json.optString("list"));
         } catch (JSONException e) {
             e.printStackTrace();
-        }
-    //    requestPicture();
+        }*/
+        requestPicture();
         setFunctionItem();
 
         for (int i = 0 ; i < textViewList.size() ; i ++ ) {
@@ -229,9 +230,8 @@ public class MainHomePageFragment extends Fragment {
         }
         chooseItem(0);
 
-        setFoodList();
-    //    requestYH();
-        String youhui = "\n" +
+        requestYH();
+     /*   String youhui = "\n" +
                 "{\n" +
                 "  \"msg\": \"success\",\n" +
                 "  \"code\": 0,\n" +
@@ -304,7 +304,7 @@ public class MainHomePageFragment extends Fragment {
             setYouHuiItem(json.optString("list"));
         } catch (JSONException e) {
             e.printStackTrace();
-        }
+        }*/
         onRefresh();
         LocationInfo.getInstance().setChangeListener(new LocationInfo.OnCityChangeListener() {
             @Override
@@ -314,23 +314,12 @@ public class MainHomePageFragment extends Fragment {
         });
     }
 
-    private void setFoodList() {
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
-        recyclerView.setLayoutManager(layoutManager);
-        FoodListAdapter adapter = new FoodListAdapter(getData(), getContext());
-        adapter.setListener(new OnUMDItemClickListener() {
-            @Override
-            public void onClick(Object data, View view, int position) {
-                SellerDetailActivity.startAction(getActivity());
-            }
-        });
-        recyclerView.setAdapter(adapter);
-    }
-
     public int chooseStatus = 0;
 
     protected void chooseItem(int position) {
         chooseStatus = position;
+        requestMerchant(position);
+        page = 1;
         try {
             for (int i = 0; i < textViewList.size(); i++) {
                 if (i == position) {
@@ -508,12 +497,16 @@ public class MainHomePageFragment extends Fragment {
 
     private void requestYH() {
         Map<String,Object> params = new HashMap<>();
-        params.put("countyId","130406");
+        params.put("countyId", "130406");
+    /*    params.put("county",LocationInfo.getInstance().getChooseCity().getCountyName());
+        params.put("city", LocationInfo.getInstance().getChooseCity().getCityID());
+        params.put("latitude",LocationInfo.getInstance().getLocationInfo().getLatitude());
+        params.put("longitude",LocationInfo.getInstance().getLocationInfo().getLongitude());*/
         WebUtil.getInstance().requestPOST(getActivity(), URLConstant.UMD_UH_PIC, params,
                 new WebUtil.WebCallBack() {
                     @Override
                     public void onWebSuccess(JSONObject resultJson) {
-
+                        setYouHuiItem(resultJson.optString("list"));
                     }
 
                     @Override
@@ -596,11 +589,11 @@ public class MainHomePageFragment extends Fragment {
      */
     private void requestMerchant(int type){
         Map<String,Object> params = new HashMap<>();
-        params.put("latitude","0");
-        params.put("longitude", "0");
+        params.put("county","130406");
+        params.put("city", LocationInfo.getInstance().getChooseCity().getCityID());
+        params.put("latitude",LocationInfo.getInstance().getLocationInfo().getLatitude());
+        params.put("longitude",LocationInfo.getInstance().getLocationInfo().getLongitude());
         params.put("pageNum", page);
-        params.put("city", "");
-        params.put("county","");
         String method = URLConstant.COMPREHENSIVE_MERCHANT;
         switch (type){
             case 0:
@@ -620,7 +613,7 @@ public class MainHomePageFragment extends Fragment {
                 new WebUtil.WebCallBack() {
                     @Override
                     public void onWebSuccess(JSONObject resultJson) {
-
+                        resetMerchantData(resultJson.optString("list"));
                     }
 
                     @Override
@@ -629,6 +622,20 @@ public class MainHomePageFragment extends Fragment {
                     }
                 });
 
+    }
+
+    private void resetMerchantData(String result) {
+        List<MerchantInfoEntity> datas = new Gson().fromJson(result, new TypeToken<List<MerchantInfoEntity>>(){}.getType());
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        recyclerView.setLayoutManager(layoutManager);
+        FoodListAdapter adapter = new FoodListAdapter(datas, getContext());
+        adapter.setListener(new OnUMDItemClickListener() {
+            @Override
+            public void onClick(Object data, View view, int position) {
+                SellerDetailActivity.startAction(getActivity());
+            }
+        });
+        recyclerView.setAdapter(adapter);
     }
 
 

@@ -17,12 +17,20 @@ import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.ymd.client.R;
 import com.ymd.client.common.base.BaseActivity;
 import com.ymd.client.common.base.bean.TabObject;
 import com.ymd.client.component.activity.order.PageFragmentAdapter;
 import com.ymd.client.component.widget.other.MyChooseItemView;
+import com.ymd.client.model.bean.homePage.YmdRecommendEntity;
+import com.ymd.client.model.constant.URLConstant;
 import com.ymd.client.utils.ToolUtil;
+import com.ymd.client.web.WebUtil;
+
+import org.json.JSONObject;
 
 import java.nio.channels.Channel;
 import java.util.ArrayList;
@@ -85,7 +93,6 @@ public class NiceFoodActivity extends BaseActivity implements ViewPager.OnPageCh
 
     private void initView() {
         setTitle("美食");
-        setYouHuiItem();
 
         rgChannel.setOnCheckedChangeListener(
                 new RadioGroup.OnCheckedChangeListener() {
@@ -101,10 +108,29 @@ public class NiceFoodActivity extends BaseActivity implements ViewPager.OnPageCh
         rgChannel.check(0);
 
         setTab(0);
+        requestRecommend();
     }
 
-    private void setYouHuiItem() {
-        List<Map<String, Object>> list = new ArrayList<>();
+    private void requestRecommend() {
+        Map<String,Object> params = new HashMap<>();
+        params.put("countyId","130406");
+        WebUtil.getInstance().requestPOST(this, URLConstant.RECOMMEND_NICE_MERCHANT, params,
+                new WebUtil.WebCallBack() {
+                    @Override
+                    public void onWebSuccess(JSONObject result) {
+                        setYouHuiItem(result.optString("list"));
+                    }
+
+                    @Override
+                    public void onWebFailed(String errorMsg) {
+
+                    }
+                });
+    }
+
+    private void setYouHuiItem(String resultJson) {
+        List<YmdRecommendEntity> list = new Gson().fromJson(resultJson, new TypeToken<List<YmdRecommendEntity>>(){}.getType());
+        /*List<Map<String, Object>> list = new ArrayList<>();
         Map<String, Object> map = new HashMap<>();
         map.put("name", "food_item_icon");
         map.put("icon", R.mipmap.nice_good_icon1);
@@ -124,9 +150,10 @@ public class NiceFoodActivity extends BaseActivity implements ViewPager.OnPageCh
         map.put("name", "meirong_item_icon");
         map.put("icon", R.mipmap.nice_good_icon1);
         list.add(map);
-
+*/
         //开始添加数据
         for (int x = 0; x < list.size(); x++) {
+            YmdRecommendEntity item = list.get(x);
             //寻找行布局，第一个参数为行布局ID，第二个参数为这个行布局需要放到那个容器上
             View view = LayoutInflater.from(this).inflate(R.layout.item_nice_food_recommend, recommendLayout, false);
 
@@ -143,8 +170,13 @@ public class NiceFoodActivity extends BaseActivity implements ViewPager.OnPageCh
             buy_btn = (TextView) view.findViewById(R.id.buy_btn);
             old_price_tv = (TextView) view.findViewById(R.id.old_price_tv);
             old_price_tv.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+
+            name_tv.setText(ToolUtil.changeString(item.getGoodsName()));
+            desc_tv.setText(ToolUtil.changeString(item.getMerchantName()));
+        //    now_price_tv.setText(ToolUtil.changeString(item.get));
             //将int数组中的数据放到ImageView中
-            icon_iv.setImageResource(ToolUtil.changeInteger(list.get(x).get("icon")));
+        //    icon_iv.setImageResource(ToolUtil.changeInteger(datas.get(x).get("icon")));
+            Glide.with(this).load(item.getPhoto()).into(icon_iv);
             //给TextView添加文字
             //    tv.setText("第"+(x+1)+"张");
             //把行布局放到linear里
@@ -188,7 +220,7 @@ public class NiceFoodActivity extends BaseActivity implements ViewPager.OnPageCh
         channelList.add(new TabObject("麻辣烫"));
         channelList.add(new TabObject("半天妖"));
         for(int i=0;i<channelList.size();i++){
-            FoodListFragment frag= FoodListFragment.newInstance();
+            FoodListFragment frag= FoodListFragment.newInstance(i);
       /*      Bundle bundle=new Bundle();
             bundle.putString("weburl", channelList.get(i).getWeburl());
             bundle.putString("name", channelList.get(i).getName());

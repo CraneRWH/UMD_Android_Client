@@ -79,4 +79,10 @@ public class URLConstant {
      * 获取县级城市列表
      */
     public static final String QUERY_COUTY_DATA= "city/cities";
+
+
+    /**
+     * 获取今日推荐的商家美食
+     */
+    public static final String RECOMMEND_NICE_MERCHANT= "ymdConsumer/recommendation";
 }

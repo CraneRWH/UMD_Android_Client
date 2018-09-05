@@ -10,10 +10,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.ymd.client.R;
 import com.ymd.client.common.base.OnUMDItemClickListener;
 import com.ymd.client.component.activity.homePage.food.seller.SellerDetailActivity;
 import com.ymd.client.component.adapter.food.FoodListAdapter;
+import com.ymd.client.model.bean.homePage.MerchantInfoEntity;
+import com.ymd.client.model.constant.URLConstant;
+import com.ymd.client.model.info.LocationInfo;
+import com.ymd.client.web.WebUtil;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -40,17 +48,18 @@ public class FoodListFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
+    private int status;
+
 
     public FoodListFragment() {
         // Required empty public constructor
     }
 
-    public static FoodListFragment newInstance(/*String param1, String param2*/) {
+    public static FoodListFragment newInstance(int type/*String param1, String param2*/) {
         FoodListFragment fragment = new FoodListFragment();
-        /*Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);*/
+        Bundle args = new Bundle();
+        args.putInt(ARG_PARAM1, type);
+        fragment.setArguments(args);
         return fragment;
     }
 
@@ -58,8 +67,7 @@ public class FoodListFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            status = getArguments().getInt(ARG_PARAM1);
         }
     }
 
@@ -73,9 +81,67 @@ public class FoodListFragment extends Fragment {
     }
 
     private void initView() {
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+    /*    LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
         FoodListAdapter adapter = new FoodListAdapter(getData(), getContext());
+        adapter.setListener(new OnUMDItemClickListener() {
+            @Override
+            public void onClick(Object data, View view, int position) {
+                SellerDetailActivity.startAction(getActivity());
+            }
+        });
+        recyclerView.setAdapter(adapter);*/
+        requestMerchant(status);
+    }
+
+    int page = 1;
+
+    /**
+     * 根据城市获取商户列表
+     * @param type
+     */
+    private void requestMerchant(int type){
+        Map<String,Object> params = new HashMap<>();
+        params.put("county","130406");
+        params.put("city", LocationInfo.getInstance().getChooseCity().getCityID());
+        params.put("latitude",LocationInfo.getInstance().getLocationInfo().getLatitude());
+        params.put("longitude",LocationInfo.getInstance().getLocationInfo().getLongitude());
+        params.put("pageNum", page);
+        String method = URLConstant.COMPREHENSIVE_MERCHANT;
+        switch (type){
+            case 0:
+                method = URLConstant.COMPREHENSIVE_MERCHANT;
+                break;
+            case 1:
+                method = URLConstant.SALES_MERCHANT;
+                break;
+            case 2:
+                method = URLConstant.PRAISE_MERCHANT;
+                break;
+            case 3:
+                method = URLConstant.NEAR_MERCHANT;
+                break;
+        }
+        WebUtil.getInstance().requestPOST(getActivity(), method, params,
+                new WebUtil.WebCallBack() {
+                    @Override
+                    public void onWebSuccess(JSONObject resultJson) {
+                        resetMerchantData(resultJson.optString("list"));
+                    }
+
+                    @Override
+                    public void onWebFailed(String errorMsg) {
+
+                    }
+                });
+
+    }
+
+    private void resetMerchantData(String result) {
+        List<MerchantInfoEntity> datas = new Gson().fromJson(result, new TypeToken<List<MerchantInfoEntity>>(){}.getType());
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        recyclerView.setLayoutManager(layoutManager);
+        FoodListAdapter adapter = new FoodListAdapter(datas, getContext());
         adapter.setListener(new OnUMDItemClickListener() {
             @Override
             public void onClick(Object data, View view, int position) {

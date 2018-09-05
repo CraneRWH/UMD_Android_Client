@@ -345,7 +345,7 @@ public class WebUtil {
         /**
          * 响应成功
          */
-        void onWebSuccess(JSONObject result);
+        void onWebSuccess(JSONObject resultJson);
 
         /**
          * 响应失败

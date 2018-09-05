@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     xmlns:custom="http://schemas.android.com/apk/res-auto"
     xmlns:app="http://schemas.android.com/tools"
-    android:background="@color/bg_color"
+    android:background="@color/white"
     android:orientation="vertical"
     app:ignore="NamespaceTypo">
 
@@ -166,7 +166,6 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@color/bg_color"
                         android:paddingBottom="7dp"
                         android:paddingLeft="15dp"
                         android:paddingTop="15dp"
@@ -212,7 +211,6 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="@dimen/mar_pad_len_12px"
-                            android:background="@color/bg_color"
                             android:text="优惠服务"
                             android:textColor="@color/common_text_color"
                             android:textSize="@dimen/text_size_32px" />
@@ -262,7 +260,6 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:background="@color/bg_color"
                             android:text="品质商家"
                             android:textColor="@color/common_text_color"
                             android:layout_marginLeft="@dimen/mar_pad_len_12px"

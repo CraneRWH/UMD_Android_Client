@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.ymd.client.R;
 import com.ymd.client.common.base.OnUMDItemClickListener;
+import com.ymd.client.model.bean.homePage.MerchantInfoEntity;
 import com.ymd.client.utils.ToolUtil;
 
 import java.util.List;
@@ -31,12 +32,12 @@ import butterknife.ButterKnife;
  */
 public class FoodListAdapter extends RecyclerView.Adapter<FoodListAdapter.ViewHolder> {
 
-    private List<Map<String, Object>> datas;
+    private List<MerchantInfoEntity> datas;
     private Context mContext;
 
     private OnUMDItemClickListener listener;
 
-    public FoodListAdapter(List<Map<String, Object>> datas, Context mContext) {
+    public FoodListAdapter(List<MerchantInfoEntity> datas, Context mContext) {
         this.datas = datas;
         this.mContext = mContext;
     }
@@ -52,25 +53,25 @@ public class FoodListAdapter extends RecyclerView.Adapter<FoodListAdapter.ViewHo
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
 
-        Map<String, Object> data = datas.get(position);
-        holder.nameTv.setText(ToolUtil.changeString(data.get("name")));
-        holder.distanceTv.setText(ToolUtil.changeString(data.get("distance")));
-        holder.scoreBarView.setRating(ToolUtil.changeFloat(data.get("point")));
-        holder.workTimeTv.setText(ToolUtil.changeString(data.get("work_time")));
-        holder.disStrTv.setText(ToolUtil.changeString(data.get("dis_str")));
-        holder.disNumTv.setText(ToolUtil.changeString(data.get("dis_num")));
-        holder.priceTv.setText("¥" + data.get("price"));
-        holder.unitTv.setText("/"+ data.get("unit"));
-        List<String> disStrs = (List<String>) data.get("diss");
+        MerchantInfoEntity data = datas.get(position);
+        holder.nameTv.setText(ToolUtil.changeString(data.getName()));
+        holder.distanceTv.setText(ToolUtil.changeString(data.getDistance()));
+        holder.scoreBarView.setRating(ToolUtil.changeFloat(data.getScore()));
+    //    holder.workTimeTv.setText(ToolUtil.changeString(data.get("work_time")));
+    //    holder.disStrTv.setText(ToolUtil.changeString(data.get("dis_str")));
+        holder.disNumTv.setText(ToolUtil.changeString(data.getDiscount()) +"折");
+        holder.priceTv.setText("¥" /*+ data.get("price")*/);
+        holder.unitTv.setText("/"/*+ data.get("unit")*/);
+     //   List<String> disStrs = (List<String>) data.get("diss");
         //开始添加数据
-        for (int x = 0; x < disStrs.size(); x++) {
+    /*    for (int x = 0; x < disStrs.size(); x++) {
             //寻找行布局，第一个参数为行布局ID，第二个参数为这个行布局需要放到那个容器上
             View view = LayoutInflater.from(mContext).inflate(R.layout.item_fragment_food_list_l, holder.giftLayout, false);
 
             TextView name_tv = (TextView) view.findViewById(R.id.item_tv);
             name_tv.setText(disStrs.get(x));
             holder.giftLayout.addView(view);
-        }
+        }*/
         holder.rootView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
