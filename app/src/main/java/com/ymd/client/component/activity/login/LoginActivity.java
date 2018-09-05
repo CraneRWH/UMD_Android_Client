@@ -46,6 +46,7 @@ public class LoginActivity extends BaseActivity {
 
     private TimeTask timeTask;
 
+    private TextView registerBtn;
     /**
      * 启动
      *
@@ -73,7 +74,13 @@ public class LoginActivity extends BaseActivity {
         weixinIv = (ImageView) findViewById(R.id.weixin_iv);
         qqIv = (ImageView) findViewById(R.id.qq_iv);
         weiboIv = (ImageView) findViewById(R.id.weibo_iv);
-
+        registerBtn = (TextView) findViewById(R.id.register_btn);
+        registerBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                RegisterActivity.startAction(LoginActivity.this);
+            }
+        });
         mobileCodeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

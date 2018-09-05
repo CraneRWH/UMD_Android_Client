@@ -2,7 +2,6 @@ package com.ymd.client.component.activity.homePage;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -27,6 +26,7 @@ import com.jude.rollviewpager.RollPagerView;
 import com.jude.rollviewpager.adapter.StaticPagerAdapter;
 import com.ymd.client.R;
 import com.ymd.client.common.base.OnUMDItemClickListener;
+import com.ymd.client.component.activity.homePage.city.CityChooseActivity;
 import com.ymd.client.component.activity.homePage.food.NiceFoodActivity;
 import com.ymd.client.component.activity.homePage.food.seller.SellerDetailActivity;
 import com.ymd.client.component.activity.homePage.scan.ScanCodeActivity;
@@ -37,7 +37,9 @@ import com.ymd.client.component.widget.other.MyChooseItemView;
 import com.ymd.client.component.widget.pullRefreshView.PullToRefreshLayout;
 import com.ymd.client.component.widget.pullRefreshView.PullableScrollView;
 import com.ymd.client.component.widget.recyclerView.MyGridView;
-import com.ymd.client.model.bean.homePage.PictureObject;
+import com.ymd.client.model.bean.city.CityEntity;
+import com.ymd.client.model.bean.homePage.DiscountsMerchantEntity;
+import com.ymd.client.model.bean.homePage.PictureEntity;
 import com.ymd.client.model.constant.URLConstant;
 import com.ymd.client.model.info.LocationInfo;
 import com.ymd.client.utils.ToolUtil;
@@ -167,7 +169,12 @@ public class MainHomePageFragment extends Fragment {
     }
 
     private void initView() {
-
+        locationLlt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CityChooseActivity.startAction(getActivity());
+            }
+        });
         bigLayout.setOnRefreshListener(new PullToRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh(PullToRefreshLayout pullToRefreshLayout) {
@@ -224,8 +231,87 @@ public class MainHomePageFragment extends Fragment {
 
         setFoodList();
     //    requestYH();
-        setYouHuiItem();
+        String youhui = "\n" +
+                "{\n" +
+                "  \"msg\": \"success\",\n" +
+                "  \"code\": 0,\n" +
+                "  \"list\": [\n" +
+                "    {\n" +
+                "      \"photo\": \"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1536123084815&di=449efea3b987f3f5dda31ac9fd0a3fbe&imgtype=0&src=http%3A%2F%2Fh.hiphotos.baidu.com%2Fbaike%2Fc0%253Dbaike150%252C5%252C5%252C150%252C50%2Fsign%3De486cd1c78f0f736ccf344536b3cd87c%2F1e30e924b899a90103eaa0551d950a7b0308f5f2.jpg\",\n" +
+                "      \"merchantId\": 7,\n" +
+                "      \"starttime\": \"2018-09-01 15:39:02\",\n" +
+                "      \"endtime\": \"2018-09-15 15:39:06\",\n" +
+                "      \"top\": \"\",\n" +
+                "      \"state\": \"1\",\n" +
+                "      \"weight\": \"20\",\n" +
+                "      \"departmentCode\": \"000000010001\",\n" +
+                "      \"merchantName\": null,\n" +
+                "      \"conclusion\": null\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"photo\": \"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1536123084817&di=62dca9c088b963b97dece6f28a0a6be5&imgtype=0&src=http%3A%2F%2Ff.hiphotos.baidu.com%2Flvpics%2Fh%3D800%2Fsign%3D0ddbd040b9a1cd111ab67f208912c8b0%2F79f0f736afc37931ff52b259e8c4b74543a91183.jpg\",\n" +
+                "      \"merchantId\": 7,\n" +
+                "      \"starttime\": \"2018-08-22 14:04:53\",\n" +
+                "      \"endtime\": \"2018-09-06 14:04:55\",\n" +
+                "      \"top\": \"\",\n" +
+                "      \"state\": \"1\",\n" +
+                "      \"weight\": \"15\",\n" +
+                "      \"departmentCode\": \"000000010001\",\n" +
+                "      \"merchantName\": null,\n" +
+                "      \"conclusion\": null\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"photo\": \"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1536123084819&di=fa8760bc4ee5ee241c75dbbcc67f1320&imgtype=0&src=http%3A%2F%2Fe.hiphotos.baidu.com%2Fbainuo%2Fwh%3D720%2C436%2Fsign%3D7cf378e033fae6cd0ce1a3663d832310%2Fbd315c6034a85edf666967f44f540923dc547504.jpg\",\n" +
+                "      \"merchantId\": 7,\n" +
+                "      \"starttime\": \"2018-08-22 14:04:53\",\n" +
+                "      \"endtime\": \"2018-09-06 14:04:55\",\n" +
+                "      \"top\": \"\",\n" +
+                "      \"state\": \"1\",\n" +
+                "      \"weight\": \"15\",\n" +
+                "      \"departmentCode\": \"000000010001\",\n" +
+                "      \"merchantName\": null,\n" +
+                "      \"conclusion\": null\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"photo\": \"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1536123103491&di=71444619e7473207405cd5edd45d72d2&imgtype=jpg&src=http%3A%2F%2Fimg2.imgtn.bdimg.com%2Fit%2Fu%3D981269532%2C129067962%26fm%3D214%26gp%3D0.jpg\",\n" +
+                "      \"merchantId\": 7,\n" +
+                "      \"starttime\": \"2018-08-22 14:04:53\",\n" +
+                "      \"endtime\": \"2018-09-06 14:04:55\",\n" +
+                "      \"top\": \"\",\n" +
+                "      \"state\": \"1\",\n" +
+                "      \"weight\": \"15\",\n" +
+                "      \"departmentCode\": \"000000010001\",\n" +
+                "      \"merchantName\": null,\n" +
+                "      \"conclusion\": null\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"photo\": \"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1536123084825&di=b1b4289d08d13ad74db54b0cc3cb891b&imgtype=0&src=http%3A%2F%2Fimgsa.baidu.com%2Fexp%2Fw%3D500%2Fsign%3D34bf2209227f9e2f70351d082f31e962%2F08f790529822720e99c772157ecb0a46f31fabd0.jpg\",\n" +
+                "      \"merchantId\": 7,\n" +
+                "      \"starttime\": \"2018-08-22 14:04:53\",\n" +
+                "      \"endtime\": \"2018-09-06 14:04:55\",\n" +
+                "      \"top\": \"\",\n" +
+                "      \"state\": \"1\",\n" +
+                "      \"weight\": \"15\",\n" +
+                "      \"departmentCode\": \"000000010001\",\n" +
+                "      \"merchantName\": null,\n" +
+                "      \"conclusion\": null\n" +
+                "    }\n" +
+                "  ]\n" +
+                "}";
+        try {
+            JSONObject json = new JSONObject(youhui);
+
+            setYouHuiItem(json.optString("list"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
         onRefresh();
+        LocationInfo.getInstance().setChangeListener(new LocationInfo.OnCityChangeListener() {
+            @Override
+            public void onChange(CityEntity cityEntity) {
+                onRefresh();
+            }
+        });
     }
 
     private void setFoodList() {
@@ -278,7 +364,7 @@ public class MainHomePageFragment extends Fragment {
      * 设置广告图片
      */
     private void setPicture(String picturesJson) {
-        List<PictureObject> list = new Gson().fromJson(picturesJson, new TypeToken<List<PictureObject>>(){}.getType());
+        List<PictureEntity> list = new Gson().fromJson(picturesJson, new TypeToken<List<PictureEntity>>(){}.getType());
         //设置播放时间间隔
         rollPagerView.setPlayDelay(3000);
         //设置透明度
@@ -323,7 +409,12 @@ public class MainHomePageFragment extends Fragment {
      * 刷新城市名称和车辆信息
      */
     public void onRefresh() {
-//        locationTv.setText(LocationInfo.getInstance().getLocationInfo().getChooseCity());
+        if (ToolUtil.changeString(LocationInfo.getInstance().getChooseCity().getCountyName()).length() > 0) {
+            locationTv.setText(LocationInfo.getInstance().getChooseCity().getCountyName());
+        } else {
+            locationTv.setText(LocationInfo.getInstance().getChooseCity().getCityName());
+        }
+
     }
 
     /**
@@ -432,40 +523,17 @@ public class MainHomePageFragment extends Fragment {
                 });
     }
 
-    private void setYouHuiItem() {
-        List<Map<String ,Object>> list = new ArrayList<>();
-        Map<String, Object> map = new HashMap<>();
-        map.put("name","food_item_icon");
-        map.put("icon", R.mipmap.youhui1_icon);
-        list.add(map);
-
-        map = new HashMap<>();
-        map.put("name","hospital_item_icon");
-        map.put("icon", R.mipmap.youhui2_icon);
-        list.add(map);
-
-        map = new HashMap<>();
-        map.put("name","car_item_icon");
-        map.put("icon", R.mipmap.youhui1_icon);
-        list.add(map);
-
-        map = new HashMap<>();
-        map.put("name","meirong_item_icon");
-        map.put("icon", R.mipmap.youhui2_icon);
-        list.add(map);
+    private void setYouHuiItem(String datas) {
+        List<DiscountsMerchantEntity> list = new Gson().fromJson(datas, new TypeToken<List<DiscountsMerchantEntity>>(){}.getType());
 
         //开始添加数据
-        for(int x=0; x<list.size(); x++){
+        for(int i=0; i<list.size(); i++){
             //寻找行布局，第一个参数为行布局ID，第二个参数为这个行布局需要放到那个容器上
             View view=LayoutInflater.from(getActivity()).inflate(R.layout.main_preferential_item , youhuiServiceLayout,false);
             //通过View寻找ID实例化控件
             ImageView img= (ImageView) view.findViewById(R.id.itemImage);
             //实例化TextView控件
-            //   TextView tv= (TextView) view.findViewById(R.id.textView);
-            //将int数组中的数据放到ImageView中
-            img.setImageResource(ToolUtil.changeInteger(list.get(x).get("icon")));
-            //给TextView添加文字
-            //    tv.setText("第"+(x+1)+"张");
+            Glide.with(getActivity()).load(list.get(i).getPhoto()).into(img);
             //把行布局放到linear里
             youhuiServiceLayout.addView(view);
         }
@@ -478,9 +546,9 @@ public class MainHomePageFragment extends Fragment {
     }
 
     private class TestNormalAdapter extends StaticPagerAdapter {
-        private List<PictureObject> datas;
+        private List<PictureEntity> datas;
 
-        public TestNormalAdapter(List<PictureObject> datas) {
+        public TestNormalAdapter(List<PictureEntity> datas) {
             this.datas = datas;
         }
 

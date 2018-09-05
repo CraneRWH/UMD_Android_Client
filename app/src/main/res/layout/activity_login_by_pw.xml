@@ -154,6 +154,7 @@
                 android:orientation="horizontal"
                 android:gravity="center_vertical"
                 android:layout_marginRight="@dimen/mar_pad_len_70px"
+                android:layout_marginLeft="@dimen/mar_pad_len_70px"
                 >
                 <CheckBox
                     android:layout_width="0dp"
@@ -163,9 +164,22 @@
                     android:textColor="@color/white"
                     android:textSize="14sp"
                     android:checked="false"
-                    android:visibility="invisible"
+                    android:visibility="gone"
                     android:paddingLeft="5dp"
                     />
+                <TextView
+                    android:id="@+id/register_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="注册账号"
+                    android:textColor="@color/text_gray_dark"
+                    android:textSize="@dimen/text_size_26px"
+                    android:padding="@dimen/mar_pad_len_30px"
+                    />
+                <View
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="1dp"/>
                 <TextView
                     android:id="@+id/forget_password_btn"
                     android:layout_width="wrap_content"

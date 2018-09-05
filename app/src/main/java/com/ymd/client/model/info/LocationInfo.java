@@ -1,15 +1,22 @@
 package com.ymd.client.model.info;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import android.app.AlertDialog;
 import android.content.Context;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.ymd.client.model.bean.LocationValueObject;
+import com.ymd.client.model.bean.city.CityEntity;
+import com.ymd.client.model.bean.city.LocationInfoEntity;
+import com.ymd.client.model.constant.URLConstant;
 import com.ymd.client.utils.CommonShared;
 import com.ymd.client.utils.ToolUtil;
+import com.ymd.client.web.WebUtil;
+
+import org.json.JSONObject;
 
 /**
  * 定位城市的类
@@ -19,8 +26,12 @@ import com.ymd.client.utils.ToolUtil;
 public class LocationInfo implements java.io.Serializable{
 
 	public final static String LOCATION_INFO_SETTING = "locationInfo";
+	public final static String CITYS_INFO_SETTING = "citysInfo";
+	public final static String CITY_CHOOSE_SETTING = "cityChooseInfo";
 	private static LocationInfo instance = null;
-	private static LocationValueObject locationInfo = new LocationValueObject();
+	private static LocationInfoEntity locationInfo = new LocationInfoEntity();
+	private static CityEntity chooseCity = new CityEntity();
+	private static List<CityEntity> allCitys;
 	private Context applicationContext;
 
 	public static String locationStr = "";
@@ -32,93 +43,43 @@ public class LocationInfo implements java.io.Serializable{
 		if (instance == null) {
 			instance = new LocationInfo(context);
 		}
-
+		resetCitysData();
 		setLocationInfoData();
+	}
+
+	private static void resetCitysData() {
+		String cityInfo = CommonShared.getString(CITYS_INFO_SETTING, "");
+
+		if (cityInfo != null && cityInfo.length() > 0 ) {
+			allCitys = new Gson().fromJson(cityInfo, new TypeToken<List<CityEntity>>(){}.getType());
+		}
+	}
+
+	public void refreshCitiesData() {
+		resetCitysData();
+	}
+
+	private static void setChooseCityInfo() {
+		String cityInfo = CommonShared.getString(CITY_CHOOSE_SETTING, "");
+		chooseCity = new Gson().fromJson(cityInfo, CityEntity.class);
 	}
 
 	@SuppressWarnings("unchecked")
 	private static void setLocationInfoData() {
 		String cityInfo = CommonShared.getString(LOCATION_INFO_SETTING, "");
 		locationInfo.setCity("北京");
+
 		if (cityInfo != null && cityInfo.length() > 0 ) {
-			try {
-				Map<String,Object> allValue = new Gson().fromJson(cityInfo, new TypeToken<HashMap<String,Object>>(){}.getType());
-				if (allValue.containsKey("result")) {
-					Map<String,Object> locationValue = (Map<String, Object>) allValue.get("result");
-					locationInfo.setCityCode(ToolUtil.changeString(locationValue.get("cityCode")));
-					locationInfo.setAddress(ToolUtil.changeString(locationValue.get("formatted_address")));
-
-					Map<String,Object> location = (Map<String, Object>) locationValue.get("location");
-					locationInfo.setJD(ToolUtil.changeDouble(location.get("lng")));
-					locationInfo.setWD(ToolUtil.changeDouble(location.get("lat")));
-
-					Map<String,Object> address = (Map<String, Object>) locationValue.get("addressComponent");
-					locationInfo.setCity(ToolUtil.changeString(address.get("city")));
-					locationInfo.setProvince(ToolUtil.changeString(address.get("province")));
-					locationInfo.setTown(ToolUtil.changeString(address.get("district")));
-					locationInfo.setCounty(ToolUtil.changeString(address.get("street")));
-					locationInfo.setDirection(ToolUtil.changeString(address.get("direction")));
-					locationInfo.setDistance(ToolUtil.changeString(address.get("distance")));
-				}
-				else {
-					locationInfo.setCityCode(ToolUtil.changeString(allValue.get("cityCode")));
-					locationInfo.setAddress(ToolUtil.changeString(allValue.get("formatted_address")));
-					locationInfo.setChooseCity(ToolUtil.changeString(allValue.get("chooseCity")));
-
-					locationInfo.setJD(ToolUtil.changeDouble(allValue.get("JD")));
-					locationInfo.setWD(ToolUtil.changeDouble(allValue.get("WD")));
-
-					locationInfo.setCity(ToolUtil.changeString(allValue.get("city")));
-					locationInfo.setProvince(ToolUtil.changeString(allValue.get("province")));
-					locationInfo.setTown(ToolUtil.changeString(allValue.get("district")));
-					locationInfo.setCounty(ToolUtil.changeString(allValue.get("street")));
-					locationInfo.setDirection(ToolUtil.changeString(allValue.get("direction")));
-					locationInfo.setDistance(ToolUtil.changeString(allValue.get("distance")));
-				}
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+			locationInfo = new Gson().fromJson(cityInfo, LocationInfoEntity.class);
 		}
 		//	locationInfo.setCity("济南市");
 	}
 
-	private LocationValueObject getCityInfo(String cityInfo) {
-		LocationValueObject cityValue = new LocationValueObject();
+	private LocationInfoEntity getCityInfo(String cityInfo) {
+		LocationInfoEntity cityValue = new LocationInfoEntity();
 		if (cityInfo != null && cityInfo.length() > 0 ) {
 			try {
-				Map<String,Object> allValue = new Gson().fromJson(cityInfo, new TypeToken<HashMap<String,Object>>(){}.getType());
-				if (allValue.containsKey("result")) {
-					Map<String,Object> locationValue = (Map<String, Object>) allValue.get("result");
-					cityValue.setCityCode(ToolUtil.changeString(locationValue.get("cityCode")));
-					cityValue.setAddress(ToolUtil.changeString(locationValue.get("formatted_address")));
 
-					Map<String,Object> location = (Map<String, Object>) locationValue.get("location");
-					cityValue.setJD(ToolUtil.changeDouble(location.get("lng")));
-					cityValue.setWD(ToolUtil.changeDouble(location.get("lat")));
-
-					Map<String,Object> address = (Map<String, Object>) locationValue.get("addressComponent");
-					cityValue.setCity(ToolUtil.changeString(address.get("city")));
-					cityValue.setProvince(ToolUtil.changeString(address.get("province")));
-					cityValue.setTown(ToolUtil.changeString(address.get("district")));
-					cityValue.setCounty(ToolUtil.changeString(address.get("street")));
-					cityValue.setDirection(ToolUtil.changeString(address.get("direction")));
-					cityValue.setDistance(ToolUtil.changeString(address.get("distance")));
-				}
-				else {
-					cityValue.setCityCode(ToolUtil.changeString(allValue.get("cityCode")));
-					cityValue.setAddress(ToolUtil.changeString(allValue.get("formatted_address")));
-					locationInfo.setChooseCity(ToolUtil.changeString(allValue.get("chooseCity")));
-
-					cityValue.setJD(ToolUtil.changeDouble(allValue.get("JD")));
-					cityValue.setWD(ToolUtil.changeDouble(allValue.get("WD")));
-
-					cityValue.setCity(ToolUtil.changeString(allValue.get("city")));
-					cityValue.setProvince(ToolUtil.changeString(allValue.get("province")));
-					cityValue.setTown(ToolUtil.changeString(allValue.get("district")));
-					cityValue.setCounty(ToolUtil.changeString(allValue.get("street")));
-					cityValue.setDirection(ToolUtil.changeString(allValue.get("direction")));
-					cityValue.setDistance(ToolUtil.changeString(allValue.get("distance")));
-				}
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -143,24 +104,16 @@ public class LocationInfo implements java.io.Serializable{
 		}
 	}*/
 
+	public void setLocationInfo(LocationInfoEntity info) {
+		locationInfo = info;
+		CommonShared.setString(LOCATION_INFO_SETTING, new Gson().toJson(info));
+		locationChangeChooseCity();
+	}
+
 	public void saveLocationInfo() {
 
-		Map<String,Object> address = new HashMap<String, Object>();
-		address.put("city", locationInfo.getCity());
-		address.put("province", locationInfo.getProvince());
-		address.put("district", locationInfo.getTown());
-		address.put("street", locationInfo.getCounty());
-		address.put("direction", locationInfo.getDirection());
-		address.put("distance", locationInfo.getDistance());
 
-		address.put("JD", locationInfo.getJD());
-		address.put("WD", locationInfo.getWD());
-		address.put("chooseCity", locationInfo.getChooseCity());
-
-		address.put("cityCode", locationInfo.getCityCode());
-		address.put("formatted_address", locationInfo.getAddress());
-
-		CommonShared.setString(LOCATION_INFO_SETTING, new Gson().toJson(address));
+		CommonShared.setString(LOCATION_INFO_SETTING, new Gson().toJson(locationInfo));
 	}
 
 	public boolean isEmpty() {
@@ -177,8 +130,58 @@ public class LocationInfo implements java.io.Serializable{
 		return instance;
 	}
 
-	public LocationValueObject getLocationInfo() {
+	public LocationInfoEntity getLocationInfo() {
 		return locationInfo;
 	}
 
+	public CityEntity getChooseCity() {
+		return chooseCity;
+	}
+
+	public void setChooseCity(CityEntity chooseCity) {
+		LocationInfo.chooseCity = chooseCity;
+		CommonShared.setString(CITY_CHOOSE_SETTING, new Gson().toJson(chooseCity));
+		if (changeListener!= null) {
+			changeListener.onChange(chooseCity);
+		}
+	}
+
+	public List<CityEntity> getAllCitys() {
+		return allCitys;
+	}
+
+	public void setAllCitys(List<CityEntity> allCitys) {
+		LocationInfo.allCitys = allCitys;
+	}
+
+	private void locationChangeChooseCity() {
+		if (ToolUtil.changeString(chooseCity.getCityName()).length() > 0) {
+			for (CityEntity item : allCitys) {
+				if (item.getCityName().equals(locationInfo.getCity())) {
+					chooseCity = item;
+					chooseCity.setCountyName(locationInfo.getCounty());
+					CommonShared.setString(CITY_CHOOSE_SETTING, new Gson().toJson(chooseCity));
+					if (changeListener != null) {
+						changeListener.onChange(chooseCity);
+					}
+					break;
+				}
+			}
+		}
+
+	}
+
+	private OnCityChangeListener changeListener;
+
+	public OnCityChangeListener getChangeListener() {
+		return changeListener;
+	}
+
+	public void setChangeListener(OnCityChangeListener changeListener) {
+		this.changeListener = changeListener;
+	}
+
+	public interface OnCityChangeListener {
+		void onChange(CityEntity cityEntity);
+	}
 }

@@ -8,23 +8,25 @@
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.VIBRATE" />
 
-    <!-- 这个权限用于进行网络定位-->
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"></uses-permission>
-    <!-- 这个权限用于访问GPS定位-->
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"></uses-permission>
-    <!-- 用于访问wifi网络信息，wifi信息会用于进行网络定位-->
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"></uses-permission>
-    <!-- 获取运营商信息，用于支持提供运营商信息相关的接口-->
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"></uses-permission>
-    <!-- 这个权限用于获取wifi的获取权限，wifi信息会用来进行网络定位-->
-    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"></uses-permission>
-    <!-- 用于读取手机当前的状态-->
-    <uses-permission android:name="android.permission.READ_PHONE_STATE"></uses-permission>
-    <!-- 写入扩展存储，向扩展卡写入数据，用于写入离线定位数据-->
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"></uses-permission>
-    <!-- SD卡读取权限，用户写入离线定位数据-->
-    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"
-        tools:ignore="ProtectedPermissions"></uses-permission>
+    <!-- 这个权限用于进行网络定位 -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <!-- 这个权限用于访问GPS定位 -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <!-- 用于访问wifi网络信息，wifi信息会用于进行网络定位 -->
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <!-- 获取运营商信息，用于支持提供运营商信息相关的接口 -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <!-- 这个权限用于获取wifi的获取权限，wifi信息会用来进行网络定位 -->
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <!-- 用于读取手机当前的状态 -->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <!-- 写入扩展存储，向扩展卡写入数据，用于写入离线定位数据 -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <!-- SD卡读取权限，用户写入离线定位数据 -->
+    <uses-permission
+        android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"
+        tools:ignore="ProtectedPermissions" />
+
     <application
         android:name=".UApplication"
         android:allowBackup="true"
@@ -36,13 +38,13 @@
         android:theme="@style/AppTheme"
         tools:ignore="HardcodedDebugMode">
 
+        <!-- 设置key -->
         <meta-data
-            android:name="com.baidu.lbsapi.API_KEY"
-            android:value="SouTiFVXWxOhV9vdrSkKYTPCEKZrrRRI" >
-        </meta-data>
-        <service android:name="com.baidu.location.f" android:enabled="true" android:process=":remote"> </service>
+            android:name="com.amap.api.v2.apikey"
+            android:value="967c1b6634f9787fc433b769399a96b1" />
+        <!-- 定位需要的服务 -->
+        <service android:name="com.amap.api.location.APSService" />
 
-        <service android:name=".common.base.service.AndroidLocationService"></service>
         <meta-data
             android:name="android.max_aspect"
             android:value="2.1" />
@@ -126,7 +128,12 @@
         <activity android:name=".component.activity.login.ForgetPasswrodActivity" />
         <activity android:name=".component.activity.order.pay.OrderPayActivity" />
         <activity android:name=".component.activity.order.pay.OrderPayResultActivity" />
-        <activity android:name=".component.activity.homePage.scan.ScanCodeActivity"></activity>
+        <activity android:name=".component.activity.homePage.scan.ScanCodeActivity" />
+        <activity android:name=".component.activity.homePage.city.CityChooseActivity" />
+
+        <service
+            android:name=".common.base.service.LocationIntentService"
+            android:exported="false"></service>
     </application>
 
 </manifest>

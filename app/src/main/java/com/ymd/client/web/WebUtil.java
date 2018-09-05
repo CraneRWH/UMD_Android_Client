@@ -5,6 +5,7 @@ import android.os.Handler;
 
 import com.google.gson.Gson;
 import com.ymd.client.component.widget.dialog.LoadingDialog;
+import com.ymd.client.model.constant.URLConstant;
 import com.ymd.client.utils.CommonShared;
 import com.ymd.client.utils.DialogUtil;
 import com.ymd.client.utils.LogUtil;
@@ -13,6 +14,7 @@ import com.ymd.client.utils.ToolUtil;
 
 import org.json.JSONObject;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.util.HashMap;
@@ -23,6 +25,7 @@ import java.util.concurrent.TimeUnit;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.MediaType;
+import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
@@ -401,6 +404,51 @@ public class WebUtil {
                 }
             }
         });
+    }
+
+    /**
+     * 上传图片
+     * @param context
+     * @param file
+     * @param callback
+     */
+    public void sendParamsPhotoFile(Context context, File file, final WebCallBack callback){
+        final String method = URLConstant.UP_LOAD_PICTURE;
+        try {
+            LogUtil.showD(webUrl + method);
+            RequestBody fileBody = RequestBody.create(MediaType.parse("image/jpg"), file);
+            showLoadingDialog(context);
+            RequestBody requestBody = new MultipartBody.Builder()
+                    .setType(MultipartBody.FORM)
+                    .addFormDataPart("name", file.getName(), fileBody)
+                    .build();
+            final Request request = new Request.Builder()
+                    .addHeader("token", CommonShared.getString(CommonShared.LOGIN_TOKEN, ""))
+                    .post(requestBody)
+                    .url(webUrl + method)
+                    .build();
+            mOkHttpClient.newCall(request).enqueue(new Callback() {
+                @Override
+                public void onFailure(Call call, IOException e) {
+                    failedCallBack("网络异常", callback);
+                }
+
+                @Override
+                public void onResponse(Call call, Response response) throws IOException {
+                    if (response.isSuccessful()) {
+                        String result = response.body().string();
+                        LogUtil.showD("★★ " + method +" ★  " + result);
+
+                        successCallBack(result, callback);
+                    } else {
+                        LogUtil.e("服务器错误",response.body().string());
+                        failedCallBack("服务器错误", callback);
+                    }
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 }

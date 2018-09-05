@@ -8,6 +8,7 @@ import com.bumptech.glide.Glide;
 import com.raizlabs.android.dbflow.config.FlowManager;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 import com.ymd.client.model.bean.User;
+import com.ymd.client.model.info.LocationInfo;
 import com.ymd.client.model.info.LoginInfo;
 import com.ymd.client.web.WebUtil;
 
@@ -72,6 +73,7 @@ public class UApplication extends MultiDexApplication {
 
         LoginInfo.initInstance(getApplicationContext());
         WebUtil.initInstance(getApplicationContext());
+        LocationInfo.initInstance(getApplicationContext());
         initUser();
 
 

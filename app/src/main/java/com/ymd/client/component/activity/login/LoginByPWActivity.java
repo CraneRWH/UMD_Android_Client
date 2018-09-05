@@ -37,6 +37,7 @@ public class LoginByPWActivity extends BaseActivity {
     private EditText mobileNumber;
     private EditText passwordEt;
     private Button loginBtn;
+    private TextView registerBtn;
     private TextView forgetPasswordBtn;
 
     @Override
@@ -64,6 +65,13 @@ public class LoginByPWActivity extends BaseActivity {
 
     private void initView() {
         setStatusBar(R.color.bg_header);
+        registerBtn = (TextView) findViewById(R.id.register_btn);
+        registerBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                RegisterActivity.startAction(LoginByPWActivity.this);
+            }
+        });
 
         mobileNumber = (EditText) findViewById(R.id.mobileNumber);
         mobileNumber.setOnClickListener(new View.OnClickListener() {
