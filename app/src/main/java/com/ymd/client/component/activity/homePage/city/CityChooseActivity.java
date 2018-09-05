@@ -91,6 +91,7 @@ public class CityChooseActivity extends BaseActivity {
              //   startActivityForResult(new Intent(CityChooseActivity.this,CitySearchQueryActivity.class), 1);
             }
         });
+        receiveData();
         setData();
     }
 
@@ -204,6 +205,7 @@ public class CityChooseActivity extends BaseActivity {
                     cityEntity.setCityID(bean.getCityId());
                     cityEntity.setCityName(bean.getCityName());
                     LocationInfo.getInstance().setChooseCity(cityEntity);
+                    CountyChooseActivity.startAction(CityChooseActivity.this, cityEntity.getCityID());
                     finish();
                 }
             }

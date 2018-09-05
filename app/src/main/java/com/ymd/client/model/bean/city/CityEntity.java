@@ -14,6 +14,15 @@ public class CityEntity {
     private String cityFirst;
 
     private String countyName;
+    private long countyCode;
+
+    public long getCountyCode() {
+        return countyCode;
+    }
+
+    public void setCountyCode(long countyCode) {
+        this.countyCode = countyCode;
+    }
 
     public long getCityID() {
         return cityID;

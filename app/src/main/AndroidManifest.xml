@@ -101,6 +101,7 @@
         <activity android:name=".component.activity.mine.IntroduceActivity" />
         <!-- 我的-我要合作 -->
         <activity android:name=".component.activity.mine.CooperationActivity" />
+        <activity android:name=".component.activity.homePage.city.CountyChooseActivity"/>
         <activity
             android:name=".component.activity.order.detail.OrderDetailActivity"
             android:label="@string/title_activity_order_detail"
