@@ -30,7 +30,7 @@ public class ScanCodeActivity extends BaseActivity implements QRCodeView.Delegat
         setContentView(R.layout.activity_scan_code);
         ButterKnife.bind(this);
         setStatusBar(R.color.white);
-        mTxtTitle.setText(R.string.setting_title);
+        mTxtTitle.setText("扫描二维码");
 
         mQRCodeView.setDelegate(this);
         mQRCodeView.startSpot();

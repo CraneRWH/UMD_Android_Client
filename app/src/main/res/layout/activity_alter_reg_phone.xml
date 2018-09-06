@@ -5,6 +5,8 @@
     android:layout_height="match_parent"
     android:background="@color/bg_common_gray"
     android:orientation="vertical"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
     tools:context=".component.activity.mine.SettingActivity">
 
     <include layout="@layout/layout_title_base" />
@@ -14,4 +16,128 @@
         android:layout_height="0.1dp"
         android:background="@color/bg_common_gray" />
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/mar_pad_len_100px"
+        android:layout_marginLeft="@dimen/mar_pad_len_20px"
+        android:layout_marginRight="@dimen/mar_pad_len_20px"
+        android:layout_marginTop="@dimen/mar_pad_len_30px"
+        android:background="@color/white"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingLeft="@dimen/mar_pad_len_20px"
+        android:paddingRight="@dimen/mar_pad_len_10px">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:text="+86" />
+
+        <EditText
+            android:id="@+id/alter_phone_num"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@null"
+            android:ellipsize="end"
+            android:hint="请输入手机号码"
+            android:lines="1"
+            android:maxLength="11"
+            android:inputType="phone"
+            android:minEms="8"
+            android:paddingLeft="@dimen/mar_pad_len_20px"
+            android:paddingRight="@dimen/mar_pad_len_20px"
+            android:textSize="@dimen/mar_pad_len_30px" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/mar_pad_len_100px"
+        android:layout_marginLeft="@dimen/mar_pad_len_20px"
+        android:layout_marginRight="@dimen/mar_pad_len_20px"
+        android:layout_marginTop="@dimen/mar_pad_len_20px"
+        android:background="@color/white"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingLeft="@dimen/mar_pad_len_20px"
+        android:paddingRight="@dimen/mar_pad_len_10px">
+
+        <EditText
+            android:id="@+id/alter_phone_sms_code"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@null"
+            android:ellipsize="end"
+            android:hint="请输入短信中的验证码"
+            android:lines="1"
+            android:maxLength="8"
+            android:inputType="number"
+            android:minEms="8"
+            android:paddingRight="@dimen/mar_pad_len_20px"
+            android:textSize="@dimen/mar_pad_len_30px" />
+
+        <TextView
+            android:id="@+id/alter_phone_get_code"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/mar_pad_len_10px"
+            android:layout_marginBottom="@dimen/mar_pad_len_10px"
+            android:gravity="center_vertical"
+            android:background="@drawable/default_background_with_corner"
+            android:textColor="@color/white"
+            android:paddingLeft="@dimen/mar_pad_len_30px"
+            android:paddingRight="@dimen/mar_pad_len_30px"
+            android:textSize="@dimen/mar_pad_len_30px"
+            android:text="获取验证码" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/mar_pad_len_100px"
+        android:layout_marginLeft="@dimen/mar_pad_len_20px"
+        android:layout_marginRight="@dimen/mar_pad_len_20px"
+        android:layout_marginTop="@dimen/mar_pad_len_20px"
+        android:background="@color/white"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingLeft="@dimen/mar_pad_len_20px"
+        android:paddingRight="@dimen/mar_pad_len_10px">
+
+        <EditText
+            android:id="@+id/alter_phone_pw"
+            android:layout_width="0dip"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@null"
+            android:ellipsize="end"
+            android:hint="请输入密码"
+            android:lines="1"
+            android:maxLength="32"
+            android:inputType="textPassword"
+            android:minEms="8"
+            android:paddingRight="@dimen/mar_pad_len_20px"
+            android:textSize="@dimen/mar_pad_len_30px" />
+    </LinearLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/mar_pad_len_20px"
+        android:layout_marginTop="@dimen/mar_pad_len_20px"
+        android:gravity="center_vertical"
+        android:paddingLeft="@dimen/mar_pad_len_20px"
+        android:paddingRight="@dimen/mar_pad_len_20px"
+        android:text="密码长度8~32位，须包含数字、字母、符号至少两种或以上元素"
+        android:textColor="@color/common_color_deep_grey"
+        android:textSize="12sp" />
+    <TextView
+        android:id="@+id/alter_phone_submit"
+        style="@style/btn_bg"
+        android:layout_gravity="center"
+        android:layout_marginBottom="@dimen/mar_pad_len_60px"
+        android:layout_marginLeft="@dimen/mar_pad_len_22px"
+        android:layout_marginRight="@dimen/mar_pad_len_22px"
+        android:layout_marginTop="@dimen/mar_pad_len_88px"
+        android:text="确认提交" />
 </LinearLayout>
