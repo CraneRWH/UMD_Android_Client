@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merger version="3"><dataSet config="main"><source path="E:\Z\cranePay\UMD_Android_Client\library\src\main\assets"/><source path="E:\Z\cranePay\UMD_Android_Client\library\build\generated\assets\shaders\debug"/></dataSet><dataSet config="debug"><source path="E:\Z\cranePay\UMD_Android_Client\library\src\debug\assets"/></dataSet></merger>

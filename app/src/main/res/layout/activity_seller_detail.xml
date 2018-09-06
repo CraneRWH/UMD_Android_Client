@@ -8,6 +8,7 @@
     android:background="@color/white"
     tools:context=".component.activity.homePage.food.NiceFoodActivity">
     <LinearLayout
+        android:id="@+id/head_view"
         android:layout_width="match_parent"
         android:layout_height="@dimen/mar_pad_len_88px"
         android:orientation="horizontal"
@@ -196,52 +197,59 @@
                     />
             </LinearLayout>
             <LinearLayout
+                android:id="@+id/mainView"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/white"
-                android:orientation="vertical" >
-
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                >
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/mar_pad_len_130px"
+                    android:layout_height="match_parent"
                     android:background="@color/white"
-                    android:orientation="horizontal" >
+                    android:orientation="vertical" >
 
-                    <com.ymd.client.component.widget.other.MyChooseItemView
-                        android:id="@id/chooseItem0"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        custom:noChooseColor="@color/text_gray_dark"
-                        android:layout_weight="1"
-                        custom:defaultValue="点餐" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/mar_pad_len_130px"
+                        android:background="@color/white"
+                        android:orientation="horizontal" >
 
-                    <com.ymd.client.component.widget.other.MyChooseItemView
-                        android:id="@id/chooseItem1"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        custom:noChooseColor="@color/text_gray_dark"
-                        android:layout_weight="1"
-                        custom:defaultValue="点评" />
-                    <com.ymd.client.component.widget.other.MyChooseItemView
-                        android:id="@id/chooseItem2"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        custom:noChooseColor="@color/text_gray_dark"
-                        android:layout_weight="1"
-                        custom:defaultValue="商家" />
+                        <com.ymd.client.component.widget.other.MyChooseItemView
+                            android:id="@id/chooseItem0"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            custom:noChooseColor="@color/text_gray_dark"
+                            android:layout_weight="1"
+                            custom:defaultValue="点餐" />
+
+                        <com.ymd.client.component.widget.other.MyChooseItemView
+                            android:id="@id/chooseItem1"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            custom:noChooseColor="@color/text_gray_dark"
+                            android:layout_weight="1"
+                            custom:defaultValue="点评" />
+                        <com.ymd.client.component.widget.other.MyChooseItemView
+                            android:id="@id/chooseItem2"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            custom:noChooseColor="@color/text_gray_dark"
+                            android:layout_weight="1"
+                            custom:defaultValue="商家" />
+                    </LinearLayout>
+                    <View style="@style/view_detail_item_separator"
+                        android:layout_height="@dimen/mar_pad_len_10px"
+                        />
+                    <com.ymd.client.component.widget.viewPager.CustomViewPager
+                        android:id="@+id/viewPager"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"></com.ymd.client.component.widget.viewPager.CustomViewPager>
                 </LinearLayout>
-                <View style="@style/view_detail_item_separator"
-                    android:layout_height="@dimen/mar_pad_len_10px"
-                    />
-                <com.ymd.client.component.widget.viewPager.CustomViewPager
-                    android:id="@+id/viewPager"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"></com.ymd.client.component.widget.viewPager.CustomViewPager>
-
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
     <LinearLayout
+        android:id="@+id/foot_view"
         android:layout_width="match_parent"
         android:layout_height="@dimen/mar_pad_len_105px"
         android:orientation="horizontal"

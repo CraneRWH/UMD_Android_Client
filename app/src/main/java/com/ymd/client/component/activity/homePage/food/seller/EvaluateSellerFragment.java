@@ -39,12 +39,12 @@ public class EvaluateSellerFragment extends Fragment {
     public EvaluateSellerFragment() {
     }
 
-    public static EvaluateSellerFragment newInstance(String param1, String param2) {
+    public static EvaluateSellerFragment newInstance(/*String param1, String param2*/) {
         EvaluateSellerFragment fragment = new EvaluateSellerFragment();
-        Bundle args = new Bundle();
+        /*Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
+        fragment.setArguments(args);*/
         return fragment;
     }
 

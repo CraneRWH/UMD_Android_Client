@@ -45,6 +45,7 @@ public class LocationInfo implements java.io.Serializable{
 		}
 		resetCitysData();
 		setLocationInfoData();
+		setChooseCityInfo();
 	}
 
 	private static void resetCitysData() {
@@ -61,13 +62,17 @@ public class LocationInfo implements java.io.Serializable{
 
 	private static void setChooseCityInfo() {
 		String cityInfo = CommonShared.getString(CITY_CHOOSE_SETTING, "");
-		chooseCity = new Gson().fromJson(cityInfo, CityEntity.class);
+		if (cityInfo != null && cityInfo.length() > 0 ) {
+			chooseCity = new Gson().fromJson(cityInfo, CityEntity.class);
+		} else {
+			chooseCity.setCityID(1100);
+			chooseCity.setCityName("北京市");
+		}
 	}
 
 	@SuppressWarnings("unchecked")
 	private static void setLocationInfoData() {
 		String cityInfo = CommonShared.getString(LOCATION_INFO_SETTING, "");
-		locationInfo.setCity("北京");
 
 		if (cityInfo != null && cityInfo.length() > 0 ) {
 			locationInfo = new Gson().fromJson(cityInfo, LocationInfoEntity.class);

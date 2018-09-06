@@ -179,12 +179,14 @@ public class MainHomePageFragment extends Fragment {
         bigLayout.setOnRefreshListener(new PullToRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh(PullToRefreshLayout pullToRefreshLayout) {
-                refreshHandler.sendEmptyMessageDelayed(0, 3000);
+                onRefreshData();
+
             }
 
             @Override
             public void onLoadMore(PullToRefreshLayout pullToRefreshLayout) {
-
+                page ++;
+                requestMerchant(chooseStatus);
             }
         });
 
@@ -207,16 +209,6 @@ public class MainHomePageFragment extends Fragment {
         textViewList.add(chooseItem2);
         textViewList.add(chooseItem3);
 
-       /* String picture = "{\"msg\":\"success\",\"code\":0,\"list\":[{\"name\":\"as\",\"url\":\"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1536121560488&di=f9cb9a1309058242731c4e3f6cf098c2&imgtype=0&src=http%3A%2F%2Fpic2.ooopic.com%2F13%2F49%2F08%2F78bOOOPICe2_1024.jpg\",\"weight\":\"32\",\"status\":\"1\",\"page\":\"156165165\"},{\"name\":\"15\",\"url\":\"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1536121560485&di=81badb2a442991adb9193a287c996c47&imgtype=0&src=http%3A%2F%2Fh.hiphotos.baidu.com%2Fzhidao%2Fpic%2Fitem%2F3b87e950352ac65c870094e3f9f2b21193138a1d.jpg\",\"weight\":\"1\",\"status\":\"1\",\"page\":\"1\"},{\"name\":\"阿萨\",\"url\":\"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1536121560485&di=76919292ceb4648e94987afcaa4e30e0&imgtype=0&src=http%3A%2F%2Fb.hiphotos.baidu.com%2Fzhidao%2Fpic%2Fitem%2F2cf5e0fe9925bc318d90f62459df8db1ca1370b9.jpg\",\"weight\":\"1\",\"status\":\"1\",\"page\":\"15651561531\"}]}";
-        try {
-            JSONObject json = new JSONObject(picture);
-
-            setPicture(json.optString("list"));
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }*/
-        requestPicture();
-        setFunctionItem();
 
         for (int i = 0 ; i < textViewList.size() ; i ++ ) {
             final int position = i;
@@ -228,98 +220,36 @@ public class MainHomePageFragment extends Fragment {
                 }
             });
         }
-        chooseItem(0);
 
-        requestYH();
-     /*   String youhui = "\n" +
-                "{\n" +
-                "  \"msg\": \"success\",\n" +
-                "  \"code\": 0,\n" +
-                "  \"list\": [\n" +
-                "    {\n" +
-                "      \"photo\": \"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1536123084815&di=449efea3b987f3f5dda31ac9fd0a3fbe&imgtype=0&src=http%3A%2F%2Fh.hiphotos.baidu.com%2Fbaike%2Fc0%253Dbaike150%252C5%252C5%252C150%252C50%2Fsign%3De486cd1c78f0f736ccf344536b3cd87c%2F1e30e924b899a90103eaa0551d950a7b0308f5f2.jpg\",\n" +
-                "      \"merchantId\": 7,\n" +
-                "      \"starttime\": \"2018-09-01 15:39:02\",\n" +
-                "      \"endtime\": \"2018-09-15 15:39:06\",\n" +
-                "      \"top\": \"\",\n" +
-                "      \"state\": \"1\",\n" +
-                "      \"weight\": \"20\",\n" +
-                "      \"departmentCode\": \"000000010001\",\n" +
-                "      \"merchantName\": null,\n" +
-                "      \"conclusion\": null\n" +
-                "    },\n" +
-                "    {\n" +
-                "      \"photo\": \"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1536123084817&di=62dca9c088b963b97dece6f28a0a6be5&imgtype=0&src=http%3A%2F%2Ff.hiphotos.baidu.com%2Flvpics%2Fh%3D800%2Fsign%3D0ddbd040b9a1cd111ab67f208912c8b0%2F79f0f736afc37931ff52b259e8c4b74543a91183.jpg\",\n" +
-                "      \"merchantId\": 7,\n" +
-                "      \"starttime\": \"2018-08-22 14:04:53\",\n" +
-                "      \"endtime\": \"2018-09-06 14:04:55\",\n" +
-                "      \"top\": \"\",\n" +
-                "      \"state\": \"1\",\n" +
-                "      \"weight\": \"15\",\n" +
-                "      \"departmentCode\": \"000000010001\",\n" +
-                "      \"merchantName\": null,\n" +
-                "      \"conclusion\": null\n" +
-                "    },\n" +
-                "    {\n" +
-                "      \"photo\": \"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1536123084819&di=fa8760bc4ee5ee241c75dbbcc67f1320&imgtype=0&src=http%3A%2F%2Fe.hiphotos.baidu.com%2Fbainuo%2Fwh%3D720%2C436%2Fsign%3D7cf378e033fae6cd0ce1a3663d832310%2Fbd315c6034a85edf666967f44f540923dc547504.jpg\",\n" +
-                "      \"merchantId\": 7,\n" +
-                "      \"starttime\": \"2018-08-22 14:04:53\",\n" +
-                "      \"endtime\": \"2018-09-06 14:04:55\",\n" +
-                "      \"top\": \"\",\n" +
-                "      \"state\": \"1\",\n" +
-                "      \"weight\": \"15\",\n" +
-                "      \"departmentCode\": \"000000010001\",\n" +
-                "      \"merchantName\": null,\n" +
-                "      \"conclusion\": null\n" +
-                "    },\n" +
-                "    {\n" +
-                "      \"photo\": \"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1536123103491&di=71444619e7473207405cd5edd45d72d2&imgtype=jpg&src=http%3A%2F%2Fimg2.imgtn.bdimg.com%2Fit%2Fu%3D981269532%2C129067962%26fm%3D214%26gp%3D0.jpg\",\n" +
-                "      \"merchantId\": 7,\n" +
-                "      \"starttime\": \"2018-08-22 14:04:53\",\n" +
-                "      \"endtime\": \"2018-09-06 14:04:55\",\n" +
-                "      \"top\": \"\",\n" +
-                "      \"state\": \"1\",\n" +
-                "      \"weight\": \"15\",\n" +
-                "      \"departmentCode\": \"000000010001\",\n" +
-                "      \"merchantName\": null,\n" +
-                "      \"conclusion\": null\n" +
-                "    },\n" +
-                "    {\n" +
-                "      \"photo\": \"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1536123084825&di=b1b4289d08d13ad74db54b0cc3cb891b&imgtype=0&src=http%3A%2F%2Fimgsa.baidu.com%2Fexp%2Fw%3D500%2Fsign%3D34bf2209227f9e2f70351d082f31e962%2F08f790529822720e99c772157ecb0a46f31fabd0.jpg\",\n" +
-                "      \"merchantId\": 7,\n" +
-                "      \"starttime\": \"2018-08-22 14:04:53\",\n" +
-                "      \"endtime\": \"2018-09-06 14:04:55\",\n" +
-                "      \"top\": \"\",\n" +
-                "      \"state\": \"1\",\n" +
-                "      \"weight\": \"15\",\n" +
-                "      \"departmentCode\": \"000000010001\",\n" +
-                "      \"merchantName\": null,\n" +
-                "      \"conclusion\": null\n" +
-                "    }\n" +
-                "  ]\n" +
-                "}";
-        try {
-            JSONObject json = new JSONObject(youhui);
-
-            setYouHuiItem(json.optString("list"));
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }*/
-        onRefresh();
         LocationInfo.getInstance().setChangeListener(new LocationInfo.OnCityChangeListener() {
             @Override
             public void onChange(CityEntity cityEntity) {
-                onRefresh();
+                onRefreshCityName();
             }
         });
+
+        onRefreshData();
     }
+
+    /**
+     * 刷新页面数据
+     */
+    private void onRefreshData() {
+
+        requestPicture();
+        setFunctionItem();
+        requestYH();
+        chooseItem(0);
+        onRefreshCityName();
+    }
+
 
     public int chooseStatus = 0;
 
     protected void chooseItem(int position) {
         chooseStatus = position;
-        requestMerchant(position);
         page = 1;
+        requestMerchant(position);
         try {
             for (int i = 0; i < textViewList.size(); i++) {
                 if (i == position) {
@@ -397,7 +327,8 @@ public class MainHomePageFragment extends Fragment {
     /*
      * 刷新城市名称和车辆信息
      */
-    public void onRefresh() {
+    public void onRefreshCityName() {
+
         if (ToolUtil.changeString(LocationInfo.getInstance().getChooseCity().getCountyName()).length() > 0) {
             locationTv.setText(LocationInfo.getInstance().getChooseCity().getCountyName());
         } else {
@@ -614,18 +545,65 @@ public class MainHomePageFragment extends Fragment {
                     @Override
                     public void onWebSuccess(JSONObject resultJson) {
                         resetMerchantData(resultJson.optString("list"));
+                        refreshHandler.sendEmptyMessageDelayed(0, 2000);
                     }
 
                     @Override
                     public void onWebFailed(String errorMsg) {
-
+                        resetMerchantData();
+                        refreshHandler.sendEmptyMessageDelayed(0, 2000);
                     }
                 });
 
     }
 
+    List<MerchantInfoEntity> marchantDatas = new ArrayList<>();
     private void resetMerchantData(String result) {
         List<MerchantInfoEntity> datas = new Gson().fromJson(result, new TypeToken<List<MerchantInfoEntity>>(){}.getType());
+        if (page == 1) {
+            marchantDatas.clear();
+
+        }
+        marchantDatas.addAll(datas);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        recyclerView.setLayoutManager(layoutManager);
+        FoodListAdapter adapter = new FoodListAdapter(marchantDatas, getContext());
+        adapter.setListener(new OnUMDItemClickListener() {
+            @Override
+            public void onClick(Object data, View view, int position) {
+                SellerDetailActivity.startAction(getActivity());
+            }
+        });
+        recyclerView.setAdapter(adapter);
+    }
+
+
+    private void resetMerchantData() {
+        List<MerchantInfoEntity> datas = new ArrayList<>();
+        MerchantInfoEntity entity = new MerchantInfoEntity();
+        entity.setAddress("山东济南");
+        entity.setCity("济南市");
+        entity.setDiscount("8.6");
+        entity.setDistance("884m");
+        entity.setName("稻香居");
+        entity.setScore("4.5");
+        datas.add(entity);
+        entity = new MerchantInfoEntity();
+        entity.setAddress("山东济南");
+        entity.setCity("济南市");
+        entity.setDiscount("8.6");
+        entity.setDistance("884m");
+        entity.setName("沙县小吃");
+        entity.setScore("4.5");
+        datas.add(entity);
+        entity = new MerchantInfoEntity();
+        entity.setAddress("山东济南");
+        entity.setCity("济南市");
+        entity.setDiscount("8.6");
+        entity.setDistance("884m");
+        entity.setName("驴肉火烧");
+        entity.setScore("4.5");
+        datas.add(entity);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
         FoodListAdapter adapter = new FoodListAdapter(datas, getContext());
@@ -637,7 +615,6 @@ public class MainHomePageFragment extends Fragment {
         });
         recyclerView.setAdapter(adapter);
     }
-
 
     private List getData() {
         List<Map<String,Object>> list = new ArrayList<>();

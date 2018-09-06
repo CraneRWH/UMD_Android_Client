@@ -10,8 +10,15 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.eowise.recyclerview.stickyheaders.OnHeaderClickListener;
 import com.ymd.client.R;
+import com.ymd.client.component.activity.homePage.food.seller.fragment.BaseFragment;
+import com.ymd.client.component.adapter.merchant.PersonAdapter;
+import com.ymd.client.component.event.GoodsListEvent;
 import com.ymd.client.utils.ToolUtil;
+
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -28,7 +35,7 @@ import butterknife.Unbinder;
  * 描述:    商家页面
  * 修改历史:
  */
-public class SellerDetailFragment extends Fragment {
+public class SellerDetailFragment extends BaseFragment implements PersonAdapter.OnShopCartGoodsChangeListener, OnHeaderClickListener {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     @BindView(R.id.shopLayout)
@@ -50,12 +57,12 @@ public class SellerDetailFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public static SellerDetailFragment newInstance(String param1, String param2) {
+    public static SellerDetailFragment newInstance(/*String param1, String param2*/) {
         SellerDetailFragment fragment = new SellerDetailFragment();
-        Bundle args = new Bundle();
+    /*    Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
+        fragment.setArguments(args);*/
         return fragment;
     }
 
@@ -163,7 +170,20 @@ public class SellerDetailFragment extends Fragment {
             manageLayout.addView(view);
         }
     }
+    /**
+     * 添加 或者  删除  商品发送的消息处理
+     * @param event
+     */
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(GoodsListEvent event) {
+        if(event.buyNums.length>0){
+           /* for (int i=0;i<event.buyNums.length;i++){
+                goodscatrgoryEntities.get(i).setBugNum(event.buyNums[i]);
+            }
+            mGoodsCategoryListAdapter.changeData(goodscatrgoryEntities);*/
+        }
 
+    }
     private void setServiceData() {
         List<Map<String ,Object>> list = new ArrayList<>();
         Map<String, Object> map = new HashMap<>();
@@ -202,5 +222,15 @@ public class SellerDetailFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+    }
+
+    @Override
+    public void onHeaderClick(View header, long headerId) {
+
+    }
+
+    @Override
+    public void onNumChange() {
+
     }
 }
