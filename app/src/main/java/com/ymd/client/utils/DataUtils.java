@@ -1,9 +1,14 @@
 package com.ymd.client.utils;
 
 import com.google.gson.Gson;
+import com.ymd.client.R;
+import com.ymd.client.model.bean.homePage.MerchantInfoEntity;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -145,4 +150,66 @@ public class DataUtils {
         return t;
     }
 
+
+    /**
+     * 商铺数据
+     * @return
+     */
+    public static List getMeachantData() {
+        List<MerchantInfoEntity> datas = new ArrayList<>();
+        MerchantInfoEntity entity = new MerchantInfoEntity();
+        entity.setAddress("山东济南");
+        entity.setCity("济南市");
+        entity.setDiscount("8.6");
+        entity.setDistance("884m");
+        entity.setName("稻香居");
+        entity.setScore("4.5");
+        datas.add(entity);
+        entity = new MerchantInfoEntity();
+        entity.setAddress("山东济南");
+        entity.setCity("济南市");
+        entity.setDiscount("8.6");
+        entity.setDistance("884m");
+        entity.setName("沙县小吃");
+        entity.setScore("4.5");
+        datas.add(entity);
+        entity = new MerchantInfoEntity();
+        entity.setAddress("山东济南");
+        entity.setCity("济南市");
+        entity.setDiscount("8.6");
+        entity.setDistance("884m");
+        entity.setName("驴肉火烧");
+        entity.setScore("4.5");
+        datas.add(entity);
+        return datas;
+    }
+
+    /**
+     * 首页功能选项数据
+     * @return
+     */
+    public static List<Map<String,Object>> getFunctionsData() {
+        List<Map<String ,Object>> list = new ArrayList<>();
+        Map<String, Object> map = new HashMap<>(); map.put("name","美事"); map.put("icon", R.mipmap.food_item_icon); list.add(map);
+
+        map = new HashMap<>(); map.put("name","酒店"); map.put("icon", R.mipmap.hospital_item_icon); list.add(map);
+
+        map = new HashMap<>(); map.put("name","爱车"); map.put("icon", R.mipmap.car_item_icon); list.add(map);
+
+        map = new HashMap<>(); map.put("name","美容美发"); map.put("icon", R.mipmap.meirong_item_icon); list.add(map);
+
+        map = new HashMap<>(); map.put("name","电影"); map.put("icon", R.mipmap.movie_item_icon); list.add(map);
+
+        map = new HashMap<>(); map.put("name","生鲜"); map.put("icon", R.mipmap.shengxian_item_icon); list.add(map);
+
+        map = new HashMap<>(); map.put("name","金融");map.put("icon", R.mipmap.jinrong_item_icon);list.add(map);
+
+        map = new HashMap<>(); map.put("name","洗浴");map.put("icon", R.mipmap.xiyu_item_icon);list.add(map);
+
+        map = new HashMap<>(); map.put("name","KTV"); map.put("icon", R.mipmap.ktv_item_icon); list.add(map);
+
+        map = new HashMap<>();map.put("name","其他分类");map.put("icon", R.mipmap.other_item_icon);list.add(map);
+
+        return list;
+    }
 }

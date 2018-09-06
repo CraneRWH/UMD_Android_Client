@@ -24,15 +24,24 @@ import com.ymd.client.component.widget.photo.ChoiceImageCallBack;
 import com.ymd.client.component.widget.photo.ChoiceImageUtil;
 import com.ymd.client.component.widget.photo.selectphoto.Bimp;
 import com.ymd.client.component.widget.photo.selectphoto.FileUtils;
+import com.ymd.client.model.bean.user.UserObject;
 import com.ymd.client.model.constant.Constants;
+import com.ymd.client.model.constant.URLConstant;
+import com.ymd.client.model.info.LoginInfo;
 import com.ymd.client.utils.PermissionUtils;
 import com.ymd.client.utils.StatusBarUtils;
+import com.ymd.client.utils.ToolUtil;
+import com.ymd.client.web.WebUtil;
+
+import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -71,6 +80,16 @@ public class PersonInfoActivity extends BaseActivity {
         ciutil = new ChoiceImageUtil(this);
 
         initTimePicker();
+
+        initView();
+    }
+
+    private void initView(){
+        UserObject userObject = LoginInfo.getInstance().getLoginInfo();
+        mTxtNickName.setText(userObject.getUserName());
+        mTxtPhone.setText(userObject.getPhone());
+        mTxtSex.setText(ToolUtil.changeInteger(userObject.getSex()) == 0 ?"男":"女");
+        mTxtBirth.setText(userObject.getBirthday());
     }
 
     @OnClick(R.id.base_back)
@@ -243,5 +262,22 @@ public class PersonInfoActivity extends BaseActivity {
                 dialogWindow.setGravity(Gravity.BOTTOM);//改成Bottom,底部显示
             }
         }
+    }
+
+    private void updateInfo() {
+        Map<String,Object> params = new HashMap<>();
+        params.put("","");
+        WebUtil.getInstance().requestPOST(this, URLConstant.UPDATE_USER_INFO, params,
+                new WebUtil.WebCallBack() {
+                    @Override
+                    public void onWebSuccess(JSONObject resultJson) {
+
+                    }
+
+                    @Override
+                    public void onWebFailed(String errorMsg) {
+
+                    }
+                });
     }
 }

@@ -41,8 +41,11 @@ import com.ymd.client.model.bean.city.CityEntity;
 import com.ymd.client.model.bean.homePage.DiscountsMerchantEntity;
 import com.ymd.client.model.bean.homePage.MerchantInfoEntity;
 import com.ymd.client.model.bean.homePage.PictureEntity;
+import com.ymd.client.model.bean.homePage.YmdGoodsEntity;
+import com.ymd.client.model.bean.homePage.YmdIndustryEntity;
 import com.ymd.client.model.constant.URLConstant;
 import com.ymd.client.model.info.LocationInfo;
+import com.ymd.client.utils.DataUtils;
 import com.ymd.client.utils.ToolUtil;
 import com.ymd.client.web.WebUtil;
 
@@ -237,10 +240,11 @@ public class MainHomePageFragment extends Fragment {
     private void onRefreshData() {
 
         requestPicture();
-        setFunctionItem();
         requestYH();
         chooseItem(0);
         onRefreshCityName();
+        requestFunctions();
+     //   setFunctionItem(null);
     }
 
 
@@ -355,64 +359,27 @@ public class MainHomePageFragment extends Fragment {
     /**
      * 设置功能选项
      */
-    private void setFunctionItem() {
+    private void setFunctionItem(String functionJson) {
+        List<YmdIndustryEntity> itemList = new Gson().fromJson(functionJson, new TypeToken<List<YmdIndustryEntity>>(){}.getType());
+        if (itemList == null || itemList.isEmpty()) {
+            return;
+        }
         List<Map<String ,Object>> list = new ArrayList<>();
-        Map<String, Object> map = new HashMap<>();
-        map.put("name","美事");
-        map.put("icon", R.mipmap.food_item_icon);
-        list.add(map);
-
-        map = new HashMap<>();
-        map.put("name","酒店");
-        map.put("icon", R.mipmap.hospital_item_icon);
-        list.add(map);
-
-        map = new HashMap<>();
-        map.put("name","爱车");
-        map.put("icon", R.mipmap.car_item_icon);
-        list.add(map);
-
-        map = new HashMap<>();
-        map.put("name","美容美发");
-        map.put("icon", R.mipmap.meirong_item_icon);
-        list.add(map);
-
-        map = new HashMap<>();
-        map.put("name","电影");
-        map.put("icon", R.mipmap.movie_item_icon);
-        list.add(map);
-
-        map = new HashMap<>();
-        map.put("name","生鲜");
-        map.put("icon", R.mipmap.shengxian_item_icon);
-        list.add(map);
-
-        map = new HashMap<>();
-        map.put("name","金融");
-        map.put("icon", R.mipmap.jinrong_item_icon);
-        list.add(map);
-
-        map = new HashMap<>();
-        map.put("name","洗浴");
-        map.put("icon", R.mipmap.xiyu_item_icon);
-        list.add(map);
-
-        map = new HashMap<>();
-        map.put("name","KTV");
-        map.put("icon", R.mipmap.ktv_item_icon);
-        list.add(map);
-
-        map = new HashMap<>();
-        map.put("name","其他分类");
-        map.put("icon", R.mipmap.other_item_icon);
-        list.add(map);
+        for (YmdIndustryEntity item : itemList) {
+            Map<String, Object> map = new HashMap<>();
+            map.put("name",item.getName());
+            map.put("icon", item.getImgUrl());
+            list.add(map);
+        }
+   //     list.addAll(DataUtils.getFunctionsData());
 
         MySimpleAdapter adapter = new MySimpleAdapter(getActivity(), list, R.layout.function_item,
                 new String[]{"name", "icon"}, new int[]{R.id.itemText, R.id.itemImage},
                 new MySimpleAdapter.MyViewListener() {
                     @Override
                     public void callBackViewListener(Map<String, Object> data, View view, ViewGroup parent, int position) {
-
+                        ImageView img = (ImageView) view.findViewById(R.id.itemImage);
+                        Glide.with(getActivity()).load(itemList.get(position).getImgUrl()).into(img);
                     }
                 });
         gridView.setAdapter(adapter);
@@ -577,36 +544,29 @@ public class MainHomePageFragment extends Fragment {
         recyclerView.setAdapter(adapter);
     }
 
+    private void requestFunctions() {
+        Map<String,Object> params = new HashMap<>();
+        params.put("pid",null);
+        WebUtil.getInstance().requestPOST(getActivity(), URLConstant.QUERY_HOME_FUNCTIONS, params,
+                new WebUtil.WebCallBack() {
+                    @Override
+                    public void onWebSuccess(JSONObject resultJson) {
+                        setFunctionItem(resultJson.optString("list"));
+                    }
+
+                    @Override
+                    public void onWebFailed(String errorMsg) {
+
+                    }
+                });
+    }
+
 
     private void resetMerchantData() {
-        List<MerchantInfoEntity> datas = new ArrayList<>();
-        MerchantInfoEntity entity = new MerchantInfoEntity();
-        entity.setAddress("山东济南");
-        entity.setCity("济南市");
-        entity.setDiscount("8.6");
-        entity.setDistance("884m");
-        entity.setName("稻香居");
-        entity.setScore("4.5");
-        datas.add(entity);
-        entity = new MerchantInfoEntity();
-        entity.setAddress("山东济南");
-        entity.setCity("济南市");
-        entity.setDiscount("8.6");
-        entity.setDistance("884m");
-        entity.setName("沙县小吃");
-        entity.setScore("4.5");
-        datas.add(entity);
-        entity = new MerchantInfoEntity();
-        entity.setAddress("山东济南");
-        entity.setCity("济南市");
-        entity.setDiscount("8.6");
-        entity.setDistance("884m");
-        entity.setName("驴肉火烧");
-        entity.setScore("4.5");
-        datas.add(entity);
+
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
-        FoodListAdapter adapter = new FoodListAdapter(datas, getContext());
+        FoodListAdapter adapter = new FoodListAdapter(DataUtils.getMeachantData(), getContext());
         adapter.setListener(new OnUMDItemClickListener() {
             @Override
             public void onClick(Object data, View view, int position) {

@@ -40,9 +40,9 @@ import okhttp3.Response;
 
 public class WebUtil {
     //测试，王斌的接口
-//    public static String webUrl = "http://192.168.1.41:8080/ymd-rest-api/app/";
+    public static String webUrl = "http://192.168.1.41:8080/ymd-rest-api/app/";
 
-    public static String webUrl = "http://39.104.181.72:8095/ymd-rest-api/app/";
+ //   public static String webUrl = "http://39.104.181.72:8095/ymd-rest-api/app/";
 
 
     private static volatile WebUtil mInstance;//单利引用
@@ -114,7 +114,7 @@ public class WebUtil {
         }
 
         Gson gson = new Gson();
-        LogUtil.showD("▶▶ " + method + " ▶ " + gson.toJson(params));
+        LogUtil.showW("▶▶ " + method + " ▶ " + gson.toJson(params));
         String GET_URL = attachHttpGetParams(webUrl + method, params);
         Request request = new Request.Builder()
                 .url(GET_URL)
@@ -242,8 +242,8 @@ public class WebUtil {
         }
 
         Gson gson = new Gson();
-        LogUtil.showD("▶▶ " + method + " ▶ " + gson.toJson(params));
-        System.out.println("▶▶ " + method + " ▶ " + gson.toJson(params));
+        LogUtil.showW("▶▶ " + method + " ▶ " + gson.toJson(params));
+     //   System.out.println("▶▶ " + method + " ▶ " + gson.toJson(params));
         RequestBody requestBody = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), gson.toJson(params));
         return requestBody;
     }
@@ -267,7 +267,7 @@ public class WebUtil {
                     if (response.isSuccessful()) {
                         String result = response.body().string();
 
-                        LogUtil.showD("★★ " + method + " ★ " + result);
+                        LogUtil.showW("★★ " + method + " ★ " + result);
                         successCallBack(result, callback);
                     } else {
                         failedCallBack("服务器错误", callback);
@@ -305,7 +305,7 @@ public class WebUtil {
             if (i != params.size() - 1) {
                 stringBuffer.append("&");
             }
-            LogUtil.showD("stringBuffer  " + stringBuffer.toString());
+            LogUtil.showW("stringBuffer  " + stringBuffer.toString());
         }
 
         return url + stringBuffer.toString();
@@ -371,10 +371,10 @@ public class WebUtil {
                     try {
                         Gson gson = new Gson();
                         JSONObject resultJson = new JSONObject(result);
-                        System.out.println(result);
-                        LogUtil.showD(result);
+                     //   System.out.println(result);
+                     //   LogUtil.showW(result);
                         if (!(resultJson.optInt("code") == 0)) {
-                            LogUtil.showD("查询失败");
+                            LogUtil.showW("查询失败");
                             ToastUtil.ToastMessage(appContext, resultJson.optString("msg"), ToastUtil.WRONG);
                             callBack.onWebFailed(result);
                         } else if (resultJson.optInt("code") == 0) {
@@ -418,7 +418,7 @@ public class WebUtil {
     public void sendParamsPhotoFile(Context context, File file, final WebCallBack callback){
         final String method = URLConstant.UP_LOAD_PICTURE;
         try {
-            LogUtil.showD(webUrl + method);
+            LogUtil.showW(webUrl + method);
             RequestBody fileBody = RequestBody.create(MediaType.parse("image/jpg"), file);
             showLoadingDialog(context);
             RequestBody requestBody = new MultipartBody.Builder()
@@ -440,7 +440,7 @@ public class WebUtil {
                 public void onResponse(Call call, Response response) throws IOException {
                     if (response.isSuccessful()) {
                         String result = response.body().string();
-                        LogUtil.showD("★★ " + method +" ★  " + result);
+                        LogUtil.showW("★★ " + method +" ★  " + result);
 
                         successCallBack(result, callback);
                     } else {

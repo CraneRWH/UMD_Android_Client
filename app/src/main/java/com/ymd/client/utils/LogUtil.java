@@ -10,10 +10,10 @@ import android.util.Log;
  */
 public class LogUtil {
 
-    private static final String TAG = "##CranePay";
+    private static final String TAG = "##UMD";
     private static final String FILETER_STRING = "##";
     // 是否需要打印debug，可以在application的onCreate函数里面初始化
-    public static boolean isDebug = false;
+    public static boolean isDebug = true;
 
     private LogUtil() {
         throw new UnsupportedOperationException("cannot be instantiated");
@@ -26,7 +26,25 @@ public class LogUtil {
             if (msg == null) {
                 msg = "null";
             }
-            Log.i(TAG_BUS, msg);
+            Log.d(TAG_BUS, msg);
+        }
+    }
+
+    public static void showE(String msg) {
+        if (isDebug) {
+            if (msg == null) {
+                msg = "null";
+            }
+            Log.e("#################UMD   ", msg);
+        }
+    }
+
+    public static void showW(String msg) {
+        if (isDebug) {
+            if (msg == null) {
+                msg = "null";
+            }
+            Log.w("#################UMD   ", msg);
         }
     }
 

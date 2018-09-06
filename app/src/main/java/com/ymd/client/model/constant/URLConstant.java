@@ -85,4 +85,19 @@ public class URLConstant {
      * 获取今日推荐的商家美食
      */
     public static final String RECOMMEND_NICE_MERCHANT= "ymdConsumer/recommendation";
+
+    /**
+     * 修改更新用户信息
+     */
+    public static final String UPDATE_USER_INFO = "ymdConsumer/updateConsumer";
+
+    /**
+     * 获取首页的功能列表
+     */
+    public static final String QUERY_HOME_FUNCTIONS = "ymdIndustry/list";
+
+    /**
+     * 美食类别
+     */
+    public static final String QUERY_FOOD_TYPE_FUNCTIONS = "ymdConsumer/foodClasses";
 }

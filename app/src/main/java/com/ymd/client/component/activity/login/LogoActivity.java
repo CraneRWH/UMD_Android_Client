@@ -54,7 +54,7 @@ public class LogoActivity extends AppCompatActivity {
     };
 
     private void requestCities() {
-        String citysStr =  "[\n" +
+   /*     String citysStr =  "[\n" +
                 "    {\n" +
                 "      \"cityID\": \"1529\",\n" +
                 "      \"cityName\": \"阿拉善盟\",\n" +
@@ -1843,8 +1843,8 @@ public class LogoActivity extends AppCompatActivity {
                 "  ]";
         CommonShared.setString(LocationInfo.CITYS_INFO_SETTING, citysStr);
         LocationInfo.getInstance().refreshCitiesData();
-        toLoginHandler.sendEmptyMessage(0);
-        /*WebUtil.getInstance().requestPOST(this, URLConstant.QUERY_CITY_DATA, null,
+        toLoginHandler.sendEmptyMessage(0);*/
+        WebUtil.getInstance().requestPOST(this, URLConstant.QUERY_CITY_DATA, null,
                 new WebUtil.WebCallBack() {
                     @Override
                     public void onWebSuccess(JSONObject result) {
@@ -1857,11 +1857,11 @@ public class LogoActivity extends AppCompatActivity {
                     public void onWebFailed(String errorMsg) {
 
                     }
-                });*/
+                });
     }
     private void toMainActivity() {
-    //    LoginActivity.startAction(this);
-        startActivity(new Intent(getApplicationContext(), MainActivity.class));
+        LoginActivity.startAction(this);
+     //   startActivity(new Intent(getApplicationContext(), MainActivity.class));
         finish();
     }
 

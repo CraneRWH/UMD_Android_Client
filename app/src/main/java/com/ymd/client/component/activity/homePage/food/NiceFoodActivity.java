@@ -25,6 +25,7 @@ import com.ymd.client.common.base.BaseActivity;
 import com.ymd.client.common.base.bean.TabObject;
 import com.ymd.client.component.activity.order.PageFragmentAdapter;
 import com.ymd.client.component.widget.other.MyChooseItemView;
+import com.ymd.client.model.bean.homePage.YmdGoodsEntity;
 import com.ymd.client.model.bean.homePage.YmdRecommendEntity;
 import com.ymd.client.model.constant.URLConstant;
 import com.ymd.client.utils.ToolUtil;
@@ -184,7 +185,23 @@ public class NiceFoodActivity extends BaseActivity implements ViewPager.OnPageCh
         }
     }
 
-    private void initTab(){
+    private void requestFoodType() {
+        WebUtil.getInstance().requestPOST(this, URLConstant.QUERY_FOOD_TYPE_FUNCTIONS, null,
+                new WebUtil.WebCallBack() {
+                    @Override
+                    public void onWebSuccess(JSONObject resultJson) {
+
+                    }
+
+                    @Override
+                    public void onWebFailed(String errorMsg) {
+
+                    }
+                });
+    }
+
+    private void initTab(/*String functionJson*/) {
+    //    List<YmdGoodsEntity> itemList = new Gson().fromJson(functionJson, new TypeToken<List<YmdGoodsEntity>>(){}.getType());
         List<TabObject> channelList=new ArrayList<>();
         channelList.add(new TabObject("全部"));
         channelList.add(new TabObject("快捷便当"));

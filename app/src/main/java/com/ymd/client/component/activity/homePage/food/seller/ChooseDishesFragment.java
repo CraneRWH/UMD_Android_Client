@@ -1,9 +1,9 @@
 package com.ymd.client.component.activity.homePage.food.seller;
 
 import android.annotation.SuppressLint;
-import android.graphics.Paint;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -48,17 +48,18 @@ import butterknife.Unbinder;
  * 修改历史:
  */
 public class ChooseDishesFragment extends BaseFragment implements PersonAdapter.OnShopCartGoodsChangeListener, OnHeaderClickListener {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+
+    Unbinder unbinder;
     @BindView(R.id.recommendLayout)
     LinearLayout recommendLayout;
-    @BindView(R.id.food_type_lt)
-    LinearLayout foodTypeLt;
+    @BindView(R.id.fcollapsing)
+    CollapsingToolbarLayout fcollapsing;
+    @BindView(R.id.type_rv)
+    RecyclerView typeRv;
     @BindView(R.id.food_rv)
     RecyclerView foodRv;
-    Unbinder unbinder;
+    @BindView(R.id.fragment_main)
+    CoordinatorLayout fragmentMain;
 
     //存储含有标题的第一个含有商品类别名称的条目的下表
     private List<Integer> titlePois = new ArrayList<>();
@@ -228,14 +229,14 @@ public class ChooseDishesFragment extends BaseFragment implements PersonAdapter.
         list.add(map);
 
         //开始添加数据
-        for (int i = 0; i < list.size(); i++) {
+       /* for (int i = 0; i < list.size(); i++) {
             //寻找行布局，第一个参数为行布局ID，第二个参数为这个行布局需要放到那个容器上
             View view = LayoutInflater.from(getActivity()).inflate(R.layout.item_seller_food_type, foodTypeLt, false);
 
             TextView item_tv;
             item_tv = (TextView) view.findViewById(R.id.item_tv);
             item_tv.setText(ToolUtil.changeString(list.get(i).get("name")));
-            if (i== 0) {
+            if (i == 0) {
                 item_tv.setTextColor(R.color.common_text_color);
                 view.setBackgroundResource(R.color.bg_gray);
             } else {
@@ -244,12 +245,14 @@ public class ChooseDishesFragment extends BaseFragment implements PersonAdapter.
             }
             //把行布局放到linear里
             foodTypeLt.addView(view);
-        }
+        }*/
     }
 
     private ViewGroup anim_fragment_layout;//动画层
+
     /**
      * 设置动画（点击添加商品）
+     *
      * @param v
      * @param startLocation
      */
@@ -263,7 +266,7 @@ public class ChooseDishesFragment extends BaseFragment implements PersonAdapter.
         int endX = 0 - startLocation[0] + 40;// 动画位移的X坐标
         int endY = endLocation[1] - startLocation[1];// 动画位移的y坐标
 
-        TranslateAnimation translateAnimationX = new TranslateAnimation(0,endX, 0, 0);
+        TranslateAnimation translateAnimationX = new TranslateAnimation(0, endX, 0, 0);
         translateAnimationX.setInterpolator(new LinearInterpolator());
         translateAnimationX.setRepeatCount(0);// 动画重复执行的次数
         translateAnimationX.setFillAfter(true);
@@ -302,6 +305,7 @@ public class ChooseDishesFragment extends BaseFragment implements PersonAdapter.
 
     /**
      * 初始化动画图层
+     *
      * @return
      */
     private ViewGroup createAnimLayout() {
@@ -311,7 +315,7 @@ public class ChooseDishesFragment extends BaseFragment implements PersonAdapter.
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.MATCH_PARENT);
         animLayout.setLayoutParams(lp);
-        animLayout.setId(Integer.MAX_VALUE-1);
+        animLayout.setId(Integer.MAX_VALUE - 1);
         animLayout.setBackgroundResource(android.R.color.transparent);
         rootView.addView(animLayout);
         return animLayout;
@@ -319,6 +323,7 @@ public class ChooseDishesFragment extends BaseFragment implements PersonAdapter.
 
     /**
      * 将View添加到动画图层
+     *
      * @param parent
      * @param view
      * @param location
@@ -338,7 +343,6 @@ public class ChooseDishesFragment extends BaseFragment implements PersonAdapter.
     }
 
 
-
     private void setFoodData() {
         List<Map<String, Object>> list = new ArrayList<>();
         Map<String, Object> map = new HashMap<>();
@@ -348,7 +352,7 @@ public class ChooseDishesFragment extends BaseFragment implements PersonAdapter.
         map.put("price", 23);
         map.put("old_pride", 30);
         map.put("num", 0);
-        map.put("type",0);
+        map.put("type", 0);
         list.add(map);
 
         map = new HashMap<>();
@@ -358,7 +362,7 @@ public class ChooseDishesFragment extends BaseFragment implements PersonAdapter.
         map.put("price", 23);
         map.put("old_pride", 30);
         map.put("num", 0);
-        map.put("type",0);
+        map.put("type", 0);
         list.add(map);
 
         map = new HashMap<>();
@@ -368,7 +372,7 @@ public class ChooseDishesFragment extends BaseFragment implements PersonAdapter.
         map.put("price", 23);
         map.put("old_pride", 30);
         map.put("num", 0);
-        map.put("type",0);
+        map.put("type", 0);
         list.add(map);
 
         map = new HashMap<>();
@@ -378,7 +382,7 @@ public class ChooseDishesFragment extends BaseFragment implements PersonAdapter.
         map.put("price", 23);
         map.put("old_pride", 30);
         map.put("num", 0);
-        map.put("type",1);
+        map.put("type", 1);
         list.add(map);
 
         map = new HashMap<>();
@@ -388,7 +392,7 @@ public class ChooseDishesFragment extends BaseFragment implements PersonAdapter.
         map.put("price", 23);
         map.put("old_pride", 30);
         map.put("num", 0);
-        map.put("type",1);
+        map.put("type", 1);
 
         list.add(map);
 
@@ -399,7 +403,7 @@ public class ChooseDishesFragment extends BaseFragment implements PersonAdapter.
         map.put("price", 23);
         map.put("old_pride", 30);
         map.put("num", 0);
-        map.put("type",2);
+        map.put("type", 2);
         list.add(map);
 
         map = new HashMap<>();
@@ -409,7 +413,7 @@ public class ChooseDishesFragment extends BaseFragment implements PersonAdapter.
         map.put("price", 23);
         map.put("old_pride", 30);
         map.put("num", 0);
-        map.put("type",3);
+        map.put("type", 3);
         list.add(map);
 
         map = new HashMap<>();
@@ -419,7 +423,7 @@ public class ChooseDishesFragment extends BaseFragment implements PersonAdapter.
         map.put("price", 23);
         map.put("old_pride", 30);
         map.put("num", 0);
-        map.put("type",3);
+        map.put("type", 3);
         list.add(map);
 
         map = new HashMap<>();
@@ -429,7 +433,7 @@ public class ChooseDishesFragment extends BaseFragment implements PersonAdapter.
         map.put("price", 23);
         map.put("old_pride", 30);
         map.put("num", 0);
-        map.put("type",4);
+        map.put("type", 4);
         list.add(map);
 
         map = new HashMap<>();
@@ -439,7 +443,7 @@ public class ChooseDishesFragment extends BaseFragment implements PersonAdapter.
         map.put("price", 23);
         map.put("old_pride", 30);
         map.put("num", 0);
-        map.put("type",4);
+        map.put("type", 4);
         list.add(map);
 
         map = new HashMap<>();
@@ -449,7 +453,7 @@ public class ChooseDishesFragment extends BaseFragment implements PersonAdapter.
         map.put("price", 23);
         map.put("old_pride", 30);
         map.put("num", 0);
-        map.put("type",5);
+        map.put("type", 5);
         list.add(map);
 
         map = new HashMap<>();
@@ -459,18 +463,7 @@ public class ChooseDishesFragment extends BaseFragment implements PersonAdapter.
         map.put("price", 23);
         map.put("old_pride", 30);
         map.put("num", 0);
-        map.put("type",6);
-        list.add(map);
-
-
-        map = new HashMap<>();
-        map.put("name", "天下第一凉粉");
-        map.put("desc", "凉粉+酸梅汁+啤酒+可乐+筷子");
-        map.put("sale_num", "200");
-        map.put("price", 23);
-        map.put("old_pride", 30);
-        map.put("num", 0);
-        map.put("type",7);
+        map.put("type", 6);
         list.add(map);
 
 
@@ -481,7 +474,7 @@ public class ChooseDishesFragment extends BaseFragment implements PersonAdapter.
         map.put("price", 23);
         map.put("old_pride", 30);
         map.put("num", 0);
-        map.put("type",7);
+        map.put("type", 7);
         list.add(map);
 
 
@@ -492,7 +485,7 @@ public class ChooseDishesFragment extends BaseFragment implements PersonAdapter.
         map.put("price", 23);
         map.put("old_pride", 30);
         map.put("num", 0);
-        map.put("type",7);
+        map.put("type", 7);
         list.add(map);
 
 
@@ -503,7 +496,7 @@ public class ChooseDishesFragment extends BaseFragment implements PersonAdapter.
         map.put("price", 23);
         map.put("old_pride", 30);
         map.put("num", 0);
-        map.put("type",7);
+        map.put("type", 7);
         list.add(map);
 
 
@@ -514,7 +507,7 @@ public class ChooseDishesFragment extends BaseFragment implements PersonAdapter.
         map.put("price", 23);
         map.put("old_pride", 30);
         map.put("num", 0);
-        map.put("type",8);
+        map.put("type", 7);
         list.add(map);
 
 
@@ -525,7 +518,7 @@ public class ChooseDishesFragment extends BaseFragment implements PersonAdapter.
         map.put("price", 23);
         map.put("old_pride", 30);
         map.put("num", 0);
-        map.put("type",8);
+        map.put("type", 8);
         list.add(map);
 
 
@@ -536,7 +529,7 @@ public class ChooseDishesFragment extends BaseFragment implements PersonAdapter.
         map.put("price", 23);
         map.put("old_pride", 30);
         map.put("num", 0);
-        map.put("type",8);
+        map.put("type", 8);
         list.add(map);
 
 
@@ -547,7 +540,7 @@ public class ChooseDishesFragment extends BaseFragment implements PersonAdapter.
         map.put("price", 23);
         map.put("old_pride", 30);
         map.put("num", 0);
-        map.put("type",8);
+        map.put("type", 8);
         list.add(map);
 
 
@@ -558,7 +551,7 @@ public class ChooseDishesFragment extends BaseFragment implements PersonAdapter.
         map.put("price", 23);
         map.put("old_pride", 30);
         map.put("num", 0);
-        map.put("type",9);
+        map.put("type", 8);
         list.add(map);
 
 
@@ -569,7 +562,7 @@ public class ChooseDishesFragment extends BaseFragment implements PersonAdapter.
         map.put("price", 23);
         map.put("old_pride", 30);
         map.put("num", 0);
-        map.put("type",9);
+        map.put("type", 9);
         list.add(map);
 
 
@@ -580,7 +573,18 @@ public class ChooseDishesFragment extends BaseFragment implements PersonAdapter.
         map.put("price", 23);
         map.put("old_pride", 30);
         map.put("num", 0);
-        map.put("type",9);
+        map.put("type", 9);
+        list.add(map);
+
+
+        map = new HashMap<>();
+        map.put("name", "天下第一凉粉");
+        map.put("desc", "凉粉+酸梅汁+啤酒+可乐+筷子");
+        map.put("sale_num", "200");
+        map.put("price", 23);
+        map.put("old_pride", 30);
+        map.put("num", 0);
+        map.put("type", 9);
         list.add(map);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
@@ -592,11 +596,12 @@ public class ChooseDishesFragment extends BaseFragment implements PersonAdapter.
 
     /**
      * 添加 或者  删除  商品发送的消息处理
+     *
      * @param event
      */
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(GoodsListEvent event) {
-        if(event.buyNums.length>0){
+        if (event.buyNums.length > 0) {
            /* for (int i=0;i<event.buyNums.length;i++){
                 goodscatrgoryEntities.get(i).setBugNum(event.buyNums[i]);
             }
