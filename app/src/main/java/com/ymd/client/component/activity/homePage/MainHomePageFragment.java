@@ -243,8 +243,8 @@ public class MainHomePageFragment extends Fragment {
         requestYH();
         chooseItem(0);
         onRefreshCityName();
-        requestFunctions();
-     //   setFunctionItem(null);
+     //   requestFunctions();
+        setFunctionItem();
     }
 
 
@@ -359,19 +359,19 @@ public class MainHomePageFragment extends Fragment {
     /**
      * 设置功能选项
      */
-    private void setFunctionItem(String functionJson) {
-        List<YmdIndustryEntity> itemList = new Gson().fromJson(functionJson, new TypeToken<List<YmdIndustryEntity>>(){}.getType());
-        if (itemList == null || itemList.isEmpty()) {
+    private void setFunctionItem(/*String functionJson*/) {
+    //    List<YmdIndustryEntity> itemList = new Gson().fromJson(functionJson, new TypeToken<List<YmdIndustryEntity>>(){}.getType());
+        /*if (itemList == null || itemList.isEmpty()) {
             return;
-        }
+        }*/
         List<Map<String ,Object>> list = new ArrayList<>();
-        for (YmdIndustryEntity item : itemList) {
+        /*for (YmdIndustryEntity item : itemList) {
             Map<String, Object> map = new HashMap<>();
             map.put("name",item.getName());
             map.put("icon", item.getImgUrl());
             list.add(map);
-        }
-   //     list.addAll(DataUtils.getFunctionsData());
+        }*/
+        list.addAll(DataUtils.getFunctionsData());
 
         MySimpleAdapter adapter = new MySimpleAdapter(getActivity(), list, R.layout.function_item,
                 new String[]{"name", "icon"}, new int[]{R.id.itemText, R.id.itemImage},
@@ -379,7 +379,7 @@ public class MainHomePageFragment extends Fragment {
                     @Override
                     public void callBackViewListener(Map<String, Object> data, View view, ViewGroup parent, int position) {
                         ImageView img = (ImageView) view.findViewById(R.id.itemImage);
-                        Glide.with(getActivity()).load(itemList.get(position).getImgUrl()).into(img);
+                 //       Glide.with(getActivity()).load(itemList.get(position).getImgUrl()).into(img);
                     }
                 });
         gridView.setAdapter(adapter);
@@ -551,7 +551,7 @@ public class MainHomePageFragment extends Fragment {
                 new WebUtil.WebCallBack() {
                     @Override
                     public void onWebSuccess(JSONObject resultJson) {
-                        setFunctionItem(resultJson.optString("list"));
+                    //    setFunctionItem(resultJson.optString("list"));
                     }
 
                     @Override

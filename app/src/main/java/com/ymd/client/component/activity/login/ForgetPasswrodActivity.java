@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -14,10 +15,20 @@ import android.widget.TextView;
 import com.ymd.client.R;
 import com.ymd.client.common.base.BaseActivity;
 import com.ymd.client.component.activity.main.MainActivity;
+import com.ymd.client.component.activity.mine.setting.config.AlterRegPhoneActivity;
+import com.ymd.client.model.constant.URLConstant;
 import com.ymd.client.utils.ToastUtil;
+import com.ymd.client.utils.ToolUtil;
+import com.ymd.client.web.WebUtil;
+
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * 包名:com.ymd.client.component.activity.login
@@ -77,8 +88,6 @@ public class ForgetPasswrodActivity extends BaseActivity {
 
     private void submit() {
         // validate
-        MainActivity.startAction(this);
-        finish();
         String mobileNumberString = mobileNumber.getText().toString().trim();
         if (TextUtils.isEmpty(mobileNumberString)) {
             ToastUtil.ToastMessage(this, "请输入手机号", ToastUtil.WARN);
@@ -96,14 +105,56 @@ public class ForgetPasswrodActivity extends BaseActivity {
             return;
         }
 
+        Map<String,Object> params = new HashMap<>();
+        params.put("phone", mobileNumberString);
+        params.put("code", mobileCode);
+        params.put("password", password);
+        params.put("type",1);
+        WebUtil.getInstance().requestPOST(this, URLConstant.CHANGE_LOGIN_PASSWORD, params,
+                new WebUtil.WebCallBack() {
+                    @Override
+                    public void onWebSuccess(JSONObject resultJson) {
+                        ToastUtil.ToastMessage(getApplicationContext(), "密码修改成功");
+                        finish();
+                    }
+
+                    @Override
+                    public void onWebFailed(String errorMsg) {
+
+                        ToastUtil.ToastMessage(getApplicationContext(), "密码修改失败");
+                    }
+                });
+
     }
 
-    private TimeTask timeTask;
-    private void getPhoneCode() {
+    void getPhoneCode() {
+        String mobileNumberString = mobileNumber.getText().toString().trim();
+        if (TextUtils.isEmpty(mobileNumberString)) {
+            ToastUtil.ToastMessage(this, "请输入手机号", ToastUtil.WARN);
+            return;
+        }
         mobileCodeBtn.setClickable(false);
-        timeTask = new TimeTask();
-        timeTask.execute();
+        Map<String,Object> params = new HashMap<>();
+        params.put("phone", ToolUtil.changeString(mobileNumber.getText()));
+        WebUtil.getInstance().requestPOST(this, URLConstant.GET_PHONE_CODE, params, true, true, new WebUtil.WebCallBack<Object>() {
+            @Override
+            public void onWebSuccess(JSONObject result) {
+                Log.d("Register", result.toString());
+                ToastUtil.ToastMessage(ForgetPasswrodActivity.this, "发送验证码成功");
+                timeTask = new TimeTask();
+                timeTask.execute();
+            }
+
+            @Override
+            public void onWebFailed(String errorMsg) {
+                Log.d("Register", errorMsg);
+
+                ToastUtil.ToastMessage(ForgetPasswrodActivity.this, "发送验证码失败", ToastUtil.WRONG);
+                mobileCodeBtn.setClickable(true);
+            }
+        });
     }
+    private TimeTask timeTask;
 
     /**
      * 获取 验证码倒计时

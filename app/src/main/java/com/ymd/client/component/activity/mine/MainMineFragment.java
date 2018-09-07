@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.ymd.client.R;
 import com.ymd.client.component.activity.mine.info.PersonInfoActivity;
+import com.ymd.client.component.activity.mine.setting.SettingActivity;
 import com.ymd.client.component.widget.CircleImageView;
 
 import butterknife.BindView;

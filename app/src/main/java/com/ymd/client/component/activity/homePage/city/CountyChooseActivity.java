@@ -70,7 +70,7 @@ public class CountyChooseActivity extends BaseActivity {
     private void queryData() {
 
         Map<String,Object> params = new HashMap<>();
-        params.put("cityId", cityCode);
+        params.put("cityID", cityCode);
         WebUtil.getInstance().requestPOST(this, URLConstant.QUERY_COUTY_DATA, params,
                 new WebUtil.WebCallBack() {
                     @Override

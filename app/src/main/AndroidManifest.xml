@@ -82,7 +82,7 @@
         <!-- 注册页面 -->
         <activity android:name=".component.activity.login.RegisterActivity" />
         <!-- 我的-设置 -->
-        <activity android:name=".component.activity.mine.SettingActivity" />
+        <activity android:name=".component.activity.mine.setting.SettingActivity" />
         <!-- 我的-个人信息 -->
         <activity android:name=".component.activity.mine.info.PersonInfoActivity" />
         <!-- 我的-我的U币 -->
@@ -108,13 +108,13 @@
             android:theme="@style/AppTheme" />
         <activity android:name=".component.activity.homePage.food.NiceFoodActivity" />
         <!-- 我的-设置-修改登陆密码 -->
-        <activity android:name=".component.activity.mine.config.AlterLoginPwActivity" />
+        <activity android:name=".component.activity.mine.setting.config.AlterLoginPwActivity" />
         <!-- 我的-设置-修改注册手机号 -->
-        <activity android:name=".component.activity.mine.config.AlterRegPhoneActivity" />
+        <activity android:name=".component.activity.mine.setting.config.AlterRegPhoneActivity" />
         <!-- 我的-设置-设置手势密码 -->
-        <activity android:name=".component.activity.mine.config.SetGesActivity" />
+        <activity android:name=".component.activity.mine.setting.config.SetGesActivity" />
         <!-- 我的-设置-修改手势密码 -->
-        <activity android:name=".component.activity.mine.config.AlterGesActivity" />
+        <activity android:name=".component.activity.mine.setting.config.AlterGesActivity" />
         <activity android:name=".component.widget.takephoto.app.TakePhotoActivity" />
         <activity android:name="com.soundcloud.android.crop.CropImageActivity" />
         <activity android:name=".component.activity.mine.evaluation.AddEvaluationActivity" />

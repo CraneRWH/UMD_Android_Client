@@ -38,7 +38,7 @@ public class MemberSexChangeActivity extends BaseActivity {
      * @param context
      */
     public static void startAction(Activity context) {
-        Intent intent = new Intent(context, NickNameChangeActivity.class);
+        Intent intent = new Intent(context, MemberSexChangeActivity.class);
         context.startActivityForResult(intent, 1);
     }
 
@@ -111,7 +111,7 @@ public class MemberSexChangeActivity extends BaseActivity {
         if (flag >= 0) {
             Bundle bundle = new Bundle();
             Intent intent = new Intent();
-            bundle.putString("key", "SEX");
+            bundle.putString("key", "sex");
             bundle.putString("value", ToolUtil.changeString(flag));
             intent.putExtras(bundle);
             setResult(1, intent);

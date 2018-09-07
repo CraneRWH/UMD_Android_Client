@@ -58,7 +58,7 @@ public class NickNameChangeActivity extends BaseActivity {
         }
         Bundle bundle = new Bundle();
         Intent intent = new Intent();
-        bundle.putString("key", "NICKNAME");
+        bundle.putString("key", "userName");
         bundle.putString("value", ToolUtil.changeString(memberName.getText()));
         intent.putExtras(bundle);
         setResult(1, intent);

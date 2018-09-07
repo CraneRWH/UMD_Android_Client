@@ -100,4 +100,14 @@ public class URLConstant {
      * 美食类别
      */
     public static final String QUERY_FOOD_TYPE_FUNCTIONS = "ymdConsumer/foodClasses";
+
+    /**
+     *  修改登录密码
+     */
+    public static final String CHANGE_LOGIN_PASSWORD = "ymdConsumer/updatePassword";
+
+    /**
+     *  修改手机号
+     */
+    public static final String CHANGE_LOGIN_PHONE = "ymdConsumer/updatePhone";
 }

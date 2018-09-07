@@ -1,8 +1,7 @@
-package com.ymd.client.component.activity.mine.config;
+package com.ymd.client.component.activity.mine.setting.config;
 
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 
 import com.ymd.client.R;

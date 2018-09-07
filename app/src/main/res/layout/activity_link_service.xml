@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".component.activity.mine.SettingActivity">
+    tools:context=".component.activity.mine.setting.SettingActivity">
 
     <include layout="@layout/layout_title_base"/>
 

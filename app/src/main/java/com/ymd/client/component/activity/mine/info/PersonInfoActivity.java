@@ -75,7 +75,7 @@ public class PersonInfoActivity extends BaseActivity {
      * @param context
      */
     public static void startAction(Activity context) {
-        Intent intent = new Intent(context, NickNameChangeActivity.class);
+        Intent intent = new Intent(context, PersonInfoActivity.class);
         context.startActivity(intent);
     }
 
@@ -95,11 +95,6 @@ public class PersonInfoActivity extends BaseActivity {
     }
 
     private void initView(){
-        UserObject userObject = LoginInfo.getInstance().getLoginInfo();
-        mTxtNickName.setText(userObject.getUserName());
-        mTxtPhone.setText(userObject.getPhone());
-        mTxtSex.setText(ToolUtil.changeInteger(userObject.getSex()) == 0 ?"男":"女");
-        mTxtBirth.setText(userObject.getBirthday());
 
         mTxtNickName.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -113,6 +108,17 @@ public class PersonInfoActivity extends BaseActivity {
                 MemberSexChangeActivity.startAction(PersonInfoActivity.this);
             }
         });
+
+        resetUserViewInfo();
+    }
+
+    private void resetUserViewInfo() {
+        UserObject userObject = LoginInfo.getInstance().getLoginInfo();
+        mTxtNickName.setText(userObject.getUserName());
+        mTxtPhone.setText(userObject.getPhone());
+        mTxtSex.setText(ToolUtil.changeInteger(userObject.getSex()) == 0 ?"男":"女");
+        mTxtBirth.setText(userObject.getBirthday());
+
     }
 
     @Override
@@ -260,6 +266,7 @@ public class PersonInfoActivity extends BaseActivity {
             @Override
             public void onTimeSelect(Date date, View v) {
                 mTxtBirth.setText(getTime(date));
+                updateInfo("birthday", getTime(date));
             }
         })
                 .setType(new boolean[]{true, true, true, false, false, false})
@@ -293,7 +300,8 @@ public class PersonInfoActivity extends BaseActivity {
                 new WebUtil.WebCallBack() {
                     @Override
                     public void onWebSuccess(JSONObject resultJson) {
-
+                        LoginInfo.setLoginInfo(resultJson.optString("user"));
+                        resetUserViewInfo();
                     }
 
                     @Override

@@ -1,4 +1,4 @@
-package com.ymd.client.component.activity.mine.config;
+package com.ymd.client.component.activity.mine.setting.config;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -10,7 +10,17 @@ import android.widget.TextView;
 
 import com.ymd.client.R;
 import com.ymd.client.common.base.BaseActivity;
+import com.ymd.client.model.constant.URLConstant;
+import com.ymd.client.model.info.LoginInfo;
 import com.ymd.client.utils.StatusBarUtils;
+import com.ymd.client.utils.ToastUtil;
+import com.ymd.client.utils.ToolUtil;
+import com.ymd.client.web.WebUtil;
+
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -21,15 +31,14 @@ import butterknife.OnClick;
  */
 public class AlterLoginPwActivity extends BaseActivity {
 
-    @BindView(R.id.base_title)
-    TextView mTxtTitle;
-
     @BindView(R.id.alter_pw_old)
     EditText mEtOldPw;
     @BindView(R.id.alter_pw_new)
     EditText mEtNewPw;
     @BindView(R.id.alter_pw_confirm)
     EditText mEtConfimPw;
+    @BindView(R.id.alter_pw_submit)
+    TextView alterPwSubmit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,13 +46,9 @@ public class AlterLoginPwActivity extends BaseActivity {
         setContentView(R.layout.activity_alter_login_pw);
         ButterKnife.bind(this);
         setStatusBar(R.color.white);
-        mTxtTitle.setText(R.string.setting_alter_pw);
+        setTitle("修改登录密码");
     }
 
-    @OnClick(R.id.base_back)
-    void back() {
-        finish();
-    }
 
     @Override
     protected void setStatusBar(int resourcesId) {
@@ -91,7 +96,46 @@ public class AlterLoginPwActivity extends BaseActivity {
     }
 
     @OnClick(R.id.alter_pw_submit)
-    void submit(){
+    void submit() {
+        String oldPassword = ToolUtil.changeString(mEtOldPw.getText());
+        if (oldPassword.length() == 0) {
+            ToastUtil.ToastMessage(this, "请输入旧密码");
+            return;
+        }
+        String newPassword = ToolUtil.changeString(mEtNewPw.getText());
+        if (newPassword.length() == 0) {
+            ToastUtil.ToastMessage(this, "请输入新密码");
+            return;
+        }
+        String confimPassword = ToolUtil.changeString(mEtConfimPw.getText());
+        if (confimPassword.length() == 0) {
+            ToastUtil.ToastMessage(this, "请再次输入新密码");
+            return;
+        }
+        if (!newPassword.equals(confimPassword)) {
+            ToastUtil.ToastMessage(this, "两次新密码输入不一致");
+            return;
+        }
+        Map<String,Object> params = new HashMap<>();
+        params.put("oldPw", oldPassword);
+        params.put("password", newPassword);
+        params.put("password2", confimPassword);
+        params.put("phone", LoginInfo.getInstance().getLoginInfo().getPhone());
+        params.put("type",1);
+        WebUtil.getInstance().requestPOST(this, URLConstant.CHANGE_LOGIN_PASSWORD, params,
+                new WebUtil.WebCallBack() {
+                    @Override
+                        public void onWebSuccess(JSONObject resultJson) {
+                            ToastUtil.ToastMessage(getApplicationContext(), "密码修改成功");
+                            finish();
+                    }
 
+                    @Override
+                    public void onWebFailed(String errorMsg) {
+
+                        ToastUtil.ToastMessage(getApplicationContext(), "密码修改失败");
+                    }
+                });
     }
+
 }

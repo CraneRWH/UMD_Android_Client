@@ -7,9 +7,9 @@
     android:orientation="vertical"
     android:focusable="true"
     android:focusableInTouchMode="true"
-    tools:context=".component.activity.mine.SettingActivity">
+    tools:context=".component.activity.mine.setting.SettingActivity">
 
-    <include layout="@layout/layout_title_base" />
+    <include layout="@layout/header_white_bar" />
 
     <View
         android:layout_width="match_parent"
@@ -102,6 +102,7 @@
         android:background="@color/white"
         android:gravity="center_vertical"
         android:orientation="horizontal"
+        android:visibility="gone"
         android:paddingLeft="@dimen/mar_pad_len_20px"
         android:paddingRight="@dimen/mar_pad_len_10px">
 
@@ -127,6 +128,7 @@
         android:layout_marginTop="@dimen/mar_pad_len_20px"
         android:gravity="center_vertical"
         android:paddingLeft="@dimen/mar_pad_len_20px"
+        android:visibility="gone"
         android:paddingRight="@dimen/mar_pad_len_20px"
         android:text="密码长度8~32位，须包含数字、字母、符号至少两种或以上元素"
         android:textColor="@color/common_color_deep_grey"

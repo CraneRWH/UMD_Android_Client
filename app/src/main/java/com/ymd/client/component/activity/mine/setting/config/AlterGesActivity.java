@@ -1,4 +1,4 @@
-package com.ymd.client.component.activity.mine.config;
+package com.ymd.client.component.activity.mine.setting.config;
 
 import android.content.Intent;
 import android.os.Bundle;

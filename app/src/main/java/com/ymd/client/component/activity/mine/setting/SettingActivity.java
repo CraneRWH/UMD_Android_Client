@@ -1,4 +1,4 @@
-package com.ymd.client.component.activity.mine;
+package com.ymd.client.component.activity.mine.setting;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,10 +8,10 @@ import android.widget.TextView;
 
 import com.ymd.client.R;
 import com.ymd.client.common.base.BaseActivity;
-import com.ymd.client.component.activity.mine.config.AlterGesActivity;
-import com.ymd.client.component.activity.mine.config.AlterLoginPwActivity;
-import com.ymd.client.component.activity.mine.config.AlterRegPhoneActivity;
-import com.ymd.client.component.activity.mine.config.SetGesActivity;
+import com.ymd.client.component.activity.mine.setting.config.AlterGesActivity;
+import com.ymd.client.component.activity.mine.setting.config.AlterLoginPwActivity;
+import com.ymd.client.component.activity.mine.setting.config.AlterRegPhoneActivity;
+import com.ymd.client.component.activity.mine.setting.config.SetGesActivity;
 import com.ymd.client.model.constant.Constants;
 import com.ymd.client.utils.ACache;
 import com.ymd.client.utils.StatusBarUtils;
