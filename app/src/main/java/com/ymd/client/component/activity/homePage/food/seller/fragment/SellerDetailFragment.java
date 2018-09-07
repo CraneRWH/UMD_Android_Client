@@ -1,7 +1,6 @@
-package com.ymd.client.component.activity.homePage.food.seller;
+package com.ymd.client.component.activity.homePage.food.seller.fragment;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +11,7 @@ import android.widget.TextView;
 
 import com.eowise.recyclerview.stickyheaders.OnHeaderClickListener;
 import com.ymd.client.R;
-import com.ymd.client.component.activity.homePage.food.seller.fragment.BaseFragment;
+import com.ymd.client.component.activity.homePage.food.seller.ComplaintSellerActivity;
 import com.ymd.client.component.adapter.merchant.PersonAdapter;
 import com.ymd.client.component.event.GoodsListEvent;
 import com.ymd.client.utils.ToolUtil;

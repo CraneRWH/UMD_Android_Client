@@ -5,7 +5,7 @@
     android:layout_height="wrap_content"
     android:background="@color/white"
     android:orientation="vertical"
-    tools:context=".component.activity.homePage.food.seller.SellerDetailFragment">
+    tools:context=".component.activity.homePage.food.seller.fragment.SellerDetailFragment">
 
     <ScrollView
         android:layout_width="match_parent"

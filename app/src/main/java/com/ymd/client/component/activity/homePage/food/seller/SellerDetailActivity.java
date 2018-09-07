@@ -12,7 +12,9 @@ import android.widget.TextView;
 
 import com.ymd.client.R;
 import com.ymd.client.common.base.BaseActivity;
-import com.ymd.client.component.activity.order.OrderPageFragment;
+import com.ymd.client.component.activity.homePage.food.seller.fragment.ChooseDishesFragment;
+import com.ymd.client.component.activity.homePage.food.seller.fragment.EvaluateSellerFragment;
+import com.ymd.client.component.activity.homePage.food.seller.fragment.SellerDetailFragment;
 import com.ymd.client.component.adapter.AppFragmentPageAdapter;
 import com.ymd.client.component.widget.other.MyChooseItemView;
 import com.ymd.client.component.widget.viewPager.CustomViewPager;

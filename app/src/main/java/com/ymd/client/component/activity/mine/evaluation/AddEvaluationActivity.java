@@ -18,7 +18,6 @@ import com.squareup.picasso.Picasso;
 import com.ymd.client.R;
 import com.ymd.client.UApplication;
 import com.ymd.client.common.base.BaseActivity;
-import com.ymd.client.component.activity.mine.PersonInfoActivity;
 import com.ymd.client.component.widget.RatingView;
 import com.ymd.client.component.widget.dialog.CommonDialogs;
 import com.ymd.client.component.widget.photo.ChoiceImageCallBack;

@@ -23,9 +23,9 @@ import android.widget.TextView;
 
 
 import com.ymd.client.R;
-import com.ymd.client.common.base.BaseActivity;
-import com.ymd.client.component.activity.homePage.food.seller.fragment.EvaluateFragment;
-import com.ymd.client.component.activity.homePage.food.seller.fragment.GoodsFragment;
+import com.ymd.client.component.activity.homePage.food.seller.fragment.ChooseDishesFragment;
+import com.ymd.client.component.activity.homePage.food.seller.fragment.EvaluateSellerFragment;
+import com.ymd.client.component.activity.homePage.food.seller.fragment.SellerDetailFragment;
 import com.ymd.client.component.adapter.TabFragmentAdapter;
 import com.ymd.client.component.event.MessageEvent;
 import com.ymd.client.utils.AnimationUtil;
@@ -77,9 +77,6 @@ public class NewTabActivity extends TabBaseActivity {
         ChooseDishesFragment disheslFragment = ChooseDishesFragment.newInstance();
         EvaluateSellerFragment evaluateSellerFragment = EvaluateSellerFragment.newInstance();
         SellerDetailFragment detailFragment = SellerDetailFragment.newInstance();
-        GoodsFragment goodsFragment=new GoodsFragment();
-
-        EvaluateFragment evaluateFragment=new EvaluateFragment();
         mFragments.add(disheslFragment);
         mFragments.add(evaluateSellerFragment);
         mFragments.add(detailFragment);

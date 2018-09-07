@@ -1,6 +1,7 @@
-package com.ymd.client.component.activity.mine;
+package com.ymd.client.component.activity.mine.info;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -69,6 +70,15 @@ public class PersonInfoActivity extends BaseActivity {
     ChoiceImageUtil ciutil;//图片选择工具
     private TimePickerView pickerView;//时间选择器
 
+    /**
+     * 启动
+     * @param context
+     */
+    public static void startAction(Activity context) {
+        Intent intent = new Intent(context, NickNameChangeActivity.class);
+        context.startActivity(intent);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -90,11 +100,19 @@ public class PersonInfoActivity extends BaseActivity {
         mTxtPhone.setText(userObject.getPhone());
         mTxtSex.setText(ToolUtil.changeInteger(userObject.getSex()) == 0 ?"男":"女");
         mTxtBirth.setText(userObject.getBirthday());
-    }
 
-    @OnClick(R.id.base_back)
-    void back() {
-        finish();
+        mTxtNickName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                NickNameChangeActivity.startAction(PersonInfoActivity.this);
+            }
+        });
+        mTxtSex.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MemberSexChangeActivity.startAction(PersonInfoActivity.this);
+            }
+        });
     }
 
     @Override
@@ -207,6 +225,10 @@ public class PersonInfoActivity extends BaseActivity {
                         Picasso.with(PersonInfoActivity.this).load(new File(fileUrl)).into(mIvHead);
                     }
                 });
+        if (resultCode == 1) {
+            Bundle bundle = mIntent.getExtras();
+            updateInfo(bundle.getString("key"), bundle.getString("value"));
+        }
     }
 
     @OnClick(R.id.person_layout_birth)
@@ -264,9 +286,9 @@ public class PersonInfoActivity extends BaseActivity {
         }
     }
 
-    private void updateInfo() {
+    private void updateInfo(String key, String value) {
         Map<String,Object> params = new HashMap<>();
-        params.put("","");
+        params.put(key, value);
         WebUtil.getInstance().requestPOST(this, URLConstant.UPDATE_USER_INFO, params,
                 new WebUtil.WebCallBack() {
                     @Override

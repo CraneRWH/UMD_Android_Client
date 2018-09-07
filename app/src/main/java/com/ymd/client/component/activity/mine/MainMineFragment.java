@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.ymd.client.R;
+import com.ymd.client.component.activity.mine.info.PersonInfoActivity;
 import com.ymd.client.component.widget.CircleImageView;
 
 import butterknife.BindView;
@@ -89,7 +90,7 @@ public class MainMineFragment extends Fragment {
                 //个人信息
             case R.id.fragment_person:
                 //个人信息
-                startActivity(new Intent(getContext(), PersonInfoActivity.class));
+                PersonInfoActivity.startAction(getActivity());
                 break;
             case R.id.fragment_mine_my_ub:
                 //我的U币

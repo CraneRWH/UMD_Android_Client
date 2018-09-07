@@ -84,7 +84,7 @@
         <!-- 我的-设置 -->
         <activity android:name=".component.activity.mine.SettingActivity" />
         <!-- 我的-个人信息 -->
-        <activity android:name=".component.activity.mine.PersonInfoActivity" />
+        <activity android:name=".component.activity.mine.info.PersonInfoActivity" />
         <!-- 我的-我的U币 -->
         <activity android:name=".component.activity.mine.MyUbActivity" />
         <!-- 我的-我的收藏 -->
@@ -133,6 +133,8 @@
         <activity android:name=".component.activity.homePage.scan.ScanCodeActivity" />
         <activity android:name=".component.activity.homePage.city.CityChooseActivity" />
 
+        <activity android:name=".component.activity.mine.info.MemberSexChangeActivity"/>
+        <activity android:name=".component.activity.mine.info.NickNameChangeActivity"/>
         <service
             android:name=".common.base.service.LocationIntentService"
             android:exported="false"></service>

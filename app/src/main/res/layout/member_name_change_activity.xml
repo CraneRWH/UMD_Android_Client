@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+    <include layout="@layout/header_bar"/>
+    <View style="@style/view_detail_item_separator"/>
+    <EditText
+        android:id="@+id/memberName"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="center_vertical"
+        android:textSize="@dimen/text_size_28px"
+        android:textColor="@color/gray"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:background="@color/white"
+        />
+    <View style="@style/view_detail_item_separator"/>
+</LinearLayout>
