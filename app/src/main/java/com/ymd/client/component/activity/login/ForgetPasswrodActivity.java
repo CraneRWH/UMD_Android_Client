@@ -107,9 +107,9 @@ public class ForgetPasswrodActivity extends BaseActivity {
 
         Map<String,Object> params = new HashMap<>();
         params.put("phone", mobileNumberString);
-        params.put("code", mobileCode);
+        params.put("code", mobileCodeString);
         params.put("password", password);
-        params.put("type",1);
+        params.put("type",0);
         WebUtil.getInstance().requestPOST(this, URLConstant.CHANGE_LOGIN_PASSWORD, params,
                 new WebUtil.WebCallBack() {
                     @Override

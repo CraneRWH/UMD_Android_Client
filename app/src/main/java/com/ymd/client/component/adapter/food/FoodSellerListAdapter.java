@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.ymd.client.R;
 import com.ymd.client.common.base.OnUMDItemClickListener;
+import com.ymd.client.model.bean.homePage.YmdGoodsEntity;
 import com.ymd.client.utils.ToolUtil;
 
 import java.util.List;
@@ -29,12 +30,12 @@ import butterknife.ButterKnife;
  */
 public class FoodSellerListAdapter extends RecyclerView.Adapter<FoodSellerListAdapter.ViewHolder> {
 
-    private List<Map<String, Object>> datas;
+    private List<YmdGoodsEntity> datas;
     private Context mContext;
 
     private OnUMDItemClickListener listener;
 
-    public FoodSellerListAdapter(List<Map<String, Object>> datas, Context mContext) {
+    public FoodSellerListAdapter(List<YmdGoodsEntity> datas, Context mContext) {
         this.datas = datas;
         this.mContext = mContext;
     }
@@ -50,14 +51,14 @@ public class FoodSellerListAdapter extends RecyclerView.Adapter<FoodSellerListAd
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
 
-        Map<String, Object> data = datas.get(position);
-        holder.nameTv.setText(ToolUtil.changeString(data.get("name")));
-        holder.descTv.setText(ToolUtil.changeString(data.get("desc")));
-        holder.saleNumTv.setText(ToolUtil.changeString(data.get("sale_num")));
-        holder.nowPriceTv.setText(ToolUtil.changeString(data.get("price")));
-        holder.oldPriceTv.setText("¥" + ToolUtil.changeString(data.get("old_pride")));
-        holder.numTv.setText(ToolUtil.changeString(data.get("num")));
-        holder.oldPriceTv.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+        YmdGoodsEntity data = datas.get(position);
+        holder.nameTv.setText(ToolUtil.changeString(data.getGoodsName()));
+        holder.descTv.setText(ToolUtil.changeString(data.getDescribe()));
+        holder.saleNumTv.setText(ToolUtil.changeString(0));
+        holder.nowPriceTv.setText(ToolUtil.changeString(data.getPrice()));
+    //    holder.oldPriceTv.setText("¥" + ToolUtil.changeString(data.get("old_pride")));
+        holder.numTv.setText(ToolUtil.changeString(0));
+    //    holder.oldPriceTv.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
         holder.rootView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

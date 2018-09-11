@@ -1,6 +1,8 @@
 package com.ymd.client.model.bean.homePage;
 
-public class FileInfoEntity {
+import java.io.Serializable;
+
+public class FileInfoEntity  implements Serializable {
     /**
      * 附件名称
      */

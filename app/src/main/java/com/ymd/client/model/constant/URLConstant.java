@@ -110,4 +110,32 @@ public class URLConstant {
      *  修改手机号
      */
     public static final String CHANGE_LOGIN_PHONE = "ymdConsumer/updatePhone";
+
+    /**
+     *  获取商家的商品分类
+     */
+    public static final String MERCHANT_GOOD_TYPE = "HyGoodsController/rangeGoodsList";
+
+
+    /**
+     *  获取商家的所有商品
+     */
+    public static final String MERCHANT_GOOD_LIST = "HyGoodsController/goodsList";
+
+    /**
+     *  获取商家的评价
+     */
+    public static final String MERCHANT_EVALUATION_LIST = "Evaluation/evaluationList";
+
+
+    /**
+     *  获取商家的相关资质照片等
+     */
+    public static final String MERCHANT_PHOTO_FILE_LIST = "ymdConsumer/merchantFile";
+
+
+    /**
+     *  收藏商家
+     */
+    public static final String MERCHANT_COLLECTION = "ymdConsumer/merchantCollectionAdd";
 }

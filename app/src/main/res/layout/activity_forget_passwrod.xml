@@ -150,7 +150,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/mar_pad_len_12px"
                 android:paddingLeft="10dp"
-                android:text="密码长度8-32位，必须包含数字、字母、符号至少两种或以上的元素"
+                android:text="密码长度6-32位，必须包含数字、字母、符号至少两种或以上的元素"
                 android:textColor="@color/text_gray_dark"
                 android:textSize="@dimen/text_size_22px" />
 

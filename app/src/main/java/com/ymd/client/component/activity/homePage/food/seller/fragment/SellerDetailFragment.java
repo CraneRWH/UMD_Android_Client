@@ -9,15 +9,22 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.eowise.recyclerview.stickyheaders.OnHeaderClickListener;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.ymd.client.R;
 import com.ymd.client.component.activity.homePage.food.seller.ComplaintSellerActivity;
 import com.ymd.client.component.adapter.merchant.PersonAdapter;
 import com.ymd.client.component.event.GoodsListEvent;
+import com.ymd.client.model.bean.homePage.MerchantInfoEntity;
+import com.ymd.client.model.constant.URLConstant;
 import com.ymd.client.utils.ToolUtil;
+import com.ymd.client.web.WebUtil;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -51,26 +58,25 @@ public class SellerDetailFragment extends BaseFragment implements PersonAdapter.
 
     private String mParam1;
     private String mParam2;
+    MerchantInfoEntity merchantInfo;
 
     public SellerDetailFragment() {
         // Required empty public constructor
     }
 
-    public static SellerDetailFragment newInstance(/*String param1, String param2*/) {
+    public static SellerDetailFragment newInstance(MerchantInfoEntity merchantInfo) {
         SellerDetailFragment fragment = new SellerDetailFragment();
-    /*    Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);*/
+        Bundle args = new Bundle();
+        args.putSerializable("merchant", merchantInfo);
+        fragment.setArguments(args);
         return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+        if (getArguments()!=null) {
+            merchantInfo = (MerchantInfoEntity) getArguments().getSerializable("merchant");
         }
     }
 
@@ -80,8 +86,10 @@ public class SellerDetailFragment extends BaseFragment implements PersonAdapter.
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_seller_detail, container, false);
         unbinder = ButterKnife.bind(this, view);
-        setShopData();
-        setManageData();
+      /*  setShopData();
+        setManageData();*/
+
+        requestEvalustes();
         setServiceData();
         complaintBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -92,27 +100,27 @@ public class SellerDetailFragment extends BaseFragment implements PersonAdapter.
         return view;
     }
 
-    private void setShopData() {
-        List<Map<String ,Object>> list = new ArrayList<>();
-        Map<String, Object> map = new HashMap<>();
-        map.put("name","food_item_icon");
-        map.put("icon", R.mipmap.icon_merchant_image_order_1);
-        list.add(map);
+    private void requestEvalustes() {
+        Map<String,Object> params = new HashMap<>();
+        params.put("merchantId",merchantInfo.getId());
+        WebUtil.getInstance().requestPOST(getActivity(), URLConstant.MERCHANT_COLLECTION, params,
+                new WebUtil.WebCallBack() {
+                    @Override
+                    public void onWebSuccess(JSONObject result) {
+                        setShopData(result.optString("mentouzhao"));
+                        setManageData(result.optString("zizhizhao"));
+                    }
 
-        map = new HashMap<>();
-        map.put("name","hospital_item_icon");
-        map.put("icon", R.mipmap.icon_merchant_image_shang);
-        list.add(map);
+                    @Override
+                    public void onWebFailed(String errorMsg) {
 
-        map = new HashMap<>();
-        map.put("name","car_item_icon");
-        map.put("icon", R.mipmap.icon_merchant_star_image_comment);
-        list.add(map);
+                    }
+                });
+    }
 
-        map = new HashMap<>();
-        map.put("name","meirong_item_icon");
-        map.put("icon", R.mipmap.icon_merchant_mage);
-        list.add(map);
+    private void setShopData(String resultJson) {
+        List<String> list = new Gson().fromJson(resultJson, new TypeToken<List<String>>(){}.getType());
+
 
         //开始添加数据
         for(int i=0; i<list.size(); i++){
@@ -123,7 +131,7 @@ public class SellerDetailFragment extends BaseFragment implements PersonAdapter.
             //实例化TextView控件
             //   TextView tv= (TextView) view.findViewById(R.id.textView);
             //将int数组中的数据放到ImageView中
-            img.setImageResource(ToolUtil.changeInteger(list.get(i).get("icon")));
+            Glide.with(getActivity()).load(ToolUtil.changeString(list.get(i))).into(img);
             //给TextView添加文字
             //    tv.setText("第"+(x+1)+"张");
             //把行布局放到linear里
@@ -131,27 +139,8 @@ public class SellerDetailFragment extends BaseFragment implements PersonAdapter.
         }
     }
 
-    private void setManageData() {
-        List<Map<String ,Object>> list = new ArrayList<>();
-        Map<String, Object> map = new HashMap<>();
-        map.put("name","food_item_icon");
-        map.put("icon", R.mipmap.icon_merchant_image_order_1);
-        list.add(map);
-
-        map = new HashMap<>();
-        map.put("name","hospital_item_icon");
-        map.put("icon", R.mipmap.icon_merchant_image_shang);
-        list.add(map);
-
-        map = new HashMap<>();
-        map.put("name","car_item_icon");
-        map.put("icon", R.mipmap.icon_merchant_star_image_comment);
-        list.add(map);
-
-        map = new HashMap<>();
-        map.put("name","meirong_item_icon");
-        map.put("icon", R.mipmap.icon_merchant_mage);
-        list.add(map);
+    private void setManageData(String resultJson) {
+        List<String> list = new Gson().fromJson(resultJson, new TypeToken<List<String>>(){}.getType());
 
         //开始添加数据
         for(int i=0; i<list.size(); i++){
@@ -162,7 +151,7 @@ public class SellerDetailFragment extends BaseFragment implements PersonAdapter.
             //实例化TextView控件
             //   TextView tv= (TextView) view.findViewById(R.id.textView);
             //将int数组中的数据放到ImageView中
-            img.setImageResource(ToolUtil.changeInteger(list.get(i).get("icon")));
+            Glide.with(getActivity()).load(ToolUtil.changeString(list.get(i))).into(img);
             //给TextView添加文字
             //    tv.setText("第"+(x+1)+"张");
             //把行布局放到linear里
@@ -190,10 +179,12 @@ public class SellerDetailFragment extends BaseFragment implements PersonAdapter.
         map.put("icon", R.mipmap.icon_merchant_serve);
         list.add(map);
 
-        map = new HashMap<>();
-        map.put("name","提供发票");
-        map.put("icon", R.mipmap.icon_merchant_ticket);
-        list.add(map);
+        if (merchantInfo.getInvoice() == 1) {
+            map = new HashMap<>();
+            map.put("name", "提供发票");
+            map.put("icon", R.mipmap.icon_merchant_ticket);
+            list.add(map);
+        }
 
         map = new HashMap<>();
         map.put("name","到店自取");

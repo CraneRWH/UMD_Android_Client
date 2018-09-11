@@ -26,6 +26,7 @@ import com.ymd.client.common.base.bean.TabObject;
 import com.ymd.client.component.activity.order.PageFragmentAdapter;
 import com.ymd.client.component.widget.other.MyChooseItemView;
 import com.ymd.client.model.bean.homePage.YmdGoodsEntity;
+import com.ymd.client.model.bean.homePage.YmdIndustryEntity;
 import com.ymd.client.model.bean.homePage.YmdRecommendEntity;
 import com.ymd.client.model.constant.URLConstant;
 import com.ymd.client.utils.ToolUtil;
@@ -73,6 +74,7 @@ public class NiceFoodActivity extends BaseActivity implements ViewPager.OnPageCh
 
     private PageFragmentAdapter adapter=null;
     private List<Fragment> fragmentList=new ArrayList<Fragment>();
+    private List<MyChooseItemView> textViewList;
 
     /**
      * 启动
@@ -104,12 +106,38 @@ public class NiceFoodActivity extends BaseActivity implements ViewPager.OnPageCh
                     }
                 });
         viewPager.setOnPageChangeListener(this);
-        initTab();//动态产生RadioButton
-        initViewPager();
-        rgChannel.check(0);
+    //    initTab();//动态产生RadioButton
+        textViewList = new ArrayList<MyChooseItemView>();
+        textViewList.add(chooseItem0);
+        textViewList.add(chooseItem1);
+        textViewList.add(chooseItem2);
+        textViewList.add(chooseItem3);
 
-        setTab(0);
+        chooseItem(0);
+
         requestRecommend();
+        requestFoodType();
+    }
+
+    public int chooseStatus = 0;
+
+    protected void chooseItem(int position) {
+        chooseStatus = position;
+        if (!fragmentList.isEmpty() && viewPager.getAdapter() != null) {
+            ((FoodListFragment) fragmentList.get(viewPager.getCurrentItem())).refreshData(chooseStatus);
+        }
+        try {
+            for (int i = 0; i < textViewList.size(); i++) {
+                if (i == position) {
+                    textViewList.get(i).setChoose(true);
+                } else {
+                    textViewList.get(i).setChoose(false);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
     private void requestRecommend() {
@@ -131,27 +159,6 @@ public class NiceFoodActivity extends BaseActivity implements ViewPager.OnPageCh
 
     private void setRecommendMerchant(String resultJson) {
         List<YmdRecommendEntity> list = new Gson().fromJson(resultJson, new TypeToken<List<YmdRecommendEntity>>(){}.getType());
-        /*List<Map<String, Object>> list = new ArrayList<>();
-        Map<String, Object> map = new HashMap<>();
-        map.put("name", "food_item_icon");
-        map.put("icon", R.mipmap.nice_good_icon1);
-        list.add(map);
-
-        map = new HashMap<>();
-        map.put("name", "hospital_item_icon");
-        map.put("icon", R.mipmap.nice_good_icon1);
-        list.add(map);
-
-        map = new HashMap<>();
-        map.put("name", "car_item_icon");
-        map.put("icon", R.mipmap.nice_good_icon1);
-        list.add(map);
-
-        map = new HashMap<>();
-        map.put("name", "meirong_item_icon");
-        map.put("icon", R.mipmap.nice_good_icon1);
-        list.add(map);
-*/
         //开始添加数据
         for (int x = 0; x < list.size(); x++) {
             YmdRecommendEntity item = list.get(x);
@@ -193,7 +200,10 @@ public class NiceFoodActivity extends BaseActivity implements ViewPager.OnPageCh
                 new WebUtil.WebCallBack() {
                     @Override
                     public void onWebSuccess(JSONObject resultJson) {
-
+                        initTab(resultJson.optString("list"));
+                        initViewPager();
+                        setTab(0);
+                        rgChannel.check(0);
                     }
 
                     @Override
@@ -203,23 +213,14 @@ public class NiceFoodActivity extends BaseActivity implements ViewPager.OnPageCh
                 });
     }
 
-    private void initTab(/*String functionJson*/) {
-    //    List<YmdGoodsEntity> itemList = new Gson().fromJson(functionJson, new TypeToken<List<YmdGoodsEntity>>(){}.getType());
-        List<TabObject> channelList=new ArrayList<>();
-        channelList.add(new TabObject("全部"));
-        channelList.add(new TabObject("快捷便当"));
-        channelList.add(new TabObject("汉堡薯条"));
-        channelList.add(new TabObject("意大利面"));
-        channelList.add(new TabObject("包子粥店"));
-        channelList.add(new TabObject("烧饼店"));
-        channelList.add(new TabObject("驴肉火烧"));
-        channelList.add(new TabObject("麻辣烫"));
-        channelList.add(new TabObject("半天妖"));
-        for(int i=0;i<channelList.size();i++){
+    List<YmdIndustryEntity> typeList = new ArrayList<>();
+    private void initTab(String functionJson) {
+        typeList = new Gson().fromJson(functionJson, new TypeToken<List<YmdIndustryEntity>>(){}.getType());
+        for(int i=0;i<typeList.size();i++){
             RadioButton rb=(RadioButton)LayoutInflater.from(this).
                     inflate(R.layout.tab_rb, null);
             rb.setId(i);
-            rb.setText(channelList.get(i).getName());
+            rb.setText(typeList.get(i).getName());
             RadioGroup.LayoutParams params=new
                     RadioGroup.LayoutParams((int) getResources().getDimension(R.dimen.mar_pad_len_200px),
                     RadioGroup.LayoutParams.WRAP_CONTENT);
@@ -229,18 +230,8 @@ public class NiceFoodActivity extends BaseActivity implements ViewPager.OnPageCh
     }
 
     private void initViewPager(){
-        List<TabObject> channelList=new ArrayList<>();
-        channelList.add(new TabObject("全部"));
-        channelList.add(new TabObject("快捷便当"));
-        channelList.add(new TabObject("汉堡薯条"));
-        channelList.add(new TabObject("意大利面"));
-        channelList.add(new TabObject("包子粥店"));
-        channelList.add(new TabObject("烧饼店"));
-        channelList.add(new TabObject("驴肉火烧"));
-        channelList.add(new TabObject("麻辣烫"));
-        channelList.add(new TabObject("半天妖"));
-        for(int i=0;i<channelList.size();i++){
-            FoodListFragment frag= FoodListFragment.newInstance(i);
+        for(int i=0;i< typeList.size();i++){
+            FoodListFragment frag= FoodListFragment.newInstance(chooseStatus, typeList.get(i).getPid());
       /*      Bundle bundle=new Bundle();
             bundle.putString("weburl", channelList.get(i).getWeburl());
             bundle.putString("name", channelList.get(i).getName());

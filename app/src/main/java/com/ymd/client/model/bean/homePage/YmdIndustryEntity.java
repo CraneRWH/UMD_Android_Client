@@ -21,17 +21,17 @@ public class YmdIndustryEntity  {
      */
 	private String imgUrl;
 
-	private String pid;
+	private Long pid;
 
 	/**
 	 * pid
 	 * @return
 	 */
-	public String getPid() {
+	public Long getPid() {
 		return pid;
 	}
 
-	public void setPid(String pid) {
+	public void setPid(Long pid) {
 		this.pid = pid;
 	}
 

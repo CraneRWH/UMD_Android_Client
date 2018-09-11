@@ -72,7 +72,7 @@
                     android:layout_weight="1"
                     android:gravity="right"
                     android:layout_height="wrap_content"
-                    android:background="@color/bg_color"
+                    android:background="@color/white"
                     android:text="更多"
                     android:textColor="@color/common_text_color"
                     android:textSize="@dimen/text_size_32px" />

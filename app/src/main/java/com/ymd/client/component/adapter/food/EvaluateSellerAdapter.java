@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.ymd.client.R;
 import com.ymd.client.common.base.OnUMDItemClickListener;
+import com.ymd.client.model.bean.homePage.YmdEvaluationEntity;
 import com.ymd.client.utils.ToolUtil;
 
 import java.util.List;
@@ -31,12 +32,12 @@ import butterknife.ButterKnife;
  */
 public class EvaluateSellerAdapter extends RecyclerView.Adapter<EvaluateSellerAdapter.ViewHolder> {
 
-    private List<Map<String, Object>> datas;
+    private List<YmdEvaluationEntity> datas;
     private Context mContext;
 
     private OnUMDItemClickListener listener;
 
-    public EvaluateSellerAdapter(List<Map<String, Object>> datas, Context mContext) {
+    public EvaluateSellerAdapter(List<YmdEvaluationEntity> datas, Context mContext) {
         this.datas = datas;
         this.mContext = mContext;
     }
@@ -52,12 +53,12 @@ public class EvaluateSellerAdapter extends RecyclerView.Adapter<EvaluateSellerAd
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
 
-        Map<String, Object> data = datas.get(position);
-        holder.shopNameTv.setText(ToolUtil.changeString(data.get("name")));
-        holder.descTv.setText(ToolUtil.changeString(data.get("desc")));
-        holder.dateTv.setText(ToolUtil.changeString(data.get("date")));
-        holder.scoreBarView.setRating(ToolUtil.changeFloat(data.get("point")));
-        holder.sellerReplayTv.setText(ToolUtil.changeString(data.get("replay")));
+        YmdEvaluationEntity data = datas.get(position);
+        holder.shopNameTv.setText(ToolUtil.changeString(data.getMerchantName()));
+        holder.descTv.setText(ToolUtil.changeString(data.getContent()));
+        holder.dateTv.setText(ToolUtil.changeString(data.getTime()));
+        holder.scoreBarView.setRating(ToolUtil.changeFloat(data.getScore()));
+        holder.sellerReplayTv.setText(ToolUtil.changeString(data.getReply()));
         holder.rootView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

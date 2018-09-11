@@ -221,7 +221,7 @@ public class LoginActivity extends BaseActivity {
         protected void onCancelled() {
             mobileCodeBtn.setText("获取验证码");
             time = 60;
-            //    mobileCodeBtn.setBackgroundResource(R.color.colorPrimary);
+            mobileCodeBtn.setBackgroundResource(R.color.bg_header);
             mobileCodeBtn.setClickable(true);
         }
     }

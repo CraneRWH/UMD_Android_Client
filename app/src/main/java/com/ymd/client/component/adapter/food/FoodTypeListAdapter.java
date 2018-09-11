@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.ymd.client.R;
 import com.ymd.client.common.base.OnUMDItemClickListener;
+import com.ymd.client.model.bean.homePage.YmdRangeGoodsEntity;
 import com.ymd.client.utils.ToolUtil;
 
 import java.util.List;
@@ -30,12 +31,12 @@ import butterknife.ButterKnife;
  */
 public class FoodTypeListAdapter extends RecyclerView.Adapter<FoodTypeListAdapter.ViewHolder> {
 
-    private List<Map<String, Object>> datas;
+    private List<YmdRangeGoodsEntity> datas;
     private Context mContext;
 
     private OnUMDItemClickListener onItemClickListener;
 
-    public FoodTypeListAdapter(List<Map<String, Object>> datas, Context mContext) {
+    public FoodTypeListAdapter(List<YmdRangeGoodsEntity> datas, Context mContext) {
         this.datas = datas;
         this.mContext = mContext;
     }
@@ -52,9 +53,9 @@ public class FoodTypeListAdapter extends RecyclerView.Adapter<FoodTypeListAdapte
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
 
-        Map<String, Object> data = datas.get(position);
-        holder.itemTv.setText(ToolUtil.changeString(data.get("name")));
-        if (ToolUtil.changeBoolean(data.get("isChoose"))) {
+        YmdRangeGoodsEntity data = datas.get(position);
+        holder.itemTv.setText(ToolUtil.changeString(data.getVariety()));
+        if (ToolUtil.changeBoolean(data.isChoose())) {
             holder.itemTv.setTextColor(R.color.common_text_color);
             holder.rootView.setBackgroundResource(R.color.text_gray);
         } else {
@@ -73,10 +74,10 @@ public class FoodTypeListAdapter extends RecyclerView.Adapter<FoodTypeListAdapte
     }
 
     public void changeChooseItem(int position) {
-        for (Map<String,Object> item : datas) {
-            item.put("isChoose", false);
+        for (YmdRangeGoodsEntity item : datas) {
+            item.setChoose(false);
         }
-        datas.get(position).put("isChoose", true);
+        datas.get(position).setChoose(true);
         notifyDataSetChanged();
     }
 

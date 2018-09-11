@@ -50,16 +50,18 @@ public class FoodListFragment extends Fragment {
     private String mParam2;
 
     private int status;
+    private long pid;
 
 
     public FoodListFragment() {
         // Required empty public constructor
     }
 
-    public static FoodListFragment newInstance(int type/*String param1, String param2*/) {
+    public static FoodListFragment newInstance(int type,Long pid/*String param1, String param2*/) {
         FoodListFragment fragment = new FoodListFragment();
         Bundle args = new Bundle();
         args.putInt(ARG_PARAM1, type);
+        args.putLong(ARG_PARAM2, pid);
         fragment.setArguments(args);
         return fragment;
     }
@@ -69,6 +71,7 @@ public class FoodListFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             status = getArguments().getInt(ARG_PARAM1);
+            pid = getArguments().getLong(ARG_PARAM2);
         }
     }
 
@@ -95,6 +98,11 @@ public class FoodListFragment extends Fragment {
         requestMerchant(status);
     }
 
+    public void refreshData(int status) {
+        this.status = status;
+        requestMerchant(status);
+    }
+
     int page = 1;
 
     /**
@@ -108,6 +116,7 @@ public class FoodListFragment extends Fragment {
         params.put("latitude",LocationInfo.getInstance().getLocationInfo().getLatitude());
         params.put("longitude",LocationInfo.getInstance().getLocationInfo().getLongitude());
         params.put("pageNum", page);
+        params.put("twoClasses", pid);
         String method = URLConstant.COMPREHENSIVE_MERCHANT;
         switch (type){
             case 0:
@@ -150,62 +159,6 @@ public class FoodListFragment extends Fragment {
             }
         });
         recyclerView.setAdapter(adapter);
-    }
-
-    private List getData() {
-        List<Map<String,Object>> list = new ArrayList<>();
-        Map<String, Object> map = new HashMap<>();
-        map.put("name", "半天妖烤鱼");
-        map.put("distance","253m");
-        map.put("point",4);
-        map.put("work_time", "9:00~21:30");
-        map.put("dis_str","全场");
-        map.put("dis_num", "8.6折");
-        map.put("price", 86);
-        map.put("unit","人");
-        List<String> diss = new ArrayList<>();
-        diss.add("全场8.9折优惠");
-        diss.add("早餐免费领豆浆");
-        diss.add("上午9:00至12:00有7折优惠");
-        map.put("diss", diss);
-
-        list.add(map);
-
-        map = new HashMap<>();
-        map.put("name", "驴肉火烧");
-        map.put("distance","253m");
-        map.put("point",4.3);
-        map.put("work_time", "9:00~21:30");
-        map.put("dis_str","全场");
-        map.put("dis_num", "8.6折");
-        map.put("price", 86);
-        map.put("unit","人");
-        diss = new ArrayList<>();
-        diss.add("全场8.9折优惠");
-        diss.add("早餐免费领豆浆");
-        diss.add("上午9:00至12:00有7折优惠");
-        map.put("diss", diss);
-
-        list.add(map);
-
-        map = new HashMap<>();
-        map.put("name", "沙县小吃");
-        map.put("distance","253m");
-        map.put("point",4.3);
-        map.put("work_time", "9:00~21:30");
-        map.put("dis_str","全场");
-        map.put("dis_num", "8.6折");
-        map.put("price", 86);
-        map.put("unit","人");
-        diss = new ArrayList<>();
-        diss.add("全场8.9折优惠");
-        diss.add("早餐免费领豆浆");
-        diss.add("上午9:00至12:00有7折优惠");
-        map.put("diss", diss);
-
-        list.add(map);
-
-        return list;
     }
 
     @Override

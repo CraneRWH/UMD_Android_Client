@@ -8,8 +8,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.ymd.client.R;
 import com.ymd.client.component.adapter.food.EvaluateSellerAdapter;
+import com.ymd.client.model.bean.homePage.MerchantInfoEntity;
+import com.ymd.client.model.bean.homePage.YmdEvaluationEntity;
+import com.ymd.client.model.bean.homePage.YmdRangeGoodsEntity;
+import com.ymd.client.model.constant.URLConstant;
+import com.ymd.client.web.WebUtil;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -35,26 +44,25 @@ public class EvaluateSellerFragment extends Fragment {
 
     private String mParam1;
     private String mParam2;
+    MerchantInfoEntity merchantInfo;
 
     public EvaluateSellerFragment() {
     }
 
-    public static EvaluateSellerFragment newInstance(/*String param1, String param2*/) {
+    public static EvaluateSellerFragment newInstance(MerchantInfoEntity merchantInfo) {
         EvaluateSellerFragment fragment = new EvaluateSellerFragment();
-        /*Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);*/
+        Bundle args = new Bundle();
+        args.putSerializable("merchant", merchantInfo);
+        fragment.setArguments(args);
         return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-       /* if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }*/
+        if (getArguments()!=null) {
+            merchantInfo = (MerchantInfoEntity) getArguments().getSerializable("merchant");
+        }
     }
 
     @Override
@@ -68,60 +76,33 @@ public class EvaluateSellerFragment extends Fragment {
     }
 
     private void initView() {
-        setEvaluteData();
+        requestEvalustes();
     }
 
-    private void setEvaluteData() {
-        List<Map<String, Object>> list = new ArrayList<>();
-        Map<String, Object> map = new HashMap<>();
-        map.put("name", "天下第一凉粉");
-        map.put("date", "凉粉+酸梅汁+啤酒+可乐+筷子");
-        map.put("point", 4);
-        map.put("desc", "不能确保客户收到的货物与商城图片、产地、附件说明完全一致。只能确保为原厂正货！并且保证与当时市场上同样主流新品一致。若本商城没有及时更新，请大家谅解！");
-        map.put("replay", "凭质保证书及京东商城发票，可享受全国联保服务（奢侈品、钟表除外；奢侈品、钟表由京东联系保修，享受法定三包售后服务），与您亲临商场");
-        list.add(map);
+    int page = 1;
+    private void requestEvalustes() {
+        Map<String,Object> params = new HashMap<>();
+        params.put("merchantId",merchantInfo.getId());
+        params.put("pageNum", page);
+        WebUtil.getInstance().requestPOST(getActivity(), URLConstant.MERCHANT_EVALUATION_LIST, params,
+                new WebUtil.WebCallBack() {
+                    @Override
+                    public void onWebSuccess(JSONObject result) {
+                        setEvaluteData(result.optString("list"));
+                    }
 
-        map = new HashMap<>();
-        map.put("name", "天下第一凉粉");
-        map.put("date", "凉粉+酸梅汁+啤酒+可乐+筷子");
-        map.put("point", 4);
-        map.put("desc", "不能确保客户收到的货物与商城图片、产地、附件说明完全一致。只能确保为原厂正货！并且保证与当时市场上同样主流新品一致。若本商城没有及时更新，请大家谅解！");
-        map.put("replay", "凭质保证书及京东商城发票，可享受全国联保服务（奢侈品、钟表除外；奢侈品、钟表由京东联系保修，享受法定三包售后服务），与您亲临商场");
-        list.add(map);
+                    @Override
+                    public void onWebFailed(String errorMsg) {
 
-        map = new HashMap<>();
-        map.put("name", "天下第一凉粉");
-        map.put("date", "凉粉+酸梅汁+啤酒+可乐+筷子");
-        map.put("point", 4);
-        map.put("desc", "不能确保客户收到的货物与商城图片、产地、附件说明完全一致。只能确保为原厂正货！并且保证与当时市场上同样主流新品一致。若本商城没有及时更新，请大家谅解！");
-        map.put("replay", "凭质保证书及京东商城发票，可享受全国联保服务（奢侈品、钟表除外；奢侈品、钟表由京东联系保修，享受法定三包售后服务），与您亲临商场");
-        list.add(map);
+                    }
+                });
+    }
 
-        map = new HashMap<>();
-        map.put("name", "天下第一凉粉");
-        map.put("date", "凉粉+酸梅汁+啤酒+可乐+筷子");
-        map.put("point", 4);
-        map.put("desc", "不能确保客户收到的货物与商城图片、产地、附件说明完全一致。只能确保为原厂正货！并且保证与当时市场上同样主流新品一致。若本商城没有及时更新，请大家谅解！");
-        map.put("replay", "凭质保证书及京东商城发票，可享受全国联保服务（奢侈品、钟表除外；奢侈品、钟表由京东联系保修，享受法定三包售后服务），与您亲临商场");
-        list.add(map);
-
-        map = new HashMap<>();
-        map.put("name", "天下第一凉粉");
-        map.put("date", "凉粉+酸梅汁+啤酒+可乐+筷子");
-        map.put("point", 4);
-        map.put("desc", "不能确保客户收到的货物与商城图片、产地、附件说明完全一致。只能确保为原厂正货！并且保证与当时市场上同样主流新品一致。若本商城没有及时更新，请大家谅解！");
-        map.put("replay", "凭质保证书及京东商城发票，可享受全国联保服务（奢侈品、钟表除外；奢侈品、钟表由京东联系保修，享受法定三包售后服务），与您亲临商场");
-
-        list.add(map);
-
-        map = new HashMap<>();
-        map.put("name", "天下第一凉粉");
-        map.put("date", "凉粉+酸梅汁+啤酒+可乐+筷子");
-        map.put("point", 4);
-        map.put("desc", "不能确保客户收到的货物与商城图片、产地、附件说明完全一致。只能确保为原厂正货！并且保证与当时市场上同样主流新品一致。若本商城没有及时更新，请大家谅解！");
-        map.put("replay", "凭质保证书及京东商城发票，可享受全国联保服务（奢侈品、钟表除外；奢侈品、钟表由京东联系保修，享受法定三包售后服务），与您亲临商场");
-        list.add(map);
-
+    private void setEvaluteData(String resultJson) {
+        List<YmdEvaluationEntity> list = new Gson().fromJson(resultJson, new TypeToken<List<YmdEvaluationEntity>>(){}.getType());
+        for (YmdEvaluationEntity item : list) {
+            item.setMerchantName(merchantInfo.getName());
+        }
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         evaluateRv.setLayoutManager(layoutManager);
         EvaluateSellerAdapter adapter = new EvaluateSellerAdapter(list, getActivity());

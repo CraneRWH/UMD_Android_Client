@@ -33,15 +33,21 @@ import com.ymd.client.component.activity.homePage.food.seller.fragment.SellerDet
 import com.ymd.client.component.adapter.TabFragmentAdapter;
 import com.ymd.client.component.event.MessageEvent;
 import com.ymd.client.model.bean.homePage.MerchantInfoEntity;
+import com.ymd.client.model.constant.URLConstant;
 import com.ymd.client.utils.AnimationUtil;
+import com.ymd.client.utils.ToastUtil;
 import com.ymd.client.utils.ToolUtil;
+import com.ymd.client.web.WebUtil;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -126,6 +132,13 @@ public class MerchantDetailActivity extends TabBaseActivity {
         noShop = (TextView) findViewById(R.id.noShop);
 
         merchantInfo = (MerchantInfoEntity) getIntent().getExtras().getSerializable("merchant");
+
+        collectionIv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                addCollection();
+            }
+        });
     }
 
     private void resetMerchantViewData() {
@@ -138,9 +151,9 @@ public class MerchantDetailActivity extends TabBaseActivity {
 
     private void setViewPager() {
 
-        ChooseDishesFragment disheslFragment = ChooseDishesFragment.newInstance();
-        EvaluateSellerFragment evaluateSellerFragment = EvaluateSellerFragment.newInstance();
-        SellerDetailFragment detailFragment = SellerDetailFragment.newInstance();
+        ChooseDishesFragment disheslFragment = ChooseDishesFragment.newInstance(merchantInfo);
+        EvaluateSellerFragment evaluateSellerFragment = EvaluateSellerFragment.newInstance(merchantInfo);
+        SellerDetailFragment detailFragment = SellerDetailFragment.newInstance(merchantInfo);
         mFragments.add(disheslFragment);
         mFragments.add(evaluateSellerFragment);
         mFragments.add(detailFragment);
@@ -180,6 +193,22 @@ public class MerchantDetailActivity extends TabBaseActivity {
         });
     }
 
+    private void addCollection() {
+        Map<String,Object> params = new HashMap<>();
+        params.put("merchantId",merchantInfo.getId());
+        WebUtil.getInstance().requestPOST(this, URLConstant.MERCHANT_GOOD_TYPE, params,
+                new WebUtil.WebCallBack() {
+                    @Override
+                    public void onWebSuccess(JSONObject result) {
+                        ToastUtil.ToastMessage(getApplicationContext(), "收藏成功");
+                    }
+
+                    @Override
+                    public void onWebFailed(String errorMsg) {
+                        ToastUtil.ToastMessage(getApplicationContext(), "收藏成功");
+                    }
+                });
+    }
 
     private void setCollsapsing() {
         collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsing);

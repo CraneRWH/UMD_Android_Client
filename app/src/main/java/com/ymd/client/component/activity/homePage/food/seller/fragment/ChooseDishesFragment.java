@@ -21,6 +21,8 @@ import android.widget.TextView;
 
 import com.eowise.recyclerview.stickyheaders.OnHeaderClickListener;
 import com.eowise.recyclerview.stickyheaders.StickyHeadersItemDecoration;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.ymd.client.R;
 import com.ymd.client.common.base.OnUMDItemClickListener;
 import com.ymd.client.component.adapter.food.FoodSellerListAdapter;
@@ -29,11 +31,17 @@ import com.ymd.client.component.adapter.merchant.BigramHeaderAdapter;
 import com.ymd.client.component.adapter.merchant.PersonAdapter;
 import com.ymd.client.component.event.GoodsListEvent;
 import com.ymd.client.component.widget.other.TopLayoutManager;
+import com.ymd.client.model.bean.homePage.MerchantInfoEntity;
+import com.ymd.client.model.bean.homePage.YmdGoodsEntity;
+import com.ymd.client.model.bean.homePage.YmdRangeGoodsEntity;
+import com.ymd.client.model.constant.URLConstant;
 import com.ymd.client.utils.DataUtils;
 import com.ymd.client.utils.ToolUtil;
+import com.ymd.client.web.WebUtil;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -71,24 +79,27 @@ public class ChooseDishesFragment extends BaseFragment implements PersonAdapter.
     private FoodTypeListAdapter typeAdapter;
     private FoodSellerListAdapter foodAdapter;
 
-    private List<Map<String, Object>> typeDatas = new ArrayList<>();
-    private List<Map<String,Object>> foodDatas = new ArrayList<>();
+    private List<YmdRangeGoodsEntity> typeDatas = new ArrayList<>();
+    private List<YmdGoodsEntity> foodDatas = new ArrayList<>();
+    MerchantInfoEntity merchantInfo;
     public ChooseDishesFragment() {
         // Required empty public constructor
     }
 
-    public static ChooseDishesFragment newInstance(/*String param1, String param2*/) {
+    public static ChooseDishesFragment newInstance(MerchantInfoEntity merchantInfo/*String param1, String param2*/) {
         ChooseDishesFragment fragment = new ChooseDishesFragment();
-        /*Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);*/
+        Bundle args = new Bundle();
+        args.putSerializable("merchant", merchantInfo);
+        fragment.setArguments(args);
         return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (getArguments()!=null) {
+            merchantInfo = (MerchantInfoEntity) getArguments().getSerializable("merchant");
+        }
     }
 
     @Override
@@ -103,8 +114,10 @@ public class ChooseDishesFragment extends BaseFragment implements PersonAdapter.
 
     private void initView() {
         setRecommendLayoutData();
-        setFoodTypeData();
-        setFoodData();
+        requestFoodType();
+        requestFoodList();
+    //    setFoodTypeData();
+    //    setFoodData();
     }
 
     private void setRecommendLayoutData() {
@@ -153,31 +166,51 @@ public class ChooseDishesFragment extends BaseFragment implements PersonAdapter.
         }
     }
 
+    private void requestFoodType() {
+        Map<String,Object> params = new HashMap<>();
+        params.put("merchantId",merchantInfo.getId());
+        WebUtil.getInstance().requestPOST(getActivity(), URLConstant.MERCHANT_GOOD_TYPE, params,
+                new WebUtil.WebCallBack() {
+                    @Override
+                    public void onWebSuccess(JSONObject result) {
+                        setFoodTypeData(result.optString("list"));
+                    }
+
+                    @Override
+                    public void onWebFailed(String errorMsg) {
+
+                    }
+                });
+    }
 
     @SuppressLint("ResourceAsColor")
-    private void setFoodTypeData() {
+    private void setFoodTypeData(String resultJson) {
 
-        typeDatas = DataUtils.getFoodType();
+        typeDatas = new Gson().fromJson(resultJson, new TypeToken<List<YmdRangeGoodsEntity>>(){}.getType());
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         typeRv.setLayoutManager(linearLayoutManager);
         typeAdapter = new FoodTypeListAdapter(typeDatas, getActivity());
         typeAdapter.setOnItemClickListener(new OnUMDItemClickListener() {
             @Override
             public void onClick(Object data, View view, int position) {
-                Map<String, Object> map = (Map<String, Object>) data;
-                int pid = ToolUtil.changeInteger(map.get("pid"));
-                for (int i = 0 ; i < foodDatas.size(); i ++) {
-                    Map<String,Object> item = foodDatas.get(i);
-                    if (ToolUtil.changeInteger(item.get("type")) == pid) {
+                YmdRangeGoodsEntity map = (YmdRangeGoodsEntity) data;
+                long pid = map.getId();
+                try {
+                    for (int i = 0; i < foodDatas.size(); i++) {
+                        YmdGoodsEntity item = foodDatas.get(i);
+                        if (item.getRangeGoods() == pid) {
                       /*  linearLayoutManager.scrollToPositionWithOffset(i, 0);
                         linearLayoutManager.setStackFromEnd(true);*/
-                        if (i != -1) {
-                            smoothMoveToPosition(typeRv,i);
-                        }else {
-                            smoothMoveToPosition(typeRv,i+1);
+                            if (i != -1) {
+                                smoothMoveToPosition(typeRv, i);
+                            } else {
+                                smoothMoveToPosition(typeRv, i + 1);
+                            }
+                            break;
                         }
-                        break;
                     }
+                } catch (ArrayIndexOutOfBoundsException e) {
+                    e.printStackTrace();
                 }
             }
         });
@@ -224,8 +257,26 @@ public class ChooseDishesFragment extends BaseFragment implements PersonAdapter.
         }
     }
 
-    private void setFoodData() {
-        foodDatas = DataUtils.getFoodData();
+
+    private void requestFoodList() {
+        Map<String,Object> params = new HashMap<>();
+        params.put("merchantId",merchantInfo.getId());
+        WebUtil.getInstance().requestPOST(getActivity(), URLConstant.MERCHANT_GOOD_LIST, params,
+                new WebUtil.WebCallBack() {
+                    @Override
+                    public void onWebSuccess(JSONObject result) {
+                        setFoodData(result.optString("list"));
+                    }
+
+                    @Override
+                    public void onWebFailed(String errorMsg) {
+
+                    }
+                });
+    }
+
+    private void setFoodData(String resultJson) {
+        foodDatas = new Gson().fromJson(resultJson, new TypeToken<List<YmdGoodsEntity>>(){}.getType());
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         foodRv.setLayoutManager(linearLayoutManager);
         foodAdapter = new FoodSellerListAdapter(foodDatas, getActivity());
@@ -240,9 +291,9 @@ public class ChooseDishesFragment extends BaseFragment implements PersonAdapter.
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
                 int position = linearLayoutManager.findFirstVisibleItemPosition();
-                int typeId = ToolUtil.changeInteger(foodDatas.get(position).get("type"));
+                long typeId = ToolUtil.changeLong(foodDatas.get(position).getRangeGoods());
                 for (int i=0;i<typeDatas.size();i++){
-                    if(ToolUtil.changeInteger(typeDatas.get(i).get("pid")) == typeId ){
+                    if(ToolUtil.changeLong(typeDatas.get(i).getId()) == typeId ){
                         typeAdapter.changeChooseItem(i);
                     }
                 }
