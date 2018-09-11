@@ -14,6 +14,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.ymd.client.R;
 import com.ymd.client.common.base.OnUMDItemClickListener;
+import com.ymd.client.component.activity.homePage.food.seller.MerchantDetailActivity;
 import com.ymd.client.component.activity.homePage.food.seller.SellerDetailActivity;
 import com.ymd.client.component.adapter.food.FoodListAdapter;
 import com.ymd.client.model.bean.homePage.MerchantInfoEntity;
@@ -145,7 +146,7 @@ public class FoodListFragment extends Fragment {
         adapter.setListener(new OnUMDItemClickListener() {
             @Override
             public void onClick(Object data, View view, int position) {
-                SellerDetailActivity.startAction(getActivity());
+                MerchantDetailActivity.startAction(getActivity(), (MerchantInfoEntity) data);
             }
         });
         recyclerView.setAdapter(adapter);

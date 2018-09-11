@@ -228,7 +228,8 @@ public class PersonInfoActivity extends BaseActivity {
                         // 压缩好后照片的地址
                         String fileUrl = FileUtils.SDPATH + newStr + ".jpeg";
 
-                        Picasso.with(PersonInfoActivity.this).load(new File(fileUrl)).into(mIvHead);
+
+                        uploadFile(fileUrl);
                     }
                 });
         if (resultCode == 1) {
@@ -302,6 +303,22 @@ public class PersonInfoActivity extends BaseActivity {
                     public void onWebSuccess(JSONObject resultJson) {
                         LoginInfo.setLoginInfo(resultJson.optString("user"));
                         resetUserViewInfo();
+                    }
+
+                    @Override
+                    public void onWebFailed(String errorMsg) {
+
+                    }
+                });
+    }
+
+    private void uploadFile(String fileUrl) {
+        WebUtil.getInstance().sendParamsPhotoFile(this, new File(fileUrl),
+                new WebUtil.WebCallBack() {
+                    @Override
+                    public void onWebSuccess(JSONObject resultJson) {
+                        updateInfo("photo", resultJson.optString("photo"));
+                        Picasso.with(PersonInfoActivity.this).load(new File(fileUrl)).into(mIvHead);
                     }
 
                     @Override

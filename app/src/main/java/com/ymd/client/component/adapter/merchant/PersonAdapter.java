@@ -17,8 +17,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.ymd.client.R;
-import com.ymd.client.component.activity.homePage.food.seller.NewTabActivity;
-import com.ymd.client.component.activity.homePage.food.seller.SellerDetailActivity;
+import com.ymd.client.component.activity.homePage.food.seller.MerchantDetailActivity;
 import com.ymd.client.component.adapter.merchant.bean.GoodsListBean;
 import com.ymd.client.component.event.GoodsListEvent;
 import com.ymd.client.component.event.MessageEvent;
@@ -83,7 +82,7 @@ public class PersonAdapter extends RecyclerView.Adapter<PersonAdapter.ViewHolder
         view.getLocationInWindow(loc);
         int[] startLocation = new int[2];// 一个整型数组，用来存储按钮的在屏幕的X、Y坐标
         view.getLocationInWindow(startLocation);// 这是获取购买按钮的在屏幕的X、Y坐标（这也是动画开始的坐标）
-        ((NewTabActivity)mActivity).setAnim(buyImg, startLocation);// 开始执行动画
+        ((MerchantDetailActivity)mActivity).setAnim(buyImg, startLocation);// 开始执行动画
     }
 
     /**

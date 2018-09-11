@@ -1,5 +1,7 @@
 package com.ymd.client.component.activity.homePage.food.seller;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -17,18 +19,22 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.TranslateAnimation;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-
+import com.bumptech.glide.Glide;
 import com.ymd.client.R;
 import com.ymd.client.component.activity.homePage.food.seller.fragment.ChooseDishesFragment;
 import com.ymd.client.component.activity.homePage.food.seller.fragment.EvaluateSellerFragment;
 import com.ymd.client.component.activity.homePage.food.seller.fragment.SellerDetailFragment;
 import com.ymd.client.component.adapter.TabFragmentAdapter;
 import com.ymd.client.component.event.MessageEvent;
+import com.ymd.client.model.bean.homePage.MerchantInfoEntity;
 import com.ymd.client.utils.AnimationUtil;
+import com.ymd.client.utils.ToolUtil;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -37,14 +43,46 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.util.ArrayList;
 import java.util.List;
 
-public class NewTabActivity extends TabBaseActivity {
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
+/**
+ * 商户详情
+ */
+public class MerchantDetailActivity extends TabBaseActivity {
+    @BindView(R.id.icon_iv)
+    ImageView iconIv;
+    @BindView(R.id.name_tv)
+    TextView nameTv;
+    @BindView(R.id.scoreBarView)
+    RatingBar scoreBarView;
+    @BindView(R.id.work_time_tv)
+    TextView workTimeTv;
+    @BindView(R.id.address_tv)
+    TextView addressTv;
+    @BindView(R.id.phone_iv)
+    ImageView phoneIv;
+    @BindView(R.id.collection_iv)
+    ImageView collectionIv;
+    @BindView(R.id.share_iv)
+    ImageView shareIv;
+    @BindView(R.id.warn_num_tv)
+    TextView warnNumTv;
+    @BindView(R.id.order_money_tv)
+    TextView orderMoneyTv;
+    @BindView(R.id.product_money_tv)
+    TextView productMoneyTv;
+    @BindView(R.id.dis_tv)
+    TextView disTv;
+    @BindView(R.id.submit_btn)
+    TextView submitBtn;
     private CollapsingToolbarLayout collapsingToolbarLayout;
     private AppBarLayout appBarLayout;
     private TabLayout slidingTabLayout;
     //fragment列表
-    private List<Fragment> mFragments=new ArrayList<>();
+    private List<Fragment> mFragments = new ArrayList<>();
     //tab名的列表
-    private List<String> mTitles=new ArrayList<>();
+    private List<String> mTitles = new ArrayList<>();
     private ViewPager viewPager;
     private TabFragmentAdapter adapter;
     private TextView shopCartNum;
@@ -52,24 +90,50 @@ public class NewTabActivity extends TabBaseActivity {
     private TextView noShop;
     private RelativeLayout shopCartMain;
     private ViewGroup anim_mask_layout;//动画层
+
+    MerchantInfoEntity merchantInfo;
+
+    /**
+     * 启动
+     *
+     * @param context
+     */
+    public static void startAction(Activity context, MerchantInfoEntity merchant) {
+        Intent intent = new Intent(context, MerchantDetailActivity.class);
+        intent.putExtra("merchant", merchant);
+        context.startActivity(intent);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_new_tab);
+        setContentView(R.layout.activity_merchant_detail);
+        ButterKnife.bind(this);
 
         setCollsapsing();
         initView();
         setViewPager();
+        resetMerchantViewData();
     }
 
     private void initView() {
         appBarLayout = (AppBarLayout) findViewById(R.id.appbar);
         slidingTabLayout = (TabLayout) findViewById(R.id.slidinglayout);
         viewPager = (ViewPager) findViewById(R.id.vp);
-        shopCartMain=(RelativeLayout)findViewById(R.id.shopCartMain);
-        shopCartNum=(TextView)findViewById(R.id.product_money_tv);
-        totalPrice=(TextView)findViewById(R.id.order_money_tv);
-        noShop=(TextView)findViewById(R.id.noShop);
+        shopCartMain = (RelativeLayout) findViewById(R.id.shopCartMain);
+        shopCartNum = (TextView) findViewById(R.id.product_money_tv);
+        totalPrice = (TextView) findViewById(R.id.order_money_tv);
+        noShop = (TextView) findViewById(R.id.noShop);
+
+        merchantInfo = (MerchantInfoEntity) getIntent().getExtras().getSerializable("merchant");
+    }
+
+    private void resetMerchantViewData() {
+    //    Glide.with(this).load(merchantInfo.get)
+        nameTv.setText(ToolUtil.changeString(merchantInfo.getName()));
+        scoreBarView.setRating(ToolUtil.changeFloat(merchantInfo.getScore()));
+        addressTv.setText(ToolUtil.changeString(merchantInfo.getAddress()));
+
     }
 
     private void setViewPager() {
@@ -85,7 +149,7 @@ public class NewTabActivity extends TabBaseActivity {
         mTitles.add("点评（3）");
         mTitles.add("商家");
 
-        adapter=new TabFragmentAdapter(getSupportFragmentManager(),mFragments,mTitles);
+        adapter = new TabFragmentAdapter(getSupportFragmentManager(), mFragments, mTitles);
         viewPager.setAdapter(adapter);
         slidingTabLayout.setupWithViewPager(viewPager);
         viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -96,14 +160,14 @@ public class NewTabActivity extends TabBaseActivity {
 
             @Override
             public void onPageSelected(int position) {
-                switch (position){
+                switch (position) {
                     case 0:
                         shopCartMain.startAnimation(
-                                AnimationUtil.createInAnimation(NewTabActivity.this, shopCartMain.getMeasuredHeight()));
+                                AnimationUtil.createInAnimation(MerchantDetailActivity.this, shopCartMain.getMeasuredHeight()));
                         break;
                     case 1:
                         shopCartMain.startAnimation(
-                                AnimationUtil.createOutAnimation(NewTabActivity.this, shopCartMain.getMeasuredHeight()));
+                                AnimationUtil.createOutAnimation(MerchantDetailActivity.this, shopCartMain.getMeasuredHeight()));
                         break;
                 }
 
@@ -137,28 +201,27 @@ public class NewTabActivity extends TabBaseActivity {
     }
 
 
-
-
     /**
      * 添加 或者  删除  商品发送的消息处理
+     *
      * @param event
      */
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(MessageEvent event) {
-        if(event!=null){
-            if(event.num>0){
+        if (event != null) {
+            if (event.num > 0) {
                 shopCartNum.setText(String.valueOf(event.num));
                 shopCartNum.setVisibility(View.VISIBLE);
                 totalPrice.setVisibility(View.VISIBLE);
                 noShop.setVisibility(View.GONE);
-            }else{
+            } else {
                 shopCartNum.setVisibility(View.GONE);
                 totalPrice.setVisibility(View.GONE);
                 noShop.setVisibility(View.VISIBLE);
             }
-            totalPrice.setText("¥"+ String.valueOf(event.price));
+            totalPrice.setText("¥" + String.valueOf(event.price));
 
-            Log.v("NewTabActivity","添加的数量："+event.goods.size());
+            Log.v("MerchantDetailActivity", "添加的数量：" + event.goods.size());
         }
 
     }
@@ -166,6 +229,7 @@ public class NewTabActivity extends TabBaseActivity {
 
     /**
      * 设置动画（点击添加商品）
+     *
      * @param v
      * @param startLocation
      */
@@ -180,7 +244,7 @@ public class NewTabActivity extends TabBaseActivity {
         int endX = 0 - startLocation[0] + 40;// 动画位移的X坐标
         int endY = endLocation[1] - startLocation[1];// 动画位移的y坐标
 
-        TranslateAnimation translateAnimationX = new TranslateAnimation(0,endX, 0, 0);
+        TranslateAnimation translateAnimationX = new TranslateAnimation(0, endX, 0, 0);
         translateAnimationX.setInterpolator(new LinearInterpolator());
         translateAnimationX.setRepeatCount(0);// 动画重复执行的次数
         translateAnimationX.setFillAfter(true);
@@ -219,6 +283,7 @@ public class NewTabActivity extends TabBaseActivity {
 
     /**
      * 初始化动画图层
+     *
      * @return
      */
     private ViewGroup createAnimLayout() {
@@ -228,7 +293,7 @@ public class NewTabActivity extends TabBaseActivity {
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.MATCH_PARENT);
         animLayout.setLayoutParams(lp);
-        animLayout.setId(Integer.MAX_VALUE-1);
+        animLayout.setId(Integer.MAX_VALUE - 1);
         animLayout.setBackgroundResource(android.R.color.transparent);
         rootView.addView(animLayout);
         return animLayout;
@@ -236,6 +301,7 @@ public class NewTabActivity extends TabBaseActivity {
 
     /**
      * 将View添加到动画图层
+     *
      * @param parent
      * @param view
      * @param location

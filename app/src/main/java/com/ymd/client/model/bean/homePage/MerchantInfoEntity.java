@@ -1,9 +1,10 @@
 package com.ymd.client.model.bean.homePage;
 
 
+import java.io.Serializable;
 import java.util.List;
 
-public class MerchantInfoEntity {
+public class MerchantInfoEntity implements Serializable {
     private Long id;
     /**
      * 门店名称

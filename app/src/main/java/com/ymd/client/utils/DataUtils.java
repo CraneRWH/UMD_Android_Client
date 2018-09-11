@@ -204,11 +204,11 @@ public class DataUtils {
 
         map = new HashMap<>(); map.put("name","金融");map.put("icon", R.mipmap.jinrong_item_icon);list.add(map);
 
-        map = new HashMap<>(); map.put("name","洗浴");map.put("icon", R.mipmap.xiyu_item_icon);list.add(map);
+        map = new HashMap<>(); map.put("name","洗浴/KTV");map.put("icon", R.mipmap.xiyu_item_icon);list.add(map);
 
-        map = new HashMap<>(); map.put("name","KTV"); map.put("icon", R.mipmap.ktv_item_icon); list.add(map);
+        map = new HashMap<>(); map.put("name","优币专区"); map.put("icon", R.mipmap.ktv_item_icon); list.add(map);
 
-        map = new HashMap<>();map.put("name","其他分类");map.put("icon", R.mipmap.other_item_icon);list.add(map);
+        map = new HashMap<>(); map.put("name","其他分类");map.put("icon", R.mipmap.other_item_icon);list.add(map);
 
         return list;
     }

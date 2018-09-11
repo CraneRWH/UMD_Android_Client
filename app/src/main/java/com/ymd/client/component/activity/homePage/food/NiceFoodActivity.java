@@ -119,7 +119,7 @@ public class NiceFoodActivity extends BaseActivity implements ViewPager.OnPageCh
                 new WebUtil.WebCallBack() {
                     @Override
                     public void onWebSuccess(JSONObject result) {
-                        setYouHuiItem(result.optString("list"));
+                        setRecommendMerchant(result.optString("list"));
                     }
 
                     @Override
@@ -129,7 +129,7 @@ public class NiceFoodActivity extends BaseActivity implements ViewPager.OnPageCh
                 });
     }
 
-    private void setYouHuiItem(String resultJson) {
+    private void setRecommendMerchant(String resultJson) {
         List<YmdRecommendEntity> list = new Gson().fromJson(resultJson, new TypeToken<List<YmdRecommendEntity>>(){}.getType());
         /*List<Map<String, Object>> list = new ArrayList<>();
         Map<String, Object> map = new HashMap<>();
@@ -185,6 +185,9 @@ public class NiceFoodActivity extends BaseActivity implements ViewPager.OnPageCh
         }
     }
 
+    /**
+     * 获取美事种类
+     */
     private void requestFoodType() {
         WebUtil.getInstance().requestPOST(this, URLConstant.QUERY_FOOD_TYPE_FUNCTIONS, null,
                 new WebUtil.WebCallBack() {

@@ -74,7 +74,7 @@ public class SellerDetailActivity extends BaseActivity {
      * @param context
      */
     public static void startAction(Activity context) {
-        Intent intent = new Intent(context, NewTabActivity.class);
+        Intent intent = new Intent(context, MerchantDetailActivity.class);
         context.startActivity(intent);
     }
 

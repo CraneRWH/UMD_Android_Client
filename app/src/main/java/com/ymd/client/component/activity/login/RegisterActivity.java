@@ -115,6 +115,11 @@ public class RegisterActivity extends BaseActivity {
             return;
         }
 
+        if (!ToolUtil.isLetterDigit(password)) {
+            ToastUtil.ToastMessage(this, "密码格式不正确", ToastUtil.WARN);
+            return;
+        }
+
         Map<String,Object> params= new HashMap<>();
         params.put("code", mobileCodeString);
         params.put("password", password);

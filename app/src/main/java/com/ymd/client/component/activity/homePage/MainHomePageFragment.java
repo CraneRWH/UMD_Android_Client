@@ -28,6 +28,7 @@ import com.ymd.client.R;
 import com.ymd.client.common.base.OnUMDItemClickListener;
 import com.ymd.client.component.activity.homePage.city.CityChooseActivity;
 import com.ymd.client.component.activity.homePage.food.NiceFoodActivity;
+import com.ymd.client.component.activity.homePage.food.seller.MerchantDetailActivity;
 import com.ymd.client.component.activity.homePage.food.seller.SellerDetailActivity;
 import com.ymd.client.component.activity.homePage.scan.ScanCodeActivity;
 import com.ymd.client.component.activity.homePage.search.SearchActivity;
@@ -538,7 +539,7 @@ public class MainHomePageFragment extends Fragment {
         adapter.setListener(new OnUMDItemClickListener() {
             @Override
             public void onClick(Object data, View view, int position) {
-                SellerDetailActivity.startAction(getActivity());
+                MerchantDetailActivity.startAction(getActivity(), (MerchantInfoEntity) data);
             }
         });
         recyclerView.setAdapter(adapter);
