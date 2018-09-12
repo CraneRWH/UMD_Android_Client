@@ -3,6 +3,8 @@ package com.ymd.client.component.activity.homePage.food.seller;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,9 +14,16 @@ import android.widget.PopupWindow;
 
 import com.ymd.client.R;
 import com.ymd.client.component.adapter.MySimpleAdapter;
+import com.ymd.client.component.adapter.merchant.ShopCarAdapter;
+import com.ymd.client.component.event.GoodsEvent;
+import com.ymd.client.model.bean.homePage.YmdGoodsEntity;
+import com.ymd.client.utils.ToolUtil;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -22,7 +31,7 @@ import java.util.Map;
  * 类名:
  * 时间:2018/9/11 0011Time:17:18
  * 作者:荣维鹤
- * 功能简介:
+ * 功能简介:    购物车
  * 修改历史:
  */
 public class ShopCarPopupWindow extends PopupWindow {
@@ -32,24 +41,20 @@ public class ShopCarPopupWindow extends PopupWindow {
 
     private ResultListener listener;
 
-    private ListView listView;
+    private RecyclerView shopCarRv;
     private View outSideView;
-    private ArrayList<Map<String,Object>> list = new ArrayList<Map<String,Object>>();
+    private List<YmdGoodsEntity> list = new ArrayList<>();
     private int flag = -1;
-    public ShopCarPopupWindow(Activity context,String[] listStr,ResultListener listener) {
+    public ShopCarPopupWindow(Activity context,ResultListener listener) {
         this.activity = context;
-        for (String item : listStr) {
-            Map<String,Object> map = new HashMap<String,Object>();
-            map.put("item", item);
-            list.add(map);
-        }
         onCreate();
         this.listener = listener;
+
     }
 
     private void onCreate() {
         LayoutInflater inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        contentView = inflater.inflate(R.layout.item_choose_popupwindow, null);
+        contentView = inflater.inflate(R.layout.popupwindow_shop_car, null);
         this.setContentView(contentView);
 
         this.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -70,46 +75,16 @@ public class ShopCarPopupWindow extends PopupWindow {
     }
 
     protected void bindComponent() {
-        listView = (ListView) contentView.findViewById(R.id.listView);
+        shopCarRv = (RecyclerView) contentView.findViewById(R.id.listView);
         outSideView = (View) contentView.findViewById(R.id.outSide);
     }
 
     protected void bindInfoAndListener() {
-        outSideView.setOnClickListener(new View.OnClickListener() {
 
-            @Override
-            public void onClick(View arg0) {
-                dismiss();
-            }
-        });
-        MySimpleAdapter adapter = new MySimpleAdapter(activity, list, R.layout.item_choose_popupwindow_item,
-                new String[]{"item"}, new int[]{R.id.popup_list_item1}, new MySimpleAdapter.MyViewListener() {
+        LinearLayoutManager layoutManager = new LinearLayoutManager(activity);
+        shopCarRv.setLayoutManager(layoutManager);
 
-            @Override
-            public void callBackViewListener(Map<String, Object> data, View view, ViewGroup parent, int position) {
-                if (position == flag) {
-                    view.findViewById(R.id.popup_list_item2).setVisibility(View.VISIBLE);
-                }
-                else {
-                    view.findViewById(R.id.popup_list_item2).setVisibility(View.INVISIBLE);
-                }
-            }
-        });
-        listView.setAdapter(adapter);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-            @Override
-            public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
-                if (position != flag) {
-                    flag = position;
-                    ((MySimpleAdapter)listView.getAdapter()).notifyDataSetChanged();
-                }
-                if (listener != null) {
-                    listener.onResult(position);
-                }
-                dismiss();
-            }
-        });
+        refreshData();
     }
 
     public void showPopupWindow(View parent) {
@@ -120,6 +95,46 @@ public class ShopCarPopupWindow extends PopupWindow {
             this.dismiss();
         }
     }
+
+    public List<YmdGoodsEntity> getList() {
+        return list;
+    }
+
+    public void setList(List<YmdGoodsEntity> list) {
+        this.list = list;
+        refreshData();
+    }
+
+    private void refreshData() {
+
+        ShopCarAdapter adapter = new ShopCarAdapter(list);
+        shopCarRv.setAdapter(adapter);
+
+        GoodsEvent goodsEvent = new GoodsEvent();
+        goodsEvent.setGoods(list);
+        EventBus.getDefault().post(goodsEvent);
+    }
+
+    public void addGood(YmdGoodsEntity entity) {
+        boolean flag = true;
+        for (YmdGoodsEntity item : list) {
+            if (item.getId() == entity.getId()) {
+                item.setBuyCount(ToolUtil.changeInteger(entity.getBuyCount()));
+                if (item.getBuyCount() == 0) {
+                    list.remove(item);
+                }
+                flag = false;
+                break;
+            }
+        }
+        if (flag) {
+            entity.setBuyCount(1);
+            list.add(entity);
+        }
+        refreshData();
+    }
+
+
 
     public interface ResultListener {
         public void onResult(int position);

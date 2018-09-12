@@ -25,14 +25,15 @@ import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.ymd.client.R;
 import com.ymd.client.component.activity.homePage.food.seller.fragment.ChooseDishesFragment;
 import com.ymd.client.component.activity.homePage.food.seller.fragment.EvaluateSellerFragment;
 import com.ymd.client.component.activity.homePage.food.seller.fragment.SellerDetailFragment;
 import com.ymd.client.component.adapter.TabFragmentAdapter;
+import com.ymd.client.component.event.GoodsEvent;
 import com.ymd.client.component.event.MessageEvent;
 import com.ymd.client.model.bean.homePage.MerchantInfoEntity;
+import com.ymd.client.model.bean.homePage.YmdGoodsEntity;
 import com.ymd.client.model.constant.URLConstant;
 import com.ymd.client.utils.AnimationUtil;
 import com.ymd.client.utils.ToastUtil;
@@ -82,6 +83,12 @@ public class MerchantDetailActivity extends TabBaseActivity {
     TextView disTv;
     @BindView(R.id.submit_btn)
     TextView submitBtn;
+    @BindView(R.id.noShop)
+    TextView noShop;
+    @BindView(R.id.foot_view)
+    LinearLayout footView;
+    @BindView(R.id.shopCartMain)
+    RelativeLayout shopCartMain;
     private CollapsingToolbarLayout collapsingToolbarLayout;
     private AppBarLayout appBarLayout;
     private TabLayout slidingTabLayout;
@@ -93,11 +100,13 @@ public class MerchantDetailActivity extends TabBaseActivity {
     private TabFragmentAdapter adapter;
     private TextView shopCartNum;
     private TextView totalPrice;
-    private TextView noShop;
-    private RelativeLayout shopCartMain;
     private ViewGroup anim_mask_layout;//动画层
 
     MerchantInfoEntity merchantInfo;
+
+    ShopCarPopupWindow shopCarPopupWindow;
+
+    private List<YmdGoodsEntity> buyList = new ArrayList<>();
 
     /**
      * 启动
@@ -115,7 +124,6 @@ public class MerchantDetailActivity extends TabBaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_merchant_detail);
         ButterKnife.bind(this);
-
         setCollsapsing();
         initView();
         setViewPager();
@@ -126,10 +134,8 @@ public class MerchantDetailActivity extends TabBaseActivity {
         appBarLayout = (AppBarLayout) findViewById(R.id.appbar);
         slidingTabLayout = (TabLayout) findViewById(R.id.slidinglayout);
         viewPager = (ViewPager) findViewById(R.id.vp);
-        shopCartMain = (RelativeLayout) findViewById(R.id.shopCartMain);
         shopCartNum = (TextView) findViewById(R.id.product_money_tv);
         totalPrice = (TextView) findViewById(R.id.order_money_tv);
-        noShop = (TextView) findViewById(R.id.noShop);
 
         merchantInfo = (MerchantInfoEntity) getIntent().getExtras().getSerializable("merchant");
 
@@ -139,15 +145,40 @@ public class MerchantDetailActivity extends TabBaseActivity {
                 addCollection();
             }
         });
+
+        shopCarPopupWindow = new ShopCarPopupWindow(this, new ShopCarPopupWindow.ResultListener() {
+            @Override
+            public void onResult(int position) {
+
+            }
+        });
+
+        footView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (shopCarPopupWindow.isShowing()) {
+                    shopCarPopupWindow.dismiss();
+                } else {
+                    shopCarPopupWindow.showPopupWindow(shopCartMain);
+                }
+            }
+        });
     }
 
     private void resetMerchantViewData() {
-    //    Glide.with(this).load(merchantInfo.get)
+        //    Glide.with(this).load(merchantInfo.get)
         nameTv.setText(ToolUtil.changeString(merchantInfo.getName()));
         scoreBarView.setRating(ToolUtil.changeFloat(merchantInfo.getScore()));
         addressTv.setText(ToolUtil.changeString(merchantInfo.getAddress()));
-
+        if (merchantInfo.getDiscount() != null) {
+            disTv.setText("享受" + merchantInfo.getDiscount() + "折优惠");
+            disTv.setVisibility(View.VISIBLE);
+        } else {
+            disTv.setVisibility(View.GONE);
+            merchantInfo.setDiscount("10");
+        }
     }
+
 
     private void setViewPager() {
 
@@ -194,8 +225,8 @@ public class MerchantDetailActivity extends TabBaseActivity {
     }
 
     private void addCollection() {
-        Map<String,Object> params = new HashMap<>();
-        params.put("merchantId",merchantInfo.getId());
+        Map<String, Object> params = new HashMap<>();
+        params.put("merchantId", merchantInfo.getId());
         WebUtil.getInstance().requestPOST(this, URLConstant.MERCHANT_GOOD_TYPE, params,
                 new WebUtil.WebCallBack() {
                     @Override
@@ -360,5 +391,35 @@ public class MerchantDetailActivity extends TabBaseActivity {
     public void onStop() {
         super.onStop();
         EventBus.getDefault().unregister(this);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void Event(YmdGoodsEntity goodsEntity) {
+        shopCarPopupWindow.addGood(goodsEntity);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(GoodsEvent goodsEntity) {
+        double allMoney = 0;
+        double disAllMoney = 0;
+        buyList.clear();
+        for (YmdGoodsEntity item : goodsEntity.getGoods()) {
+            allMoney = ToolUtil.changeDouble(item.getPrice()) * item.getBuyCount() + allMoney;
+            disAllMoney = ((ToolUtil.changeDouble(item.getPrice()) * ToolUtil.changeDouble(merchantInfo.getDiscount())) / 10) * item.getBuyCount() + disAllMoney;
+        }
+        goodsEntity.setAllMoney(allMoney);
+        goodsEntity.setDisAllMoney(disAllMoney);
+        productMoneyTv.setText(ToolUtil.double2Point(allMoney) + "元");
+        orderMoneyTv.setText("¥" + ToolUtil.double2Point(disAllMoney));
+        if (goodsEntity.getGoods() == null || goodsEntity.getGoods().isEmpty()) {
+            noShop.setVisibility(View.GONE);
+            warnNumTv.setVisibility(View.GONE);
+            warnNumTv.setText("0");
+        } else {
+            warnNumTv.setText(goodsEntity.getGoods().size());
+            warnNumTv.setVisibility(View.VISIBLE);
+            noShop.setVisibility(View.VISIBLE);
+            buyList.addAll(goodsEntity.getGoods());
+        }
     }
 }

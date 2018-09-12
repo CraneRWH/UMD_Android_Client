@@ -70,6 +70,16 @@ public class YmdGoodsEntity {
 	 */
 	private String sales;
 
+	private int buyCount;
+
+	public int getBuyCount() {
+		return buyCount;
+	}
+
+	public void setBuyCount(int buyCount) {
+		this.buyCount = buyCount;
+	}
+
 	public String getSales() {
 		return sales;
 	}

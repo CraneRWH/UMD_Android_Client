@@ -4,13 +4,11 @@
     android:layout_height="wrap_content"
     android:background="@drawable/shape_rect_gray_edge"
     android:orientation="vertical" >
-    <ListView 
-        android:id="@id/listView"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/listView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:divider="@color/gray"
-        android:dividerHeight="0.7dp"
-        ></ListView>
+        ></android.support.v7.widget.RecyclerView>
     <View style="@style/view_detail_item_separator"/>
     <View
         android:id="@+id/outSide"

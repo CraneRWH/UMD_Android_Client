@@ -7,6 +7,7 @@ import android.util.Log;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Enumeration;
@@ -280,6 +281,11 @@ public class ToolUtil {
 		String regex = "^[a-zA-Z0-9]{6,12}$";
 		boolean isRight = isDigit && isLetter && str.matches(regex);
 		return isRight;
+	}
+
+	public static String double2Point(double data) {
+		DecimalFormat df = new DecimalFormat("#.00");
+		return df.format(data);
 	}
 
 }

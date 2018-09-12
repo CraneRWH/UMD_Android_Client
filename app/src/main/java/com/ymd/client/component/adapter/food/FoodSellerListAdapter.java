@@ -16,6 +16,10 @@ import com.ymd.client.common.base.OnUMDItemClickListener;
 import com.ymd.client.model.bean.homePage.YmdGoodsEntity;
 import com.ymd.client.utils.ToolUtil;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.util.List;
 import java.util.Map;
 
@@ -67,6 +71,35 @@ public class FoodSellerListAdapter extends RecyclerView.Adapter<FoodSellerListAd
                 }
             }
         });
+        holder.addBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                data.setBuyCount(ToolUtil.changeInteger(data.getBuyCount()) + 1);
+                notifyDataSetChanged();
+                EventBus.getDefault().post(data);
+            }
+        });
+
+        holder.subBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (data.getBuyCount() >0) {
+                    data.setBuyCount(ToolUtil.changeInteger(data.getBuyCount()) - 1);
+                    notifyDataSetChanged();
+                    EventBus.getDefault().post(data);
+                }
+            }
+        });
+    }
+
+    public void refreshData(YmdGoodsEntity entity) {
+        for (YmdGoodsEntity item : datas) {
+            if (item.getId() == entity.getId()) {
+                item.setBuyCount(ToolUtil.changeInteger(entity.getBuyCount()));
+                break;
+            }
+        }
+        notifyDataSetChanged();
     }
 
     @Override
@@ -108,5 +141,10 @@ public class FoodSellerListAdapter extends RecyclerView.Adapter<FoodSellerListAd
             rootView = view;
             ButterKnife.bind(this, view);
         }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void Event(YmdGoodsEntity goodsEntity) {
+        refreshData(goodsEntity);
     }
 }
