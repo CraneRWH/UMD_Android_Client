@@ -11,20 +11,35 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.ymd.client.R;
+import com.ymd.client.common.base.OnUMDItemClickListener;
+import com.ymd.client.component.activity.homePage.food.seller.MerchantDetailActivity;
 import com.ymd.client.component.adapter.CommonCollectionAdapter;
-import com.ymd.client.component.adapter.CommonRecyclerAdapter;
-import com.ymd.client.component.adapter.MyRateAdapter;
+import com.ymd.client.component.adapter.food.MerchantListAdapter;
 import com.ymd.client.component.widget.zrecyclerview.ProgressStyle;
 import com.ymd.client.component.widget.zrecyclerview.ZRecyclerView;
+import com.ymd.client.model.bean.homePage.MerchantInfoEntity;
+import com.ymd.client.model.constant.URLConstant;
+import com.ymd.client.model.info.LoginInfo;
 import com.ymd.client.utils.ToastUtil;
+import com.ymd.client.utils.ToolUtil;
+import com.ymd.client.web.WebUtil;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+/**
+ * 收藏页面
+ */
 public class CommonCollectionFragment extends Fragment {
 
     View mView;
@@ -57,7 +72,7 @@ public class CommonCollectionFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        currentPosition = (int) getArguments().get("position");
+        currentPosition = ToolUtil.changeInteger(getArguments().get("position"));
         if (mView != null) {
             ViewGroup parent = (ViewGroup) mView.getParent();
             if (parent != null) {
@@ -70,7 +85,7 @@ public class CommonCollectionFragment extends Fragment {
         ButterKnife.bind(this, mView);
         initView();
 
-        loadData();
+    //    loadData();
         return mView;
     }
 
@@ -82,17 +97,17 @@ public class CommonCollectionFragment extends Fragment {
         divider.setDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.default_recyclerview_divider));
         recyclerView.addItemDecoration(divider);
 
-        mAdapter = new CommonCollectionAdapter(getContext());
+        /*mAdapter = new CommonCollectionAdapter(getContext());
         mAdapter.setOnItemClickListener(new CommonRecyclerAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
             }
         });
-        recyclerView.setAdapter(mAdapter);
+        recyclerView.setAdapter(mAdapter);*/
         recyclerView.setRefreshProgressStyle(ProgressStyle.BallPulse);
         recyclerView.setLoadingMoreProgressStyle(ProgressStyle.BallRotate);
 
-        recyclerView.setLoadingListener(new ZRecyclerView.LoadingListener() {
+        /*recyclerView.setLoadingListener(new ZRecyclerView.LoadingListener() {
             @Override
             public void onRefresh() {
                 page = 1;
@@ -104,12 +119,55 @@ public class CommonCollectionFragment extends Fragment {
                 page++;
                 refreshList(getDataList());
             }
+        });*/
+        requestData();
+    }
+
+    private void requestData() {
+        Map<String,Object> params = new HashMap<>();
+        params.put("consumerId", LoginInfo.getInstance().getLoginInfo().getId());
+        if (currentPosition > 0) {
+            params.put("type", currentPosition);
+        }
+        else {
+            params.put("type", null);
+        }
+        WebUtil.getInstance().requestPOST(getActivity(), URLConstant.MERCHANT_COLLECTION_LIST, params,
+                new WebUtil.WebCallBack() {
+                    @Override
+                    public void onWebSuccess(JSONObject resultJson) {
+                        resetMerchantData(resultJson.optString("list"));
+                    }
+
+                    @Override
+                    public void onWebFailed(String errorMsg) {
+                    }
+                });
+    }
+
+    List<MerchantInfoEntity> marchantDatas = new ArrayList<>();
+    private void resetMerchantData(String result) {
+        List<MerchantInfoEntity> datas = new Gson().fromJson(result, new TypeToken<List<MerchantInfoEntity>>(){}.getType());
+        if (page == 1) {
+            marchantDatas.clear();
+
+        }
+        marchantDatas.addAll(datas);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        recyclerView.setLayoutManager(layoutManager);
+        MerchantListAdapter adapter = new MerchantListAdapter(marchantDatas, getContext());
+        adapter.setListener(new OnUMDItemClickListener() {
+            @Override
+            public void onClick(Object data, View view, int position) {
+                MerchantDetailActivity.startAction(getActivity(), (MerchantInfoEntity) data);
+            }
         });
+        recyclerView.setAdapter(adapter);
     }
 
 
     private void loadData() {
-        refreshList(getDataList());
+    //    refreshList(getDataList());
     }
 
     protected List<String> getDataList() {

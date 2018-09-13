@@ -89,7 +89,7 @@ public class SellerDetailFragment extends BaseFragment implements PersonAdapter.
       /*  setShopData();
         setManageData();*/
 
-        requestEvalustes();
+        requestMerchantPicture();
         setServiceData();
         complaintBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -100,10 +100,10 @@ public class SellerDetailFragment extends BaseFragment implements PersonAdapter.
         return view;
     }
 
-    private void requestEvalustes() {
+    private void requestMerchantPicture() {
         Map<String,Object> params = new HashMap<>();
         params.put("merchantId",merchantInfo.getId());
-        WebUtil.getInstance().requestPOST(getActivity(), URLConstant.MERCHANT_COLLECTION, params,
+        WebUtil.getInstance().requestPOST(getActivity(), URLConstant.MERCHANT_PHOTO_FILE_LIST, params,
                 new WebUtil.WebCallBack() {
                     @Override
                     public void onWebSuccess(JSONObject result) {

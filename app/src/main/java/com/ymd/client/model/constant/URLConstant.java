@@ -137,5 +137,20 @@ public class URLConstant {
     /**
      *  收藏商家
      */
-    public static final String MERCHANT_COLLECTION = "ymdConsumer/merchantCollectionAdd";
+    public static final String MERCHANT_COLLECTION_ADD = "ymdConsumer/merchantCollectionAdd";
+
+    /**
+     *  取消收藏商家
+     */
+    public static final String MERCHANT_COLLECTION_DEL = "ymdConsumer/merchantCollectionDel";
+
+    /**
+     *  商家详情
+     */
+    public static final String MERCHANT_DETAIL_INFO = "ymdMerchantController/merchantDetails";
+
+    /**
+     *  个人收藏列表
+     */
+    public static final String MERCHANT_COLLECTION_LIST= "ymdConsumer/merchantCollectionList";
 }

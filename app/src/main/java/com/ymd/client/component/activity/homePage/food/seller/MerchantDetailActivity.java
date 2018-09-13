@@ -25,6 +25,7 @@ import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.ymd.client.R;
 import com.ymd.client.component.activity.homePage.food.seller.fragment.ChooseDishesFragment;
 import com.ymd.client.component.activity.homePage.food.seller.fragment.EvaluateSellerFragment;
@@ -127,7 +128,7 @@ public class MerchantDetailActivity extends TabBaseActivity {
         setCollsapsing();
         initView();
         setViewPager();
-        resetMerchantViewData();
+        requestMerchantInfo();
     }
 
     private void initView() {
@@ -224,10 +225,52 @@ public class MerchantDetailActivity extends TabBaseActivity {
         });
     }
 
+    private void requestMerchantInfo() {
+        Map<String, Object> params = new HashMap<>();
+        params.put("merchantId", merchantInfo.getId());
+        WebUtil.getInstance().requestPOST(this, URLConstant.MERCHANT_DETAIL_INFO, params,
+                new WebUtil.WebCallBack() {
+                    @Override
+                    public void onWebSuccess(JSONObject result) {
+                        ToastUtil.ToastMessage(getApplicationContext(), "收藏成功");
+                        merchantInfo = new Gson().fromJson(result.optString(""), MerchantInfoEntity.class);
+                        resetMerchantViewData();
+                    }
+
+                    @Override
+                    public void onWebFailed(String errorMsg) {
+                        ToastUtil.ToastMessage(getApplicationContext(), "收藏成功");
+                    }
+                });
+    }
+
+    /**
+     * 添加收藏
+     */
     private void addCollection() {
         Map<String, Object> params = new HashMap<>();
         params.put("merchantId", merchantInfo.getId());
-        WebUtil.getInstance().requestPOST(this, URLConstant.MERCHANT_GOOD_TYPE, params,
+        WebUtil.getInstance().requestPOST(this, URLConstant.MERCHANT_COLLECTION_ADD, params,
+                new WebUtil.WebCallBack() {
+                    @Override
+                    public void onWebSuccess(JSONObject result) {
+                        ToastUtil.ToastMessage(getApplicationContext(), "收藏成功");
+                    }
+
+                    @Override
+                    public void onWebFailed(String errorMsg) {
+                        ToastUtil.ToastMessage(getApplicationContext(), "收藏成功");
+                    }
+                });
+    }
+
+    /**
+     * 取消收藏
+     */
+    private void delCollection() {
+        Map<String, Object> params = new HashMap<>();
+        params.put("merchantId", merchantInfo.getId());
+        WebUtil.getInstance().requestPOST(this, URLConstant.MERCHANT_COLLECTION_DEL, params,
                 new WebUtil.WebCallBack() {
                     @Override
                     public void onWebSuccess(JSONObject result) {

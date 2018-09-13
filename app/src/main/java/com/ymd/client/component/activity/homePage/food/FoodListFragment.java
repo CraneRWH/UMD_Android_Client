@@ -1,7 +1,6 @@
 package com.ymd.client.component.activity.homePage.food;
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -15,8 +14,7 @@ import com.google.gson.reflect.TypeToken;
 import com.ymd.client.R;
 import com.ymd.client.common.base.OnUMDItemClickListener;
 import com.ymd.client.component.activity.homePage.food.seller.MerchantDetailActivity;
-import com.ymd.client.component.activity.homePage.food.seller.SellerDetailActivity;
-import com.ymd.client.component.adapter.food.FoodListAdapter;
+import com.ymd.client.component.adapter.food.MerchantListAdapter;
 import com.ymd.client.model.bean.homePage.MerchantInfoEntity;
 import com.ymd.client.model.constant.URLConstant;
 import com.ymd.client.model.info.LocationInfo;
@@ -24,7 +22,6 @@ import com.ymd.client.web.WebUtil;
 
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -87,7 +84,7 @@ public class FoodListFragment extends Fragment {
     private void initView() {
     /*    LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
-        FoodListAdapter adapter = new FoodListAdapter(getData(), getContext());
+        MerchantListAdapter adapter = new MerchantListAdapter(getData(), getContext());
         adapter.setListener(new OnUMDItemClickListener() {
             @Override
             public void onClick(Object data, View view, int position) {
@@ -151,7 +148,7 @@ public class FoodListFragment extends Fragment {
         List<MerchantInfoEntity> datas = new Gson().fromJson(result, new TypeToken<List<MerchantInfoEntity>>(){}.getType());
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
-        FoodListAdapter adapter = new FoodListAdapter(datas, getContext());
+        MerchantListAdapter adapter = new MerchantListAdapter(datas, getContext());
         adapter.setListener(new OnUMDItemClickListener() {
             @Override
             public void onClick(Object data, View view, int position) {

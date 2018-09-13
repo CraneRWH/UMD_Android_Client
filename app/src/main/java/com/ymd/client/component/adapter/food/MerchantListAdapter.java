@@ -1,7 +1,6 @@
 package com.ymd.client.component.adapter.food;
 
 import android.content.Context;
-import android.graphics.Paint;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.support.v7.widget.RecyclerView;
@@ -19,7 +18,6 @@ import com.ymd.client.model.bean.homePage.MerchantInfoEntity;
 import com.ymd.client.utils.ToolUtil;
 
 import java.util.List;
-import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -30,14 +28,14 @@ import butterknife.ButterKnife;
  * 描述:  订单列表的Adapter
  * 修改历史:
  */
-public class FoodListAdapter extends RecyclerView.Adapter<FoodListAdapter.ViewHolder> {
+public class MerchantListAdapter extends RecyclerView.Adapter<MerchantListAdapter.ViewHolder> {
 
     private List<MerchantInfoEntity> datas;
     private Context mContext;
 
     private OnUMDItemClickListener listener;
 
-    public FoodListAdapter(List<MerchantInfoEntity> datas, Context mContext) {
+    public MerchantListAdapter(List<MerchantInfoEntity> datas, Context mContext) {
         this.datas = datas;
         this.mContext = mContext;
     }

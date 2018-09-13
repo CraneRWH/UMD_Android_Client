@@ -33,7 +33,7 @@ import com.ymd.client.component.activity.homePage.food.seller.SellerDetailActivi
 import com.ymd.client.component.activity.homePage.scan.ScanCodeActivity;
 import com.ymd.client.component.activity.homePage.search.SearchActivity;
 import com.ymd.client.component.adapter.MySimpleAdapter;
-import com.ymd.client.component.adapter.food.FoodListAdapter;
+import com.ymd.client.component.adapter.food.MerchantListAdapter;
 import com.ymd.client.component.widget.other.MyChooseItemView;
 import com.ymd.client.component.widget.pullRefreshView.PullToRefreshLayout;
 import com.ymd.client.component.widget.pullRefreshView.PullableScrollView;
@@ -42,15 +42,12 @@ import com.ymd.client.model.bean.city.CityEntity;
 import com.ymd.client.model.bean.homePage.DiscountsMerchantEntity;
 import com.ymd.client.model.bean.homePage.MerchantInfoEntity;
 import com.ymd.client.model.bean.homePage.PictureEntity;
-import com.ymd.client.model.bean.homePage.YmdGoodsEntity;
-import com.ymd.client.model.bean.homePage.YmdIndustryEntity;
 import com.ymd.client.model.constant.URLConstant;
 import com.ymd.client.model.info.LocationInfo;
 import com.ymd.client.utils.DataUtils;
 import com.ymd.client.utils.ToolUtil;
 import com.ymd.client.web.WebUtil;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -535,7 +532,7 @@ public class MainHomePageFragment extends Fragment {
         marchantDatas.addAll(datas);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
-        FoodListAdapter adapter = new FoodListAdapter(marchantDatas, getContext());
+        MerchantListAdapter adapter = new MerchantListAdapter(marchantDatas, getContext());
         adapter.setListener(new OnUMDItemClickListener() {
             @Override
             public void onClick(Object data, View view, int position) {
@@ -567,7 +564,7 @@ public class MainHomePageFragment extends Fragment {
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
-        FoodListAdapter adapter = new FoodListAdapter(DataUtils.getMeachantData(), getContext());
+        MerchantListAdapter adapter = new MerchantListAdapter(DataUtils.getMeachantData(), getContext());
         adapter.setListener(new OnUMDItemClickListener() {
             @Override
             public void onClick(Object data, View view, int position) {

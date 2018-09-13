@@ -1,4 +1,4 @@
-package com.ymd.client.component.activity.mine;
+package com.ymd.client.component.activity.mine.collection;
 
 import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
@@ -14,7 +14,6 @@ import android.widget.TextView;
 
 import com.ymd.client.R;
 import com.ymd.client.common.base.BaseActivity;
-import com.ymd.client.component.activity.mine.collection.CommonCollectionFragment;
 import com.ymd.client.component.widget.icindicator.FragmentContainerHelper;
 import com.ymd.client.component.widget.icindicator.MagicIndicator;
 import com.ymd.client.component.widget.icindicator.buildins.UIUtil;
