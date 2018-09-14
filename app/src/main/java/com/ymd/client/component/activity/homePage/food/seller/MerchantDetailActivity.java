@@ -164,6 +164,16 @@ public class MerchantDetailActivity extends TabBaseActivity {
                 }
             }
         });
+        submitBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (buyList.isEmpty()) {
+                    ToastUtil.ToastMessage(MerchantDetailActivity.this,"请选择要购买的商品");
+                } else {
+
+                }
+            }
+        });
     }
 
     private void resetMerchantViewData() {

@@ -163,4 +163,14 @@ public class URLConstant {
      *  订单评论
      */
     public static final String MERCHANT_ADD_EVALUATION= "Evaluation/addEvaluation";
+
+    /**
+     * 商户推荐的商品
+     */
+    public static final String MERCHANT_RECOMMEND_GOODS = "HyGoodsController/collectionGoodsList";
+
+    /**
+     * 获取商户的包房列表
+     */
+    public static final String MERCHANT_ROOM_LIST = "ymdIndustry/roomsList";
 }

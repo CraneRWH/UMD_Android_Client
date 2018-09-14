@@ -13,9 +13,16 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.ymd.client.R;
 import com.ymd.client.common.base.OnUMDItemClickListener;
+import com.ymd.client.component.activity.homePage.food.seller.fragment.ChooseDishesFragment;
 import com.ymd.client.component.adapter.order.OrderDetailBaofangAdapter;
+import com.ymd.client.model.bean.homePage.MerchantInfoEntity;
+import com.ymd.client.model.constant.URLConstant;
+import com.ymd.client.web.WebUtil;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -73,10 +80,18 @@ public class OrderDetailFragment extends Fragment {
     TextView uGetTv;
     Unbinder unbinder;
 
+    MerchantInfoEntity merchantInfo;
     public OrderDetailFragment() {
         // Required empty public constructor
     }
 
+    public static OrderDetailFragment newInstance(MerchantInfoEntity merchantInfo) {
+        OrderDetailFragment fragment = new OrderDetailFragment();
+        Bundle args = new Bundle();
+        args.putSerializable("merchant", merchantInfo);
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -84,6 +99,9 @@ public class OrderDetailFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_order_detail, container, false);
         unbinder = ButterKnife.bind(this, view);
+        if (getArguments()!=null) {
+            merchantInfo = (MerchantInfoEntity) getArguments().getSerializable("merchant");
+        }
         initView(view);
         return view;
     }
@@ -91,6 +109,28 @@ public class OrderDetailFragment extends Fragment {
     private void initView(View view) {
         GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), 3);
         baofangRv.setLayoutManager(layoutManager);
+
+        requestRoomList();
+    }
+
+    private void requestRoomList() {
+        Map<String, Object> params = new HashMap<>();
+        params.put("merchantId", merchantInfo.getId());
+        WebUtil.getInstance().requestPOST(getActivity(), URLConstant.MERCHANT_ROOM_LIST, params,
+                new WebUtil.WebCallBack() {
+                    @Override
+                    public void onWebSuccess(JSONObject result) {
+                        resetRoomListData(result.optString(""));
+                    }
+
+                    @Override
+                    public void onWebFailed(String errorMsg) {
+
+                    }
+                });
+    }
+
+    private void resetRoomListData(String resultJson) {
         OrderDetailBaofangAdapter adapter = new OrderDetailBaofangAdapter(getBaofangList(), getContext());
         adapter.setListener(new OnUMDItemClickListener() {
             @Override
@@ -100,7 +140,6 @@ public class OrderDetailFragment extends Fragment {
         });
         baofangRv.setAdapter(adapter);
     }
-
     private List getBaofangList() {
         List<Map<String ,Object>> list = new ArrayList<>();
         Map<String,Object> map = new HashMap<>();

@@ -82,12 +82,12 @@ public class OrderDetailActivity extends BaseActivity {
         fragmentList = new ArrayList<Fragment>();
         fragmentList.add(new OrderDetailFragment());
         fragmentList.add(new OrderDetailFragment());
-        fragmentList.add(new OrderDetailFragment());
+    //    fragmentList.add(new OrderDetailFragment());
 
         textViewList = new ArrayList<MyChooseItemView>();
         textViewList.add(chooseItem0);
         textViewList.add(chooseItem1);
-        textViewList.add(chooseItem2);
+    //    textViewList.add(chooseItem2);
         viewPagerListener();
         chooseItem(0);
 

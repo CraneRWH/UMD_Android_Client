@@ -43,6 +43,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 custom:noChooseColor="@color/text_gray_dark"
+                android:visibility="gone"
                 custom:defaultValue="@string/waimai_str" />
         </LinearLayout>
 

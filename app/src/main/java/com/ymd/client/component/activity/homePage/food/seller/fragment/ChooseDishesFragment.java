@@ -19,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.eowise.recyclerview.stickyheaders.OnHeaderClickListener;
 import com.eowise.recyclerview.stickyheaders.StickyHeadersItemDecoration;
 import com.google.gson.Gson;
@@ -39,6 +40,7 @@ import com.ymd.client.utils.DataUtils;
 import com.ymd.client.utils.ToolUtil;
 import com.ymd.client.web.WebUtil;
 
+import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONObject;
@@ -113,40 +115,40 @@ public class ChooseDishesFragment extends BaseFragment implements PersonAdapter.
     }
 
     private void initView() {
-        setRecommendLayoutData();
+     //   setRecommendLayoutData();
+        requestRecommendData();
         requestFoodType();
         requestFoodList();
     //    setFoodTypeData();
     //    setFoodData();
     }
 
-    private void setRecommendLayoutData() {
-        List<Map<String, Object>> list = new ArrayList<>();
-        Map<String, Object> map = new HashMap<>();
-        map.put("name", "food_item_icon");
-        map.put("icon", R.mipmap.nice_good_icon1);
-        list.add(map);
+    private void requestRecommendData() {
+        Map<String,Object> params = new HashMap<>();
+        params.put("merchantId",merchantInfo.getId());
+        WebUtil.getInstance().requestPOST(getActivity(), URLConstant.MERCHANT_RECOMMEND_GOODS, params,
+                new WebUtil.WebCallBack() {
+                    @Override
+                    public void onWebSuccess(JSONObject result) {
+                        setRecommendLayoutData(result.optString("list"));
+                    }
 
-        map = new HashMap<>();
-        map.put("name", "hospital_item_icon");
-        map.put("icon", R.mipmap.nice_good_icon1);
-        list.add(map);
+                    @Override
+                    public void onWebFailed(String errorMsg) {
 
-        map = new HashMap<>();
-        map.put("name", "car_item_icon");
-        map.put("icon", R.mipmap.nice_good_icon1);
-        list.add(map);
+                    }
+                });
+    }
 
-        map = new HashMap<>();
-        map.put("name", "meirong_item_icon");
-        map.put("icon", R.mipmap.nice_good_icon1);
-        list.add(map);
+    List<YmdGoodsEntity> recommendFoodDatas = new ArrayList<>();
+    private void setRecommendLayoutData(String resultJson) {
+        recommendFoodDatas = new Gson().fromJson(resultJson, new TypeToken<List<YmdGoodsEntity>>(){}.getType());
 
         //开始添加数据
-        for (int x = 0; x < list.size(); x++) {
+        for (int x = 0; x < recommendFoodDatas.size(); x++) {
             //寻找行布局，第一个参数为行布局ID，第二个参数为这个行布局需要放到那个容器上
             View view = LayoutInflater.from(getActivity()).inflate(R.layout.item_seller_food_recommend, recommendLayout, false);
-
+            YmdGoodsEntity data = recommendFoodDatas.get(x);
             ImageView icon_iv;
             TextView name_tv;
             TextView sale_num_tv;
@@ -158,8 +160,18 @@ public class ChooseDishesFragment extends BaseFragment implements PersonAdapter.
             now_price_tv = (TextView) view.findViewById(R.id.now_price_tv);
             buy_btn = (ImageView) view.findViewById(R.id.buy_btn);
             //将int数组中的数据放到ImageView中
-            icon_iv.setImageResource(ToolUtil.changeInteger(list.get(x).get("icon")));
+            Glide.with(this).load(data.getGoodsUrl()).into(icon_iv);
+            name_tv.setText(data.getGoodsName());
+            sale_num_tv.setText(data.getSales());
+            now_price_tv.setText(ToolUtil.changeString(data.getPrice()));
 
+            buy_btn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    data.setBuyCount(ToolUtil.changeInteger(data.getBuyCount()) + 1);
+                    EventBus.getDefault().post(data);
+                }
+            });
             //给TextView添加文字
             //    tv.setText("第"+(x+1)+"张");
             //把行布局放到linear里

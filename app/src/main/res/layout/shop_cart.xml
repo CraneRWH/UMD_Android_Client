@@ -35,8 +35,9 @@
                 android:layout_alignParentRight="true"
                 android:layout_marginTop="@dimen/mar_pad_len_16px"
                 android:textColor="@color/white"
-                android:text="2"
+                android:text="0"
                 android:gravity="center"
+                android:visibility="gone"
                 />
         </RelativeLayout>
         <LinearLayout
