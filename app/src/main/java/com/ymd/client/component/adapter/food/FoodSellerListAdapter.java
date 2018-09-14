@@ -61,7 +61,14 @@ public class FoodSellerListAdapter extends RecyclerView.Adapter<FoodSellerListAd
         holder.saleNumTv.setText(ToolUtil.changeString(0));
         holder.nowPriceTv.setText(ToolUtil.changeString(data.getPrice()));
     //    holder.oldPriceTv.setText("¥" + ToolUtil.changeString(data.get("old_pride")));
-        holder.numTv.setText(ToolUtil.changeString(0));
+        if (ToolUtil.changeInteger(data.getBuyCount()) == 0) {
+            holder.numTv.setVisibility(View.GONE);
+            holder.subBtn.setVisibility(View.GONE);
+        } else {
+            holder.numTv.setVisibility(View.VISIBLE);
+            holder.subBtn.setVisibility(View.VISIBLE);
+        }
+        holder.numTv.setText(ToolUtil.changeString(ToolUtil.changeInteger(data.getBuyCount())));
     //    holder.oldPriceTv.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
         holder.rootView.setOnClickListener(new View.OnClickListener() {
             @Override

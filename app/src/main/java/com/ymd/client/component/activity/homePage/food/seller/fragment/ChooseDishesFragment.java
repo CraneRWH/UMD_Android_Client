@@ -159,6 +159,7 @@ public class ChooseDishesFragment extends BaseFragment implements PersonAdapter.
             buy_btn = (ImageView) view.findViewById(R.id.buy_btn);
             //将int数组中的数据放到ImageView中
             icon_iv.setImageResource(ToolUtil.changeInteger(list.get(x).get("icon")));
+
             //给TextView添加文字
             //    tv.setText("第"+(x+1)+"张");
             //把行布局放到linear里

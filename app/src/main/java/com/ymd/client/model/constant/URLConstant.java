@@ -153,4 +153,14 @@ public class URLConstant {
      *  个人收藏列表
      */
     public static final String MERCHANT_COLLECTION_LIST= "ymdConsumer/merchantCollectionList";
+
+    /**
+     *  投诉
+     */
+    public static final String MERCHANT_COMPLAINT= "ymdConsumer/complaints";
+
+    /**
+     *  订单评论
+     */
+    public static final String MERCHANT_ADD_EVALUATION= "Evaluation/addEvaluation";
 }

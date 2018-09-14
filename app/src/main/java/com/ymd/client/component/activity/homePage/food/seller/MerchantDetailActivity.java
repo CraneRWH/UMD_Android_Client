@@ -127,7 +127,7 @@ public class MerchantDetailActivity extends TabBaseActivity {
         ButterKnife.bind(this);
         setCollsapsing();
         initView();
-        setViewPager();
+
         requestMerchantInfo();
     }
 
@@ -180,7 +180,6 @@ public class MerchantDetailActivity extends TabBaseActivity {
         }
     }
 
-
     private void setViewPager() {
 
         ChooseDishesFragment disheslFragment = ChooseDishesFragment.newInstance(merchantInfo);
@@ -191,7 +190,7 @@ public class MerchantDetailActivity extends TabBaseActivity {
         mFragments.add(detailFragment);
 
         mTitles.add("点餐");
-        mTitles.add("点评（3）");
+        mTitles.add("点评");
         mTitles.add("商家");
 
         adapter = new TabFragmentAdapter(getSupportFragmentManager(), mFragments, mTitles);
@@ -232,14 +231,14 @@ public class MerchantDetailActivity extends TabBaseActivity {
                 new WebUtil.WebCallBack() {
                     @Override
                     public void onWebSuccess(JSONObject result) {
-                        ToastUtil.ToastMessage(getApplicationContext(), "收藏成功");
                         merchantInfo = new Gson().fromJson(result.optString(""), MerchantInfoEntity.class);
                         resetMerchantViewData();
+                        setViewPager();
                     }
 
                     @Override
                     public void onWebFailed(String errorMsg) {
-                        ToastUtil.ToastMessage(getApplicationContext(), "收藏成功");
+
                     }
                 });
     }
@@ -446,8 +445,10 @@ public class MerchantDetailActivity extends TabBaseActivity {
         double allMoney = 0;
         double disAllMoney = 0;
         buyList.clear();
+        int count = 0;
         for (YmdGoodsEntity item : goodsEntity.getGoods()) {
             allMoney = ToolUtil.changeDouble(item.getPrice()) * item.getBuyCount() + allMoney;
+            count = count + item.getBuyCount();
             disAllMoney = ((ToolUtil.changeDouble(item.getPrice()) * ToolUtil.changeDouble(merchantInfo.getDiscount())) / 10) * item.getBuyCount() + disAllMoney;
         }
         goodsEntity.setAllMoney(allMoney);
@@ -459,7 +460,7 @@ public class MerchantDetailActivity extends TabBaseActivity {
             warnNumTv.setVisibility(View.GONE);
             warnNumTv.setText("0");
         } else {
-            warnNumTv.setText(goodsEntity.getGoods().size());
+            warnNumTv.setText(ToolUtil.changeString(count));
             warnNumTv.setVisibility(View.VISIBLE);
             noShop.setVisibility(View.VISIBLE);
             buyList.addAll(goodsEntity.getGoods());

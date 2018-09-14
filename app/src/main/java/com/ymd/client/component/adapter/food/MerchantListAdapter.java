@@ -53,6 +53,9 @@ public class MerchantListAdapter extends RecyclerView.Adapter<MerchantListAdapte
 
         MerchantInfoEntity data = datas.get(position);
         holder.nameTv.setText(ToolUtil.changeString(data.getName()));
+        if (data.getDistance() == null) {
+            data.setDistance(ToolUtil.Distance(ToolUtil.changeDouble(data.getLatitude()), ToolUtil.changeDouble(data.getLongitude())));
+        }
         holder.distanceTv.setText(ToolUtil.changeString(data.getDistance()));
         holder.scoreBarView.setRating(ToolUtil.changeFloat(data.getScore()));
     //    holder.workTimeTv.setText(ToolUtil.changeString(data.get("work_time")));

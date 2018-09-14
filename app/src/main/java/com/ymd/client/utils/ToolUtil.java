@@ -4,6 +4,8 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.Log;
 
+import com.ymd.client.model.info.LocationInfo;
+
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
@@ -32,7 +34,45 @@ public class ToolUtil {
 	{
 		return d * Math.PI / 180.0;
 	}
+	public static double GetDistance(double WD, double JD)
+	{
+		double radLat1 = rad(WD);
+		double radLat2 = rad(LocationInfo.getInstance().getLocationInfo().getLatitude());
+		double a = radLat1 - radLat2;
+		double b = rad(JD) - rad(LocationInfo.getInstance().getLocationInfo().getLongitude());
 
+		double s = 2 * Math.asin(Math.sqrt(Math.pow(Math.sin(a/2),2) +
+				Math.cos(radLat1)*Math.cos(radLat2)*Math.pow(Math.sin(b/2),2)));
+		s = s * EARTH_RADIUS;
+		s = Math.round(s * 10000) / 10000;
+		return s;
+	}
+
+	public static String Distance(double WD, double JD) {
+		System.out.println("WD  " + WD);
+		System.out.println("JD  " + JD);
+		System.out.println("WDs  " + LocationInfo.getInstance().getLocationInfo().getLatitude());
+		System.out.println("JDs  " + LocationInfo.getInstance().getLocationInfo().getLongitude());
+		if (LocationInfo.getInstance().getLocationInfo().getLatitude()==0 && LocationInfo.getInstance().getLocationInfo().getLongitude() == 0) {
+			return "0";
+		}
+		double a, b, R;
+		R = 6378137; // 地球半径
+		WD = WD * Math.PI / 180.0;
+		double WD2;
+		WD2 = LocationInfo.getInstance().getLocationInfo().getLatitude() * Math.PI / 180.0;
+		a = WD - WD2;
+		b = (JD - LocationInfo.getInstance().getLocationInfo().getLongitude()) * Math.PI / 180.0;
+		double d;
+		double sa2, sb2;
+		sa2 = Math.sin(a / 2.0);
+		sb2 = Math.sin(b / 2.0);
+		d = 2
+				* R
+				* Math.asin(Math.sqrt(sa2 * sa2 + Math.cos(WD)
+				* Math.cos(LocationInfo.getInstance().getLocationInfo().getLatitude()) * sb2 * sb2));
+		return changeString(d);
+	}
 	//获取当前时间的自定义格式
 	public static String getCurrentTime(String format) {
 		Date date = new Date();
@@ -66,7 +106,7 @@ public class ToolUtil {
 				LogUtil.d(object + "不能转化为int型");
 			}
 		}
-		return -1;
+		return 0;
 	}
 
 	public static long changeLong(Object object) {
@@ -77,7 +117,7 @@ public class ToolUtil {
 				LogUtil.d(object + "不能转化为long型");
 			}
 		}
-		return -1l;
+		return 0L;
 	}
 
 	public static double changeDouble(Object object) {
