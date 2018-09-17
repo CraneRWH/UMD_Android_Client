@@ -31,10 +31,10 @@
                 android:layout_marginTop="15dp"
                 android:textSize="@dimen/text_size_36px"/>
         </LinearLayout>
-        <android.support.v7.widget.RecyclerView
+        <com.ymd.client.component.widget.zrecyclerview.ZRecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
+            android:layout_height="match_parent"></com.ymd.client.component.widget.zrecyclerview.ZRecyclerView>
     </RelativeLayout>
 
 </LinearLayout>

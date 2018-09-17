@@ -23,8 +23,10 @@ import com.google.gson.reflect.TypeToken;
 import com.ymd.client.R;
 import com.ymd.client.common.base.BaseActivity;
 import com.ymd.client.common.base.bean.TabObject;
+import com.ymd.client.component.activity.homePage.food.seller.MerchantDetailActivity;
 import com.ymd.client.component.activity.order.PageFragmentAdapter;
 import com.ymd.client.component.widget.other.MyChooseItemView;
+import com.ymd.client.model.bean.homePage.MerchantInfoEntity;
 import com.ymd.client.model.bean.homePage.YmdGoodsEntity;
 import com.ymd.client.model.bean.homePage.YmdIndustryEntity;
 import com.ymd.client.model.bean.homePage.YmdRecommendEntity;
@@ -188,6 +190,14 @@ public class NiceFoodActivity extends BaseActivity implements ViewPager.OnPageCh
             //给TextView添加文字
             //    tv.setText("第"+(x+1)+"张");
             //把行布局放到linear里
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    MerchantInfoEntity data = new MerchantInfoEntity();
+                    data.setId(item.getGoodsId());
+                    MerchantDetailActivity.startAction(NiceFoodActivity.this,data);
+                }
+            });
             recommendLayout.addView(view);
         }
     }

@@ -16,6 +16,8 @@ import android.widget.TextView;
 import com.ymd.client.R;
 import com.ymd.client.common.base.OnUMDItemClickListener;
 import com.ymd.client.component.activity.homePage.food.seller.CommentSellerActivity;
+import com.ymd.client.model.bean.order.OrderResultForm;
+import com.ymd.client.model.bean.order.YmdOrderGoods;
 import com.ymd.client.utils.ToolUtil;
 
 import java.util.List;
@@ -31,13 +33,13 @@ import static com.raizlabs.android.dbflow.config.FlowManager.getContext;
  */
 public class OrderPageAdapter extends RecyclerView.Adapter<OrderPageAdapter.ViewHolder> {
 
-    private List<Map<String,Object>> datas;
+    private List<OrderResultForm> datas;
     private Context mContext;
 
     private OnUMDItemClickListener listener;
     private OnBtnClickListener btnClickListener;
 
-    public OrderPageAdapter(List<Map<String, Object>> datas, Context mContext) {
+    public OrderPageAdapter(List<OrderResultForm> datas, Context mContext) {
         this.datas = datas;
         this.mContext = mContext;
     }
@@ -53,23 +55,23 @@ public class OrderPageAdapter extends RecyclerView.Adapter<OrderPageAdapter.View
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
 
-        Map<String,Object> data = datas.get(position);
-        if (ToolUtil.changeInteger(data.get("status")) >2) {
+        OrderResultForm data = datas.get(position);
+        if (ToolUtil.changeInteger(data.getOrderStatus()) >2) {
             holder.statusNameTv.setTextColor(R.color.text_gray_dark);
             holder.btn1.setVisibility(View.VISIBLE);
         } else {
             holder.statusNameTv.setTextColor(R.color.bg_header);
             holder.btn1.setVisibility(View.GONE);
         }
-        List<Map<String,Object>> products = (List<Map<String, Object>>) data.get("product_list");
+        List<YmdOrderGoods> products = data.getYmdOrderGoodsList();
 
         holder.productListLt.removeAllViews();
-        for (Map<String,Object> item : products) {
+        for (YmdOrderGoods item : products) {
             View v = LayoutInflater.from(getContext()).inflate(R.layout.item_fragment_order_page_product, null);
             TextView nameView = v.findViewById(R.id.product_name_tv);
             TextView numView = v.findViewById(R.id.product_num_tv);
-            nameView.setText(ToolUtil.changeString(item.get("name")));
-            numView.setText("x" + item.get("num"));
+            nameView.setText(ToolUtil.changeString(item.getGoodsName()));
+            numView.setText("x" + item.getGoodsNum());
             holder.productListLt.addView(v);
         }
 

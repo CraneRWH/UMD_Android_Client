@@ -1,26 +1,30 @@
 package com.ymd.client.component.activity.order;
 
-import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.ymd.client.R;
 import com.ymd.client.common.base.OnUMDItemClickListener;
-import com.ymd.client.common.base.fragment.PageFragment;
 import com.ymd.client.component.activity.homePage.food.seller.CommentSellerActivity;
 import com.ymd.client.component.activity.order.detail.OrderDetailActivity;
 import com.ymd.client.component.activity.order.pay.OrderPayActivity;
-import com.ymd.client.component.adapter.MySimpleAdapter;
 import com.ymd.client.component.adapter.order.OrderPageAdapter;
-import com.ymd.client.utils.ToolUtil;
+import com.ymd.client.component.widget.zrecyclerview.ProgressStyle;
+import com.ymd.client.component.widget.zrecyclerview.ZRecyclerView;
+import com.ymd.client.model.bean.order.OrderResultForm;
+import com.ymd.client.model.bean.order.YmdOrderGoods;
+import com.ymd.client.model.constant.URLConstant;
+import com.ymd.client.model.info.LoginInfo;
+import com.ymd.client.web.WebUtil;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -37,10 +41,23 @@ import java.util.Map;
  */
 public class OrderPageFragment extends Fragment {
 
-    private RecyclerView recyclerView;
+    private ZRecyclerView recyclerView;
+
+    private int type;
+    public static OrderPageFragment newInstance(int type) {
+        OrderPageFragment fragment = new OrderPageFragment();
+        Bundle args = new Bundle();
+        args.putInt("type", type);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (getArguments()!= null) {
+            type = getArguments().getInt("type");
+        }
     }
 
     @Override
@@ -52,10 +69,51 @@ public class OrderPageFragment extends Fragment {
     }
 
     private void initView(View view) {
-        recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
+        recyclerView = (ZRecyclerView) view.findViewById(R.id.recyclerView);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
-        OrderPageAdapter adapter = new OrderPageAdapter(getDataList(), getActivity());
+        recyclerView.setRefreshProgressStyle(ProgressStyle.BallPulse);
+        recyclerView.setLoadingMoreProgressStyle(ProgressStyle.BallRotate);
+
+        recyclerView.setLoadingListener(new ZRecyclerView.LoadingListener() {
+            @Override
+            public void onRefresh() {
+                page = 1;
+                requestOrderInfo();
+            }
+
+            @Override
+            public void onLoadMore() {
+                page++;
+                requestOrderInfo();
+            }
+        });
+        requestOrderInfo();
+    }
+
+    int page =1;
+    private void requestOrderInfo() {
+        Map<String, Object> params = new HashMap<>();
+        params.put("customerId", LoginInfo.getInstance().getLoginInfo().getId());
+        params.put("type", type);
+        params.put("pageNum", page);
+        WebUtil.getInstance().requestPOST(getActivity(), URLConstant.ORDER_LIST, params,
+                new WebUtil.WebCallBack() {
+                    @Override
+                    public void onWebSuccess(JSONObject result) {
+                        resetOrderList(result.optString("list"));
+                    }
+
+                    @Override
+                    public void onWebFailed(String errorMsg) {
+
+                    }
+                });
+    }
+
+    private void resetOrderList(String resultJson) {
+        List<OrderResultForm> datas = new Gson().fromJson(resultJson, new TypeToken<List<OrderResultForm>>(){}.getType());
+        OrderPageAdapter adapter = new OrderPageAdapter(datas, getActivity());
         adapter.setListener(new OnUMDItemClickListener() {
             @Override
             public void onClick(Object data, View view, int position) {
