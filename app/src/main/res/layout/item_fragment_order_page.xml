@@ -141,6 +141,7 @@
             android:textSize="@dimen/text_size_26px"
             android:layout_marginRight="@dimen/mar_pad_len_30px"
             android:text="再来一单"
+            android:visibility="gone"
             />
         <Button
             android:id="@+id/btn3"
@@ -149,7 +150,7 @@
             android:background="@mipmap/rect_orange_bg_icon"
             android:textColor="@color/white"
             android:textSize="@dimen/text_size_26px"
-            android:text="退款"
+            android:text="评价"
             />
     </LinearLayout>
 </LinearLayout>

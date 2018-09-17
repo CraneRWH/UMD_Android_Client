@@ -178,4 +178,20 @@ public class URLConstant {
      * 获取订单列表
      */
     public static final String ORDER_LIST = "ymdOrder/orderList";
+
+    /**
+     * 生成订单
+     */
+    public static final String CREATE_ORDER = "ymdOrder/addOrder";
+
+    /**
+     * 获取订单详情
+     */
+    public static final String ORDER_DETAIL = "ymdOrder/orderDetails";
+
+    /**
+     * 生成订单预约
+     */
+    public static final String ORDER_APPOINTMENT = "ymdOrder/orderAppointment";
+
 }

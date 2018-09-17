@@ -30,6 +30,7 @@ import com.ymd.client.R;
 import com.ymd.client.component.activity.homePage.food.seller.fragment.ChooseDishesFragment;
 import com.ymd.client.component.activity.homePage.food.seller.fragment.EvaluateSellerFragment;
 import com.ymd.client.component.activity.homePage.food.seller.fragment.SellerDetailFragment;
+import com.ymd.client.component.activity.order.detail.OrderDetailActivity;
 import com.ymd.client.component.adapter.TabFragmentAdapter;
 import com.ymd.client.component.event.GoodsEvent;
 import com.ymd.client.component.event.MessageEvent;
@@ -170,7 +171,7 @@ public class MerchantDetailActivity extends TabBaseActivity {
                 if (buyList.isEmpty()) {
                     ToastUtil.ToastMessage(MerchantDetailActivity.this,"请选择要购买的商品");
                 } else {
-
+                    submitOrder();
                 }
             }
         });
@@ -200,6 +201,7 @@ public class MerchantDetailActivity extends TabBaseActivity {
         mFragments.add(detailFragment);
 
         mTitles.add("点餐");
+     //   if (merchantInfo.getLatitude())
         mTitles.add("点评");
         mTitles.add("商家");
 
@@ -241,7 +243,7 @@ public class MerchantDetailActivity extends TabBaseActivity {
                 new WebUtil.WebCallBack() {
                     @Override
                     public void onWebSuccess(JSONObject result) {
-                        merchantInfo = new Gson().fromJson(result.optString(""), MerchantInfoEntity.class);
+                        merchantInfo = new Gson().fromJson(result.optString("merchant"), MerchantInfoEntity.class);
                         resetMerchantViewData();
                         setViewPager();
                     }
@@ -474,6 +476,42 @@ public class MerchantDetailActivity extends TabBaseActivity {
             warnNumTv.setVisibility(View.VISIBLE);
             noShop.setVisibility(View.VISIBLE);
             buyList.addAll(goodsEntity.getGoods());
+            mainGoods = goodsEntity;
         }
+    }
+
+    private GoodsEvent mainGoods;
+
+    private void submitOrder() {
+        Map<String, Object> params = new HashMap<>();
+        params.put("merchantId", merchantInfo.getId());
+        params.put("payAmt", ToolUtil.changeString(mainGoods.getDisAllMoney()));
+        params.put("totalAmt", ToolUtil.changeString(mainGoods.getAllMoney()));
+        params.put("uCurrency", "0");
+        List<Map<String,Object>> list = new ArrayList<>();
+        for (YmdGoodsEntity item : buyList) {
+            Map<String,Object> map = new HashMap<>();
+            map.put("goodsId", item.getId());
+            map.put("goodsNum", item.getBuyCount());
+            map.put("goodsType","0");
+            list.add(map);
+        }
+        params.put("goodslist", list);
+        WebUtil.getInstance().requestPOST(this, URLConstant.CREATE_ORDER, params,
+                new WebUtil.WebCallBack() {
+                    @Override
+                    public void onWebSuccess(JSONObject result) {
+                        toOrderDetail(result.optString("id"));
+                    }
+
+                    @Override
+                    public void onWebFailed(String errorMsg) {
+
+                    }
+                });
+    }
+
+    private void toOrderDetail(String orderCode) {
+        OrderDetailActivity.startAction(this, ToolUtil.changeLong(orderCode));
     }
 }

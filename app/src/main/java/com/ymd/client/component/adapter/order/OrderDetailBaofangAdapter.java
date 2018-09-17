@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.ymd.client.R;
 import com.ymd.client.common.base.OnUMDItemClickListener;
+import com.ymd.client.model.bean.order.YmdMerchantRooms;
 import com.ymd.client.utils.ToolUtil;
 
 import java.util.List;
@@ -30,12 +31,12 @@ import static com.raizlabs.android.dbflow.config.FlowManager.getContext;
  */
 public class OrderDetailBaofangAdapter extends RecyclerView.Adapter<OrderDetailBaofangAdapter.ViewHolder> {
 
-    private List<Map<String, Object>> datas;
+    private List<YmdMerchantRooms> datas;
     private Context mContext;
 
     private OnUMDItemClickListener listener;
 
-    public OrderDetailBaofangAdapter(List<Map<String, Object>> datas, Context mContext) {
+    public OrderDetailBaofangAdapter(List<YmdMerchantRooms> datas, Context mContext) {
         this.datas = datas;
         this.mContext = mContext;
     }
@@ -52,11 +53,11 @@ public class OrderDetailBaofangAdapter extends RecyclerView.Adapter<OrderDetailB
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
 
-        Map<String, Object> data = datas.get(position);
-        holder.name_tv.setText(ToolUtil.changeString(data.get("name")));
-        holder.desc_tv.setText("可容纳"+ data.get("desc") + "人");
+        YmdMerchantRooms data = datas.get(position);
+        holder.name_tv.setText(ToolUtil.changeString(data.getRoomsName()));
+        holder.desc_tv.setText("可容纳"+ data.getDiningNumber() + "人");
 
-        if (ToolUtil.changeBoolean(data.get("isChoose"))) {
+        if (data.isChoose()) {
             holder.mainView.setBackgroundResource(R.mipmap.baojian_green_icon);
             holder.name_tv.setTextColor(R.color.white);
             holder.desc_tv.setTextColor(R.color.white);
@@ -78,10 +79,10 @@ public class OrderDetailBaofangAdapter extends RecyclerView.Adapter<OrderDetailB
     }
 
     private void selectChange(int position) {
-        for (Map<String,Object> item : datas) {
-            item.put("isChoose", false);
+        for (YmdMerchantRooms item : datas) {
+            item.setChoose(false);
         }
-        datas.get(position).put("isChoose", true);
+        datas.get(position).setChoose(true);
         notifyDataSetChanged();
     }
 
@@ -114,5 +115,7 @@ public class OrderDetailBaofangAdapter extends RecyclerView.Adapter<OrderDetailB
         }
 
     }
+
+
 
 }

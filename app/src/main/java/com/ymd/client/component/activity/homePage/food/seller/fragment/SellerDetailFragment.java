@@ -94,7 +94,7 @@ public class SellerDetailFragment extends BaseFragment implements PersonAdapter.
         complaintBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ComplaintSellerActivity.startAction(getActivity());
+                ComplaintSellerActivity.startAction(getActivity(),merchantInfo);
             }
         });
         return view;

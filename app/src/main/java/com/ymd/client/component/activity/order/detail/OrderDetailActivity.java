@@ -5,19 +5,33 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.ymd.client.R;
 import com.ymd.client.common.base.BaseActivity;
 import com.ymd.client.component.activity.order.OrderPageFragment;
 import com.ymd.client.component.activity.order.pay.OrderPayActivity;
 import com.ymd.client.component.adapter.AppFragmentPageAdapter;
+import com.ymd.client.component.event.OrderEvent;
 import com.ymd.client.component.widget.other.MyChooseItemView;
+import com.ymd.client.model.bean.homePage.YmdGoodsEntity;
+import com.ymd.client.model.bean.order.OrderResultForm;
+import com.ymd.client.model.bean.order.YmdOrderGoods;
+import com.ymd.client.model.constant.URLConstant;
+import com.ymd.client.utils.ToolUtil;
+import com.ymd.client.web.WebUtil;
+
+import org.greenrobot.eventbus.EventBus;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -59,12 +73,14 @@ public class OrderDetailActivity extends BaseActivity {
     private List<Fragment> fragmentList;
     private List<MyChooseItemView> textViewList;
 
+    private long orderId;
     /**
      * 启动
      * @param context
      */
-    public static void startAction(Activity context) {
+    public static void startAction(Activity context,long orderId) {
         Intent intent = new Intent(context, OrderDetailActivity.class);
+        intent.putExtra("orderId", orderId);
         context.startActivity(intent);
     }
 
@@ -78,25 +94,36 @@ public class OrderDetailActivity extends BaseActivity {
 
     private void initView() {
         setTitle("订单");
-        status = 3;
-        fragmentList = new ArrayList<Fragment>();
-        fragmentList.add(new OrderDetailFragment());
-        fragmentList.add(new OrderDetailFragment());
-    //    fragmentList.add(new OrderDetailFragment());
 
-        textViewList = new ArrayList<MyChooseItemView>();
-        textViewList.add(chooseItem0);
-        textViewList.add(chooseItem1);
-    //    textViewList.add(chooseItem2);
-        viewPagerListener();
-        chooseItem(0);
+        if (getIntent().getExtras() != null) {
+            Bundle bundle = getIntent().getExtras();
+            orderId = bundle.getLong("orderId");
+            requestOrderDetail();
+        }
+        status = 2;
+
 
         submitBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                OrderPayActivity.startAction(OrderDetailActivity.this);
+                OrderEvent event = new OrderEvent();
+                event.setType(businessViewPager.getCurrentItem());
+                event.setOrderDetail(orderDetail);
+                EventBus.getDefault().post(event);
             }
         });
+    }
+
+
+    private void resetOrderView() {
+        orderMoneyTv.setText(ToolUtil.changeString(orderDetail.getTotalAmt()) + "元");
+        productMoneyTv.setText(ToolUtil.changeString(orderDetail.getPayAmt()) + "元");
+        disTv.setText( ToolUtil.changeString(orderDetail.getDiscountAmt()));
+        int count = 0;
+        for (YmdOrderGoods item : orderDetail.getYmdOrderGoodsList()) {
+            count = count + item.getGoodsNum();
+        }
+        warnNumTv.setText(ToolUtil.changeString(count));
     }
 
     /**
@@ -153,5 +180,39 @@ public class OrderDetailActivity extends BaseActivity {
                 //Do Nothing
             }
         });
+    }
+
+    private void requestOrderDetail() {
+        Map<String, Object> params = new HashMap<>();
+        params.put("orderId", orderId);
+        WebUtil.getInstance().requestPOST(this, URLConstant.ORDER_DETAIL, params,
+                new WebUtil.WebCallBack() {
+                    @Override
+                    public void onWebSuccess(JSONObject result) {
+                        resetDetailFragment(result.optString("ymdOrder"));
+                    }
+
+                    @Override
+                    public void onWebFailed(String errorMsg) {
+
+                    }
+                });
+    }
+    OrderResultForm orderDetail;
+    private void resetDetailFragment(String resultJson) {
+        orderDetail = new Gson().fromJson(resultJson, OrderResultForm.class);
+        fragmentList = new ArrayList<Fragment>();
+        fragmentList.add(OrderDetailFragment.newInstance(0,orderDetail));
+        fragmentList.add(OrderDetailFragment.newInstance(1,orderDetail));
+        //    fragmentList.add(new OrderDetailFragment());
+
+        textViewList = new ArrayList<MyChooseItemView>();
+        textViewList.add(chooseItem0);
+        textViewList.add(chooseItem1);
+        //    textViewList.add(chooseItem2);
+        viewPagerListener();
+        chooseItem(0);
+
+        resetOrderView();
     }
 }

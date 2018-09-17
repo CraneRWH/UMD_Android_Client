@@ -1,8 +1,9 @@
 package com.ymd.client.model.bean.order;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class OrderResultForm {
+public class OrderResultForm implements Serializable {
     //订单id
     private Long id;
     //订单编号
@@ -20,15 +21,105 @@ public class OrderResultForm {
     //包房大厅  0包房  1大厅
     private String room;
     //包房名称
-    private String roomName;
+    private String roomId;
     //是否自取 0自取   1到店吃
     private String himself;
     //订单类型  0美食 1非美食
     private String orderType;
     //订单状态
     private String  orderStatus;
+    //备注
+    private String remarks;
+    //订单总价
+    private double totalAmt;
+    //折扣
+    private double discountAmt;
+    //使用U币
+    private Integer uCurrency;
+    //获得u币
+    private Integer uObtain;
+    //实付金额
+    private double payAmt;
+
     //商品详情
     private List<YmdOrderGoods> ymdOrderGoodsList;
+    private String createTime;
+    //地址
+    private String address;
+    //电话
+    private String tel;
+
+    public String getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(String createTime) {
+        this.createTime = createTime;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getTel() {
+        return tel;
+    }
+
+    public void setTel(String tel) {
+        this.tel = tel;
+    }
+
+    public double getDiscountAmt() {
+        return discountAmt;
+    }
+
+    public void setDiscountAmt(double discountAmt) {
+        this.discountAmt = discountAmt;
+    }
+
+    public Integer getuCurrency() {
+        return uCurrency;
+    }
+
+    public void setuCurrency(Integer uCurrency) {
+        this.uCurrency = uCurrency;
+    }
+
+    public Integer getuObtain() {
+        return uObtain;
+    }
+
+    public void setuObtain(Integer uObtain) {
+        this.uObtain = uObtain;
+    }
+
+    public double getPayAmt() {
+        return payAmt;
+    }
+
+    public void setPayAmt(double payAmt) {
+        this.payAmt = payAmt;
+    }
+
+    public double getTotalAmt() {
+        return totalAmt;
+    }
+
+    public void setTotalAmt(double totalAmt) {
+        this.totalAmt = totalAmt;
+    }
+
+    public String getRemarks() {
+        return remarks;
+    }
+
+    public void setRemarks(String remarks) {
+        this.remarks = remarks;
+    }
 
     public Long getId() {
         return id;
@@ -94,12 +185,12 @@ public class OrderResultForm {
         this.room = room;
     }
 
-    public String getRoomName() {
-        return roomName;
+    public String getRoomId() {
+        return roomId;
     }
 
-    public void setRoomName(String roomName) {
-        this.roomName = roomName;
+    public void setRoomId(String roomId) {
+        this.roomId = roomId;
     }
 
     public String getHimself() {
