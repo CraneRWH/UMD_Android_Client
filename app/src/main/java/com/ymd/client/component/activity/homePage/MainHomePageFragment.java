@@ -393,7 +393,8 @@ public class MainHomePageFragment extends Fragment {
 
     private void requestYH() {
         Map<String,Object> params = new HashMap<>();
-        params.put("countyId", "130406");
+        params.put("countyId",LocationInfo.getInstance().getChooseCity().getCountyCode() > 0 ? LocationInfo.getInstance().getChooseCity().getCountyCode() : LocationInfo.getInstance().getChooseCity().getCityID());
+    //    params.put("city", LocationInfo.getInstance().getChooseCity().getCityID());
     /*    params.put("county",LocationInfo.getInstance().getChooseCity().getCountyName());
         params.put("city", LocationInfo.getInstance().getChooseCity().getCityID());
         params.put("latitude",LocationInfo.getInstance().getLocationInfo().getLatitude());
@@ -485,8 +486,8 @@ public class MainHomePageFragment extends Fragment {
      */
     private void requestMerchant(int type){
         Map<String,Object> params = new HashMap<>();
-        params.put("county",LocationInfo.getInstance().getChooseCity().getCountyCode());
-        params.put("city", LocationInfo.getInstance().getChooseCity().getCityID());
+        params.put("county",ToolUtil.changeInteger(LocationInfo.getInstance().getChooseCity().getCountyCode()) > 0 ? LocationInfo.getInstance().getChooseCity().getCountyCode() : null);
+        params.put("city", LocationInfo.getInstance().getChooseCity().getCityID() > 0 ? LocationInfo.getInstance().getChooseCity().getCityID() : null);
         params.put("latitude",LocationInfo.getInstance().getLocationInfo().getLatitude());
         params.put("longitude",LocationInfo.getInstance().getLocationInfo().getLongitude());
         params.put("pageNum", page);

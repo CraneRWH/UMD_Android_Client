@@ -26,8 +26,8 @@ public class OrderResultForm implements Serializable {
     private String himself;
     //订单类型  0美食 1非美食
     private String orderType;
-    //订单状态
-    private String  orderStatus;
+    //订单状态（0待支付， 1，已支付，2，已接单，3已拒单，4已确认订单（待评价），5取消订单，6失效订单，7已评价）
+    private int  orderStatus;
     //备注
     private String remarks;
     //订单总价
@@ -41,13 +41,26 @@ public class OrderResultForm implements Serializable {
     //实付金额
     private double payAmt;
 
+    //支付状态(0创建；1待支付；2支付成功；3支付失败；4退款申请；5退款处理中；6退款成功；7退款失败)
+    private int payStatus;
+
     //商品详情
     private List<YmdOrderGoods> ymdOrderGoodsList;
+
+
     private String createTime;
     //地址
     private String address;
     //电话
     private String tel;
+
+    public int getPayStatus() {
+        return payStatus;
+    }
+
+    public void setPayStatus(int payStatus) {
+        this.payStatus = payStatus;
+    }
 
     public String getCreateTime() {
         return createTime;
@@ -209,11 +222,11 @@ public class OrderResultForm implements Serializable {
         this.orderType = orderType;
     }
 
-    public String getOrderStatus() {
+    public int getOrderStatus() {
         return orderStatus;
     }
 
-    public void setOrderStatus(String orderStatus) {
+    public void setOrderStatus(int orderStatus) {
         this.orderStatus = orderStatus;
     }
 

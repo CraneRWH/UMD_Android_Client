@@ -261,7 +261,7 @@ public class MerchantDetailActivity extends TabBaseActivity {
     private void addCollection() {
         Map<String, Object> params = new HashMap<>();
         params.put("merchantId", merchantInfo.getId());
-        WebUtil.getInstance().requestPOST(this, URLConstant.MERCHANT_COLLECTION_ADD, params,
+        WebUtil.getInstance().requestPOST(this, URLConstant.MERCHANT_COLLECTION_ADD, params,true,
                 new WebUtil.WebCallBack() {
                     @Override
                     public void onWebSuccess(JSONObject result) {
@@ -281,7 +281,7 @@ public class MerchantDetailActivity extends TabBaseActivity {
     private void delCollection() {
         Map<String, Object> params = new HashMap<>();
         params.put("merchantId", merchantInfo.getId());
-        WebUtil.getInstance().requestPOST(this, URLConstant.MERCHANT_COLLECTION_DEL, params,
+        WebUtil.getInstance().requestPOST(this, URLConstant.MERCHANT_COLLECTION_DEL, params, true,
                 new WebUtil.WebCallBack() {
                     @Override
                     public void onWebSuccess(JSONObject result) {
@@ -497,7 +497,7 @@ public class MerchantDetailActivity extends TabBaseActivity {
             list.add(map);
         }
         params.put("goodslist", list);
-        WebUtil.getInstance().requestPOST(this, URLConstant.CREATE_ORDER, params,
+        WebUtil.getInstance().requestPOST(this, URLConstant.CREATE_ORDER, params, true,
                 new WebUtil.WebCallBack() {
                     @Override
                     public void onWebSuccess(JSONObject result) {

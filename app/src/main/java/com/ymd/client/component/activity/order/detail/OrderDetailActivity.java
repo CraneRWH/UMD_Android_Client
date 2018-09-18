@@ -185,7 +185,7 @@ public class OrderDetailActivity extends BaseActivity {
     private void requestOrderDetail() {
         Map<String, Object> params = new HashMap<>();
         params.put("orderId", orderId);
-        WebUtil.getInstance().requestPOST(this, URLConstant.ORDER_DETAIL, params,
+        WebUtil.getInstance().requestPOST(this, URLConstant.ORDER_DETAIL, params, true,
                 new WebUtil.WebCallBack() {
                     @Override
                     public void onWebSuccess(JSONObject result) {

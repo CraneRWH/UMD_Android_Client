@@ -36,7 +36,7 @@
                 android:paddingBottom="@dimen/mar_pad_len_10px"
                 android:orientation="horizontal">
                 <TextView
-                    android:id="@+id/name_tv"
+                    android:id="@+id/merchant_name_tv"
                     style="@style/font_size_32px_black"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -51,18 +51,12 @@
             </LinearLayout>
 
             <TextView
+                android:id="@+id/order_date_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/text_size_28px"
                 android:text="2017-02-30" />
         </LinearLayout>
-
-        <TextView
-            android:id="@+id/product_num_tv"
-            style="@style/font_size_28px_gray_"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/mar_pad_len_20px" />
 
         <View
             android:layout_width="0dp"
@@ -104,100 +98,101 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/mar_pad_len_20px"
-            android:orientation="vertical">
+            android:orientation="horizontal">
 
             <LinearLayout
-                android:layout_width="match_parent"
+                android:id="@+id/goods_lt"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:paddingBottom="@dimen/mar_pad_len_20px"
                 android:orientation="horizontal">
 
-                <TextView
-                    style="@style/font_size_24px_gray_"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textColor="@color/text_gray_dark"
-                    android:textSize="@dimen/text_size_32px"
-                    android:text="咖哩巴沙鱼套餐 x1" />
-
-                <TextView
-                    style="@style/font_size_30px_green"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/text_gray_dark"
-                    android:textSize="@dimen/text_size_28px"
-                    android:text="交易金额：" />
-
-                <TextView
-                    style="@style/font_size_24px_gray_"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="@dimen/text_size_32px"
-                    android:text="￥54.9" />
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingBottom="@dimen/mar_pad_len_20px"
-                android:orientation="horizontal">
+                android:orientation="vertical"
+                android:gravity="right"
+                >
 
-                <TextView
-                    style="@style/font_size_24px_gray_"
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textColor="@color/text_gray_dark"
-                    android:textSize="@dimen/text_size_32px"
-                    android:text="新疆大盘鸡 x1" />
+                    android:orientation="horizontal"
+                    >
+                    <TextView
+                        style="@style/font_size_30px_green"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/text_gray_dark"
+                        android:textSize="@dimen/text_size_28px"
+                        android:text="交易金额：" />
 
-                <TextView
-                    style="@style/font_size_30px_green"
+                    <TextView
+                        android:id="@+id/order_price_tv"
+                        style="@style/font_size_24px_gray_"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/text_size_32px"
+                        android:text="￥54.9" />
+                </LinearLayout>
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/text_gray_dark"
-                    android:textSize="@dimen/text_size_28px"
-                    android:text="使用U币：" />
+                    android:orientation="horizontal"
+                    android:layout_marginTop="@dimen/mar_pad_len_20px"
+                    >
+                    <TextView
+                        style="@style/font_size_30px_green"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/text_gray_dark"
+                        android:textSize="@dimen/text_size_28px"
+                        android:text="使用U币：" />
 
-                <TextView
-                    style="@style/font_size_24px_gray_"
-                    android:layout_width="wrap_content"
+                    <TextView
+                        android:id="@+id/use_u_tv"
+                        style="@style/font_size_24px_gray_"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/text_size_32px"
+                        android:textColor="@color/red"
+                        android:text="-15U" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="@dimen/text_size_32px"
-                    android:textColor="@color/red"
-                    android:text="-15U" />
-            </LinearLayout>
+                    android:layout_marginTop="@dimen/mar_pad_len_20px"
+                    android:orientation="horizontal">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                    <TextView
+                        style="@style/font_size_24px_gray_"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textColor="@color/text_gray_dark"
+                        android:textSize="@dimen/text_size_32px" />
 
-                <TextView
-                    style="@style/font_size_24px_gray_"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textColor="@color/text_gray_dark"
-                    android:textSize="@dimen/text_size_32px" />
+                    <TextView
+                        android:id="@+id/u_tv"
+                        style="@style/font_size_30px_green"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/text_gray_dark"
+                        android:textSize="@dimen/text_size_32px"
+                        android:textStyle="bold"
+                        android:text="U币余额：" />
 
-                <TextView
-                    style="@style/font_size_30px_green"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/text_gray_dark"
-                    android:textSize="@dimen/text_size_32px"
-                    android:textStyle="bold"
-                    android:text="U币余额：" />
-
-                <TextView
-                    style="@style/font_size_24px_gray_"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="@dimen/text_size_32px"
-                    android:textStyle="bold"
-                    android:text="105U" />
+                    <TextView
+                        style="@style/font_size_24px_gray_"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/text_size_32px"
+                        android:textStyle="bold"
+                        android:text="105U" />
+                </LinearLayout>
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>

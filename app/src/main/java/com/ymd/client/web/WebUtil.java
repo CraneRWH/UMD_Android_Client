@@ -41,9 +41,9 @@ import okhttp3.Response;
 
 public class WebUtil {
     //测试，王斌的接口
-//    public static String webUrl = "http://192.168.1.38:8080/ymd-rest-api/app/";
+    public static String webUrl = "http://192.168.1.41:8080/ymd-rest-api/app/";
 
-    public static String webUrl = "http://39.104.181.72:8095/ymd-rest-api/app/";
+//    public static String webUrl = "http://39.104.181.72:8095/ymd-rest-api/app/";
 
 
     private static volatile WebUtil mInstance;//单利引用

@@ -56,7 +56,7 @@ public class OrderPageAdapter extends RecyclerView.Adapter<OrderPageAdapter.View
     public void onBindViewHolder(ViewHolder holder, int position) {
 
         OrderResultForm data = datas.get(position);
-        if (ToolUtil.changeInteger(data.getOrderStatus()) >2) {
+        if (ToolUtil.changeInteger(data.getOrderStatus()) > 2) {
             holder.statusNameTv.setTextColor(R.color.text_gray_dark);
             holder.btn1.setVisibility(View.VISIBLE);
         } else {
@@ -79,10 +79,49 @@ public class OrderPageAdapter extends RecyclerView.Adapter<OrderPageAdapter.View
             @Override
             public void onClick(View view) {
                 if (listener != null) {
-                    listener.onClick(data,holder.rootView, position);
+                    listener.onClick(data, holder.rootView, position);
                 }
             }
         });
+
+        holder.btn2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (btnClickListener != null) {
+                    btnClickListener.onClick(data, position, holder.btn2.getId());
+                }
+            }
+        });
+
+        switch (data.getOrderStatus()) {
+            case 0:
+                holder.btn3.setVisibility(View.VISIBLE);
+                holder.btn3.setText("立即支付");
+                break;
+            case 1:
+            case 2:
+                holder.btn3.setVisibility(View.GONE);
+                break;
+            case 3:
+                holder.btn3.setVisibility(View.VISIBLE);
+                if (data.getPayStatus() == 5) {
+                    holder.btn3.setText("退款中");
+                } else if (data.getPayStatus() == 6) {
+                    holder.btn3.setText("退款成功");
+                } else if (data.getPayStatus() == 7) {
+                    holder.btn3.setText("退款失败");
+                }
+                break;
+            case 4:
+                holder.btn3.setVisibility(View.VISIBLE);
+                holder.btn3.setText("评价");
+                break;
+            case 5:
+            case 6:
+            case 7:
+                holder.btn3.setVisibility(View.GONE);
+
+        }
         holder.btn3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

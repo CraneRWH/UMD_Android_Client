@@ -14,6 +14,7 @@ import com.ymd.client.component.activity.mine.info.PersonInfoActivity;
 import com.ymd.client.component.activity.mine.setting.SettingActivity;
 import com.ymd.client.component.activity.mine.ub.MyUbActivity;
 import com.ymd.client.component.widget.CircleImageView;
+import com.ymd.client.utils.ToastUtil;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -108,7 +109,8 @@ public class MainMineFragment extends Fragment {
                 //我的评价
                 break;
             case R.id.fragment_mine_my_cards:
-                startActivity(new Intent(getContext(), MyCardsActivity.class));
+            //    startActivity(new Intent(getContext(), MyCardsActivity.class));
+                ToastUtil.ToastMessage(getActivity(), "功能开发中，敬请期待");
                 //我的券包
                 break;
             case R.id.fragment_mine_links:
@@ -116,15 +118,21 @@ public class MainMineFragment extends Fragment {
                 //联系客服
                 break;
             case R.id.fragment_mine_banks:
-                startActivity(new Intent(getContext(), MyBanksActivity.class));
+            //    startActivity(new Intent(getContext(), MyBanksActivity.class));
+
+                ToastUtil.ToastMessage(getActivity(), "功能开发中，敬请期待");
                 //我的银行卡
                 break;
             case R.id.fragment_mine_introduce:
-                startActivity(new Intent(getContext(), IntroduceActivity.class));
+             //   startActivity(new Intent(getContext(), IntroduceActivity.class));
+
+                ToastUtil.ToastMessage(getActivity(), "功能开发中，敬请期待");
                 //推荐有礼
                 break;
             case R.id.fragment_mine_cooperation:
-                startActivity(new Intent(getContext(), CooperationActivity.class));
+            //    startActivity(new Intent(getContext(), CooperationActivity.class));
+
+                ToastUtil.ToastMessage(getActivity(), "功能开发中，敬请期待");
                 //我要合作
                 break;
 

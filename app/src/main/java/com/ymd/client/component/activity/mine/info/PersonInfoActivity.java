@@ -297,7 +297,7 @@ public class PersonInfoActivity extends BaseActivity {
     private void updateInfo(String key, String value) {
         Map<String,Object> params = new HashMap<>();
         params.put(key, value);
-        WebUtil.getInstance().requestPOST(this, URLConstant.UPDATE_USER_INFO, params,
+        WebUtil.getInstance().requestPOST(this, URLConstant.UPDATE_USER_INFO, params,true,
                 new WebUtil.WebCallBack() {
                     @Override
                     public void onWebSuccess(JSONObject resultJson) {

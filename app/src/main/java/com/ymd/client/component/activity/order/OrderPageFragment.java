@@ -17,13 +17,21 @@ import com.ymd.client.component.activity.homePage.food.seller.CommentSellerActiv
 import com.ymd.client.component.activity.order.detail.OrderDetailActivity;
 import com.ymd.client.component.activity.order.pay.OrderPayActivity;
 import com.ymd.client.component.adapter.order.OrderPageAdapter;
+import com.ymd.client.component.event.LoginEvent;
+import com.ymd.client.component.event.OrderEvent;
 import com.ymd.client.component.widget.zrecyclerview.ProgressStyle;
 import com.ymd.client.component.widget.zrecyclerview.ZRecyclerView;
+import com.ymd.client.model.bean.homePage.YmdGoodsEntity;
 import com.ymd.client.model.bean.order.OrderResultForm;
+import com.ymd.client.model.bean.order.YmdOrderGoods;
 import com.ymd.client.model.constant.URLConstant;
 import com.ymd.client.model.info.LoginInfo;
+import com.ymd.client.utils.ToolUtil;
 import com.ymd.client.web.WebUtil;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -109,7 +117,7 @@ public class OrderPageFragment extends Fragment {
         params.put("customerId", LoginInfo.getInstance().getLoginInfo().getId());
         params.put("type", type);
         params.put("pageNum", page);
-        WebUtil.getInstance().requestPOST(getActivity(), URLConstant.ORDER_LIST, params,
+        WebUtil.getInstance().requestPOST(getActivity(), URLConstant.ORDER_LIST, params, true,
                 new WebUtil.WebCallBack() {
                     @Override
                     public void onWebSuccess(JSONObject result) {
@@ -149,10 +157,18 @@ public class OrderPageFragment extends Fragment {
         adapter.setBtnClickListener(new OrderPageAdapter.OnBtnClickListener() {
             @Override
             public void onClick(Object data, int position, int id) {
+                OrderResultForm item = (OrderResultForm) data;
                 if (id == R.id.btn3) {
-                    CommentSellerActivity.startAction(getActivity());
+                    switch (item.getOrderStatus()) {
+                        case 0:
+                            OrderPayActivity.startAction(getActivity(), item.getId());
+                            break;
+                        case 4:
+                            CommentSellerActivity.startAction(getActivity());
+                            break;
+                    }
                 } else if (id == R.id.btn2) {
-                    OrderPayActivity.startAction(getActivity(), ((OrderResultForm) data).getId());
+                    submitOrder(item);
                 }
             }
         });
@@ -201,5 +217,59 @@ public class OrderPageFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+    }
+
+    private void submitOrder(OrderResultForm data) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("merchantId", data.getmId());
+        params.put("payAmt", ToolUtil.changeString(data.getPayAmt()));
+        params.put("totalAmt", ToolUtil.changeString(data.getTotalAmt()));
+        params.put("uCurrency", "0");
+        List<Map<String,Object>> list = new ArrayList<>();
+        for (YmdOrderGoods item : data.getYmdOrderGoodsList()) {
+            Map<String,Object> map = new HashMap<>();
+            map.put("goodsId", item.getId());
+            map.put("goodsNum", item.getGoodsNum());
+            map.put("goodsType","0");
+            list.add(map);
+        }
+        params.put("goodslist", list);
+        WebUtil.getInstance().requestPOST(getActivity(), URLConstant.CREATE_ORDER, params, true,
+                new WebUtil.WebCallBack() {
+                    @Override
+                    public void onWebSuccess(JSONObject result) {
+                        toOrderDetail(result.optString("id"));
+                    }
+
+                    @Override
+                    public void onWebFailed(String errorMsg) {
+
+                    }
+                });
+    }
+
+    private void toOrderDetail(String orderCode) {
+        OrderDetailActivity.startAction(getActivity(), ToolUtil.changeLong(orderCode));
+    }
+
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(LoginEvent event) {
+        if (event.isSuccess()) {
+            page = 1;
+            requestOrderInfo();
+        }
     }
 }

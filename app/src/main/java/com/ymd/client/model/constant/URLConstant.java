@@ -194,4 +194,9 @@ public class URLConstant {
      */
     public static final String ORDER_APPOINTMENT = "ymdOrder/orderAppointment";
 
+
+    /**
+     * 获取我的U币
+     */
+    public static final String QUEYR_U_LIST = "ymdUCurrency/uBInfo";
 }

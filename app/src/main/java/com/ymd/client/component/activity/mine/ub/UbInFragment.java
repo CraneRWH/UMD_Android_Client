@@ -11,12 +11,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.ymd.client.R;
 import com.ymd.client.component.adapter.CommonRecyclerAdapter;
 import com.ymd.client.component.adapter.UbFragmentAdapter;
 import com.ymd.client.component.widget.zrecyclerview.ProgressStyle;
 import com.ymd.client.component.widget.zrecyclerview.ZRecyclerView;
+import com.ymd.client.model.bean.user.UForm;
+import com.ymd.client.model.constant.URLConstant;
+import com.ymd.client.model.info.LoginInfo;
 import com.ymd.client.utils.ToastUtil;
+import com.ymd.client.web.WebUtil;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -72,14 +80,6 @@ public class UbInFragment extends Fragment {
         DividerItemDecoration divider = new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL);
         divider.setDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.default_recyclerview_divider));
         recyclerView.addItemDecoration(divider);
-
-        mAdapter = new UbFragmentAdapter(getContext());
-        mAdapter.setOnItemClickListener(new CommonRecyclerAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(View view, int position) {
-            }
-        });
-        recyclerView.setAdapter(mAdapter);
         recyclerView.setRefreshProgressStyle(ProgressStyle.BallPulse);
         recyclerView.setLoadingMoreProgressStyle(ProgressStyle.BallRotate);
 
@@ -87,34 +87,52 @@ public class UbInFragment extends Fragment {
             @Override
             public void onRefresh() {
                 page = 1;
-                refreshList(getDataList());
+            //    refreshList(getDataList());
+                requestUlist();
             }
 
             @Override
             public void onLoadMore() {
                 page++;
-                refreshList(getDataList());
+                requestUlist();
             }
         });
 
-        refreshList(getDataList());
+    //    refreshList(getDataList());
+        requestUlist();
     }
 
-    protected List<String> getDataList() {
-        List<String> list = new ArrayList<>();
-        list.add(String.valueOf(page));
-        list.add(String.valueOf(page));
-        list.add(String.valueOf(page));
-        list.add(String.valueOf(page));
-        list.add(String.valueOf(page));
-        list.add(String.valueOf(page));
-        list.add(String.valueOf(page));
-        return list;
+    private void requestUlist() {
+        Map<String, Object> params = new HashMap<>();
+        params.put("type", 1);
+        params.put("pageNum", page);
+        WebUtil.getInstance().requestPOST(getActivity(), URLConstant.QUEYR_U_LIST, params, true,
+                new WebUtil.WebCallBack() {
+                    @Override
+                    public void onWebSuccess(JSONObject result) {
+                        refreshList(result.optString("list"));
+
+                        recyclerView.refreshComplete();
+                    }
+
+                    @Override
+                    public void onWebFailed(String errorMsg) {
+                        recyclerView.refreshComplete();
+                    }
+                });
     }
 
-    public void refreshList(List<String> beans) {
+    List<UForm> datas = new ArrayList<>();
+    public void refreshList(String resultJson) {
         Log.e("UbInFragment",String.valueOf(page));
-        if (beans == null || beans.size() == 0) {
+        List<UForm> beans = new Gson().fromJson(resultJson, new TypeToken<List<UForm>>(){}.getType());
+        if (page == 1) {
+            datas.clear();
+        }
+        datas.addAll(beans);
+        UbFragmentAdapter adapter = new UbFragmentAdapter(beans);
+        recyclerView.setAdapter(adapter);
+        /*if (beans == null || beans.size() == 0) {
             recyclerView.loadMoreComplete();
             recyclerView.refreshComplete();
             if (page == 1) {
@@ -125,15 +143,13 @@ public class UbInFragment extends Fragment {
             }
         } else {
             if (page == 1) {
-                mAdapter.addItems(beans);
                 recyclerView.refreshComplete();
             } else {
                 recyclerView.loadMoreComplete();
-                mAdapter.appendItems(beans);
             }
             mEmptyView.setVisibility(View.GONE);
             recyclerView.setVisibility(View.VISIBLE);
-        }
+        }*/
     }
 
     public void showError(String msg) {

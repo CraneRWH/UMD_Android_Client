@@ -2,39 +2,29 @@ package com.ymd.client.component.activity.order.detail;
 
 
 import android.annotation.SuppressLint;
-import android.app.Dialog;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.widget.FrameLayout;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.bigkoo.pickerview.builder.TimePickerBuilder;
-import com.bigkoo.pickerview.listener.OnTimeSelectListener;
-import com.bigkoo.pickerview.view.TimePickerView;
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.ymd.client.R;
 import com.ymd.client.common.base.OnUMDItemClickListener;
-import com.ymd.client.component.activity.homePage.food.seller.fragment.ChooseDishesFragment;
 import com.ymd.client.component.activity.order.pay.OrderPayActivity;
 import com.ymd.client.component.adapter.order.OrderDetailBaofangAdapter;
-import com.ymd.client.component.event.GoodsEvent;
 import com.ymd.client.component.event.OrderEvent;
 import com.ymd.client.component.widget.datepicker.CustomDatePicker;
-import com.ymd.client.model.bean.homePage.MerchantInfoEntity;
-import com.ymd.client.model.bean.homePage.YmdGoodsEntity;
 import com.ymd.client.model.bean.order.OrderResultForm;
 import com.ymd.client.model.bean.order.YmdMerchantRooms;
 import com.ymd.client.model.bean.order.YmdOrderGoods;
@@ -48,7 +38,6 @@ import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -59,8 +48,6 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
-
-import static com.raizlabs.android.dbflow.config.FlowManager.getContext;
 
 /**
  * 作者:rongweihe
@@ -111,15 +98,18 @@ public class OrderDetailFragment extends Fragment {
 
     OrderResultForm orderDetail;
     int fragmentType;
+    @BindView(R.id.remark_et)
+    EditText remarkEt;
+
     public OrderDetailFragment() {
         // Required empty public constructor
     }
 
-    public static OrderDetailFragment newInstance(int type,OrderResultForm orderGoods) {
+    public static OrderDetailFragment newInstance(int type, OrderResultForm orderGoods) {
         OrderDetailFragment fragment = new OrderDetailFragment();
         Bundle args = new Bundle();
         args.putSerializable("order", orderGoods);
-        args.putInt("type",type);
+        args.putInt("type", type);
         fragment.setArguments(args);
         return fragment;
     }
@@ -130,7 +120,7 @@ public class OrderDetailFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_order_detail, container, false);
         unbinder = ButterKnife.bind(this, view);
-        if (getArguments()!=null) {
+        if (getArguments() != null) {
             orderDetail = (OrderResultForm) getArguments().getSerializable("order");
             fragmentType = getArguments().getInt("type");
             if (fragmentType == 0) {
@@ -151,6 +141,7 @@ public class OrderDetailFragment extends Fragment {
     int eatNum = 1;
     String dateStr = "";
     String timeStr = "";
+
     private void initView(View view) {
         GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), 3);
         baofangRv.setLayoutManager(layoutManager);
@@ -173,7 +164,7 @@ public class OrderDetailFragment extends Fragment {
         addIv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                eatNum ++;
+                eatNum++;
                 eatNumRefresh();
             }
         });
@@ -181,7 +172,7 @@ public class OrderDetailFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 if (eatNum > 1) {
-                    eatNum --;
+                    eatNum--;
                 }
                 eatNumRefresh();
             }
@@ -218,7 +209,7 @@ public class OrderDetailFragment extends Fragment {
     private void resetOrderView() {
         orderPriceTv.setText(ToolUtil.changeString(orderDetail.getTotalAmt()) + "元");
         disPriceTv.setText("-" + ToolUtil.changeString(orderDetail.getDiscountAmt()) + "元");
-        uGetTv.setText( ToolUtil.changeString(orderDetail.getuObtain()));
+        uGetTv.setText(ToolUtil.changeString(orderDetail.getuObtain()));
         uDisPriceTv.setText("-" + ToolUtil.changeString(orderDetail.getuCurrency()));
     }
 
@@ -242,9 +233,12 @@ public class OrderDetailFragment extends Fragment {
                     }
                 });
     }
+
     List<YmdMerchantRooms> roomsList;
+
     private void resetRoomListData(String resultJson) {
-        roomsList = new Gson().fromJson(resultJson, new TypeToken<List<YmdMerchantRooms>>(){}.getType());
+        roomsList = new Gson().fromJson(resultJson, new TypeToken<List<YmdMerchantRooms>>() {
+        }.getType());
         OrderDetailBaofangAdapter adapter = new OrderDetailBaofangAdapter(roomsList, getContext());
         adapter.setListener(new OnUMDItemClickListener() {
             @Override
@@ -276,19 +270,21 @@ public class OrderDetailFragment extends Fragment {
 
 
     private CustomDatePicker customDatePicker;
+
     private void initDatePicker() {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.CHINA);
         String now = sdf.format(new Date());
-        dateStr = now;
+        dateStr = now.split(" ")[0];
         dateTv.setText(now.split(" ")[0]);
         timeTv.setText(now.split(" ")[1]);
+        timeStr = now.split(" ")[1];
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.DATE, 90);
         Date endDate = cal.getTime();
         customDatePicker = new CustomDatePicker(getActivity(), new CustomDatePicker.ResultHandler() {
             @Override
             public void handle(String time) { // 回调接口，获得选中的时间
-                dateStr =time.split(" ")[0];
+                dateStr = time.split(" ")[0];
                 dateTv.setText(dateStr);
                 timeStr = time.split(" ")[1];
                 timeTv.setText(timeStr);
@@ -308,20 +304,23 @@ public class OrderDetailFragment extends Fragment {
         Map<String, Object> params = new HashMap<>();
         params.put("id", orderDetail.getId());
         params.put("eatNumber", ToolUtil.changeString(eatNum));
-        params.put("eatTime", dateStr.replace(".","-") + " " + timeStr + ":00");
+        params.put("eatTime", dateStr + " " + timeStr + ":00");
         params.put("room", roomType);
-        if (roomType ==0 ) {
+        if (roomType == 0) {
             params.put("roomId", chooseRoom.getRoomId());
         } else {
             params.put("roomId", -1);
         }
         switch (fragmentType) {
-            case 0: params.put("himself", 1);
-            break;
-            case 1: params.put("himself", 0);
+            case 0:
+                params.put("himself", 1);
+                break;
+            case 1:
+                params.put("himself", 0);
                 break;
         }
-        WebUtil.getInstance().requestPOST(getActivity(), URLConstant.ORDER_APPOINTMENT, params,
+        params.put("remark", ToolUtil.changeString(remarkEt.getText()));
+        WebUtil.getInstance().requestPOST(getActivity(), URLConstant.ORDER_APPOINTMENT, params, true,
                 new WebUtil.WebCallBack() {
                     @Override
                     public void onWebSuccess(JSONObject result) {
@@ -356,6 +355,5 @@ public class OrderDetailFragment extends Fragment {
             submitOrder();
         }
     }
-
 
 }

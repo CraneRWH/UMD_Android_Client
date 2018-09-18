@@ -12,12 +12,14 @@ import android.widget.TextView;
 import com.ymd.client.R;
 import com.ymd.client.common.base.BaseActivity;
 import com.ymd.client.component.activity.main.MainActivity;
+import com.ymd.client.component.event.LoginEvent;
 import com.ymd.client.model.constant.URLConstant;
 import com.ymd.client.model.info.LoginInfo;
 import com.ymd.client.utils.CommonShared;
 import com.ymd.client.utils.ToastUtil;
 import com.ymd.client.web.WebUtil;
 
+import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -141,7 +143,9 @@ public class LoginByPWActivity extends BaseActivity {
         JSONObject userStr = jsonObject.optJSONObject("user");
         LoginInfo.setLoginInfo(userStr.toString());
         CommonShared.setString(CommonShared.LOGIN_TOKEN, jsonObject.optString("token"));
-        MainActivity.startAction(this);
+    //    MainActivity.startAction(this);
+
+        EventBus.getDefault().post(new LoginEvent(true));
         finish();
     }
 }

@@ -10,6 +10,7 @@ import com.raizlabs.android.dbflow.sql.language.SQLite;
 import com.ymd.client.model.bean.User;
 import com.ymd.client.model.info.LocationInfo;
 import com.ymd.client.model.info.LoginInfo;
+import com.ymd.client.utils.ToolUtil;
 import com.ymd.client.web.WebUtil;
 
 import java.util.List;
@@ -84,7 +85,7 @@ public class UApplication extends MultiDexApplication {
         LocationInfo.initInstance(getApplicationContext());
         initUser();
 
-
+        ToolUtil.setContext(getApplicationContext());
     }
 
     private void initUser() {

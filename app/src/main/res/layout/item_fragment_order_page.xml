@@ -132,6 +132,7 @@
             android:textSize="@dimen/text_size_26px"
             android:layout_marginRight="@dimen/mar_pad_len_30px"
             android:text="相似商家"
+            android:visibility="gone"
             />
         <Button
             android:id="@+id/btn2"
@@ -142,7 +143,6 @@
             android:textSize="@dimen/text_size_26px"
             android:layout_marginRight="@dimen/mar_pad_len_30px"
             android:text="再来一单"
-            android:visibility="gone"
             />
         <Button
             android:id="@+id/btn3"
