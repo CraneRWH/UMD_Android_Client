@@ -2,6 +2,9 @@ package com.ymd.client.utils;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 
 import com.ymd.client.model.info.LocationInfo;
@@ -163,7 +166,7 @@ public class ToolUtil {
 		String temp = UUID.randomUUID().toString();
 		return temp.replaceAll("-", "");
 	}
-/*
+
 	public static Handler toLoginHandler = new Handler() {
 		@Override
 		public void handleMessage(Message msg) {
@@ -172,7 +175,7 @@ public class ToolUtil {
 			intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 			context.startActivity(intent);
 		}
-	};*/
+	};
 
 	/**
 	 * 将生日转换为年龄

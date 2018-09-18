@@ -56,6 +56,14 @@ public class UApplication extends MultiDexApplication {
     }
 
     @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+
+        // Application 初始化
+        com.shell.SdkManager.initSdkManager(this);
+    }
+
+    @Override
     public void onCreate() {
         super.onCreate();
         initGlide(this);

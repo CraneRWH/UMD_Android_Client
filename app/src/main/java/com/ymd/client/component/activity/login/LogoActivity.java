@@ -75,8 +75,8 @@ public class LogoActivity extends AppCompatActivity {
                 });*/
     }
     private void toMainActivity() {
-        LoginActivity.startAction(this);
-    //    MainActivity.startAction(this);
+    //    LoginActivity.startAction(this);
+        MainActivity.startAction(this);
         finish();
     }
 

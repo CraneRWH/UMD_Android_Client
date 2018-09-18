@@ -1,4 +1,4 @@
-package com.ymd.client.component.activity.mine;
+package com.ymd.client.component.activity.mine.ub;
 
 import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.view.Gravity;
 import android.view.View;
 import android.view.animation.OvershootInterpolator;
 import android.widget.LinearLayout;
@@ -14,8 +13,6 @@ import android.widget.TextView;
 
 import com.ymd.client.R;
 import com.ymd.client.common.base.BaseActivity;
-import com.ymd.client.component.activity.mine.ub.UbInFragment;
-import com.ymd.client.component.activity.mine.ub.UbOutFragment;
 import com.ymd.client.component.widget.icindicator.FragmentContainerHelper;
 import com.ymd.client.component.widget.icindicator.MagicIndicator;
 import com.ymd.client.component.widget.icindicator.buildins.UIUtil;

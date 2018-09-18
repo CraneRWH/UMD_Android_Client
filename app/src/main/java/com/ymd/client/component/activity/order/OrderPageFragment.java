@@ -152,7 +152,7 @@ public class OrderPageFragment extends Fragment {
                 if (id == R.id.btn3) {
                     CommentSellerActivity.startAction(getActivity());
                 } else if (id == R.id.btn2) {
-                    OrderPayActivity.startAction(getActivity());
+                    OrderPayActivity.startAction(getActivity(), ((OrderResultForm) data).getId());
                 }
             }
         });

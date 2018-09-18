@@ -65,10 +65,17 @@
             android:launchMode="singleTop" />
 
         <!-- 验证码登录 -->
-        <activity android:name=".component.activity.login.LoginActivity" />
+        <activity android:name=".component.activity.login.LoginActivity" >
+
+            <intent-filter >
+                <action android:name="com.mnet.TO_LOGIN"/>
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
 
         <!-- 密码登录 -->
-        <activity android:name=".component.activity.login.LoginByPWActivity" />
+        <activity android:name=".component.activity.login.LoginByPWActivity" >
+        </activity>
 
         <!-- 启动页面 -->
         <activity android:name=".component.activity.login.LogoActivity">
@@ -86,7 +93,7 @@
         <!-- 我的-个人信息 -->
         <activity android:name=".component.activity.mine.info.PersonInfoActivity" />
         <!-- 我的-我的U币 -->
-        <activity android:name=".component.activity.mine.MyUbActivity" />
+        <activity android:name=".component.activity.mine.ub.MyUbActivity" />
         <!-- 我的-我的收藏 -->
         <activity android:name=".component.activity.mine.collection.MyCollectionActivity" />
         <!-- 我的-我的评价 -->

@@ -121,6 +121,7 @@
         android:gravity="right|bottom"
         android:layout_marginTop="@dimen/mar_pad_len_30px"
         android:layout_marginRight="@dimen/mar_pad_len_20px"
+        android:layout_marginBottom="@dimen/mar_pad_len_20px"
         >
         <Button
             android:id="@+id/btn1"

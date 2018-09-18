@@ -37,6 +37,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center_horizontal"
                     android:orientation="horizontal"
+                    android:visibility="gone"
                     >
                     <TextView
                         android:layout_width="wrap_content"
@@ -111,11 +112,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/mar_pad_len_20px"
                 android:background="@color/text_gray"
+                android:visibility="gone"
                 />
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
+                android:visibility="gone"
                 >
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -241,7 +244,6 @@
             android:layout_height="wrap_content"
             android:textSize="@dimen/text_size_60px"
             android:textColor="@color/white"
-            android:text="28.9"
             />
     </LinearLayout>
 </LinearLayout>

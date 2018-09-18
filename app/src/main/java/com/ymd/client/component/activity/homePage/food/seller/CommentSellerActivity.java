@@ -89,6 +89,7 @@ public class CommentSellerActivity extends BaseActivity {
 
     private void initView() {
         setTitle("评价");
+        ciutil = new ChoiceImageUtil(this);
         for (int i = 0; i < 5; i ++) {
             final int position = i;
             CheckBox view = new CheckBox(this);

@@ -118,7 +118,7 @@ public class OrderDetailActivity extends BaseActivity {
     private void resetOrderView() {
         orderMoneyTv.setText(ToolUtil.changeString(orderDetail.getTotalAmt()) + "元");
         productMoneyTv.setText(ToolUtil.changeString(orderDetail.getPayAmt()) + "元");
-        disTv.setText( ToolUtil.changeString(orderDetail.getDiscountAmt()));
+        disTv.setText("优惠金额"+ToolUtil.changeString(orderDetail.getDiscountAmt())+ "元");
         int count = 0;
         for (YmdOrderGoods item : orderDetail.getYmdOrderGoodsList()) {
             count = count + item.getGoodsNum();

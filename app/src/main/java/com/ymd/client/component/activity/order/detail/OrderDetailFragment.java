@@ -22,6 +22,7 @@ import android.widget.TextView;
 import com.bigkoo.pickerview.builder.TimePickerBuilder;
 import com.bigkoo.pickerview.listener.OnTimeSelectListener;
 import com.bigkoo.pickerview.view.TimePickerView;
+import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.ymd.client.R;
@@ -31,6 +32,7 @@ import com.ymd.client.component.activity.order.pay.OrderPayActivity;
 import com.ymd.client.component.adapter.order.OrderDetailBaofangAdapter;
 import com.ymd.client.component.event.GoodsEvent;
 import com.ymd.client.component.event.OrderEvent;
+import com.ymd.client.component.widget.datepicker.CustomDatePicker;
 import com.ymd.client.model.bean.homePage.MerchantInfoEntity;
 import com.ymd.client.model.bean.homePage.YmdGoodsEntity;
 import com.ymd.client.model.bean.order.OrderResultForm;
@@ -51,6 +53,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import butterknife.BindView;
@@ -147,6 +150,7 @@ public class OrderDetailFragment extends Fragment {
     YmdMerchantRooms chooseRoom = null;
     int eatNum = 1;
     String dateStr = "";
+    String timeStr = "";
     private void initView(View view) {
         GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), 3);
         baofangRv.setLayoutManager(layoutManager);
@@ -185,11 +189,12 @@ public class OrderDetailFragment extends Fragment {
         dateTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                pickerView.show();
+                // 日期格式为yyyy-MM-dd HH:mm
+                customDatePicker.show(dateStr + " " + timeTv.getText().toString());
             }
         });
 
-        initTimePicker();
+        initDatePicker();
         chooseRoomType();
     }
 
@@ -254,65 +259,43 @@ public class OrderDetailFragment extends Fragment {
         shopNameTv.setText(orderDetail.getmName());
         foodListLt.removeAllViews();
         for (YmdOrderGoods item : orderDetail.getYmdOrderGoodsList()) {
-            View v = LayoutInflater.from(getContext()).inflate(R.layout.item_fragment_order_page_product, null);
-            TextView nameView = v.findViewById(R.id.product_name_tv);
-            TextView numView = v.findViewById(R.id.product_num_tv);
+            View v = LayoutInflater.from(getContext()).inflate(R.layout.item_fragment_order_food, null);
+            ImageView iconView = v.findViewById(R.id.food_icon_iv);
+            TextView nameView = v.findViewById(R.id.food_name_tv);
+            TextView numView = v.findViewById(R.id.food_num_tv);
+            TextView priceView = v.findViewById(R.id.food_price_tv);
+            priceView.setText("¥" + item.getGoodsAmt());
             nameView.setText(ToolUtil.changeString(item.getGoodsName()));
             numView.setText("x" + item.getGoodsNum());
+            if (item.getGoodsIcon() != null) {
+                Glide.with(getActivity()).load(item.getGoodsIcon()).into(iconView);
+            }
             foodListLt.addView(v);
         }
     }
 
-    private TimePickerView pickerView;//时间选择器
-    /**
-     * 获取时间
-     * @param date 选择的时间
-     * @return 截取的年月日
-     */
-    private String getTime(Date date) {
-        SimpleDateFormat format = new SimpleDateFormat("yyyy.MM.dd");
-        return format.format(date);
-    }
 
-    /**
-     * 初始化时间选择器
-     */
-    private void initTimePicker() {
-        Calendar endDate = Calendar.getInstance();//结束时间
-        Calendar startDate = Calendar.getInstance();//开始时间
-        startDate.set(1900, 1, 1);
-
-        Calendar selectedDate = Calendar.getInstance();
-        selectedDate.set(1990, 0, 1);//选中的时间
-        pickerView = new TimePickerBuilder(getActivity(), new OnTimeSelectListener() {
+    private CustomDatePicker customDatePicker;
+    private void initDatePicker() {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.CHINA);
+        String now = sdf.format(new Date());
+        dateStr = now;
+        dateTv.setText(now.split(" ")[0]);
+        timeTv.setText(now.split(" ")[1]);
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.DATE, 90);
+        Date endDate = cal.getTime();
+        customDatePicker = new CustomDatePicker(getActivity(), new CustomDatePicker.ResultHandler() {
             @Override
-            public void onTimeSelect(Date date, View v) {
-                dateStr = getTime(date);
+            public void handle(String time) { // 回调接口，获得选中的时间
+                dateStr =time.split(" ")[0];
                 dateTv.setText(dateStr);
+                timeStr = time.split(" ")[1];
+                timeTv.setText(timeStr);
             }
-        })
-                .setType(new boolean[]{true, true, true, false, false, false})
-                .setDate(selectedDate)
-                .setRangDate(startDate, endDate)
-                .build();
-
-        Dialog mDialog = pickerView.getDialog();
-        if (mDialog != null) {
-            FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
-                    ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.WRAP_CONTENT,
-                    Gravity.BOTTOM);
-
-            params.leftMargin = 0;
-            params.rightMargin = 0;
-            pickerView.getDialogContainerLayout().setLayoutParams(params);
-
-            Window dialogWindow = mDialog.getWindow();
-            if (dialogWindow != null) {
-                dialogWindow.setWindowAnimations(com.bigkoo.pickerview.R.style.picker_view_slide_anim);//修改动画样式
-                dialogWindow.setGravity(Gravity.BOTTOM);//改成Bottom,底部显示
-            }
-        }
+        }, now, sdf.format(endDate)); // 初始化日期格式请用：yyyy-MM-dd HH:mm，否则不能正常运行
+        customDatePicker.showSpecificTime(true); // 显示时和分
+        customDatePicker.setIsLoop(true); // 允许循环滚动
     }
 
     @Override
@@ -325,7 +308,7 @@ public class OrderDetailFragment extends Fragment {
         Map<String, Object> params = new HashMap<>();
         params.put("id", orderDetail.getId());
         params.put("eatNumber", ToolUtil.changeString(eatNum));
-        params.put("eatTime", dateStr.replace(".","-") + " " +timeTv.getText() + ":00");
+        params.put("eatTime", dateStr.replace(".","-") + " " + timeStr + ":00");
         params.put("room", roomType);
         if (roomType ==0 ) {
             params.put("roomId", chooseRoom.getRoomId());
@@ -344,7 +327,7 @@ public class OrderDetailFragment extends Fragment {
                     public void onWebSuccess(JSONObject result) {
                         result.optString("id");
 
-                        OrderPayActivity.startAction(getActivity());
+                        OrderPayActivity.startAction(getActivity(), orderDetail.getId());
                     }
 
                     @Override

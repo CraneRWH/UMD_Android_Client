@@ -4,15 +4,26 @@ import android.app.Activity;
 import android.content.Intent;
 import android.media.Image;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.ymd.client.R;
 import com.ymd.client.common.base.BaseActivity;
+import com.ymd.client.component.widget.dialog.MyDialog;
+import com.ymd.client.model.bean.order.OrderResultForm;
+import com.ymd.client.model.constant.URLConstant;
+import com.ymd.client.utils.AlertUtil;
+import com.ymd.client.utils.ToastUtil;
 import com.ymd.client.utils.ToolUtil;
+import com.ymd.client.web.WebUtil;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,6 +32,10 @@ import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import chinapnr.android.paysdk.PayWayActivity;
+import chinapnr.android.paysdk.SdkInitFailedException;
+import chinapnr.android.paysdk.SdkManager;
+import chinapnr.android.paysdk.util.PaysdkConstants;
 
 /**
  * 作者:rongweihe
@@ -57,12 +72,15 @@ public class OrderPayActivity extends BaseActivity {
     @BindView(R.id.pay_btn)
     LinearLayout payBtn;
 
+    private long orderId;
+
     /**
      * 启动
      * @param context
      */
-    public static void startAction(Activity context) {
+    public static void startAction(Activity context, long id) {
         Intent intent = new Intent(context, OrderPayActivity.class);
+        intent.putExtra("orderId",id);
         context.startActivity(intent);
     }
 
@@ -98,9 +116,74 @@ public class OrderPayActivity extends BaseActivity {
         payBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                OrderPayResultActivity.startAction(OrderPayActivity.this);
+                toPay();
+
             }
         });
+
+        if (getIntent().getExtras() != null) {
+            orderId = getIntent().getExtras().getLong("orderId");
+            requestOrderDetail();
+        } else {
+            finish();
+        }
+
+        // 完成 SDK 初始化，生序生命周期内执行一次即可
+// 注：如需使用后续的交易信息指纹功能，必须先完成 SDK 的初始化
+        try {
+            SdkManager.initSdk(OrderPayActivity.this.getApplication(),
+                    "",     // 线下提供的商户客户号
+                    "");    // 线下提供的初始化链接
+
+        } catch (SdkInitFailedException e) {
+            // 初始化失败，必须填写正确的商户客户号、初始化链接
+            // 并正确传入 Application 实例对象
+        }
+    }
+
+    private void toPay() {
+        int payType = -1;
+        for (int i = 0;i < payTypeList.size(); i ++) {
+            Map<String,Object> map = payTypeList.get(i);
+            if (ToolUtil.changeBoolean(map.get("isChoose"))) {
+                payType = i;
+                break;
+            }
+        }
+        if (payType < 0) {
+            ToastUtil.ToastMessage(this, "请选择付款方式");
+            return;
+        }
+        switch (payType) {
+            case 0: gotoAlipay();
+                break;
+            case 1: gotoWechat();
+                break;
+        }
+    }
+
+    private void requestOrderDetail() {
+        Map<String, Object> params = new HashMap<>();
+        params.put("orderId", orderId);
+        WebUtil.getInstance().requestPOST(this, URLConstant.ORDER_DETAIL, params,
+                new WebUtil.WebCallBack() {
+                    @Override
+                    public void onWebSuccess(JSONObject result) {
+                        resetOrderView(result.optString("ymdOrder"));
+                    }
+
+                    @Override
+                    public void onWebFailed(String errorMsg) {
+
+                    }
+                });
+    }
+    OrderResultForm orderDetail;
+    private void resetOrderView(String resultJson) {
+        orderDetail = new Gson().fromJson(resultJson, OrderResultForm.class);
+        shopNameTv.setText(orderDetail.getmName());
+        orderMoneyTv1.setText(ToolUtil.changeString(orderDetail.getPayAmt()));
+        orderMoneyTv2.setText(ToolUtil.changeString(orderDetail.getPayAmt()));
     }
 
     List<Map<String ,Object>> payTypeList = new ArrayList<>();
@@ -117,11 +200,11 @@ public class OrderPayActivity extends BaseActivity {
         map.put("isChoose", false);
         payTypeList.add(map);
 
-        map = new HashMap<>();
+   /*     map = new HashMap<>();
         map.put("name","其他支付");
         map.put("icon", R.mipmap.icon_merchant_star_image_comment);
         map.put("isChoose", false);
-        payTypeList.add(map);
+        payTypeList.add(map);*/
 
         //开始添加数据
         for(int i=0; i<payTypeList.size(); i++){
@@ -171,5 +254,52 @@ public class OrderPayActivity extends BaseActivity {
             chooseIv2.setImageResource(R.mipmap.icon_payoptions_oval);
         }
     }
+
+
+    private static final int REQ_CODE = 0x123; //调用sdk返回结果的请求码
+    /**
+     * 调用支付宝支付
+     */
+    private void gotoAlipay(){
+        String alipayMoneyView ="" /*((EditText)findViewById(R.id.alipayMoneyView)).getText().toString()*/;
+        String alipayUrlView = ""/*((EditText)findViewById(R.id.alipayUrlView)).getText().toString()*/;
+
+        Intent mIntent = new Intent(this, PayWayActivity.class);
+        mIntent.putExtra(PaysdkConstants.CHINAPNR_PAY_WAY_KEY,PaysdkConstants.ALIPAY_WAY);//选择支付宝支付
+        String tradeMoney = "{\"tradeMoney\": \"%s\" } ";
+        mIntent.putExtra(PaysdkConstants.PAY_PARAM_INFO_KEY, TextUtils.isEmpty(alipayMoneyView) ? "" : String.format(tradeMoney, alipayMoneyView));
+        mIntent.putExtra(PaysdkConstants.APP_PAY_URL_KEY,TextUtils.isEmpty(alipayUrlView) ? "http://mertest.chinapnr.com/service-demo/appPay/pay" : alipayUrlView);
+
+        showPayResultDialog();
+        startActivityForResult(mIntent,REQ_CODE);
+    }
+
+    /**
+     * 调用微信支付
+     */
+    private void gotoWechat(){
+        String wechatMoneyView = "";/*((EditText)findViewById(R.id.wechatMoneyView)).getText().toString();*/
+        String wechatUrlView = "";/*((EditText)findViewById(R.id.wechatUrlView)).getText().toString();*/
+
+        Intent mIntent = new Intent(this, PayWayActivity.class);
+        mIntent.putExtra(PaysdkConstants.CHINAPNR_PAY_WAY_KEY,PaysdkConstants.WECHAT_WAY);//选择微信支付
+        String tradeMoney = "{\"tradeMoney\": \"%s\" } ";
+        mIntent.putExtra(PaysdkConstants.PAY_PARAM_INFO_KEY,TextUtils.isEmpty(wechatMoneyView) ? "" : String.format(tradeMoney, wechatMoneyView));
+        mIntent.putExtra(PaysdkConstants.APP_PAY_URL_KEY,TextUtils.isEmpty(wechatUrlView) ? "http://mertest.chinapnr.com/service-demo/appPay/pay" : wechatUrlView);
+
+        showPayResultDialog();
+        startActivityForResult(mIntent,REQ_CODE);
+    }
+
+    private void showPayResultDialog() {
+        AlertUtil.AskDialog(this, "是否支付完成", new MyDialog.SureListener() {
+            @Override
+            public void onSureListener() {
+
+            }
+        });
+    }
+
+
 
 }
