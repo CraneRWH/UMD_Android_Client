@@ -151,7 +151,8 @@ public class OrderPageFragment extends Fragment {
         adapter.setListener(new OnUMDItemClickListener() {
             @Override
             public void onClick(Object data, View view, int position) {
-                OrderDetailActivity.startAction(getActivity(), ((OrderResultForm) data).getId());
+                OrderResultForm item = (OrderResultForm) data;
+                OrderDetailActivity.startAction(getActivity(), item.getId(), ToolUtil.changeInteger(item.getOrderType()));
             }
         });
         adapter.setBtnClickListener(new OrderPageAdapter.OnBtnClickListener() {
@@ -164,7 +165,7 @@ public class OrderPageFragment extends Fragment {
                             OrderPayActivity.startAction(getActivity(), item.getId());
                             break;
                         case 4:
-                            CommentSellerActivity.startAction(getActivity());
+                            CommentSellerActivity.startAction(getActivity(), item);
                             break;
                     }
                 } else if (id == R.id.btn2) {
@@ -238,7 +239,7 @@ public class OrderPageFragment extends Fragment {
                 new WebUtil.WebCallBack() {
                     @Override
                     public void onWebSuccess(JSONObject result) {
-                        toOrderDetail(result.optString("id"));
+                        toOrderDetail(result.optString("id"), data);
                     }
 
                     @Override
@@ -248,8 +249,8 @@ public class OrderPageFragment extends Fragment {
                 });
     }
 
-    private void toOrderDetail(String orderCode) {
-        OrderDetailActivity.startAction(getActivity(), ToolUtil.changeLong(orderCode));
+    private void toOrderDetail(String orderCode,OrderResultForm data) {
+        OrderDetailActivity.startAction(getActivity(), ToolUtil.changeLong(orderCode), ToolUtil.changeInteger(data.getOrderType()));
     }
 
 

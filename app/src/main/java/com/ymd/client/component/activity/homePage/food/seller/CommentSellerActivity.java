@@ -27,8 +27,10 @@ import com.ymd.client.component.widget.photo.selectphoto.Bimp;
 import com.ymd.client.component.widget.photo.selectphoto.FileUtils;
 import com.ymd.client.component.widget.recyclerView.MyGridView;
 import com.ymd.client.model.bean.homePage.MerchantInfoEntity;
+import com.ymd.client.model.bean.order.OrderResultForm;
 import com.ymd.client.model.constant.Constants;
 import com.ymd.client.model.constant.URLConstant;
+import com.ymd.client.model.info.LoginInfo;
 import com.ymd.client.utils.PermissionUtils;
 import com.ymd.client.utils.ToastUtil;
 import com.ymd.client.utils.ToolUtil;
@@ -68,14 +70,15 @@ public class CommentSellerActivity extends BaseActivity {
     int photoPosition = 0;
     List<Map<String,Object>> pictures;
     ChoiceImageUtil ciutil;//图片选择工具
-    MerchantInfoEntity merchantInfo;
+    OrderResultForm orderDetail;
     /**
      * 启动
      *
      * @param context
      */
-    public static void startAction(Activity context) {
+    public static void startAction(Activity context, OrderResultForm order) {
         Intent intent = new Intent(context, CommentSellerActivity.class);
+        intent.putExtra("order", order);
         context.startActivity(intent);
     }
 
@@ -146,6 +149,7 @@ public class CommentSellerActivity extends BaseActivity {
     }
 
     private void setChoose(LinearLayout layout,int position) {
+        score = position + 1;
         for(int i = 0 ; i < layout.getChildCount() ; i ++ ) {
             CheckBox view = (CheckBox) layout.getChildAt(i);
             if (i <= position) {
@@ -167,13 +171,17 @@ public class CommentSellerActivity extends BaseActivity {
             ToastUtil.ToastMessage(this,"请输入评价内容");
             return;
         }
+        if (score == 0) {
+            ToastUtil.ToastMessage(this,"请选择评价分数");
+            return;
+        }
         Map<String, Object> params = new HashMap<>();
-        params.put("merchantId", merchantInfo.getId());
-        params.put("complaintsContent", content);
-        params.put("complaintsPhotoOne", ToolUtil.changeString(pictures.get(0).get("url")));
-        params.put("complaintsPhotoThree", ToolUtil.changeString(pictures.get(2).get("url")));
-        params.put("complaintsPhotoTwo", ToolUtil.changeString(pictures.get(1).get("url")));
-        WebUtil.getInstance().requestPOST(this, URLConstant.MERCHANT_COMPLAINT, params,
+        params.put("content", ToolUtil.changeString(content));
+        params.put("dealId", orderDetail.getId());
+        params.put("score", score);
+        params.put("userName", LoginInfo.getInstance().getLoginInfo().getUserName());
+        params.put("userUrl", LoginInfo.getInstance().getLoginInfo().getIcon());
+        WebUtil.getInstance().requestPOST(this, URLConstant.MERCHANT_ADD_EVALUATION, params,
                 new WebUtil.WebCallBack() {
                     @Override
                     public void onWebSuccess(JSONObject result) {

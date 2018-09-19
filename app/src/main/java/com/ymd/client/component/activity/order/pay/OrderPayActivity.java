@@ -129,7 +129,7 @@ public class OrderPayActivity extends BaseActivity {
         }
 
         // 完成 SDK 初始化，生序生命周期内执行一次即可
-// 注：如需使用后续的交易信息指纹功能，必须先完成 SDK 的初始化
+        // 注：如需使用后续的交易信息指纹功能，必须先完成 SDK 的初始化
         try {
             SdkManager.initSdk(OrderPayActivity.this.getApplication(),
                     "",     // 线下提供的商户客户号

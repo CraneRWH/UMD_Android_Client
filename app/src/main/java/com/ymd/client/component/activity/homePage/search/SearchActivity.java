@@ -19,9 +19,15 @@ import com.ymd.client.common.base.BaseActivity;
 import com.ymd.client.component.widget.flowlayout.FlowLayout;
 import com.ymd.client.component.widget.flowlayout.TagAdapter;
 import com.ymd.client.component.widget.flowlayout.TagFlowLayout;
+import com.ymd.client.model.constant.URLConstant;
+import com.ymd.client.web.WebUtil;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -148,4 +154,19 @@ public class SearchActivity extends BaseActivity {
             super.handleMessage(msg);
         }
     };
+
+    private void requestHotSearch() {
+        Map<String, Object> params = new HashMap<>();
+        params.put("type", 1);
+        WebUtil.getInstance().requestPOST(this, URLConstant.QUEYR_U_LIST, params, true,
+                new WebUtil.WebCallBack() {
+                    @Override
+                    public void onWebSuccess(JSONObject result) {
+                    }
+
+                    @Override
+                    public void onWebFailed(String errorMsg) {
+                    }
+                });
+    }
 }

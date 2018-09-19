@@ -159,7 +159,8 @@ public class CommonCollectionFragment extends Fragment {
         adapter.setListener(new OnUMDItemClickListener() {
             @Override
             public void onClick(Object data, View view, int position) {
-                MerchantDetailActivity.startAction(getActivity(), (MerchantInfoEntity) data);
+                MerchantInfoEntity item = (MerchantInfoEntity) data;
+                MerchantDetailActivity.startAction(getActivity(), item, currentPosition);
             }
         });
         recyclerView.setAdapter(adapter);

@@ -110,14 +110,17 @@ public class MerchantDetailActivity extends TabBaseActivity {
 
     private List<YmdGoodsEntity> buyList = new ArrayList<>();
 
+    private int functionType;
+
     /**
      * 启动
      *
      * @param context
      */
-    public static void startAction(Activity context, MerchantInfoEntity merchant) {
+    public static void startAction(Activity context, MerchantInfoEntity merchant,int functionType) {
         Intent intent = new Intent(context, MerchantDetailActivity.class);
         intent.putExtra("merchant", merchant);
+        intent.putExtra("functionType", functionType);
         context.startActivity(intent);
     }
 
@@ -140,6 +143,7 @@ public class MerchantDetailActivity extends TabBaseActivity {
         totalPrice = (TextView) findViewById(R.id.order_money_tv);
 
         merchantInfo = (MerchantInfoEntity) getIntent().getExtras().getSerializable("merchant");
+        functionType = getIntent().getExtras().getInt("functionType");
 
         collectionIv.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -512,6 +516,6 @@ public class MerchantDetailActivity extends TabBaseActivity {
     }
 
     private void toOrderDetail(String orderCode) {
-        OrderDetailActivity.startAction(this, ToolUtil.changeLong(orderCode));
+        OrderDetailActivity.startAction(this, ToolUtil.changeLong(orderCode), functionType);
     }
 }

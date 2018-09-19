@@ -8,65 +8,12 @@
 
     <View style="@style/view_detail_item_separator" />
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/mar_pad_len_88px"
-        android:orientation="horizontal"
-        android:paddingLeft="@dimen/mar_pad_len_20px"
-        android:paddingRight="@dimen/mar_pad_len_20px">
-
-        <TextView
-            style="@style/font_size_30px_gray"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:text="预计用餐时间" />
-
-        <TextView
-            android:id="@+id/date_tv"
-            style="@style/font_size_42px"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="今天" />
-
-        <RelativeLayout
-            android:layout_width="@dimen/mar_pad_len_164px"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:background="@mipmap/baofang_white_little_icon"
-            android:gravity="center_vertical"
-            android:paddingLeft="@dimen/mar_pad_len_12px"
-            android:paddingRight="@dimen/mar_pad_len_12px">
-
-            <TextView
-                android:id="@+id/time_tv"
-                style="@style/font_size_36px_black"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:text="12:30" />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:src="@mipmap/triangle_green_icono" />
-        </RelativeLayout>
-    </RelativeLayout>
-
-    <View
-        style="@style/view_detail_item_separator"
-        android:layout_height="@dimen/mar_pad_len_10px" />
-
     <LinearLayout
-        android:id="@+id/eat_location_lt"
+        android:id="@+id/food_llt"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
-
+        android:orientation="vertical"
+        >
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/mar_pad_len_88px"
@@ -79,7 +26,123 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:text="用餐位置选择" />
+                android:text="预计用餐时间" />
+
+            <TextView
+                android:id="@+id/date_tv"
+                style="@style/font_size_42px"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="今天" />
+
+            <RelativeLayout
+                android:layout_width="@dimen/mar_pad_len_164px"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:background="@mipmap/baofang_white_little_icon"
+                android:gravity="center_vertical"
+                android:paddingLeft="@dimen/mar_pad_len_12px"
+                android:paddingRight="@dimen/mar_pad_len_12px">
+
+                <TextView
+                    android:id="@+id/time_tv"
+                    style="@style/font_size_36px_black"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="12:30" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:src="@mipmap/triangle_green_icono" />
+            </RelativeLayout>
+        </RelativeLayout>
+
+        <View
+            style="@style/view_detail_item_separator"
+            android:layout_height="@dimen/mar_pad_len_10px" />
+
+        <LinearLayout
+            android:id="@+id/eat_location_lt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/mar_pad_len_88px"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/mar_pad_len_20px"
+                android:paddingRight="@dimen/mar_pad_len_20px">
+
+                <TextView
+                    style="@style/font_size_30px_gray"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="用餐位置选择" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingLeft="@dimen/mar_pad_len_12px"
+                    android:paddingRight="@dimen/mar_pad_len_12px">
+
+                    <TextView
+                        android:id="@+id/dating_tv"
+                        style="@style/font_size_36px_black"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@mipmap/baofang_white_little_icon"
+                        android:gravity="center"
+                        android:text="大厅" />
+
+                    <TextView
+                        android:id="@+id/baofang_tv"
+                        style="@style/font_size_36px_black"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@mipmap/baofang_white_little_icon"
+                        android:gravity="center"
+                        android:text="包房" />
+                </LinearLayout>
+            </RelativeLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/baofang_rv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="@dimen/mar_pad_len_5px"
+                android:paddingLeft="@dimen/mar_pad_len_25px"
+                android:paddingRight="@dimen/mar_pad_len_22px"
+                android:paddingTop="@dimen/mar_pad_len_7px">
+
+            </android.support.v7.widget.RecyclerView>
+        </LinearLayout>
+
+        <RelativeLayout
+            android:id="@+id/eat_person_num_rt"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/mar_pad_len_88px"
+            android:orientation="horizontal"
+            android:paddingLeft="@dimen/mar_pad_len_20px"
+            android:paddingRight="@dimen/mar_pad_len_20px">
+
+            <TextView
+                style="@style/font_size_30px_gray"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="用餐人数选择" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -91,89 +154,33 @@
                 android:paddingLeft="@dimen/mar_pad_len_12px"
                 android:paddingRight="@dimen/mar_pad_len_12px">
 
-                <TextView
-                    android:id="@+id/dating_tv"
-                    style="@style/font_size_36px_black"
+                <ImageView
+                    android:id="@+id/sub_iv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@mipmap/baofang_white_little_icon"
-                    android:gravity="center"
-                    android:text="大厅" />
+                    android:padding="@dimen/mar_pad_len_10px"
+                    android:src="@mipmap/sub_green_cicler_icon" />
 
                 <TextView
-                    android:id="@+id/baofang_tv"
+                    android:id="@+id/eat_person_num_tv"
                     style="@style/font_size_36px_black"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@mipmap/baofang_white_little_icon"
+                    android:layout_marginLeft="@dimen/mar_pad_len_54px"
+                    android:layout_marginRight="@dimen/mar_pad_len_54px"
                     android:gravity="center"
-                    android:text="包房" />
+                    android:text="10" />
+
+                <ImageView
+                    android:id="@+id/add_iv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/mar_pad_len_10px"
+                    android:src="@mipmap/add_green_circle_icon" />
             </LinearLayout>
         </RelativeLayout>
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/baofang_rv"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingBottom="@dimen/mar_pad_len_5px"
-            android:paddingLeft="@dimen/mar_pad_len_25px"
-            android:paddingRight="@dimen/mar_pad_len_22px"
-            android:paddingTop="@dimen/mar_pad_len_7px">
-
-        </android.support.v7.widget.RecyclerView>
     </LinearLayout>
-
-    <RelativeLayout
-        android:id="@+id/eat_person_num_rt"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/mar_pad_len_88px"
-        android:orientation="horizontal"
-        android:paddingLeft="@dimen/mar_pad_len_20px"
-        android:paddingRight="@dimen/mar_pad_len_20px">
-
-        <TextView
-            style="@style/font_size_30px_gray"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:text="用餐人数选择" />
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:paddingLeft="@dimen/mar_pad_len_12px"
-            android:paddingRight="@dimen/mar_pad_len_12px">
-
-            <ImageView
-                android:id="@+id/sub_iv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="@dimen/mar_pad_len_10px"
-                android:src="@mipmap/sub_green_cicler_icon" />
-
-            <TextView
-                android:id="@+id/eat_person_num_tv"
-                style="@style/font_size_36px_black"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/mar_pad_len_54px"
-                android:layout_marginRight="@dimen/mar_pad_len_54px"
-                android:gravity="center"
-                android:text="10" />
-
-            <ImageView
-                android:id="@+id/add_iv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="@dimen/mar_pad_len_10px"
-                android:src="@mipmap/add_green_circle_icon" />
-        </LinearLayout>
-    </RelativeLayout>
-
     <View
         android:id="@+id/line2"
         style="@style/view_detail_item_separator"

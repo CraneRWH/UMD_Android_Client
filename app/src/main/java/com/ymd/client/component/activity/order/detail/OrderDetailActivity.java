@@ -74,13 +74,15 @@ public class OrderDetailActivity extends BaseActivity {
     private List<MyChooseItemView> textViewList;
 
     private long orderId;
+    private int functionType;
     /**
      * 启动
      * @param context
      */
-    public static void startAction(Activity context,long orderId) {
+    public static void startAction(Activity context,long orderId,int functionType) {
         Intent intent = new Intent(context, OrderDetailActivity.class);
         intent.putExtra("orderId", orderId);
+        intent.putExtra("functionType", functionType);
         context.startActivity(intent);
     }
 
@@ -98,6 +100,7 @@ public class OrderDetailActivity extends BaseActivity {
         if (getIntent().getExtras() != null) {
             Bundle bundle = getIntent().getExtras();
             orderId = bundle.getLong("orderId");
+            functionType = bundle.getInt("functionType");
             requestOrderDetail();
         }
         status = 2;
@@ -202,14 +205,20 @@ public class OrderDetailActivity extends BaseActivity {
     private void resetDetailFragment(String resultJson) {
         orderDetail = new Gson().fromJson(resultJson, OrderResultForm.class);
         fragmentList = new ArrayList<Fragment>();
-        fragmentList.add(OrderDetailFragment.newInstance(0,orderDetail));
-        fragmentList.add(OrderDetailFragment.newInstance(1,orderDetail));
+        if (functionType == 0) {
+            fragmentList.add(OrderDetailFragment.newInstance(0, functionType,orderDetail));
+            fragmentList.add(OrderDetailFragment.newInstance(1, functionType,orderDetail));
+
+            textViewList = new ArrayList<MyChooseItemView>();
+            textViewList.add(chooseItem0);
+            textViewList.add(chooseItem1);
+        } else {
+            businessView.setVisibility(View.GONE);
+            fragmentList.add(OrderDetailFragment.newInstance(0, functionType,orderDetail));
+        }
         //    fragmentList.add(new OrderDetailFragment());
 
-        textViewList = new ArrayList<MyChooseItemView>();
-        textViewList.add(chooseItem0);
-        textViewList.add(chooseItem1);
-        //    textViewList.add(chooseItem2);
+
         viewPagerListener();
         chooseItem(0);
 

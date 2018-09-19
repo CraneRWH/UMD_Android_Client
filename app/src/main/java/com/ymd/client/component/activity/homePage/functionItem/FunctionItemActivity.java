@@ -1,4 +1,4 @@
-package com.ymd.client.component.activity.homePage.food;
+package com.ymd.client.component.activity.homePage.functionItem;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -22,21 +22,21 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.ymd.client.R;
 import com.ymd.client.common.base.BaseActivity;
-import com.ymd.client.common.base.bean.TabObject;
+import com.ymd.client.component.activity.homePage.food.FoodListFragment;
 import com.ymd.client.component.activity.homePage.food.seller.MerchantDetailActivity;
 import com.ymd.client.component.activity.order.PageFragmentAdapter;
 import com.ymd.client.component.widget.other.MyChooseItemView;
 import com.ymd.client.model.bean.homePage.MerchantInfoEntity;
-import com.ymd.client.model.bean.homePage.YmdGoodsEntity;
 import com.ymd.client.model.bean.homePage.YmdIndustryEntity;
 import com.ymd.client.model.bean.homePage.YmdRecommendEntity;
 import com.ymd.client.model.constant.URLConstant;
+import com.ymd.client.model.info.LocationInfo;
+import com.ymd.client.model.info.LoginInfo;
 import com.ymd.client.utils.ToolUtil;
 import com.ymd.client.web.WebUtil;
 
 import org.json.JSONObject;
 
-import java.nio.channels.Channel;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -48,10 +48,10 @@ import butterknife.ButterKnife;
 /**
  * 作者:rongweihe
  * 日期:2018/8/25
- * 描述:    美事
+ * 描述:    酒店、爱车、美容美发、电影、生鲜、金融、洗浴/KTV、优币专区、其他分类等
  * 修改历史:
  */
-public class NiceFoodActivity extends BaseActivity implements ViewPager.OnPageChangeListener {
+public class FunctionItemActivity extends BaseActivity implements ViewPager.OnPageChangeListener {
 
     @BindView(R.id.search_layout)
     RelativeLayout searchLayout;
@@ -78,27 +78,61 @@ public class NiceFoodActivity extends BaseActivity implements ViewPager.OnPageCh
     private List<Fragment> fragmentList=new ArrayList<Fragment>();
     private List<MyChooseItemView> textViewList;
 
+    private String title="";
+    private int functionType = 1;
     /**
      * 启动
      *
      * @param context
      */
-    public static void startAction(Activity context) {
-        Intent intent = new Intent(context, NiceFoodActivity.class);
+    public static void startAction(Activity context, int type) {
+        Intent intent = new Intent(context, FunctionItemActivity.class);
+        intent.putExtra("type", type);
         context.startActivity(intent);
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_nice_food);
+        setContentView(R.layout.activity_function_item);
         ButterKnife.bind(this);
         initView();
     }
 
     private void initView() {
-        setTitle("美食");
 
+        functionType = getIntent().getExtras().getInt("type");
+        switch (functionType) {
+            case 1:
+                title = "酒店";
+                break;
+            case 2:
+                title = "爱车";
+                break;
+            case 3:
+                title = "美容美发";
+                break;
+            case 4:
+                title = "电影";
+                break;
+            case 5:
+                title = "生鲜";
+                break;
+            case 6:
+                title = "金融";
+                break;
+            case 7:
+                title = "洗浴/KTV";
+                break;
+            case 8:
+                title = "优币专区";
+                break;
+            case 9:
+                title = "其他分类等";
+                break;
+        }
+
+        setTitle(title);
         rgChannel.setOnCheckedChangeListener(
                 new RadioGroup.OnCheckedChangeListener() {
                     @Override
@@ -144,7 +178,7 @@ public class NiceFoodActivity extends BaseActivity implements ViewPager.OnPageCh
 
     private void requestRecommend() {
         Map<String,Object> params = new HashMap<>();
-        params.put("countyId","130406");
+        params.put("countyId", (LocationInfo.getInstance().getChooseCity().getCountyCode() == 0) ? LocationInfo.getInstance().getChooseCity().getCityID() : LocationInfo.getInstance().getChooseCity().getCountyCode());
         WebUtil.getInstance().requestPOST(this, URLConstant.RECOMMEND_NICE_MERCHANT, params,
                 new WebUtil.WebCallBack() {
                     @Override
@@ -195,7 +229,7 @@ public class NiceFoodActivity extends BaseActivity implements ViewPager.OnPageCh
                 public void onClick(View v) {
                     MerchantInfoEntity data = new MerchantInfoEntity();
                     data.setId(item.getGoodsId());
-                    MerchantDetailActivity.startAction(NiceFoodActivity.this,data, 0);
+                    MerchantDetailActivity.startAction(FunctionItemActivity.this,data, functionType);
                 }
             });
             recommendLayout.addView(view);
@@ -203,7 +237,7 @@ public class NiceFoodActivity extends BaseActivity implements ViewPager.OnPageCh
     }
 
     /**
-     * 获取美事种类
+     * 获取种类
      */
     private void requestFoodType() {
         WebUtil.getInstance().requestPOST(this, URLConstant.QUERY_FOOD_TYPE_FUNCTIONS, null,
@@ -241,7 +275,7 @@ public class NiceFoodActivity extends BaseActivity implements ViewPager.OnPageCh
 
     private void initViewPager(){
         for(int i=0;i< typeList.size();i++){
-            FoodListFragment frag= FoodListFragment.newInstance(chooseStatus, typeList.get(i).getPid(),0);
+            FoodListFragment frag= FoodListFragment.newInstance(chooseStatus, typeList.get(i).getPid(), functionType);
       /*      Bundle bundle=new Bundle();
             bundle.putString("weburl", channelList.get(i).getWeburl());
             bundle.putString("name", channelList.get(i).getName());

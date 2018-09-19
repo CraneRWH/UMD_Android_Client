@@ -1,6 +1,7 @@
 package com.ymd.client.component.activity.mine;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -114,7 +115,8 @@ public class MainMineFragment extends Fragment {
                 //我的券包
                 break;
             case R.id.fragment_mine_links:
-                startActivity(new Intent(getContext(), LinkServiceActivity.class));
+            //    startActivity(new Intent(getContext(), LinkServiceActivity.class));
+                diallPhone("15165126339");
                 //联系客服
                 break;
             case R.id.fragment_mine_banks:
@@ -137,5 +139,17 @@ public class MainMineFragment extends Fragment {
                 break;
 
         }
+    }
+
+    /**
+     * 拨打电话（跳转到拨号界面，用户手动点击拨打）
+     *
+     * @param phoneNum 电话号码
+     */
+    public void diallPhone(String phoneNum) {
+        Intent intent = new Intent(Intent.ACTION_DIAL);
+        Uri data = Uri.parse("tel:" + phoneNum);
+        intent.setData(data);
+        getActivity().startActivity(intent);
     }
 }

@@ -49,16 +49,18 @@ public class FoodListFragment extends Fragment {
     private int status;
     private long pid;
 
+    private int functionType;
 
     public FoodListFragment() {
         // Required empty public constructor
     }
 
-    public static FoodListFragment newInstance(int type,Long pid/*String param1, String param2*/) {
+    public static FoodListFragment newInstance(int type,Long pid , int functionType/*String param1, String param2*/) {
         FoodListFragment fragment = new FoodListFragment();
         Bundle args = new Bundle();
         args.putInt(ARG_PARAM1, type);
         args.putLong(ARG_PARAM2, pid);
+        args.putInt("functionType", functionType);
         fragment.setArguments(args);
         return fragment;
     }
@@ -69,6 +71,7 @@ public class FoodListFragment extends Fragment {
         if (getArguments() != null) {
             status = getArguments().getInt(ARG_PARAM1);
             pid = getArguments().getLong(ARG_PARAM2);
+            functionType = getArguments().getInt("functionType");
         }
     }
 
@@ -152,7 +155,7 @@ public class FoodListFragment extends Fragment {
         adapter.setListener(new OnUMDItemClickListener() {
             @Override
             public void onClick(Object data, View view, int position) {
-                MerchantDetailActivity.startAction(getActivity(), (MerchantInfoEntity) data);
+                MerchantDetailActivity.startAction(getActivity(), (MerchantInfoEntity) data, functionType);
             }
         });
         recyclerView.setAdapter(adapter);

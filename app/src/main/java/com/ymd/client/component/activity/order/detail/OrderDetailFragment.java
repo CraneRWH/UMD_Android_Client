@@ -101,15 +101,18 @@ public class OrderDetailFragment extends Fragment {
     @BindView(R.id.remark_et)
     EditText remarkEt;
 
+    private int functionType;
+
     public OrderDetailFragment() {
         // Required empty public constructor
     }
 
-    public static OrderDetailFragment newInstance(int type, OrderResultForm orderGoods) {
+    public static OrderDetailFragment newInstance(int type, int functionType,OrderResultForm orderGoods) {
         OrderDetailFragment fragment = new OrderDetailFragment();
         Bundle args = new Bundle();
         args.putSerializable("order", orderGoods);
         args.putInt("type", type);
+        args.putInt("functionType", functionType);
         fragment.setArguments(args);
         return fragment;
     }
@@ -123,11 +126,14 @@ public class OrderDetailFragment extends Fragment {
         if (getArguments() != null) {
             orderDetail = (OrderResultForm) getArguments().getSerializable("order");
             fragmentType = getArguments().getInt("type");
-            if (fragmentType == 0) {
-                requestRoomList();
-                eatLocationLt.setVisibility(View.VISIBLE);
-            } else {
-                eatLocationLt.setVisibility(View.GONE);
+            functionType = getArguments().getInt("functionType");
+            if (functionType == 0) {
+                if (fragmentType == 0) {
+                    requestRoomList();
+                    eatLocationLt.setVisibility(View.VISIBLE);
+                } else {
+                    eatLocationLt.setVisibility(View.GONE);
+                }
             }
             resetGoodList();
             resetOrderView();
@@ -185,8 +191,10 @@ public class OrderDetailFragment extends Fragment {
             }
         });
 
-        initDatePicker();
-        chooseRoomType();
+        if (functionType == 0) {
+            initDatePicker();
+            chooseRoomType();
+        }
     }
 
     @SuppressLint("ResourceAsColor")

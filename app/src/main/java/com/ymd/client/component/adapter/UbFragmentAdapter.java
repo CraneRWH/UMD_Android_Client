@@ -12,6 +12,8 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.ymd.client.R;
 import com.ymd.client.component.adapter.food.FoodTypeListAdapter;
+import com.ymd.client.model.bean.order.YmdOrderGoods;
+import com.ymd.client.model.bean.user.GoodsForm;
 import com.ymd.client.model.bean.user.UForm;
 import com.ymd.client.utils.ToolUtil;
 
@@ -19,6 +21,8 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
+import static com.raizlabs.android.dbflow.config.FlowManager.getContext;
 
 /**
  * 我的U币Adapter
@@ -51,6 +55,24 @@ public class UbFragmentAdapter extends RecyclerView.Adapter<UbFragmentAdapter.Vi
         holder.orderPriceTv.setText(ToolUtil.changeString(data.getPayAmt()));
         holder.useUTv.setText(ToolUtil.changeString(data.getAvailable() + "U"));
         holder.uTv.setText(ToolUtil.changeString(data.getNumber()) + "U");
+        holder.goodsLt.removeAllViews();
+        int i = 0;
+        for (GoodsForm item : data.getGoods()) {
+            View v = LayoutInflater.from(getContext()).inflate(R.layout.item_fragment_order_page_product, null);
+            TextView nameView = v.findViewById(R.id.product_name_tv);
+            TextView numView = v.findViewById(R.id.product_num_tv);
+            nameView.setText(ToolUtil.changeString(item.getGoodsName()));
+            numView.setText("x" + item.getGoodsNumber());
+            if (i == 3) {
+                nameView.setText("...");
+                numView.setVisibility(View.GONE);
+                holder.goodsLt.addView(v);
+                break;
+            }
+            i ++;
+            holder.goodsLt.addView(v);
+
+        }
     }
 
     @Override

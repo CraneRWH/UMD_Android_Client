@@ -30,6 +30,7 @@ import com.ymd.client.component.activity.homePage.city.CityChooseActivity;
 import com.ymd.client.component.activity.homePage.food.NiceFoodActivity;
 import com.ymd.client.component.activity.homePage.food.seller.MerchantDetailActivity;
 import com.ymd.client.component.activity.homePage.food.seller.SellerDetailActivity;
+import com.ymd.client.component.activity.homePage.functionItem.FunctionItemActivity;
 import com.ymd.client.component.activity.homePage.scan.ScanCodeActivity;
 import com.ymd.client.component.activity.homePage.search.SearchActivity;
 import com.ymd.client.component.adapter.MySimpleAdapter;
@@ -386,6 +387,8 @@ public class MainHomePageFragment extends Fragment {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 if (i == 0) {
                     NiceFoodActivity.startAction(getActivity());
+                } else {
+                    FunctionItemActivity.startAction(getActivity(), i);
                 }
             }
         });
@@ -537,7 +540,8 @@ public class MainHomePageFragment extends Fragment {
         adapter.setListener(new OnUMDItemClickListener() {
             @Override
             public void onClick(Object data, View view, int position) {
-                MerchantDetailActivity.startAction(getActivity(), (MerchantInfoEntity) data);
+                MerchantInfoEntity item = (MerchantInfoEntity) data;
+                MerchantDetailActivity.startAction(getActivity(), item, 0);
             }
         });
         recyclerView.setAdapter(adapter);

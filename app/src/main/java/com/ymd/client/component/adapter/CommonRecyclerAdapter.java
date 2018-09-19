@@ -32,7 +32,7 @@ import java.util.List;
  * @see [相关类/方法]
  * @since [产品/模块版本]
  */
-public class CommonRecyclerAdapter<T> extends RecyclerView.Adapter {
+public abstract class CommonRecyclerAdapter<T> extends RecyclerView.Adapter {
 
     public Context mContext;
 
