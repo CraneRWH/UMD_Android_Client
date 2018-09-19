@@ -95,6 +95,7 @@ public class ComplaintSellerActivity extends BaseActivity {
     int photoPosition = 0;
     List<Map<String,Object>> pictures;
     private void initView() {
+        ciutil = new ChoiceImageUtil(this);
         merchantInfo = (MerchantInfoEntity) getIntent().getExtras().getSerializable("merchant");
         pictures = new ArrayList<>();
         Map<String,Object> map = new HashMap<>();
@@ -176,11 +177,9 @@ public class ComplaintSellerActivity extends BaseActivity {
             tv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    complaintTypeList.get(position).put("isChoose", !ToolUtil.changeBoolean(complaintTypeList.get(position).get("isChoose")));
-                    refreshData(tv, position);
+                    refreshData(position);
                 }
             });
-            refreshData(tv,i);
             //把行布局放到linear里
             complaintLayout.addView(view);
         }
@@ -188,14 +187,39 @@ public class ComplaintSellerActivity extends BaseActivity {
 
     private int chooseType = -1;
     @SuppressLint("ResourceAsColor")
-    private void refreshData(TextView tv, int position) {
-        chooseType = position;
-        if (ToolUtil.changeBoolean(complaintTypeList.get(position).get("isChoose"))) {
-            tv.setTextColor(Color.WHITE);
-            tv.setBackgroundResource(R.drawable.shape_rect_corner_green);
-        } else {
-            tv.setTextColor(R.color.text_gray_dark);
-            tv.setBackgroundResource(R.drawable.shape_rect_corner_gray_edge);
+    private void refreshData(int p) {
+
+        chooseType = p;
+
+        for (Map<String,Object> item : complaintTypeList) {
+            item.put("isChoose", false);
+        }
+        complaintTypeList.get(p).put("isChoose", true);
+
+        //开始添加数据
+        for (int i = 0; i < complaintTypeList.size(); i++) {
+            int position = i;
+            //寻找行布局，第一个参数为行布局ID，第二个参数为这个行布局需要放到那个容器上
+            View view = LayoutInflater.from(this).inflate(R.layout.item_seller_complaaint_type, complaintLayout, false);
+            //实例化TextView控件
+            TextView tv = (TextView) view.findViewById(R.id.item_tv);
+            //给TextView添加文字
+            tv.setText(ToolUtil.changeString(complaintTypeList.get(i).get("name")));
+            if (ToolUtil.changeBoolean(complaintTypeList.get(p).get("isChoose"))) {
+                tv.setTextColor(Color.WHITE);
+                tv.setBackgroundResource(R.drawable.shape_rect_corner_green);
+            } else {
+                tv.setTextColor(R.color.text_gray_dark);
+                tv.setBackgroundResource(R.drawable.shape_rect_corner_gray_edge);
+            }
+            tv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    refreshData(position);
+                }
+            });
+            //把行布局放到linear里
+            complaintLayout.addView(view);
         }
     }
 
@@ -219,7 +243,7 @@ public class ComplaintSellerActivity extends BaseActivity {
         params.put("complaintsPhotoThree", ToolUtil.changeString(pictures.get(2).get("url")));
         params.put("complaintsPhotoTwo", ToolUtil.changeString(pictures.get(1).get("url")));
         params.put("complaintsType", chooseType);
-        WebUtil.getInstance().requestPOST(this, URLConstant.MERCHANT_COMPLAINT, params,
+        WebUtil.getInstance().requestPOST(this, URLConstant.MERCHANT_COMPLAINT, params, true,
                 new WebUtil.WebCallBack() {
                     @Override
                     public void onWebSuccess(JSONObject result) {

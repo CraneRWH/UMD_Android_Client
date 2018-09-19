@@ -17,6 +17,7 @@ import com.ymd.client.component.activity.homePage.food.seller.CommentSellerActiv
 import com.ymd.client.component.activity.order.detail.OrderDetailActivity;
 import com.ymd.client.component.activity.order.pay.OrderPayActivity;
 import com.ymd.client.component.adapter.order.OrderPageAdapter;
+import com.ymd.client.component.adapter.order.OrderPageAdapter2;
 import com.ymd.client.component.event.LoginEvent;
 import com.ymd.client.component.event.OrderEvent;
 import com.ymd.client.component.widget.zrecyclerview.ProgressStyle;
@@ -147,7 +148,7 @@ public class OrderPageFragment extends Fragment {
         } else {
             emptyView.setVisibility(View.GONE);
         }
-        OrderPageAdapter adapter = new OrderPageAdapter(orderList, getActivity());
+        OrderPageAdapter adapter = new OrderPageAdapter(orderList,getActivity());
         adapter.setListener(new OnUMDItemClickListener() {
             @Override
             public void onClick(Object data, View view, int position) {

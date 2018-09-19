@@ -385,11 +385,11 @@ public class MainHomePageFragment extends Fragment {
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                if (i == 0) {
+            /*    if (i == 0) {
                     NiceFoodActivity.startAction(getActivity());
-                } else {
-                    FunctionItemActivity.startAction(getActivity(), i);
-                }
+                } else {*/
+                    FunctionItemActivity.startAction(getActivity(), i+1);
+             //   }
             }
         });
     }
@@ -541,7 +541,7 @@ public class MainHomePageFragment extends Fragment {
             @Override
             public void onClick(Object data, View view, int position) {
                 MerchantInfoEntity item = (MerchantInfoEntity) data;
-                MerchantDetailActivity.startAction(getActivity(), item, 0);
+                MerchantDetailActivity.startAction(getActivity(), item, 1);
             }
         });
         recyclerView.setAdapter(adapter);

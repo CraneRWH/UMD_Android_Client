@@ -204,4 +204,9 @@ public class URLConstant {
      * 获取热门搜索
      */
     public static final String QUEYR_HOT_SEARCH = "ymdUCurrency/uBInfo";
+
+    /**
+     * 获取支付信息
+     */
+    public static final String ORDER_PAY_INFO = "ymdOrder/pay";
 }

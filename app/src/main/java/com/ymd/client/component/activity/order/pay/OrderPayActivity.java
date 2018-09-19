@@ -116,8 +116,7 @@ public class OrderPayActivity extends BaseActivity {
         payBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                toPay();
-
+                sendPay();
             }
         });
 
@@ -138,27 +137,6 @@ public class OrderPayActivity extends BaseActivity {
         } catch (SdkInitFailedException e) {
             // 初始化失败，必须填写正确的商户客户号、初始化链接
             // 并正确传入 Application 实例对象
-        }
-    }
-
-    private void toPay() {
-        int payType = -1;
-        for (int i = 0;i < payTypeList.size(); i ++) {
-            Map<String,Object> map = payTypeList.get(i);
-            if (ToolUtil.changeBoolean(map.get("isChoose"))) {
-                payType = i;
-                break;
-            }
-        }
-        if (payType < 0) {
-            ToastUtil.ToastMessage(this, "请选择付款方式");
-            return;
-        }
-        switch (payType) {
-            case 0: gotoAlipay();
-                break;
-            case 1: gotoWechat();
-                break;
         }
     }
 
@@ -190,14 +168,16 @@ public class OrderPayActivity extends BaseActivity {
     private void setPayTypeData() {
         Map<String, Object> map = new HashMap<>();
         map.put("name","支付宝支付");
-        map.put("icon", R.mipmap.icon_merchant_image_order_1);
+        map.put("icon", R.mipmap.icon_payoptions_zhi);
         map.put("isChoose", false);
+        map.put("id", 12);
         payTypeList.add(map);
 
         map = new HashMap<>();
         map.put("name","微信支付");
-        map.put("icon", R.mipmap.icon_merchant_image_shang);
+        map.put("icon", R.mipmap.icon_payoptions_wei);
         map.put("isChoose", false);
+        map.put("id", 10);
         payTypeList.add(map);
 
    /*     map = new HashMap<>();
@@ -233,6 +213,7 @@ public class OrderPayActivity extends BaseActivity {
         }
     }
 
+    int payType =0;
     private void chooseType(ImageView view, int position) {
         for (int i = 0 ; i < payTypeList.size(); i ++ ) {
             Map<String,Object> item = payTypeList.get(i);
@@ -244,6 +225,7 @@ public class OrderPayActivity extends BaseActivity {
         if (position < 0) {
             return;
         }
+        payType = position;
         if (ToolUtil.changeBoolean(payTypeList.get(position).get("isChoose"))) {
             view.setImageResource(R.mipmap.icon_payoptions_complete);
             chooseIv1.setImageResource(R.mipmap.icon_payoptions_oval);
@@ -260,10 +242,7 @@ public class OrderPayActivity extends BaseActivity {
     /**
      * 调用支付宝支付
      */
-    private void gotoAlipay(){
-        String alipayMoneyView ="" /*((EditText)findViewById(R.id.alipayMoneyView)).getText().toString()*/;
-        String alipayUrlView = ""/*((EditText)findViewById(R.id.alipayUrlView)).getText().toString()*/;
-
+    private void gotoAlipay(String alipayMoneyView,String alipayUrlView){
         Intent mIntent = new Intent(this, PayWayActivity.class);
         mIntent.putExtra(PaysdkConstants.CHINAPNR_PAY_WAY_KEY,PaysdkConstants.ALIPAY_WAY);//选择支付宝支付
         String tradeMoney = "{\"tradeMoney\": \"%s\" } ";
@@ -277,15 +256,13 @@ public class OrderPayActivity extends BaseActivity {
     /**
      * 调用微信支付
      */
-    private void gotoWechat(){
-        String wechatMoneyView = "";/*((EditText)findViewById(R.id.wechatMoneyView)).getText().toString();*/
-        String wechatUrlView = "";/*((EditText)findViewById(R.id.wechatUrlView)).getText().toString();*/
+    private void gotoWechat(String wechatMoneyView,String wechatUrlView){
 
         Intent mIntent = new Intent(this, PayWayActivity.class);
         mIntent.putExtra(PaysdkConstants.CHINAPNR_PAY_WAY_KEY,PaysdkConstants.WECHAT_WAY);//选择微信支付
         String tradeMoney = "{\"tradeMoney\": \"%s\" } ";
         mIntent.putExtra(PaysdkConstants.PAY_PARAM_INFO_KEY,TextUtils.isEmpty(wechatMoneyView) ? "" : String.format(tradeMoney, wechatMoneyView));
-        mIntent.putExtra(PaysdkConstants.APP_PAY_URL_KEY,TextUtils.isEmpty(wechatUrlView) ? "http://mertest.chinapnr.com/service-demo/appPay/pay" : wechatUrlView);
+        mIntent.putExtra(PaysdkConstants.APP_PAY_URL_KEY,TextUtils.isEmpty(wechatUrlView) ? "weixin://wxpay/bizpayurl?pr=J15udq4" : wechatUrlView);
 
         showPayResultDialog();
         startActivityForResult(mIntent,REQ_CODE);
@@ -301,5 +278,37 @@ public class OrderPayActivity extends BaseActivity {
     }
 
 
+    private void sendPay() {
+        String payTypeStr = "";
+        for (Map<String,Object> item : payTypeList) {
+            if (ToolUtil.changeBoolean(item.get("isChoose"))) {
+                payTypeStr = ToolUtil.changeString(item.get("id"));
+            }
+        }
+        if (payTypeStr.length() == 0) {
+            ToastUtil.ToastMessage(this, "请选择付款方式");
+            return;
+        }
+        Map<String, Object> params = new HashMap<>();
+        params.put("orderId", orderId);
+        params.put("payType", payType);
+        WebUtil.getInstance().requestPOST(this, URLConstant.ORDER_PAY_INFO, params,true,
+                new WebUtil.WebCallBack() {
+                    @Override
+                    public void onWebSuccess(JSONObject result) {
+                //        resetOrderView(result.optString("ymdOrder"));
+                        if (payType == 0) {
+                            gotoAlipay(result.optString("money"), result.optString("url"));
+                        } else {
+                            gotoWechat(result.optString("money"), result.optString("url"));
+                        }
+                    }
+
+                    @Override
+                    public void onWebFailed(String errorMsg) {
+
+                    }
+                });
+    }
 
 }

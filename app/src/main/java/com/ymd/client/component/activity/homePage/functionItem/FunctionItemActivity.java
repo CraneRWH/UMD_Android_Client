@@ -103,31 +103,31 @@ public class FunctionItemActivity extends BaseActivity implements ViewPager.OnPa
 
         functionType = getIntent().getExtras().getInt("type");
         switch (functionType) {
-            case 1:
+            case 2:
                 title = "酒店";
                 break;
-            case 2:
+            case 3:
                 title = "爱车";
                 break;
-            case 3:
+            case 4:
                 title = "美容美发";
                 break;
-            case 4:
+            case 5:
                 title = "电影";
                 break;
-            case 5:
+            case 6:
                 title = "生鲜";
                 break;
-            case 6:
+            case 7:
                 title = "金融";
                 break;
-            case 7:
+            case 8:
                 title = "洗浴/KTV";
                 break;
-            case 8:
+            case 9:
                 title = "优币专区";
                 break;
-            case 9:
+            case 10:
                 title = "其他分类等";
                 break;
         }
@@ -179,6 +179,7 @@ public class FunctionItemActivity extends BaseActivity implements ViewPager.OnPa
     private void requestRecommend() {
         Map<String,Object> params = new HashMap<>();
         params.put("countyId", (LocationInfo.getInstance().getChooseCity().getCountyCode() == 0) ? LocationInfo.getInstance().getChooseCity().getCityID() : LocationInfo.getInstance().getChooseCity().getCountyCode());
+        params.put("industry", functionType);
         WebUtil.getInstance().requestPOST(this, URLConstant.RECOMMEND_NICE_MERCHANT, params,
                 new WebUtil.WebCallBack() {
                     @Override
@@ -240,7 +241,9 @@ public class FunctionItemActivity extends BaseActivity implements ViewPager.OnPa
      * 获取种类
      */
     private void requestFoodType() {
-        WebUtil.getInstance().requestPOST(this, URLConstant.QUERY_FOOD_TYPE_FUNCTIONS, null,
+        Map<String,Object> params = new HashMap<>();
+        params.put("pid", functionType);
+        WebUtil.getInstance().requestPOST(this, URLConstant.QUERY_FOOD_TYPE_FUNCTIONS, params,
                 new WebUtil.WebCallBack() {
                     @Override
                     public void onWebSuccess(JSONObject resultJson) {

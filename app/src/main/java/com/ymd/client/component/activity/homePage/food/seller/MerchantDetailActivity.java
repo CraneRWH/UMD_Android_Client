@@ -37,6 +37,7 @@ import com.ymd.client.component.event.MessageEvent;
 import com.ymd.client.model.bean.homePage.MerchantInfoEntity;
 import com.ymd.client.model.bean.homePage.YmdGoodsEntity;
 import com.ymd.client.model.constant.URLConstant;
+import com.ymd.client.model.info.LoginInfo;
 import com.ymd.client.utils.AnimationUtil;
 import com.ymd.client.utils.ToastUtil;
 import com.ymd.client.utils.ToolUtil;
@@ -265,6 +266,7 @@ public class MerchantDetailActivity extends TabBaseActivity {
     private void addCollection() {
         Map<String, Object> params = new HashMap<>();
         params.put("merchantId", merchantInfo.getId());
+        params.put("consumerId", LoginInfo.getInstance().getLoginInfo().getId());
         WebUtil.getInstance().requestPOST(this, URLConstant.MERCHANT_COLLECTION_ADD, params,true,
                 new WebUtil.WebCallBack() {
                     @Override
@@ -285,6 +287,7 @@ public class MerchantDetailActivity extends TabBaseActivity {
     private void delCollection() {
         Map<String, Object> params = new HashMap<>();
         params.put("merchantId", merchantInfo.getId());
+        params.put("consumerId", LoginInfo.getInstance().getLoginInfo().getId());
         WebUtil.getInstance().requestPOST(this, URLConstant.MERCHANT_COLLECTION_DEL, params, true,
                 new WebUtil.WebCallBack() {
                     @Override

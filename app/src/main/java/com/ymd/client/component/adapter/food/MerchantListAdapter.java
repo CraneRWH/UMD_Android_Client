@@ -56,7 +56,12 @@ public class MerchantListAdapter extends RecyclerView.Adapter<MerchantListAdapte
         if (data.getDistance() == null) {
             data.setDistance(ToolUtil.Distance(ToolUtil.changeDouble(data.getLatitude()), ToolUtil.changeDouble(data.getLongitude())));
         }
-        holder.distanceTv.setText(ToolUtil.changeString(data.getDistance()));
+        if (ToolUtil.changeDouble(data.getDistance()) > 1000) {
+            double distance = ToolUtil.changeDouble(data.getDistance())/1000;
+            holder.distanceTv.setText(ToolUtil.double2Point(distance) + "km");
+        } else {
+            holder.distanceTv.setText(ToolUtil.double2Point(ToolUtil.changeDouble(data.getDistance())) + "m");
+        }
         holder.scoreBarView.setRating(ToolUtil.changeFloat(data.getScore()));
     //    holder.workTimeTv.setText(ToolUtil.changeString(data.get("work_time")));
     //    holder.disStrTv.setText(ToolUtil.changeString(data.get("dis_str")));

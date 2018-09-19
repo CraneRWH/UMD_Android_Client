@@ -25,6 +25,7 @@ import java.util.concurrent.TimeUnit;
 
 import okhttp3.Call;
 import okhttp3.Callback;
+import okhttp3.Headers;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
@@ -41,9 +42,9 @@ import okhttp3.Response;
 
 public class WebUtil {
     //测试，王斌的接口
-//    public static String webUrl = "http://192.168.1.41:8080/ymd-rest-api/app/";
+    public static String webUrl = "http://192.168.1.38:8080/ymd-rest-api/app/";
 
-    public static String webUrl = "http://39.104.181.72:8095/ymd-rest-api/app/";
+//    public static String webUrl = "http://39.104.181.72:8095/ymd-rest-api/app/";
 
 
     private static volatile WebUtil mInstance;//单利引用
@@ -446,13 +447,24 @@ public class WebUtil {
             LogUtil.showW(webUrl + method);
             RequestBody fileBody = RequestBody.create(MediaType.parse("image/jpg"), file);
             showLoadingDialog(context);
-            RequestBody requestBody = new MultipartBody.Builder()
+        /*    RequestBody requestBody = new MultipartBody.Builder()
                     .setType(MultipartBody.FORM)
-                    .addFormDataPart("name", file.getName(), fileBody)
-                    .build();
+                    .addFormDataPart(null, file.getName(), fileBody)
+                    .build();*/
+        /*    RequestBody requestBody = new MultipartBody.Builder()
+                    .setType(MultipartBody.FORM)
+                    .addPart(Headers.of(
+                            "Content-Disposition",
+                            "form-data; name=\"username\""),
+                            RequestBody.create(null, "HGR"))
+                    .addPart(Headers.of(
+                            "Content-Disposition",
+                            "form-data; name=\"mFile\"; filename=\"" + file.getName() + "\""), fileBody)
+                    .build();*/
+
             final Request request = new Request.Builder()
                     .addHeader("token", CommonShared.getString(CommonShared.LOGIN_TOKEN, ""))
-                    .post(requestBody)
+                    .post(fileBody)
                     .url(webUrl + method)
                     .build();
             mOkHttpClient.newCall(request).enqueue(new Callback() {

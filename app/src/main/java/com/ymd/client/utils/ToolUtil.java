@@ -9,10 +9,12 @@ import android.util.Log;
 
 import com.ymd.client.model.info.LocationInfo;
 
+import java.math.RoundingMode;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Enumeration;
@@ -331,4 +333,34 @@ public class ToolUtil {
 		return df.format(data);
 	}
 
+	/**
+	 * 保留小数点后几位
+	 * @param d
+	 * @param p 小数位数
+	 * @return
+	 */
+	public static String formatDouble(double d,int p) {
+		NumberFormat nf = NumberFormat.getNumberInstance();
+		// 保留两位小数
+		nf.setMaximumFractionDigits(p);
+		// 如果不需要四舍五入，可以使用RoundingMode.DOWN
+		nf.setRoundingMode(RoundingMode.UP);
+
+		return nf.format(d);
+	}
+
+	/**
+	 * 保留两位小数
+	 * @param d
+	 * @return
+	 */
+	public static String formatDouble2(double d) {
+		NumberFormat nf = NumberFormat.getNumberInstance();
+		// 保留两位小数
+		nf.setMaximumFractionDigits(2);
+		// 如果不需要四舍五入，可以使用RoundingMode.DOWN
+		nf.setRoundingMode(RoundingMode.UP);
+
+		return nf.format(d);
+	}
 }

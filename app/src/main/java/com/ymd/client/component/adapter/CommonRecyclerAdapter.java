@@ -42,7 +42,7 @@ public abstract class CommonRecyclerAdapter<T> extends RecyclerView.Adapter {
 
     public OnItemLongClickListener mItemLongClickListener;
 
-    private List<T> mItems = new ArrayList<>();
+    protected List<T> datas = new ArrayList<>();
 
     public CommonRecyclerAdapter(Context context) {
         this.mContext = context;
@@ -64,17 +64,17 @@ public abstract class CommonRecyclerAdapter<T> extends RecyclerView.Adapter {
         if (list == null) {
             return;
         }
-        mItems.clear();
-        mItems.addAll(list);
+        datas.clear();
+        datas.addAll(list);
         notifyDataSetChanged();
     }
 
     public void appendItems(List<T> list) {
-        int lastPosition = mItems.size();
+        int lastPosition = datas.size();
         if (list == null) {
             return;
         }
-        mItems.addAll(list);
+        datas.addAll(list);
         notifyItemRangeChanged(lastPosition, list.size());
         notifyDataSetChanged();
     }
@@ -83,37 +83,37 @@ public abstract class CommonRecyclerAdapter<T> extends RecyclerView.Adapter {
         if (list == null) {
             return;
         }
-        mItems.addAll(list);
+        datas.addAll(list);
         notifyDataSetChanged();
     }
 
     public void addItem(int index, T data) {
-        if (data == null || index < 0 || index > mItems.size()) {
+        if (data == null || index < 0 || index > datas.size()) {
             return;
         }
-        mItems.add(index, data);
+        datas.add(index, data);
     }
 
     public void remove(int index) {
-        if (index > mItems.size() || index < 0) {
+        if (index > datas.size() || index < 0) {
             return;
         }
-        mItems.remove(index);
+        datas.remove(index);
     }
 
     public void setContentList(List<T> list) {
         if (list == null) {
             return;
         }
-        mItems = list;
+        datas = list;
     }
 
     public void clear() {
-        mItems.clear();
+        datas.clear();
     }
 
     public List<T> getContentList() {
-        return mItems;
+        return datas;
     }
 
     @Override
@@ -128,7 +128,7 @@ public abstract class CommonRecyclerAdapter<T> extends RecyclerView.Adapter {
 
     @Override
     public int getItemCount() {
-        return mItems.size();
+        return datas.size();
     }
 
     public LayoutInflater getLayoutInflater() {

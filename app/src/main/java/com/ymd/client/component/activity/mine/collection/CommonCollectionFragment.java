@@ -126,7 +126,7 @@ public class CommonCollectionFragment extends Fragment {
     private void requestData() {
         Map<String,Object> params = new HashMap<>();
         params.put("consumerId", LoginInfo.getInstance().getLoginInfo().getId());
-        if (currentPosition > 0) {
+        if (currentPosition >= 0) {
             params.put("type", currentPosition);
         }
         else {
