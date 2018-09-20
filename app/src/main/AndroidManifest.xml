@@ -66,11 +66,11 @@
 
         <!-- 验证码登录 -->
         <activity android:name=".component.activity.login.LoginActivity" >
-
+<!--
             <intent-filter >
                 <action android:name="com.mnet.TO_LOGIN"/>
                 <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
+            </intent-filter>-->
         </activity>
 
         <!-- 密码登录 -->

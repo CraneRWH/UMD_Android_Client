@@ -291,17 +291,17 @@ public class OrderPayActivity extends BaseActivity {
         }
         Map<String, Object> params = new HashMap<>();
         params.put("orderId", orderId);
-        params.put("payType", payType);
+        params.put("payType", payTypeStr);
         WebUtil.getInstance().requestPOST(this, URLConstant.ORDER_PAY_INFO, params,true,
                 new WebUtil.WebCallBack() {
                     @Override
                     public void onWebSuccess(JSONObject result) {
                 //        resetOrderView(result.optString("ymdOrder"));
-                        if (payType == 0) {
+                  /*      if (payType == 0) {
                             gotoAlipay(result.optString("money"), result.optString("url"));
                         } else {
                             gotoWechat(result.optString("money"), result.optString("url"));
-                        }
+                        }*/
                     }
 
                     @Override

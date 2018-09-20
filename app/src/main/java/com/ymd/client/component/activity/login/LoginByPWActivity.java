@@ -1,6 +1,7 @@
 package com.ymd.client.component.activity.login;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -53,7 +54,7 @@ public class LoginByPWActivity extends BaseActivity {
      *
      * @param context
      */
-    public static void startAction(Activity context) {
+    public static void startAction(Context context) {
         Intent intent = new Intent(context, LoginByPWActivity.class);
         context.startActivity(intent);
     }
