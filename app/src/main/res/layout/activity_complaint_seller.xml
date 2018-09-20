@@ -88,15 +88,12 @@
                 android:layout_marginTop="@dimen/mar_pad_len_40px"
                 android:layout_marginBottom="@dimen/mar_pad_len_10px"
                 />
-            <com.ymd.client.component.widget.recyclerView.MyGridView
+            <android.support.v7.widget.RecyclerView
                 android:id="@+id/picture_gv"
-                android:layout_margin="@dimen/mar_pad_len_20px"
+                android:layout_margin="@dimen/mar_pad_len_16px"
                 android:layout_width="match_parent"
-                android:verticalSpacing="@dimen/mar_pad_len_10px"
-                android:horizontalSpacing="@dimen/mar_pad_len_10px"
                 android:background="@color/white"
-                android:numColumns="3"
-                android:layout_height="wrap_content"></com.ymd.client.component.widget.recyclerView.MyGridView>
+                android:layout_height="wrap_content"/>
         </LinearLayout>
     </ScrollView>
 

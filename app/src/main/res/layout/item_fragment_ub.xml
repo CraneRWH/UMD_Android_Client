@@ -106,7 +106,7 @@
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:paddingBottom="@dimen/mar_pad_len_20px"
-                android:orientation="horizontal">
+                android:orientation="vertical">
 
             </LinearLayout>
 
@@ -176,7 +176,6 @@
                         android:textSize="@dimen/text_size_32px" />
 
                     <TextView
-                        android:id="@+id/u_tv"
                         style="@style/font_size_30px_green"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -186,6 +185,7 @@
                         android:text="U币余额：" />
 
                     <TextView
+                        android:id="@+id/u_tv"
                         style="@style/font_size_24px_gray_"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"

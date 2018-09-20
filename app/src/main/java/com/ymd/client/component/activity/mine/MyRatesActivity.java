@@ -4,25 +4,20 @@ import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
 import com.ymd.client.R;
 import com.ymd.client.common.base.BaseActivity;
-import com.ymd.client.common.base.OnUMDItemClickListener;
 import com.ymd.client.component.adapter.CommonRecyclerAdapter;
 import com.ymd.client.component.adapter.MyRateAdapter;
-import com.ymd.client.component.adapter.UbFragmentAdapter;
 import com.ymd.client.component.widget.zrecyclerview.ProgressStyle;
 import com.ymd.client.component.widget.zrecyclerview.ZRecyclerView;
 import com.ymd.client.utils.StatusBarUtils;
 import com.ymd.client.utils.ToastUtil;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,13 +21,16 @@ import android.widget.LinearLayout;
 import com.bumptech.glide.Glide;
 import com.ymd.client.R;
 import com.ymd.client.common.base.BaseActivity;
+import com.ymd.client.common.base.OnUMDItemClickListener;
 import com.ymd.client.component.adapter.MySimpleAdapter;
+import com.ymd.client.component.adapter.PictureItemAdapter;
 import com.ymd.client.component.widget.dialog.CommonDialogs;
 import com.ymd.client.component.widget.photo.ChoiceImageCallBack;
 import com.ymd.client.component.widget.photo.ChoiceImageUtil;
 import com.ymd.client.component.widget.photo.selectphoto.Bimp;
 import com.ymd.client.component.widget.photo.selectphoto.FileUtils;
 import com.ymd.client.component.widget.recyclerView.MyGridView;
+import com.ymd.client.model.bean.PictureEntity;
 import com.ymd.client.model.bean.homePage.MerchantInfoEntity;
 import com.ymd.client.model.bean.order.OrderResultForm;
 import com.ymd.client.model.constant.Constants;
@@ -61,14 +66,14 @@ public class CommentSellerActivity extends BaseActivity {
     @BindView(R.id.comment_et)
     EditText commentEt;
     @BindView(R.id.picture_gv)
-    MyGridView pictureGv;
+    RecyclerView pictureGv;
     @BindView(R.id.submit_btn)
     Button submitBtn;
 
     private int score = 0;
 
     int photoPosition = 0;
-    List<Map<String,Object>> pictures;
+    List<PictureEntity> pictures;
     ChoiceImageUtil ciutil;//图片选择工具
     OrderResultForm orderDetail;
     /**
@@ -110,35 +115,18 @@ public class CommentSellerActivity extends BaseActivity {
             scoreLt.addView(view);
         }
         pictures = new ArrayList<>();
-        Map<String,Object> map = new HashMap<>();
-        map.put("icon", R.mipmap.icon_comment_star_camera);
-        pictures.add(map);
+        PictureEntity picture = new PictureEntity();
+        picture.setIcon(R.mipmap.icon_comment_star_camera);
+        pictures.add(picture);
 
-        map = new HashMap<>();
-        map.put("icon", R.mipmap.icon_comment_star_camera);
-        pictures.add(map);
+        picture = new PictureEntity();
+        picture.setIcon(R.mipmap.icon_comment_star_camera);
+        pictures.add(picture);
 
-        map = new HashMap<>();
-        map.put("icon", R.mipmap.icon_comment_star_camera);
-        pictures.add(map);
-        MySimpleAdapter adapter = new MySimpleAdapter(this, pictures, R.layout.item_grid_picture, new String[]{"icon"}, new int[]{R.id.icon_iv},
-                new MySimpleAdapter.MyViewListener() {
-                    @Override
-                    public void callBackViewListener(Map<String, Object> data, View view, ViewGroup parent, int position) {
-                        if (ToolUtil.changeString(data.get("url")).length() >0) {
-                            ImageView iv = (ImageView)view.findViewById(R.id.icon_iv);
-                            Glide.with(getApplicationContext()).load(ToolUtil.changeString(data.get("url"))).into(iv);
-                        }
-                    }
-                });
-        pictureGv.setAdapter(adapter);
-        pictureGv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                photoPosition = position;
-                getPhoto();
-            }
-        });
+        picture = new PictureEntity();
+        picture.setIcon(R.mipmap.icon_comment_star_camera);
+        pictures.add(picture);
+
 
         submitBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -146,6 +134,22 @@ public class CommentSellerActivity extends BaseActivity {
                 submit();
             }
         });
+
+        GridLayoutManager layoutManager = new GridLayoutManager(this, 3);
+        pictureGv.setLayoutManager(layoutManager);
+        resetPictureGrid();
+    }
+
+    private void resetPictureGrid() {
+        PictureItemAdapter adapter = new PictureItemAdapter(pictures, this);
+        adapter.setListener(new OnUMDItemClickListener() {
+            @Override
+            public void onClick(Object data, View view, int position) {
+                photoPosition = position;
+                getPhoto();
+            }
+        });
+        pictureGv.setAdapter(adapter);
     }
 
     private void setChoose(LinearLayout layout,int position) {
@@ -220,9 +224,9 @@ public class CommentSellerActivity extends BaseActivity {
                     public void onWebSuccess(JSONObject resultJson) {
                        /* updateInfo("photo", resultJson.optString("photo"));
                         Picasso.with(PersonInfoActivity.this).load(new File(fileUrl)).into(mIvHead);*/
-                        Map<String,Object> map = pictures.get(photoPosition);
-                        map.put("url", resultJson.optString("fileUrl"));
-                        ((MySimpleAdapter)pictureGv.getAdapter()).notifyDataSetChanged();
+                        pictures.get(photoPosition).setUrl(resultJson.optString("url"));
+                    /*    ((MySimpleAdapter)pictureGv.getAdapter()).notifyDataSetChanged();*/
+                        resetPictureGrid();
                     }
 
                     @Override

@@ -1,6 +1,7 @@
-package com.ymd.client.component.adapter;
+package com.ymd.client.component.adapter.mine;
 
 import android.content.Context;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,8 +12,8 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.ymd.client.R;
-import com.ymd.client.component.adapter.food.FoodTypeListAdapter;
-import com.ymd.client.model.bean.order.YmdOrderGoods;
+import com.ymd.client.component.activity.mine.ub.UbInFragment;
+import com.ymd.client.component.adapter.CommonRecyclerAdapter;
 import com.ymd.client.model.bean.user.GoodsForm;
 import com.ymd.client.model.bean.user.UForm;
 import com.ymd.client.utils.ToolUtil;
@@ -27,18 +28,15 @@ import static com.raizlabs.android.dbflow.config.FlowManager.getContext;
 /**
  * 我的U币Adapter
  */
-public class UbFragmentAdapter extends RecyclerView.Adapter<UbFragmentAdapter.ViewHolder>  {
+public class UbFragmentAdapter2 extends CommonRecyclerAdapter<UForm> {
 
-
-    private List<UForm> datas;
-    private Context mContext;
-
-    public UbFragmentAdapter(List<UForm> list) {
+    public UbFragmentAdapter2(List<UForm> list, FragmentActivity context) {
+        super(context);
         this.datas = list;
     }
 
     @Override
-    public UbFragmentAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public UbFragmentAdapter2.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         mContext = parent.getContext();
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_fragment_ub, parent, false);
         ViewHolder holder = new ViewHolder(view);
@@ -46,7 +44,11 @@ public class UbFragmentAdapter extends RecyclerView.Adapter<UbFragmentAdapter.Vi
     }
 
     @Override
-    public void onBindViewHolder(UbFragmentAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        onUmdBindViewHolder((ViewHolder)holder, position);
+    }
+
+    public void onUmdBindViewHolder(UbFragmentAdapter2.ViewHolder holder, int position) {
         UForm data = datas.get(position);
         holder.merchantNameTv.setText(ToolUtil.changeString(data.getMerchantName()));
         holder.orderDateTv.setText(ToolUtil.changeString(data.getTime()));

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical"
     >
     <ImageView
@@ -10,5 +10,6 @@
         android:layout_height="@dimen/mar_pad_len_240px"
         android:src="@mipmap/icon_comment_star_camera"
         android:background="@drawable/shape_rect_gray_edge"
+        android:layout_margin="@dimen/mar_pad_len_6px"
         />
 </LinearLayout>

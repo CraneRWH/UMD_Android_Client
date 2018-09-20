@@ -34,7 +34,7 @@ public class OrderPageAdapter2 extends CommonRecyclerAdapter<OrderResultForm> {
     private OnUMDItemClickListener listener;
     private OnBtnClickListener btnClickListener;
 
-    public OrderPageAdapter2( Context mContext, List<OrderResultForm> datas) {
+    public OrderPageAdapter2(  List<OrderResultForm> datas,Context mContext) {
         super(mContext);
         this.mContext = mContext;
         this.datas = datas;
@@ -47,8 +47,13 @@ public class OrderPageAdapter2 extends CommonRecyclerAdapter<OrderResultForm> {
         return holder;
     }
 
+    @Override
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        onUmdBindViewHolder((ViewHolder) holder, position);
+    }
+
     @SuppressLint("ResourceAsColor")
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onUmdBindViewHolder(ViewHolder holder, int position) {
 
         OrderResultForm data = datas.get(position);
         if (ToolUtil.changeInteger(data.getOrderStatus()) > 2) {

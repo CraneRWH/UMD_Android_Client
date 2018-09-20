@@ -129,6 +129,7 @@ public class OrderPageFragment extends Fragment {
 
                     @Override
                     public void onWebFailed(String errorMsg) {
+                        resetOrderList("");
                         recyclerView.refreshComplete();
                     }
                 });
@@ -142,13 +143,15 @@ public class OrderPageFragment extends Fragment {
         if (page == 1) {
             orderList.clear();
         }
-        orderList.addAll(datas);
+        if (datas != null ) {
+            orderList.addAll(datas);
+        }
         if (orderList.isEmpty()) {
             emptyView.setVisibility(View.VISIBLE);
         } else {
             emptyView.setVisibility(View.GONE);
         }
-        OrderPageAdapter adapter = new OrderPageAdapter(orderList,getActivity());
+        OrderPageAdapter2 adapter = new OrderPageAdapter2(orderList,getActivity());
         adapter.setListener(new OnUMDItemClickListener() {
             @Override
             public void onClick(Object data, View view, int position) {
@@ -156,7 +159,7 @@ public class OrderPageFragment extends Fragment {
                 OrderDetailActivity.startAction(getActivity(), item.getId(), ToolUtil.changeInteger(item.getOrderType()));
             }
         });
-        adapter.setBtnClickListener(new OrderPageAdapter.OnBtnClickListener() {
+        adapter.setBtnClickListener(new OrderPageAdapter2.OnBtnClickListener() {
             @Override
             public void onClick(Object data, int position, int id) {
                 OrderResultForm item = (OrderResultForm) data;
@@ -230,7 +233,7 @@ public class OrderPageFragment extends Fragment {
         List<Map<String,Object>> list = new ArrayList<>();
         for (YmdOrderGoods item : data.getYmdOrderGoodsList()) {
             Map<String,Object> map = new HashMap<>();
-            map.put("goodsId", item.getId());
+            map.put("goodsId", item.getGoodsId());
             map.put("goodsNum", item.getGoodsNum());
             map.put("goodsType","0");
             list.add(map);

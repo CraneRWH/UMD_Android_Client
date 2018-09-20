@@ -335,7 +335,13 @@ public class ZRecyclerView extends RecyclerView {
     }
 
     private int getHeaders_includingRefreshCount() {
-        return mWrapAdapter.getHeadersCount() + 1;
+        try {
+            return mWrapAdapter.getHeadersCount() + 1;
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+            return 1;
+        }
+
     }
 
     /**

@@ -6,24 +6,19 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.ymd.client.R;
-import com.ymd.client.common.base.OnUMDItemClickListener;
-import com.ymd.client.component.adapter.CommonRecyclerAdapter;
-import com.ymd.client.component.adapter.UbFragmentAdapter;
+import com.ymd.client.component.adapter.mine.UbFragmentAdapter;
 import com.ymd.client.component.widget.zrecyclerview.ProgressStyle;
 import com.ymd.client.component.widget.zrecyclerview.ZRecyclerView;
 import com.ymd.client.model.bean.user.UForm;
 import com.ymd.client.model.constant.URLConstant;
-import com.ymd.client.utils.ToastUtil;
 import com.ymd.client.web.WebUtil;
 
 import org.json.JSONObject;

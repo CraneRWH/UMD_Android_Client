@@ -117,16 +117,6 @@ public abstract class CommonRecyclerAdapter<T> extends RecyclerView.Adapter {
     }
 
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return null;
-    }
-
-    @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-
-    }
-
-    @Override
     public int getItemCount() {
         return datas.size();
     }

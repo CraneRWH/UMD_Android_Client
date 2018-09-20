@@ -18,6 +18,7 @@ import com.ymd.client.common.base.OnUMDItemClickListener;
 import com.ymd.client.component.activity.homePage.food.seller.MerchantDetailActivity;
 import com.ymd.client.component.adapter.CommonCollectionAdapter;
 import com.ymd.client.component.adapter.food.MerchantListAdapter;
+import com.ymd.client.component.adapter.food.MerchantListAdapter2;
 import com.ymd.client.component.widget.zrecyclerview.ProgressStyle;
 import com.ymd.client.component.widget.zrecyclerview.ZRecyclerView;
 import com.ymd.client.model.bean.homePage.MerchantInfoEntity;
@@ -48,7 +49,7 @@ public class CommonCollectionFragment extends Fragment {
     @BindView(R.id.ubfragment_recycler_empty)
     ImageView mEmptyView;
 
-    CommonCollectionAdapter mAdapter;
+    MerchantListAdapter2 mAdapter;
     int page = 1;
 
     int currentPosition = 0;
@@ -107,19 +108,17 @@ public class CommonCollectionFragment extends Fragment {
         recyclerView.setRefreshProgressStyle(ProgressStyle.BallPulse);
         recyclerView.setLoadingMoreProgressStyle(ProgressStyle.BallRotate);
 
-        /*recyclerView.setLoadingListener(new ZRecyclerView.LoadingListener() {
+        recyclerView.setLoadingListener(new ZRecyclerView.LoadingListener() {
             @Override
             public void onRefresh() {
-                page = 1;
-                refreshList(getDataList());
+                page = 1;requestData();
             }
 
             @Override
             public void onLoadMore() {
-                page++;
-                refreshList(getDataList());
+                page++;requestData();
             }
-        });*/
+        });
         requestData();
     }
 
@@ -137,10 +136,13 @@ public class CommonCollectionFragment extends Fragment {
                     @Override
                     public void onWebSuccess(JSONObject resultJson) {
                         resetMerchantData(resultJson.optString("list"));
+                        recyclerView.refreshComplete();
                     }
 
                     @Override
                     public void onWebFailed(String errorMsg) {
+                        resetMerchantData("");
+                        recyclerView.refreshComplete();
                     }
                 });
     }
@@ -150,20 +152,27 @@ public class CommonCollectionFragment extends Fragment {
         List<MerchantInfoEntity> datas = new Gson().fromJson(result, new TypeToken<List<MerchantInfoEntity>>(){}.getType());
         if (page == 1) {
             marchantDatas.clear();
-
-        }
-        marchantDatas.addAll(datas);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
-        recyclerView.setLayoutManager(layoutManager);
-        MerchantListAdapter adapter = new MerchantListAdapter(marchantDatas, getContext());
-        adapter.setListener(new OnUMDItemClickListener() {
-            @Override
-            public void onClick(Object data, View view, int position) {
-                MerchantInfoEntity item = (MerchantInfoEntity) data;
-                MerchantDetailActivity.startAction(getActivity(), item, currentPosition);
+            if (datas != null) {
+                marchantDatas.addAll(datas);
             }
-        });
-        recyclerView.setAdapter(adapter);
+            LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+            recyclerView.setLayoutManager(layoutManager);
+            mAdapter = new MerchantListAdapter2(marchantDatas, getContext());
+            mAdapter.setListener(new OnUMDItemClickListener() {
+                @Override
+                public void onClick(Object data, View view, int position) {
+                    MerchantInfoEntity item = (MerchantInfoEntity) data;
+                    MerchantDetailActivity.startAction(getActivity(), item, currentPosition);
+                }
+            });
+            recyclerView.setAdapter(mAdapter);
+        }
+        else {
+            if (datas != null) {
+                marchantDatas.addAll(datas);
+            }
+            refreshList(datas);
+        }
     }
 
 
@@ -183,7 +192,7 @@ public class CommonCollectionFragment extends Fragment {
         return list;
     }
 
-    public void refreshList(List<String> beans) {
+    public void refreshList(List<MerchantInfoEntity> beans) {
         Log.d("loadData", String.valueOf(currentPosition));
         if (beans == null || beans.size() == 0) {
             recyclerView.loadMoreComplete();

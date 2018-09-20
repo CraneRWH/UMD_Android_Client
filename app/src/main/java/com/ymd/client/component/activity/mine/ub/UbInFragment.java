@@ -14,13 +14,12 @@ import android.widget.ImageView;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.ymd.client.R;
-import com.ymd.client.component.adapter.CommonRecyclerAdapter;
-import com.ymd.client.component.adapter.UbFragmentAdapter;
+import com.ymd.client.component.adapter.mine.UbFragmentAdapter;
+import com.ymd.client.component.adapter.mine.UbFragmentAdapter2;
 import com.ymd.client.component.widget.zrecyclerview.ProgressStyle;
 import com.ymd.client.component.widget.zrecyclerview.ZRecyclerView;
 import com.ymd.client.model.bean.user.UForm;
 import com.ymd.client.model.constant.URLConstant;
-import com.ymd.client.model.info.LoginInfo;
 import com.ymd.client.utils.ToastUtil;
 import com.ymd.client.web.WebUtil;
 
@@ -45,7 +44,7 @@ public class UbInFragment extends Fragment {
     @BindView(R.id.ubfragment_recycler_empty)
     ImageView mEmptyView;
 
-    UbFragmentAdapter mAdapter;
+    UbFragmentAdapter2 mAdapter;
     int page = 1;
 
     public UbInFragment() {
@@ -117,6 +116,8 @@ public class UbInFragment extends Fragment {
 
                     @Override
                     public void onWebFailed(String errorMsg) {
+
+                        refreshList("");
                         recyclerView.refreshComplete();
                     }
                 });
@@ -129,10 +130,12 @@ public class UbInFragment extends Fragment {
         if (page == 1) {
             datas.clear();
         }
-        datas.addAll(beans);
-        UbFragmentAdapter adapter = new UbFragmentAdapter(beans);
-        recyclerView.setAdapter(adapter);
-        /*if (beans == null || beans.size() == 0) {
+        if (beans != null) {
+            datas.addAll(beans);
+        }
+        mAdapter = new UbFragmentAdapter2(beans,getActivity());
+        recyclerView.setAdapter(mAdapter);
+        if (beans == null || beans.size() == 0) {
             recyclerView.loadMoreComplete();
             recyclerView.refreshComplete();
             if (page == 1) {
@@ -149,7 +152,7 @@ public class UbInFragment extends Fragment {
             }
             mEmptyView.setVisibility(View.GONE);
             recyclerView.setVisibility(View.VISIBLE);
-        }*/
+        }
     }
 
     public void showError(String msg) {
