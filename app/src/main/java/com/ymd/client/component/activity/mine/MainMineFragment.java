@@ -4,22 +4,32 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.ymd.client.R;
+import com.ymd.client.component.activity.login.LoginByPWActivity;
 import com.ymd.client.component.activity.mine.collection.MyCollectionActivity;
 import com.ymd.client.component.activity.mine.info.PersonInfoActivity;
 import com.ymd.client.component.activity.mine.setting.SettingActivity;
 import com.ymd.client.component.activity.mine.ub.MyUbActivity;
+import com.ymd.client.component.event.LoginEvent;
 import com.ymd.client.component.widget.CircleImageView;
+import com.ymd.client.model.info.LoginInfo;
 import com.ymd.client.utils.ToastUtil;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.Unbinder;
 
 /**
  * 作者:rongweihe
@@ -31,8 +41,8 @@ public class MainMineFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
+    Unbinder unbinder;
     View mView;
-
     private String mParam1;
     private String mParam2;
 
@@ -77,11 +87,30 @@ public class MainMineFragment extends Fragment {
         } else {
             mView = inflater.inflate(R.layout.fragment_main_mine, container, false);
         }
-        ButterKnife.bind(this, mView);
+        unbinder = ButterKnife.bind(this, mView);
+
+
+        EventBus.getDefault().register(this);
+        refreshInfo();
         return mView;
     }
 
-    @OnClick({R.id.fragment_mine_my_ub, R.id.fragment_mine_my_collection, R.id.fragment_mine_my_rate,
+    private void refreshInfo() {
+        if (LoginInfo.isLogin) {
+            if (!TextUtils.isEmpty(LoginInfo.getInstance().getLoginInfo().getIcon())) {
+                Glide.with(getActivity()).load(LoginInfo.getInstance().getLoginInfo().getIcon()).into(mHeadView);
+            } else {
+                mHeadView.setImageResource(R.mipmap.ic_launcher);
+            }
+            mNickName.setText(LoginInfo.getInstance().getLoginInfo().getUserName());
+        } else {
+            mHeadView.setImageResource(R.mipmap.ic_launcher);
+            mNickName.setText("未登录");
+        }
+
+    }
+
+    @OnClick({R.id.fragment_mine_my_ub, R.id.fragment_person_nickname,R.id.fragment_mine_my_collection, R.id.fragment_mine_my_rate,
             R.id.fragment_mine_my_cards, R.id.fragment_mine_links, R.id.fragment_mine_banks,
             R.id.fragment_mine_introduce, R.id.fragment_mine_cooperation, R.id.fragment_setting,
             R.id.fragment_person, R.id.fragment_person_iv})
@@ -91,11 +120,16 @@ public class MainMineFragment extends Fragment {
                 //设置
                 startActivity(new Intent(getContext(), SettingActivity.class));
                 break;
+            case R.id.fragment_person_nickname:
             case R.id.fragment_person_iv:
                 //个人信息
             case R.id.fragment_person:
                 //个人信息
-                PersonInfoActivity.startAction(getActivity());
+                if(!LoginInfo.isLogin) {
+                    LoginByPWActivity.startAction(getActivity());
+                } else {
+                    PersonInfoActivity.startAction(getActivity());
+                }
                 break;
             case R.id.fragment_mine_my_ub:
                 //我的U币
@@ -110,29 +144,29 @@ public class MainMineFragment extends Fragment {
                 //我的评价
                 break;
             case R.id.fragment_mine_my_cards:
-            //    startActivity(new Intent(getContext(), MyCardsActivity.class));
+                //    startActivity(new Intent(getContext(), MyCardsActivity.class));
                 ToastUtil.ToastMessage(getActivity(), "功能开发中，敬请期待");
                 //我的券包
                 break;
             case R.id.fragment_mine_links:
-            //    startActivity(new Intent(getContext(), LinkServiceActivity.class));
+                //    startActivity(new Intent(getContext(), LinkServiceActivity.class));
                 diallPhone("15165126339");
                 //联系客服
                 break;
             case R.id.fragment_mine_banks:
-            //    startActivity(new Intent(getContext(), MyBanksActivity.class));
+                //    startActivity(new Intent(getContext(), MyBanksActivity.class));
 
                 ToastUtil.ToastMessage(getActivity(), "功能开发中，敬请期待");
                 //我的银行卡
                 break;
             case R.id.fragment_mine_introduce:
-             //   startActivity(new Intent(getContext(), IntroduceActivity.class));
+                //   startActivity(new Intent(getContext(), IntroduceActivity.class));
 
                 ToastUtil.ToastMessage(getActivity(), "功能开发中，敬请期待");
                 //推荐有礼
                 break;
             case R.id.fragment_mine_cooperation:
-            //    startActivity(new Intent(getContext(), CooperationActivity.class));
+                //    startActivity(new Intent(getContext(), CooperationActivity.class));
 
                 ToastUtil.ToastMessage(getActivity(), "功能开发中，敬请期待");
                 //我要合作
@@ -151,5 +185,23 @@ public class MainMineFragment extends Fragment {
         Uri data = Uri.parse("tel:" + phoneNum);
         intent.setData(data);
         getActivity().startActivity(intent);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
+        EventBus.getDefault().unregister(this);
+    }
+
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(LoginEvent event) {
+        if (event.isSuccess()) {
+            refreshInfo();
+        } else {
+            mHeadView.setImageResource(R.mipmap.ic_launcher);
+            mNickName.setText("未登录");
+        }
     }
 }

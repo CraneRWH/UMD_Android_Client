@@ -50,6 +50,7 @@ public class LoginActivity extends BaseActivity {
     private TimeTask timeTask;
 
     private TextView registerBtn;
+    private String index;
     /**
      * 启动
      *
@@ -57,6 +58,7 @@ public class LoginActivity extends BaseActivity {
      */
     public static void startAction(Activity context) {
         Intent intent = new Intent(context, LoginActivity.class);
+        intent.putExtra("index", context.getClass().getName());
         context.startActivity(intent);
     }
 
@@ -105,6 +107,7 @@ public class LoginActivity extends BaseActivity {
                 finish();
             }
         });
+        index = getIntent().getExtras().getString("index");
     }
 
     private void submit() {

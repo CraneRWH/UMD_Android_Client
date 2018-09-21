@@ -78,6 +78,7 @@ public class MainOrderFragment extends Fragment {
     }
 
     private void initView(View view) {
+        view.findViewById(R.id.iv_back).setVisibility(View.GONE);
         txtTitle.setText("订单");
         status = 3;
         fragmentList=new ArrayList<Fragment>();

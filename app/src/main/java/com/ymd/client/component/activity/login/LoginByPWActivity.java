@@ -17,6 +17,7 @@ import com.ymd.client.component.event.LoginEvent;
 import com.ymd.client.model.constant.URLConstant;
 import com.ymd.client.model.info.LoginInfo;
 import com.ymd.client.utils.CommonShared;
+import com.ymd.client.utils.LogUtil;
 import com.ymd.client.utils.ToastUtil;
 import com.ymd.client.web.WebUtil;
 
@@ -43,9 +44,13 @@ public class LoginByPWActivity extends BaseActivity {
     private TextView registerBtn;
     private TextView forgetPasswordBtn;
 
+    private String index;
+
     @Override
     public void back(View view) {
-        LoginActivity.startAction(this);
+        if (index.contains("Login")) {
+            LoginActivity.startAction(this);
+        }
         finish();
     }
 
@@ -56,6 +61,8 @@ public class LoginByPWActivity extends BaseActivity {
      */
     public static void startAction(Context context) {
         Intent intent = new Intent(context, LoginByPWActivity.class);
+        LogUtil.showD(context.getClass().getName());
+        intent.putExtra("index", context.getClass().getName());
         context.startActivity(intent);
     }
 
@@ -65,6 +72,7 @@ public class LoginByPWActivity extends BaseActivity {
         setContentView(R.layout.activity_login_by_pw);
         initView();
     }
+
 
     private void initView() {
         setStatusBar(R.color.bg_header);
@@ -104,6 +112,14 @@ public class LoginByPWActivity extends BaseActivity {
                 ForgetPasswrodActivity.startAction(LoginByPWActivity.this);
             }
         });
+        setRightBtn("验证码登录", new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LoginActivity.startAction(LoginByPWActivity.this);
+                finish();
+            }
+        });
+        index = getIntent().getExtras().getString("index");
     }
 
     private void submit() {

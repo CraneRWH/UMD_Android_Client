@@ -150,6 +150,17 @@ public class FunctionItemActivity extends BaseActivity implements ViewPager.OnPa
         textViewList.add(chooseItem3);
 
         chooseItem(0);
+        int i = 0 ;
+        for (MyChooseItemView item : textViewList) {
+            final int position = i;
+            item.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    chooseItem(position);
+                }
+            });
+            i++;
+        }
 
         requestRecommend();
         requestFoodType();

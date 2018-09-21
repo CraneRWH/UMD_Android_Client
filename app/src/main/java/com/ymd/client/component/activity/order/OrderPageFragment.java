@@ -3,6 +3,7 @@ package com.ymd.client.component.activity.order;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import com.google.gson.reflect.TypeToken;
 import com.ymd.client.R;
 import com.ymd.client.common.base.OnUMDItemClickListener;
 import com.ymd.client.component.activity.homePage.food.seller.CommentSellerActivity;
+import com.ymd.client.component.activity.login.LoginByPWActivity;
 import com.ymd.client.component.activity.order.detail.OrderDetailActivity;
 import com.ymd.client.component.activity.order.pay.OrderPayActivity;
 import com.ymd.client.component.adapter.order.OrderPageAdapter;
@@ -27,6 +29,7 @@ import com.ymd.client.model.bean.order.OrderResultForm;
 import com.ymd.client.model.bean.order.YmdOrderGoods;
 import com.ymd.client.model.constant.URLConstant;
 import com.ymd.client.model.info.LoginInfo;
+import com.ymd.client.utils.ToastUtil;
 import com.ymd.client.utils.ToolUtil;
 import com.ymd.client.web.WebUtil;
 
@@ -83,8 +86,8 @@ public class OrderPageFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_order_page, container, false);
-        initView(view);
         unbinder = ButterKnife.bind(this, view);
+        initView(view);
         return view;
     }
 
@@ -114,6 +117,12 @@ public class OrderPageFragment extends Fragment {
     int page = 1;
 
     private void requestOrderInfo() {
+        if (!LoginInfo.isLogin) {
+            ToastUtil.ToastMessage(getActivity(), "请首先登录");
+            resetOrderList("");
+            LoginByPWActivity.startAction(getActivity());
+            return;
+        }
         Map<String, Object> params = new HashMap<>();
         params.put("customerId", LoginInfo.getInstance().getLoginInfo().getId());
         params.put("type", type);
@@ -123,14 +132,11 @@ public class OrderPageFragment extends Fragment {
                     @Override
                     public void onWebSuccess(JSONObject result) {
                         resetOrderList(result.optString("list"));
-
-                        recyclerView.refreshComplete();
                     }
 
                     @Override
                     public void onWebFailed(String errorMsg) {
                         resetOrderList("");
-                        recyclerView.refreshComplete();
                     }
                 });
     }
@@ -178,6 +184,7 @@ public class OrderPageFragment extends Fragment {
             }
         });
         recyclerView.setAdapter(adapter);
+        recyclerView.refreshComplete();
     }
 
     protected List<Map<String, Object>> getDataList() {
@@ -275,6 +282,9 @@ public class OrderPageFragment extends Fragment {
         if (event.isSuccess()) {
             page = 1;
             requestOrderInfo();
+        } else {
+            page = 1;
+            resetOrderList("");
         }
     }
 }

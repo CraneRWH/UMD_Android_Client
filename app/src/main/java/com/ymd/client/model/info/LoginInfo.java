@@ -5,9 +5,12 @@ import android.os.Handler;
 import android.os.Message;
 
 import com.google.gson.Gson;
+import com.ymd.client.component.event.LoginEvent;
 import com.ymd.client.model.bean.user.UserObject;
 import com.ymd.client.utils.CommonShared;
 import com.ymd.client.utils.ToolUtil;
+
+import org.greenrobot.eventbus.EventBus;
 
 /**
  * 包名:cn.school.schoolbus.base.info
@@ -30,6 +33,7 @@ public class LoginInfo {
         return instance;
     }
 
+    public static boolean isLogin = false;
     /**
      * 程序启动时初始化登录人员信息
      * @param context
@@ -66,6 +70,7 @@ public class LoginInfo {
         if (ToolUtil.changeString(loginInfoStr) != null && ToolUtil.changeString(loginInfoStr).length() > 0) {
             loginInfo = new Gson().fromJson(loginInfoStr, UserObject.class);
             CommonShared.setString(LoginInfo.LOGIN_INFO, loginInfoStr);
+            isLogin = true;
         } else {
             return;
         }
@@ -77,6 +82,8 @@ public class LoginInfo {
     public static void exitLogin() {
         loginInfo = null;
         CommonShared.setString(LoginInfo.LOGIN_INFO, "");
+        isLogin = false;
+        EventBus.getDefault().post(new LoginEvent(false));
     }
 
     public UserObject getLoginInfo() {

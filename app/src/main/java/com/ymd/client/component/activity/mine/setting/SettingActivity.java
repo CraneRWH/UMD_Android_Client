@@ -13,6 +13,7 @@ import com.ymd.client.component.activity.mine.setting.config.AlterLoginPwActivit
 import com.ymd.client.component.activity.mine.setting.config.AlterRegPhoneActivity;
 import com.ymd.client.component.activity.mine.setting.config.SetGesActivity;
 import com.ymd.client.model.constant.Constants;
+import com.ymd.client.model.info.LoginInfo;
 import com.ymd.client.utils.ACache;
 import com.ymd.client.utils.StatusBarUtils;
 
@@ -68,7 +69,7 @@ public class SettingActivity extends BaseActivity {
         StatusBarUtils.StatusBarLightMode(this, true);
     }
 
-    @OnClick({R.id.setting_alter_pw, R.id.setting_alter_ges_pw, R.id.setting_alter_phone})
+    @OnClick({R.id.setting_alter_pw, R.id.setting_alter_ges_pw, R.id.setting_alter_phone,R.id.setting_logout})
     void click(View view) {
         switch (view.getId()) {
             case R.id.setting_alter_pw:
@@ -90,6 +91,9 @@ public class SettingActivity extends BaseActivity {
                 //修改注册手机号
                 startActivity(new Intent(this, AlterRegPhoneActivity.class));
                 break;
+            case R.id.setting_logout:
+                LoginInfo.exitLogin();
+                finish();
         }
 
     }
