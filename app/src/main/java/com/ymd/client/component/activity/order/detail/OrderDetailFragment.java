@@ -317,7 +317,7 @@ public class OrderDetailFragment extends Fragment {
         if (roomType == 0) {
             params.put("roomId", chooseRoom.getRoomId());
         } else {
-            params.put("roomId", -1);
+            params.put("roomId", 0);
         }
         switch (fragmentType) {
             case 0:

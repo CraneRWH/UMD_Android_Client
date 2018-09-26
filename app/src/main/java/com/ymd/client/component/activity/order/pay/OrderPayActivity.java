@@ -297,11 +297,11 @@ public class OrderPayActivity extends BaseActivity {
                     @Override
                     public void onWebSuccess(JSONObject result) {
                 //        resetOrderView(result.optString("ymdOrder"));
-                  /*      if (payType == 0) {
+                        if (payType == 0) {
                             gotoAlipay(result.optString("money"), result.optString("url"));
                         } else {
                             gotoWechat(result.optString("money"), result.optString("url"));
-                        }*/
+                        }
                     }
 
                     @Override
