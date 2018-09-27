@@ -17,7 +17,8 @@
             android:fitsSystemWindows="true"
             android:id="@+id/collapsing"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
             <LinearLayout
                 android:fitsSystemWindows="true"
@@ -212,11 +213,10 @@
         <android.support.design.widget.TabLayout
             android:id="@+id/slidinglayout"
             android:layout_width="match_parent"
-            android:layout_height="45dp"
+            android:layout_height="wrap_content"
             android:layout_gravity="bottom"
             android:background="@android:color/white"
             app:tabTextAppearance="@style/TabLayoutTextStyle"
-            app:tabIndicatorHeight="4dp"
             app:tabIndicatorColor="@color/bg_header"
             app:tabSelectedTextColor="@color/bg_header"
             app:tabTextColor="@color/text_gray_dark"
