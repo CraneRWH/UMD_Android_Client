@@ -99,4 +99,15 @@ dependencies {
     compileOnly files('sdkenc/classes.jar')
 
     implementation project(':library')
+    // 网络框架2.1.0
+    implementation 'com.squareup.retrofit2:retrofit:2.1.0'
+    // fastjson工具包
+    implementation 'org.ligboy.retrofit2:converter-fastjson-android:2.1.0'
+    // okhttputils工具类
+    implementation 'com.zhy:okhttputils:2.6.2'
+    implementation 'com.squareup.okhttp3:okhttp-urlconnection:3.2.0'
+    // recyclerview工具类
+ //   implementation 'com.android.support:recyclerview-v7:25.3.1'
+    // httpcore工具类
+    implementation 'org.apache.httpcomponents:httpcore:4.4.4'
 }

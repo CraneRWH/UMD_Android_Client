@@ -245,12 +245,12 @@ public class OrderPayActivity extends BaseActivity {
     private void gotoAlipay(String alipayMoneyView,String alipayUrlView){
         Intent mIntent = new Intent(this, PayWayActivity.class);
         mIntent.putExtra(PaysdkConstants.CHINAPNR_PAY_WAY_KEY,PaysdkConstants.ALIPAY_WAY);//选择支付宝支付
-        String tradeMoney = "{\"tradeMoney\": \"%s\" } ";
-        mIntent.putExtra(PaysdkConstants.PAY_PARAM_INFO_KEY, TextUtils.isEmpty(alipayMoneyView) ? "" : String.format(tradeMoney, alipayMoneyView));
-        mIntent.putExtra(PaysdkConstants.APP_PAY_URL_KEY,TextUtils.isEmpty(alipayUrlView) ? "http://mertest.chinapnr.com/service-demo/appPay/pay" : alipayUrlView);
+        String tradeMoney = "{\"orderId\": \"%s\" } ";
+        mIntent.putExtra(PaysdkConstants.PAY_PARAM_INFO_KEY, String.format(tradeMoney, alipayMoneyView));
+        mIntent.putExtra(PaysdkConstants.APP_PAY_URL_KEY,alipayUrlView);
 
         showPayResultDialog();
-     //   startActivityForResult(mIntent,REQ_CODE);
+        startActivityForResult(mIntent,REQ_CODE);
     }
 
     /**
@@ -260,12 +260,12 @@ public class OrderPayActivity extends BaseActivity {
 
         Intent mIntent = new Intent(this, PayWayActivity.class);
         mIntent.putExtra(PaysdkConstants.CHINAPNR_PAY_WAY_KEY,PaysdkConstants.WECHAT_WAY);//选择微信支付
-        String tradeMoney = "{\"tradeMoney\": \"%s\" } ";
-        mIntent.putExtra(PaysdkConstants.PAY_PARAM_INFO_KEY,TextUtils.isEmpty(wechatMoneyView) ? "" : String.format(tradeMoney, wechatMoneyView));
-        mIntent.putExtra(PaysdkConstants.APP_PAY_URL_KEY,TextUtils.isEmpty(wechatUrlView) ? "weixin://wxpay/bizpayurl?pr=J15udq4" : wechatUrlView);
+        String tradeMoney = "{\"orderId\": \"%s\" } ";
+        mIntent.putExtra(PaysdkConstants.PAY_PARAM_INFO_KEY,String.format(tradeMoney, wechatMoneyView));
+        mIntent.putExtra(PaysdkConstants.APP_PAY_URL_KEY,wechatUrlView);
 
         showPayResultDialog();
-    //    startActivityForResult(mIntent,REQ_CODE);
+        startActivityForResult(mIntent,REQ_CODE);
     }
 
     private void showPayResultDialog() {
@@ -310,9 +310,9 @@ public class OrderPayActivity extends BaseActivity {
                     }
                 });*/
         if (payType == 0) {
-            gotoAlipay(orderDetail.getOrderNo(), "");
+            gotoAlipay(ToolUtil.changeString(orderDetail.getId()), WebUtil.webUrl + "ymdOrder/pay");
         } else {
-            gotoWechat(orderDetail.getOrderNo(), "");
+            gotoWechat(ToolUtil.changeString(orderDetail.getId()), WebUtil.webUrl + "ymdOrder/pay");
         }
     }
 
