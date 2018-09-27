@@ -127,8 +127,8 @@ public class OrderDetailFragment extends Fragment {
             orderDetail = (OrderResultForm) getArguments().getSerializable("order");
             fragmentType = getArguments().getInt("type");
             functionType = getArguments().getInt("functionType");
-            if (functionType == 0) {
-                if (fragmentType == 0) {
+            if (functionType == 1) {
+                if (fragmentType == 1) {
                     requestRoomList();
                     eatLocationLt.setVisibility(View.VISIBLE);
                 } else {
@@ -191,7 +191,7 @@ public class OrderDetailFragment extends Fragment {
             }
         });
 
-        if (functionType == 0) {
+        if (functionType == 1) {
             initDatePicker();
             chooseRoomType();
         }

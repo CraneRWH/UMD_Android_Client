@@ -205,7 +205,7 @@ public class OrderDetailActivity extends BaseActivity {
     private void resetDetailFragment(String resultJson) {
         orderDetail = new Gson().fromJson(resultJson, OrderResultForm.class);
         fragmentList = new ArrayList<Fragment>();
-        if (functionType == 0) {
+        if (functionType == 1) {
             fragmentList.add(OrderDetailFragment.newInstance(0, functionType,orderDetail));
             fragmentList.add(OrderDetailFragment.newInstance(1, functionType,orderDetail));
 

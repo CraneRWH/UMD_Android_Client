@@ -58,8 +58,7 @@
                 android:layout_width="@dimen/mar_pad_len_262px"
                 android:layout_height="@dimen/mar_pad_len_262px"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="@dimen/mar_pad_len_60px"
-                android:src="@mipmap/icon_pay_image" />
+                android:layout_marginTop="@dimen/mar_pad_len_60px"/>
 
             <com.ymd.client.component.widget.other.MyChooseItemView
                 android:id="@+id/food_code_mcv"
@@ -93,6 +92,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/mar_pad_len_80px"
+                    android:visibility="gone"
                     android:src="@mipmap/icon_pay_location" />
 
                 <TextView
@@ -101,6 +101,7 @@
                     android:layout_marginLeft="@dimen/mar_pad_len_10px"
                     android:layout_weight="1"
                     android:text="支付成功"
+                    android:visibility="gone"
                     android:textColor="@color/common_text_color"
                     android:textSize="@dimen/text_size_28px" />
 
@@ -110,6 +111,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/mar_pad_len_20px"
                     android:layout_marginRight="@dimen/mar_pad_len_20px"
+                    android:visibility="gone"
                     android:src="@mipmap/icon_pay_phone" />
             </LinearLayout>
 
@@ -142,6 +144,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
+                android:visibility="gone"
                 android:orientation="horizontal">
 
                 <TextView
@@ -211,7 +214,6 @@
                         android:gravity="right"
                         android:layout_height="wrap_content"
                         style="@style/font_size_26px_gray_"
-                        android:text="8564454845"
                         android:layout_marginRight="@dimen/mar_pad_len_20px"
                         />
                 </LinearLayout>
@@ -235,7 +237,6 @@
                         android:gravity="right"
                         android:layout_height="wrap_content"
                         style="@style/font_size_26px_gray_"
-                        android:text="8564454845"
                         android:layout_marginRight="@dimen/mar_pad_len_20px"
                         />
                 </LinearLayout>
@@ -245,6 +246,7 @@
                     android:orientation="horizontal"
                     android:gravity="center_vertical"
                     android:layout_marginTop="@dimen/mar_pad_len_32px"
+                    android:visibility="gone"
                     >
                     <TextView
                         android:layout_width="wrap_content"
@@ -283,7 +285,6 @@
                         android:gravity="right"
                         android:layout_height="wrap_content"
                         style="@style/font_size_26px_gray_"
-                        android:text="8564454845"
                         android:layout_marginRight="@dimen/mar_pad_len_20px"
                         />
                 </LinearLayout>
@@ -307,7 +308,6 @@
                         android:gravity="right"
                         android:layout_height="wrap_content"
                         style="@style/font_size_26px_gray_"
-                        android:text="8564454845"
                         android:layout_marginRight="@dimen/mar_pad_len_20px"
                         />
                 </LinearLayout>
@@ -332,7 +332,6 @@
                         android:gravity="right"
                         android:layout_height="wrap_content"
                         style="@style/font_size_26px_gray_"
-                        android:text="8564454845"
                         android:layout_marginRight="@dimen/mar_pad_len_20px"
                         />
                 </LinearLayout>

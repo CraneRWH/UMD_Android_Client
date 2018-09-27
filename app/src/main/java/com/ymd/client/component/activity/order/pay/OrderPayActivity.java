@@ -250,7 +250,7 @@ public class OrderPayActivity extends BaseActivity {
         mIntent.putExtra(PaysdkConstants.APP_PAY_URL_KEY,TextUtils.isEmpty(alipayUrlView) ? "http://mertest.chinapnr.com/service-demo/appPay/pay" : alipayUrlView);
 
         showPayResultDialog();
-        startActivityForResult(mIntent,REQ_CODE);
+     //   startActivityForResult(mIntent,REQ_CODE);
     }
 
     /**
@@ -265,21 +265,21 @@ public class OrderPayActivity extends BaseActivity {
         mIntent.putExtra(PaysdkConstants.APP_PAY_URL_KEY,TextUtils.isEmpty(wechatUrlView) ? "weixin://wxpay/bizpayurl?pr=J15udq4" : wechatUrlView);
 
         showPayResultDialog();
-        startActivityForResult(mIntent,REQ_CODE);
+    //    startActivityForResult(mIntent,REQ_CODE);
     }
 
     private void showPayResultDialog() {
         AlertUtil.AskDialog(this, "是否支付完成", new MyDialog.SureListener() {
             @Override
             public void onSureListener() {
-
+                OrderPayResultActivity.startAction(OrderPayActivity.this, orderDetail);
             }
         });
     }
 
 
     private void sendPay() {
-        String payTypeStr = "";
+        /*String payTypeStr = "";
         for (Map<String,Object> item : payTypeList) {
             if (ToolUtil.changeBoolean(item.get("isChoose"))) {
                 payTypeStr = ToolUtil.changeString(item.get("id"));
@@ -308,7 +308,12 @@ public class OrderPayActivity extends BaseActivity {
                     public void onWebFailed(String errorMsg) {
 
                     }
-                });
+                });*/
+        if (payType == 0) {
+            gotoAlipay(orderDetail.getOrderNo(), "");
+        } else {
+            gotoWechat(orderDetail.getOrderNo(), "");
+        }
     }
 
 }
