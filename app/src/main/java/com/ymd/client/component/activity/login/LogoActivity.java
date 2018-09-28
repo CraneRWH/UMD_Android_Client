@@ -7,6 +7,9 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
 
 import com.ymd.client.R;
 import com.ymd.client.common.base.service.LocationIntentService;
@@ -32,7 +35,28 @@ public class LogoActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_logo);
-        requestCities();
+        View view = findViewById(R.id.splash_parent);
+        AlphaAnimation animation = new AlphaAnimation(0.8f, 1.0f);
+        animation.setDuration(2000);
+        view.startAnimation(animation);
+
+        animation.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                requestCities();
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+
         setService();
     }
 
@@ -45,7 +69,7 @@ public class LogoActivity extends AppCompatActivity {
                 /**
                  * miaoyan 要求 停1.5秒 看logo
                  */
-                Thread.sleep(1000);
+                Thread.sleep(3000);
                 toMainActivity();
             } catch (InterruptedException e) {
                 e.printStackTrace();
@@ -58,7 +82,8 @@ public class LogoActivity extends AppCompatActivity {
 
         CommonShared.setString(LocationInfo.CITYS_INFO_SETTING, DataUtils.getCityList());
         LocationInfo.getInstance().refreshCitiesData();
-        toLoginHandler.sendEmptyMessage(0);
+        toMainActivity();
+    //    toLoginHandler.sendEmptyMessage(0);
         /*WebUtil.getInstance().requestPOST(this, URLConstant.QUERY_CITY_DATA, null,
                 new WebUtil.WebCallBack() {
                     @Override
