@@ -58,7 +58,6 @@ dependencies {
     implementation 'org.greenrobot:eventbus:3.1.1'
     //ButterKnife
     implementation 'com.jakewharton:butterknife:8.8.1'
-    implementation 'com.android.support.constraint:constraint-layout:1.1.2'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
     //dbFlow 数据库
     annotationProcessor "com.github.Raizlabs.DBFlow:dbflow-processor:${dbflow_version}"
@@ -110,4 +109,6 @@ dependencies {
  //   implementation 'com.android.support:recyclerview-v7:25.3.1'
     // httpcore工具类
     implementation 'org.apache.httpcomponents:httpcore:4.4.4'
+
+    compileOnly 'org.jbundle.util.osgi.wrapped:org.jbundle.util.osgi.wrapped.org.apache.http.client:4.1.2'
 }

@@ -161,7 +161,7 @@ public class LoginActivity extends BaseActivity {
         mobileCodeBtn.setClickable(false);
         Map<String, Object> params = new HashMap<>();
         params.put("phone", ToolUtil.changeString(mobileNumber.getText()));
-        WebUtil.getInstance().requestPOST(this, URLConstant.GET_PHONE_CODE, params, true, true, new WebUtil.WebCallBack<Object>() {
+        WebUtil.getInstance().requestPOST(this, URLConstant.GET_PHONE_CODE, params, false, true, new WebUtil.WebCallBack<Object>() {
             @Override
             public void onWebSuccess(JSONObject result) {
                 Log.d("Register", result.toString());

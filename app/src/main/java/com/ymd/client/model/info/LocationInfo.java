@@ -162,7 +162,7 @@ public class LocationInfo implements java.io.Serializable{
 	private void locationChangeChooseCity() {
 		if (ToolUtil.changeString(chooseCity.getCityName()).length() > 0) {
 			for (CityEntity item : allCitys) {
-				if (item.getCityName().equals(locationInfo.getCity())) {
+				if (item.getCityName().contains(locationInfo.getCity()) || locationInfo.getCity().contains(item.getCityName())) {
 					chooseCity = item;
 					chooseCity.setCountyName(locationInfo.getCounty());
 					CommonShared.setString(CITY_CHOOSE_SETTING, new Gson().toJson(chooseCity));
