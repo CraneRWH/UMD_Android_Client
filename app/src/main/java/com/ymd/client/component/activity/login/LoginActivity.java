@@ -84,6 +84,7 @@ public class LoginActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 RegisterActivity.startAction(LoginActivity.this);
+                finish();
             }
         });
         mobileCodeBtn.setOnClickListener(new View.OnClickListener() {

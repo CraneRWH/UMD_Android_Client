@@ -128,7 +128,7 @@ public class OrderDetailFragment extends Fragment {
             fragmentType = getArguments().getInt("type");
             functionType = getArguments().getInt("functionType");
             if (functionType == 1) {
-                if (fragmentType == 1) {
+                if (fragmentType == 0) {
                     requestRoomList();
                     eatLocationLt.setVisibility(View.VISIBLE);
                 } else {

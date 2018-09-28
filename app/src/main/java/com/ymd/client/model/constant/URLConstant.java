@@ -172,7 +172,7 @@ public class URLConstant {
     /**
      * 获取商户的包房列表
      */
-    public static final String MERCHANT_ROOM_LIST = "ymdIndustry/roomsList";
+    public static final String MERCHANT_ROOM_LIST = "ymdMerchantController/roomsList";
 
     /**
      * 获取订单列表

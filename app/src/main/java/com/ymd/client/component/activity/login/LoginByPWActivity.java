@@ -46,6 +46,9 @@ public class LoginByPWActivity extends BaseActivity {
 
     private String index;
 
+    public static boolean isFront  = false;
+
+
     @Override
     public void back(View view) {
         if (index.contains("Login")) {
@@ -81,6 +84,7 @@ public class LoginByPWActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 RegisterActivity.startAction(LoginByPWActivity.this);
+                finish();
             }
         });
 
@@ -164,5 +168,17 @@ public class LoginByPWActivity extends BaseActivity {
 
         EventBus.getDefault().post(new LoginEvent(true));
         finish();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        isFront = true;
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        isFront = false;
     }
 }

@@ -163,11 +163,11 @@ public class MerchantDetailActivity extends TabBaseActivity {
         footView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (shopCarPopupWindow.isShowing()) {
+            /*    if (shopCarPopupWindow.isShowing()) {
                     shopCarPopupWindow.dismiss();
                 } else {
                     shopCarPopupWindow.showPopupWindow(shopCartMain);
-                }
+                }*/
             }
         });
         submitBtn.setOnClickListener(new View.OnClickListener() {

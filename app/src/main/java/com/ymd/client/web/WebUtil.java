@@ -144,7 +144,7 @@ public class WebUtil {
                             boolean isDialog,   //是否显示弹出框
                             final WebCallBack callback) {
 
-        if (isLogin && CommonShared.getString(CommonShared.LOGIN_TOKEN,"").length() == 0) {
+        if (isLogin && CommonShared.getString(CommonShared.LOGIN_TOKEN,"").length() == 0 && !LoginByPWActivity.isFront) {
          //   ToolUtil.toLoginHandler.sendEmptyMessage(0);
             LoginByPWActivity.startAction(context);
             ToastUtil.ToastMessage(context, "请首先登陆");

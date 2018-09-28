@@ -150,7 +150,7 @@ public class MainMineFragment extends Fragment {
                 break;
             case R.id.fragment_mine_links:
                 //    startActivity(new Intent(getContext(), LinkServiceActivity.class));
-                diallPhone("15165126339");
+                diallPhone("40012012345");
                 //联系客服
                 break;
             case R.id.fragment_mine_banks:
