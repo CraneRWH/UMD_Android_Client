@@ -31,7 +31,6 @@ import com.ymd.client.model.bean.homePage.YmdIndustryEntity;
 import com.ymd.client.model.bean.homePage.YmdRecommendEntity;
 import com.ymd.client.model.constant.URLConstant;
 import com.ymd.client.model.info.LocationInfo;
-import com.ymd.client.model.info.LoginInfo;
 import com.ymd.client.utils.ToolUtil;
 import com.ymd.client.web.WebUtil;
 

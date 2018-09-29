@@ -1,9 +1,11 @@
 package com.ymd.client.model.bean.homePage;
 
-
 import java.io.Serializable;
 import java.util.List;
 
+/**
+ * 商户信息
+ */
 public class MerchantInfoEntity implements Serializable {
     private Long id;
     /**
@@ -53,13 +55,57 @@ public class MerchantInfoEntity implements Serializable {
     private String score;
 
     //文件
-    private List<FileInfoEntity> file;
+    private List<FileInfo> file;
+    //人均消费
+    private String consumption;
+    /**
+     * 营业开始时间
+     */
+    private String startBusinessTime;
+    /**
+     * 营业结束时间
+     */
+    private String endBusinessTime;
+    //门头照
+    private String photoUrl;
 
-    public List<FileInfoEntity> getFile() {
+    public String getPhotoUrl() {
+        return photoUrl;
+    }
+
+    public void setPhotoUrl(String photoUrl) {
+        this.photoUrl = photoUrl;
+    }
+
+    public String getConsumption() {
+        return consumption;
+    }
+
+    public void setConsumption(String consumption) {
+        this.consumption = consumption;
+    }
+
+    public String getStartBusinessTime() {
+        return startBusinessTime;
+    }
+
+    public void setStartBusinessTime(String startBusinessTime) {
+        this.startBusinessTime = startBusinessTime;
+    }
+
+    public String getEndBusinessTime() {
+        return endBusinessTime;
+    }
+
+    public void setEndBusinessTime(String endBusinessTime) {
+        this.endBusinessTime = endBusinessTime;
+    }
+
+    public List<FileInfo> getFile() {
         return file;
     }
 
-    public void setFile(List<FileInfoEntity> file) {
+    public void setFile(List<FileInfo> file) {
         this.file = file;
     }
 
@@ -126,6 +172,7 @@ public class MerchantInfoEntity implements Serializable {
     public void setDiscount(String discount) {
         this.discount = discount;
     }
+
 
     public String getCity() {
         return city;

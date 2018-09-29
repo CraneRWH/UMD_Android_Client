@@ -27,7 +27,6 @@ import com.jude.rollviewpager.adapter.StaticPagerAdapter;
 import com.ymd.client.R;
 import com.ymd.client.common.base.OnUMDItemClickListener;
 import com.ymd.client.component.activity.homePage.city.CityChooseActivity;
-import com.ymd.client.component.activity.homePage.food.NiceFoodActivity;
 import com.ymd.client.component.activity.homePage.food.seller.MerchantDetailActivity;
 import com.ymd.client.component.activity.homePage.food.seller.SellerDetailActivity;
 import com.ymd.client.component.activity.homePage.functionItem.FunctionItemActivity;

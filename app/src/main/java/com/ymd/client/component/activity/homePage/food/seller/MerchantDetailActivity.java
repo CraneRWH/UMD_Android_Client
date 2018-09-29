@@ -111,14 +111,14 @@ public class MerchantDetailActivity extends TabBaseActivity {
 
     private List<YmdGoodsEntity> buyList = new ArrayList<>();
 
-    private int functionType;
+    private int functionType;   //美食相关类别的标记
 
     /**
      * 启动
      *
      * @param context
      */
-    public static void startAction(Activity context, MerchantInfoEntity merchant,int functionType) {
+    public static void startAction(Activity context, MerchantInfoEntity merchant, int functionType) {
         Intent intent = new Intent(context, MerchantDetailActivity.class);
         intent.putExtra("merchant", merchant);
         intent.putExtra("functionType", functionType);

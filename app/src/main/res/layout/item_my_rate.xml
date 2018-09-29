@@ -17,8 +17,7 @@
             android:id="@+id/icon_iv"
             android:layout_width="@dimen/mar_pad_len_90px"
             android:layout_height="@dimen/mar_pad_len_90px"
-            android:scaleType="centerCrop"
-            android:src="@mipmap/adver_icon_1" />
+            android:scaleType="centerCrop" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -41,7 +40,6 @@
                     android:layout_weight="1"
                     android:paddingBottom="@dimen/mar_pad_len_10px"
                     android:paddingRight="@dimen/mar_pad_len_20px"
-                    android:text="独一处"
                     android:textSize="@dimen/text_size_32px"
                     android:textStyle="bold" />
 
@@ -51,7 +49,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/mar_pad_len_20px"
-                    android:text="2018.08.16"
                     android:textColor="@color/text_gray_dark" />
             </LinearLayout>
 
@@ -109,9 +106,9 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/content_tv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈。"
                 android:textSize="@dimen/text_size_30px"/>
 
             <GridLayout
@@ -122,6 +119,7 @@
                 android:layout_marginTop="2dp" />
 
             <LinearLayout
+                android:id="@+id/image_llt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingTop="@dimen/mar_pad_len_20px"
@@ -134,35 +132,34 @@
                     android:layout_height="wrap_content"
                     android:layout_marginRight="@dimen/mar_pad_len_20px"
                     android:layout_weight="1"
-                    android:scaleType="fitXY"
-                    android:src="@mipmap/adver_icon_1" />
+                    android:scaleType="fitXY" />
                 <ImageView
                     android:id="@+id/item_my_rate_img2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="@dimen/mar_pad_len_20px"
                     android:layout_weight="1"
-                    android:scaleType="fitXY"
-                    android:src="@mipmap/adver_icon_1" />
+                    android:scaleType="fitXY" />
                 <ImageView
                     android:id="@+id/item_my_rate_img3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:scaleType="fitXY"
-                    android:src="@mipmap/adver_icon_1" />
+                    android:scaleType="fitXY" />
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/replay_llt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/mar_pad_len_10px"
+                android:visibility="gone"
                 android:background="@color/text_gray"
                 android:orientation="vertical">
                 <TextView
+                    android:id="@+id/replay_tv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="商家回复：哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈。"
                     android:textSize="@dimen/text_size_28px"/>
             </LinearLayout>
         </LinearLayout>
@@ -174,6 +171,7 @@
         android:gravity="right|center_vertical"
         android:paddingBottom="@dimen/mar_pad_len_20px"
         android:paddingRight="@dimen/mar_pad_len_20px"
+        android:visibility="gone"
         android:orientation="horizontal">
 
         <LinearLayout

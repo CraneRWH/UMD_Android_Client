@@ -15,7 +15,8 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.ymd.client.component.widget.myDialog.MyAlertDialog;
 import com.ymd.client.component.widget.myDialog.MyProgressDialog;
-import com.ymd.client.model.bean.SysVerInfo;
+import com.ymd.client.model.bean.YmdAppVersion;
+import com.ymd.client.model.constant.URLConstant;
 import com.ymd.client.utils.AlertUtil;
 import com.ymd.client.utils.CommonShared;
 import com.ymd.client.utils.ToolUtil;
@@ -48,7 +49,7 @@ public class UpdateAppUtil {
 	private Handler splashHandler;
 
 	// 更新版本要用到的一些信息
-	private SysVerInfo updateInfo = new SysVerInfo();
+	private YmdAppVersion updateInfo = new YmdAppVersion();
 	private Message message;
 
 	private String appName = "mass";
@@ -65,15 +66,15 @@ public class UpdateAppUtil {
 	 */
 	public void checkUpdate() {
 		Map<String,Object> params = new HashMap<String,Object>();
-		params.put("terminalType", "3");	//判断是ios系统还是android系统的；0：android; 1:ios
-		WebUtil.getInstance().requestPOST(mContext, "",  params, false, new WebUtil.WebCallBack() {
+		params.put("type", "0");	//判断是ios系统还是android系统的；0：android; 1:ios
+		params.put("userType", "1");
+		WebUtil.getInstance().requestPOST(mContext, URLConstant.VERSION_NEW,  params, false, new WebUtil.WebCallBack() {
 
 			@Override
 			public void onWebSuccess(JSONObject resultJson) {
 				try {
-					List<SysVerInfo> list = new Gson().fromJson(resultJson.optString(""), new TypeToken<List<SysVerInfo>>(){}.getType());
-					if (list != null && !list.isEmpty()) {
-						updateInfo = list.get(0);
+					updateInfo = new Gson().fromJson(resultJson.optString("appVersion"), YmdAppVersion.class);
+					if (updateInfo != null) {
 						successHandler.sendEmptyMessage(0);
 					}
 					else {
@@ -82,6 +83,7 @@ public class UpdateAppUtil {
 
 				}catch (Exception e) {
 					e.printStackTrace();
+					splashHandler.sendMessage(message);
 				}
 			}
 
@@ -140,13 +142,13 @@ public class UpdateAppUtil {
 		MyAlertDialog dialog = new MyAlertDialog(mContext);
 		dialog.show();
 		dialog.setTitle("是否更新");
-		dialog.setMessage(updateInfo.getVerDesc());
+		dialog.setMessage(updateInfo.getVersionDesc());
 		dialog.setPositiveButton(new MyAlertDialog.SureListener() {
 			@Override
 			public void onSureListener() {
 				if (Environment.getExternalStorageState().equals(
 						Environment.MEDIA_MOUNTED)) {
-					downFile(updateInfo.getApkUrl());
+					downFile(updateInfo.getDownloadUrl());
 				} else {
 					//	ToolUtil.ToastMessage("SD卡不可用，请插入SD卡",ToolUtil.WRONG);
 					AlertUtil.FailDialog(mContext, "SD卡不可用，请插入SD卡");
@@ -156,7 +158,7 @@ public class UpdateAppUtil {
 		dialog.setNegativeButton(new MyAlertDialog.CancelListener() {
 			@Override
 			public void onCancelListener() {
-				if (updateInfo.getVerFlag().equals("1")) {
+				if (updateInfo.getUpgrade().equals("1")) {
 					System.exit(0);
 				} else {
 					message.what = 0;
@@ -195,7 +197,7 @@ public class UpdateAppUtil {
 
 	private boolean isNeedUpdate() {
 
-		int v = ToolUtil.changeInteger(updateInfo.getVerNum()); // 最新版本的版本号
+		int v = ToolUtil.changeInteger(updateInfo.getVersionNo()); // 最新版本的版本号
 		if (v > getVersionCode(mContext)) {
 			return true;
 		} else {

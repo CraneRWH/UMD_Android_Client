@@ -29,6 +29,7 @@ import com.ymd.client.model.bean.order.OrderResultForm;
 import com.ymd.client.model.bean.order.YmdMerchantRooms;
 import com.ymd.client.model.bean.order.YmdOrderGoods;
 import com.ymd.client.model.constant.URLConstant;
+import com.ymd.client.utils.ToastUtil;
 import com.ymd.client.utils.ToolUtil;
 import com.ymd.client.web.WebUtil;
 
@@ -94,6 +95,8 @@ public class OrderDetailFragment extends Fragment {
     TextView uDisPriceTv;
     @BindView(R.id.u_get_tv)
     TextView uGetTv;
+    @BindView(R.id.food_llt)
+    LinearLayout foodLlt;
     Unbinder unbinder;
 
     OrderResultForm orderDetail;
@@ -128,12 +131,15 @@ public class OrderDetailFragment extends Fragment {
             fragmentType = getArguments().getInt("type");
             functionType = getArguments().getInt("functionType");
             if (functionType == 1) {
+                foodLlt.setVisibility(View.VISIBLE);
                 if (fragmentType == 0) {
                     requestRoomList();
                     eatLocationLt.setVisibility(View.VISIBLE);
                 } else {
                     eatLocationLt.setVisibility(View.GONE);
                 }
+            } else {
+                foodLlt.setVisibility(View.GONE);
             }
             resetGoodList();
             resetOrderView();
@@ -184,6 +190,14 @@ public class OrderDetailFragment extends Fragment {
             }
         });
         dateTv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // 日期格式为yyyy-MM-dd HH:mm
+                customDatePicker.show(dateStr + " " + timeTv.getText().toString());
+            }
+        });
+
+        timeTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // 日期格式为yyyy-MM-dd HH:mm
@@ -309,12 +323,17 @@ public class OrderDetailFragment extends Fragment {
     }
 
     private void submitOrder() {
+
         Map<String, Object> params = new HashMap<>();
         params.put("id", orderDetail.getId());
         params.put("eatNumber", ToolUtil.changeString(eatNum));
         params.put("eatTime", dateStr + " " + timeStr + ":00");
         params.put("room", roomType);
         if (roomType == 0) {
+            if (chooseRoom == null) {
+                ToastUtil.ToastMessage(getActivity(), "请选择包房");
+                return;
+            }
             params.put("roomId", chooseRoom.getRoomId());
         } else {
             params.put("roomId", 0);

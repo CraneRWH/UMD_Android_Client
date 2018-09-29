@@ -74,7 +74,7 @@ public class OrderDetailActivity extends BaseActivity {
     private List<MyChooseItemView> textViewList;
 
     private long orderId;
-    private int functionType;
+    private int functionType;    //美食相关类别的标记
     /**
      * 启动
      * @param context
@@ -101,6 +101,9 @@ public class OrderDetailActivity extends BaseActivity {
             Bundle bundle = getIntent().getExtras();
             orderId = bundle.getLong("orderId");
             functionType = bundle.getInt("functionType");
+            if (functionType == 0) {
+                functionType = 1;
+            }
             requestOrderDetail();
         }
         status = 2;
@@ -205,11 +208,11 @@ public class OrderDetailActivity extends BaseActivity {
     private void resetDetailFragment(String resultJson) {
         orderDetail = new Gson().fromJson(resultJson, OrderResultForm.class);
         fragmentList = new ArrayList<Fragment>();
+        textViewList = new ArrayList<MyChooseItemView>();
         if (functionType == 1) {
             fragmentList.add(OrderDetailFragment.newInstance(0, functionType,orderDetail));
             fragmentList.add(OrderDetailFragment.newInstance(1, functionType,orderDetail));
 
-            textViewList = new ArrayList<MyChooseItemView>();
             textViewList.add(chooseItem0);
             textViewList.add(chooseItem1);
         } else {
@@ -217,7 +220,6 @@ public class OrderDetailActivity extends BaseActivity {
             fragmentList.add(OrderDetailFragment.newInstance(0, functionType,orderDetail));
         }
         //    fragmentList.add(new OrderDetailFragment());
-
 
         viewPagerListener();
         chooseItem(0);

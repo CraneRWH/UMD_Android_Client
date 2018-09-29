@@ -7,17 +7,28 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.ymd.client.R;
 import com.ymd.client.common.base.BaseActivity;
+import com.ymd.client.component.activity.login.LoginByPWActivity;
 import com.ymd.client.component.adapter.CommonRecyclerAdapter;
 import com.ymd.client.component.adapter.MyRateAdapter;
 import com.ymd.client.component.widget.zrecyclerview.ProgressStyle;
 import com.ymd.client.component.widget.zrecyclerview.ZRecyclerView;
+import com.ymd.client.model.bean.user.YmdEvaluation;
+import com.ymd.client.model.constant.URLConstant;
+import com.ymd.client.model.info.LoginInfo;
 import com.ymd.client.utils.StatusBarUtils;
 import com.ymd.client.utils.ToastUtil;
+import com.ymd.client.web.WebUtil;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -37,6 +48,8 @@ public class MyRatesActivity extends BaseActivity {
 
     MyRateAdapter mAdapter;
     int page = 1;
+
+    List<YmdEvaluation> datas;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,17 +96,17 @@ public class MyRatesActivity extends BaseActivity {
             @Override
             public void onRefresh() {
                 page = 1;
-                refreshList(getDataList());
+                requestDataInfo();
             }
 
             @Override
             public void onLoadMore() {
                 page++;
-                refreshList(getDataList());
+                requestDataInfo();
             }
         });
 
-        refreshList(getDataList());
+        requestDataInfo();
     }
 
     protected List<String> getDataList() {
@@ -108,8 +121,35 @@ public class MyRatesActivity extends BaseActivity {
         return list;
     }
 
-    public void refreshList(List<String> beans) {
-        if (beans == null || beans.size() == 0) {
+
+    private void requestDataInfo() {
+        if (!LoginInfo.isLogin) {
+            ToastUtil.ToastMessage(this, "请首先登录");
+            refreshList("");
+            LoginByPWActivity.startAction(this);
+            return;
+        }
+        Map<String, Object> params = new HashMap<>();
+    //    params.put("consumerId", LoginInfo.getInstance().getLoginInfo().getId());
+        params.put("pageNum", page);
+        WebUtil.getInstance().requestPOST(this, URLConstant.QUERY_COMMENT_LIST, params, true,
+                new WebUtil.WebCallBack() {
+                    @Override
+                    public void onWebSuccess(JSONObject result) {
+                        refreshList(result.optString("list"));
+                    }
+
+                    @Override
+                    public void onWebFailed(String errorMsg) {
+                        refreshList("");
+                    }
+                });
+    }
+
+    public void refreshList(String resultJson) {
+        datas = new Gson().fromJson(resultJson, new TypeToken<List<YmdEvaluation>>(){}.getType());
+
+        if (datas == null || datas.size() == 0) {
             recyclerView.loadMoreComplete();
             recyclerView.refreshComplete();
             if (page == 1) {
@@ -120,15 +160,18 @@ public class MyRatesActivity extends BaseActivity {
             }
         } else {
             if (page == 1) {
-                mAdapter.addItems(beans);
+                mAdapter.addItems(datas);
                 recyclerView.refreshComplete();
             } else {
                 recyclerView.loadMoreComplete();
-                mAdapter.appendItems(beans);
+                mAdapter.appendItems(datas);
             }
             mEmptyView.setVisibility(View.GONE);
             recyclerView.setVisibility(View.VISIBLE);
         }
+
+        recyclerView.refreshComplete();
+        recyclerView.loadMoreComplete();
     }
 
     public void showError(String msg) {

@@ -209,4 +209,16 @@ public class URLConstant {
      * 获取支付信息
      */
     public static final String ORDER_PAY_INFO = "ymdOrder/pay";
+
+
+    /**
+     * 获取个人的评论列表
+     */
+    public static final String QUERY_COMMENT_LIST = "Evaluation/commentsList";
+
+    /**
+     * 获取最新版本号
+     */
+    public static final String VERSION_NEW = "file/appVersion";
+
 }

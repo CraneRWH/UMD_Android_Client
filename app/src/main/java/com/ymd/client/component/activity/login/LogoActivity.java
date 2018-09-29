@@ -46,6 +46,8 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONObject;
 
+import static com.ymd.client.utils.ToolUtil.toLoginHandler;
+
 /**
  * 作者:rongweihe
  * 日期:2018/8/22  时间:22:56
@@ -66,15 +68,13 @@ public class LogoActivity extends AppCompatActivity {
         animation.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
-                quanxian();
+
+                checkUpdate();
             }
 
             @Override
             public void onAnimationEnd(Animation animation) {
-            //    checkUpdate();
-
-            //    setService();
-            //    mHandler.sendEmptyMessage(0);
+                //    checkUpdate();
             }
 
             @Override
@@ -82,10 +82,7 @@ public class LogoActivity extends AppCompatActivity {
 
             }
         });
-    //    requestCities();
-    //    setService();
         initLocation();
-    //    startLocation();
     }
 
     private void checkUpdate() {
@@ -96,132 +93,67 @@ public class LogoActivity extends AppCompatActivity {
     private Handler mHandler = new Handler() {
         public void handleMessage(Message msg) {
             requestCities();
-        };
-    };
-    private Handler toLoginHandler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            //两个参数分别表示进入的动画,退出的动画
-        //    overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-            try {
-                /**
-                 * miaoyan 要求 停1.5秒 看logo
-                 */
-                Thread.sleep(3000);
-                toMainActivity();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-
         }
+
+        ;
     };
 
     private void requestCities() {
 
-        CommonShared.setString(LocationInfo.CITYS_INFO_SETTING, DataUtils.getCityList());
-        LocationInfo.getInstance().refreshCitiesData();
-        toMainActivity();
-    //    toLoginHandler.sendEmptyMessage(0);
-        /*WebUtil.getInstance().requestPOST(this, URLConstant.QUERY_CITY_DATA, null,
+        /*CommonShared.setString(LocationInfo.CITYS_INFO_SETTING, DataUtils.getCityList());
+        LocationInfo.getInstance().refreshCitiesData();*/
+        //    toMainActivity();
+        WebUtil.getInstance().requestPOST(this, URLConstant.QUERY_CITY_DATA, null,
                 new WebUtil.WebCallBack() {
                     @Override
                     public void onWebSuccess(JSONObject result) {
                         CommonShared.setString(LocationInfo.CITYS_INFO_SETTING, result.optString("list"));
                         LocationInfo.getInstance().refreshCitiesData();
-                        toLoginHandler.sendEmptyMessage(0);
+                        quanxian();
                     }
 
                     @Override
                     public void onWebFailed(String errorMsg) {
 
                     }
-                });*/
+                });
     }
+
     private void toMainActivity() {
-    //    LoginActivity.startAction(this);
         MainActivity.startAction(this);
         finish();
     }
 
-
-    private void setService() {
-        // 注册广播
-   /*     IntentFilter filter = new IntentFilter();
-        filter.addAction(Constants.LOCATION_ACTION);
-        LogoActivity.this.registerReceiver(new LocationBroadcastReceiver(),
-                filter);
-*/
-        // 启动服务
-        LocationIntentService.startAction(this);
-        //    init();
-    }
-
-    private class LocationBroadcastReceiver extends BroadcastReceiver {
-
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            if (!intent.getAction().equals(Constants.LOCATION_ACTION)) {
-                return;
-            }
-            String latlong = intent.getStringExtra("NAME");
-            unregisterReceiver(this);// 不需要时注销
-            toMainActivity();
-        }
-    }
-/*
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        EventBus.getDefault().register(this);
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        EventBus.getDefault().unregister(this);
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onMessageEvent(LocationEvent event) {
-        if (event.isLocation()) {
-            toMainActivity();
-        } else {
-        //    ToastUtil.ToastMessage(LogoActivity.this, "定位失败");
-            toMainActivity();
-        }
-    }*/
-
-
     private static final int LOCATION_CODE = 1;
     private LocationManager lm;//【位置管理】
 
-    public void quanxian(){
+    public void quanxian() {
         lm = (LocationManager) this.getSystemService(this.LOCATION_SERVICE);
         boolean ok = lm.isProviderEnabled(LocationManager.GPS_PROVIDER);
         if (ok) {//开了定位服务
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                     != PackageManager.PERMISSION_GRANTED) {
-                Log.e("BRG","没有权限");
+                Log.e("BRG", "没有权限");
                 // 没有权限，申请权限。
                 // 申请授权。
                 ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, LOCATION_CODE);
-//                        Toast.makeText(getActivity(), "没有权限", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getActivity(), "没有权限", Toast.LENGTH_SHORT).show();
 
             } else {
 
                 startLocation();
                 // 有权限了，去放肆吧。
-//                        Toast.makeText(getActivity(), "有权限", Toast.LENGTH_SHORT).show();
+                // Toast.makeText(getActivity(), "有权限", Toast.LENGTH_SHORT).show();
             }
         } else {
-            Log.e("BRG","系统检测到未开启GPS定位服务");
+            Log.e("BRG", "系统检测到未开启GPS定位服务");
             Toast.makeText(this, "系统检测到未开启GPS定位服务", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent();
             intent.setAction(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
             startActivityForResult(intent, 1315);
         }
     }
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         switch (requestCode) {
@@ -233,7 +165,7 @@ public class LogoActivity extends AppCompatActivity {
                     startLocation();
                 } else {
                     // 权限被用户拒绝了。
-                    Toast.makeText(this, "定位权限被禁止，相关地图功能无法使用！",Toast.LENGTH_LONG).show();
+                    Toast.makeText(this, "定位权限被禁止，相关地图功能无法使用！", Toast.LENGTH_LONG).show();
                     toMainActivity();
                 }
 
@@ -242,17 +174,16 @@ public class LogoActivity extends AppCompatActivity {
     }
 
 
-
     private AMapLocationClient locationClient = null;
     private AMapLocationClientOption locationOption = null;
+
     /**
      * 初始化定位
      *
-     * @since 2.8.0
      * @author hongming.wang
-     *
+     * @since 2.8.0
      */
-    private void initLocation(){
+    private void initLocation() {
         //初始化client
         locationClient = new AMapLocationClient(this.getApplicationContext());
         locationOption = getDefaultOption();
@@ -264,11 +195,11 @@ public class LogoActivity extends AppCompatActivity {
 
     /**
      * 默认的定位参数
-     * @since 2.8.0
-     * @author hongming.wang
      *
+     * @author hongming.wang
+     * @since 2.8.0
      */
-    private AMapLocationClientOption getDefaultOption(){
+    private AMapLocationClientOption getDefaultOption() {
         AMapLocationClientOption mOption = new AMapLocationClientOption();
         mOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);//可选，设置定位模式，可选的模式有高精度、仅设备、仅网络。默认为高精度模式
         mOption.setGpsFirst(false);//可选，设置是否gps优先，只在高精度模式下有效。默认关闭
@@ -284,6 +215,7 @@ public class LogoActivity extends AppCompatActivity {
         mOption.setGeoLanguage(AMapLocationClientOption.GeoLanguage.DEFAULT);//可选，设置逆地理信息的语言，默认值为默认语言（根据所在地区选择语言）
         return mOption;
     }
+
     /**
      * 定位监听
      */
@@ -295,7 +227,7 @@ public class LogoActivity extends AppCompatActivity {
                 LocationInfoEntity locationInfoEntity = new LocationInfoEntity();
                 StringBuffer sb = new StringBuffer();
                 //errCode等于0代表定位成功，其他的为定位失败，具体的可以参照官网定位错误码说明
-                if(location.getErrorCode() == 0){
+                if (location.getErrorCode() == 0) {
                     sb.append("定位成功" + "\n");
                     sb.append("定位类型: " + location.getLocationType() + "\n");
                     sb.append("经    度    : " + location.getLongitude() + "\n");
@@ -338,7 +270,7 @@ public class LogoActivity extends AppCompatActivity {
                     toMainActivity();
                 }
                 sb.append("***定位质量报告***").append("\n");
-                sb.append("* WIFI开关：").append(location.getLocationQualityReport().isWifiAble() ? "开启":"关闭").append("\n");
+                sb.append("* WIFI开关：").append(location.getLocationQualityReport().isWifiAble() ? "开启" : "关闭").append("\n");
                 sb.append("* GPS状态：").append(getGPSStatusString(location.getLocationQualityReport().getGPSStatus())).append("\n");
                 sb.append("* GPS星数：").append(location.getLocationQualityReport().getGPSSatellites()).append("\n");
                 sb.append("* 网络类型：" + location.getLocationQualityReport().getNetworkType()).append("\n");
@@ -360,12 +292,13 @@ public class LogoActivity extends AppCompatActivity {
 
     /**
      * 获取GPS状态的字符串
+     *
      * @param statusCode GPS状态码
      * @return
      */
-    private String getGPSStatusString(int statusCode){
+    private String getGPSStatusString(int statusCode) {
         String str = "";
-        switch (statusCode){
+        switch (statusCode) {
             case AMapLocationQualityReport.GPS_STATUS_OK:
                 str = "GPS状态正常";
                 break;
@@ -389,11 +322,10 @@ public class LogoActivity extends AppCompatActivity {
     /**
      * 开始定位
      *
-     * @since 2.8.0
      * @author hongming.wang
-     *
+     * @since 2.8.0
      */
-    private void startLocation(){
+    private void startLocation() {
         //根据控件的选择，重新设置定位参数
         //    resetOption();
         // 设置定位参数
@@ -405,11 +337,10 @@ public class LogoActivity extends AppCompatActivity {
     /**
      * 停止定位
      *
-     * @since 2.8.0
      * @author hongming.wang
-     *
+     * @since 2.8.0
      */
-    private void stopLocation(){
+    private void stopLocation() {
         // 停止定位
         locationClient.stopLocation();
     }
@@ -417,11 +348,10 @@ public class LogoActivity extends AppCompatActivity {
     /**
      * 销毁定位
      *
-     * @since 2.8.0
      * @author hongming.wang
-     *
+     * @since 2.8.0
      */
-    private void destroyLocation(){
+    private void destroyLocation() {
         if (null != locationClient) {
             /**
              * 如果AMapLocationClient是在当前Activity实例化的，

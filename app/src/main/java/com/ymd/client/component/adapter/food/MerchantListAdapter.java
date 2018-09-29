@@ -63,11 +63,11 @@ public class MerchantListAdapter extends RecyclerView.Adapter<MerchantListAdapte
             holder.distanceTv.setText(ToolUtil.double2Point(ToolUtil.changeDouble(data.getDistance())) + "m");
         }
         holder.scoreBarView.setRating(ToolUtil.changeFloat(data.getScore()));
-    //    holder.workTimeTv.setText(ToolUtil.changeString(data.get("work_time")));
+        holder.workTimeTv.setText(ToolUtil.changeString(data.getStartBusinessTime()) + "-" + ToolUtil.changeString(data.getEndBusinessTime()));
     //    holder.disStrTv.setText(ToolUtil.changeString(data.get("dis_str")));
         holder.disNumTv.setText(ToolUtil.changeString(data.getDiscount()) +"折");
-        holder.priceTv.setText("¥" /*+ data.get("price")*/);
-        holder.unitTv.setText("/"/*+ data.get("unit")*/);
+        holder.priceTv.setText("¥" + ToolUtil.changeString(data.getConsumption())/*+ data.get("price")*/);
+        holder.unitTv.setText("/人"/*+ data.get("unit")*/);
      //   List<String> disStrs = (List<String>) data.get("diss");
         //开始添加数据
     /*    for (int x = 0; x < disStrs.size(); x++) {

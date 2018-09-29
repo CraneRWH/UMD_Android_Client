@@ -16,8 +16,6 @@ import com.google.gson.reflect.TypeToken;
 import com.ymd.client.R;
 import com.ymd.client.common.base.OnUMDItemClickListener;
 import com.ymd.client.component.activity.homePage.food.seller.MerchantDetailActivity;
-import com.ymd.client.component.adapter.CommonCollectionAdapter;
-import com.ymd.client.component.adapter.food.MerchantListAdapter;
 import com.ymd.client.component.adapter.food.MerchantListAdapter2;
 import com.ymd.client.component.widget.zrecyclerview.ProgressStyle;
 import com.ymd.client.component.widget.zrecyclerview.ZRecyclerView;

@@ -22,12 +22,10 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.ymd.client.R;
 import com.ymd.client.common.base.BaseActivity;
-import com.ymd.client.common.base.bean.TabObject;
 import com.ymd.client.component.activity.homePage.food.seller.MerchantDetailActivity;
 import com.ymd.client.component.activity.order.PageFragmentAdapter;
 import com.ymd.client.component.widget.other.MyChooseItemView;
 import com.ymd.client.model.bean.homePage.MerchantInfoEntity;
-import com.ymd.client.model.bean.homePage.YmdGoodsEntity;
 import com.ymd.client.model.bean.homePage.YmdIndustryEntity;
 import com.ymd.client.model.bean.homePage.YmdRecommendEntity;
 import com.ymd.client.model.constant.URLConstant;
@@ -36,7 +34,6 @@ import com.ymd.client.web.WebUtil;
 
 import org.json.JSONObject;
 
-import java.nio.channels.Channel;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

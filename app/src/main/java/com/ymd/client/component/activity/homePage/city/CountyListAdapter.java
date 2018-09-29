@@ -1,6 +1,5 @@
 package com.ymd.client.component.activity.homePage.city;
 
-import android.content.Context;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.support.v7.widget.RecyclerView;
@@ -8,16 +7,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.ymd.client.R;
 import com.ymd.client.common.base.OnUMDItemClickListener;
 import com.ymd.client.component.widget.recyclerView.MyGridView;
 import com.ymd.client.model.bean.city.CityEntity;
-import com.ymd.client.model.bean.homePage.MerchantInfoEntity;
-import com.ymd.client.utils.ToolUtil;
 
 import java.util.List;
 
