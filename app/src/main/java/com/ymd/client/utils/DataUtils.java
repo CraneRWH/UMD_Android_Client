@@ -190,7 +190,7 @@ public class DataUtils {
      */
     public static List<Map<String,Object>> getFunctionsData() {
         List<Map<String ,Object>> list = new ArrayList<>();
-        Map<String, Object> map = new HashMap<>(); map.put("name","美事"); map.put("icon", R.mipmap.food_item_icon); list.add(map);
+        Map<String, Object> map = new HashMap<>(); map.put("name","美食"); map.put("icon", R.mipmap.food_item_icon); list.add(map);
 
         map = new HashMap<>(); map.put("name","酒店"); map.put("icon", R.mipmap.hospital_item_icon); list.add(map);
 

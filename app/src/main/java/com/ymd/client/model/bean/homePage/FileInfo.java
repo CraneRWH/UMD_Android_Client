@@ -1,9 +1,11 @@
 package com.ymd.client.model.bean.homePage;
 
+import java.io.Serializable;
+
 /**
  * 附件信息
  */
-public class FileInfo {
+public class FileInfo implements Serializable {
     /**
      * 附件名称
      */

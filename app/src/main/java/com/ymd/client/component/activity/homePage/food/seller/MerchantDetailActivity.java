@@ -190,6 +190,7 @@ public class MerchantDetailActivity extends TabBaseActivity {
         if (merchantInfo.getDiscount() != null) {
             disTv.setText("享受" + merchantInfo.getDiscount() + "折优惠");
             disTv.setVisibility(View.VISIBLE);
+            noShop.setVisibility(View.GONE);
         } else {
             disTv.setVisibility(View.GONE);
             merchantInfo.setDiscount("10");

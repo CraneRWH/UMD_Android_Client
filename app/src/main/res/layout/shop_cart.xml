@@ -60,7 +60,7 @@
                     style="@style/font_size_36px_black"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="" />
+                    android:text="¥ 0" />
             </LinearLayout>
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -76,15 +76,15 @@
                     android:id="@+id/product_money_tv"
                     style="@style/font_size_24px_gray"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:text="¥ 0"/>
 
                 <TextView
                     android:id="@+id/dis_tv"
                     style="@style/font_size_24px_green"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/mar_pad_len_20px"
-                    android:text="享受8.6折优惠" />
+                    android:layout_marginLeft="@dimen/mar_pad_len_20px" />
                 <TextView
                     android:id="@+id/noShop"
                     android:layout_width="wrap_content"

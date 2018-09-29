@@ -59,6 +59,11 @@ public class EvaluateSellerAdapter extends RecyclerView.Adapter<EvaluateSellerAd
         holder.dateTv.setText(ToolUtil.changeString(data.getTime()));
         holder.scoreBarView.setRating(ToolUtil.changeFloat(data.getScore()));
         holder.sellerReplayTv.setText(ToolUtil.changeString(data.getReply()));
+        if(ToolUtil.changeString(data.getReply()).length() ==0) {
+            holder.sellerReplayTv.setVisibility(View.GONE);
+        } else {
+            holder.sellerReplayTv.setVisibility(View.VISIBLE);
+        }
         holder.rootView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -1,6 +1,7 @@
 package com.ymd.client.component.activity.homePage.food.seller.fragment;
 
 import android.annotation.SuppressLint;
+import android.media.Image;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.CoordinatorLayout;
@@ -22,6 +23,7 @@ import com.ymd.client.common.base.OnUMDItemClickListener;
 import com.ymd.client.component.adapter.food.FoodSellerListAdapter;
 import com.ymd.client.component.adapter.food.FoodTypeListAdapter;
 import com.ymd.client.component.adapter.merchant.PersonAdapter;
+import com.ymd.client.component.event.GoodsEvent;
 import com.ymd.client.component.event.GoodsListEvent;
 import com.ymd.client.model.bean.homePage.MerchantInfoEntity;
 import com.ymd.client.model.bean.homePage.YmdGoodsEntity;
@@ -106,6 +108,7 @@ public class ChooseDishesFragment extends BaseFragment implements PersonAdapter.
 
     private void initView() {
      //   setRecommendLayoutData();
+        EventBus.getDefault().post(new GoodsEvent());
         requestRecommendData();
         requestFoodType();
         requestFoodList();
@@ -133,7 +136,11 @@ public class ChooseDishesFragment extends BaseFragment implements PersonAdapter.
     List<YmdGoodsEntity> recommendFoodDatas = new ArrayList<>();
     private void setRecommendLayoutData(String resultJson) {
         recommendFoodDatas = new Gson().fromJson(resultJson, new TypeToken<List<YmdGoodsEntity>>(){}.getType());
+        refreshRecommendDatas();
+    }
 
+    private void refreshRecommendDatas() {
+        recommendLayout.removeAllViews();
         //开始添加数据
         for (int x = 0; x < recommendFoodDatas.size(); x++) {
             //寻找行布局，第一个参数为行布局ID，第二个参数为这个行布局需要放到那个容器上
@@ -144,24 +151,55 @@ public class ChooseDishesFragment extends BaseFragment implements PersonAdapter.
             TextView sale_num_tv;
             TextView now_price_tv;
             ImageView buy_btn;
+            ImageView sub_btn;
+            TextView num_tv;
             icon_iv = (ImageView) view.findViewById(R.id.icon_iv);
             name_tv = (TextView) view.findViewById(R.id.name_tv);
             sale_num_tv = (TextView) view.findViewById(R.id.sale_num_tv);
             now_price_tv = (TextView) view.findViewById(R.id.now_price_tv);
             buy_btn = (ImageView) view.findViewById(R.id.buy_btn);
+            sub_btn = (ImageView) view.findViewById(R.id.sub_btn);
+            num_tv = (TextView) view.findViewById(R.id.num_tv);
             //将int数组中的数据放到ImageView中
             Glide.with(this).load(data.getGoodsUrl()).into(icon_iv);
             name_tv.setText(data.getGoodsName());
-            sale_num_tv.setText(data.getSales());
+            sale_num_tv.setText("月销 "+data.getSales());
             now_price_tv.setText(ToolUtil.changeString(data.getPrice()));
+            if(ToolUtil.changeInteger(data.getBuyCount()) > 0) {
+                num_tv.setText(ToolUtil.changeString(data.getBuyCount()));
+                sub_btn.setVisibility(View.VISIBLE);
+                num_tv.setVisibility(View.VISIBLE);
+            } else {
+                sub_btn.setVisibility(View.GONE);
+                num_tv.setVisibility(View.GONE);
+            }
 
             buy_btn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     data.setBuyCount(ToolUtil.changeInteger(data.getBuyCount()) + 1);
+                    if (data.getBuyCount() > 0) {
+                        sub_btn.setVisibility(View.VISIBLE);
+                        num_tv.setVisibility(View.VISIBLE);
+                        num_tv.setText(ToolUtil.changeString(data.getBuyCount()));
+                    }
                     EventBus.getDefault().post(data);
                 }
             });
+
+            sub_btn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    data.setBuyCount(ToolUtil.changeInteger(data.getBuyCount()) - 1);
+                    if (data.getBuyCount() == 0) {
+                        sub_btn.setVisibility(View.GONE);
+                        num_tv.setVisibility(View.GONE);
+                        num_tv.setText(ToolUtil.changeString(data.getBuyCount()));
+                    }
+                    EventBus.getDefault().post(data);
+                }
+            });
+
             //给TextView添加文字
             //    tv.setText("第"+(x+1)+"张");
             //把行布局放到linear里
@@ -303,6 +341,23 @@ public class ChooseDishesFragment extends BaseFragment implements PersonAdapter.
 
             }
         });
+    }
+
+    /**
+     * 添加 或者  删除  商品发送的消息处理
+     *
+     * @param event
+     */
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(YmdGoodsEntity event) {
+        foodAdapter.refreshData(event);
+        for (int i = 0 ; i < recommendFoodDatas.size();i ++) {
+            YmdGoodsEntity item = recommendFoodDatas.get(i);
+            if (item.getId() == event.getId()) {
+                item.setBuyCount(event.getBuyCount());
+            }
+        }
+        refreshRecommendDatas();
     }
 
     /**

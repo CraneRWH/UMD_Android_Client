@@ -35,7 +35,7 @@
                     android:paddingLeft="@dimen/mar_pad_len_20px"
                     android:paddingRight="@dimen/mar_pad_len_20px"
                     android:paddingTop="@dimen/mar_pad_len_108px"
-                    android:layout_marginTop="@dimen/mar_pad_len_40px"
+                    android:layout_marginTop="@dimen/mar_pad_len_50px"
                     android:orientation="vertical">
                     <LinearLayout
                         android:layout_width="match_parent"

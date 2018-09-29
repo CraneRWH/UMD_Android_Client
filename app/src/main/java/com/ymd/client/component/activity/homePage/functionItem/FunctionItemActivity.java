@@ -306,6 +306,9 @@ public class FunctionItemActivity extends BaseActivity implements ViewPager.OnPa
      */
     private void setTab(int idx){
 
+        if (rgChannel.getChildCount() == 0) {
+            return;
+        }
         for(int i = 0 ; i < rgChannel.getChildCount(); i ++) {
             RadioButton item=(RadioButton)rgChannel.getChildAt(i);
 

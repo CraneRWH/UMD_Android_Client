@@ -329,8 +329,10 @@ public class ToolUtil {
 	}
 
 	public static String double2Point(double data) {
-		DecimalFormat df = new DecimalFormat("#.00");
-		return df.format(data);
+	//	DecimalFormat df = new DecimalFormat("#.00");
+		NumberFormat nf = NumberFormat.getNumberInstance();
+		nf.setMaximumFractionDigits(2);
+		return nf.format(data);
 	}
 
 	/**
