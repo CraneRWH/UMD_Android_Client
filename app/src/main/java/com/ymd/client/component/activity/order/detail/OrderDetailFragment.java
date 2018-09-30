@@ -97,12 +97,12 @@ public class OrderDetailFragment extends Fragment {
     TextView uGetTv;
     @BindView(R.id.food_llt)
     LinearLayout foodLlt;
+    @BindView(R.id.remark_et)
+    EditText remarkEt;
     Unbinder unbinder;
 
     OrderResultForm orderDetail;
     int fragmentType;
-    @BindView(R.id.remark_et)
-    EditText remarkEt;
 
     private int functionType;
 
