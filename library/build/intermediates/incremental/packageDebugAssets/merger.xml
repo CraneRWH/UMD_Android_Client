@@ -1,2 +1,2 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merger version="3"><dataSet config="main"><source path="D:\WORK\pay\UMD_Android_Client\library\src\main\assets"/><source path="D:\WORK\pay\UMD_Android_Client\library\build\generated\assets\shaders\debug"/></dataSet><dataSet config="debug"><source path="D:\WORK\pay\UMD_Android_Client\library\src\debug\assets"/></dataSet></merger>
+<merger version="3"><dataSet config="main"><source path="D:\Android\work\cranePay\UMD_Android_Client\library\src\main\assets"/><source path="D:\Android\work\cranePay\UMD_Android_Client\library\build\generated\assets\shaders\debug"/></dataSet><dataSet config="debug"><source path="D:\Android\work\cranePay\UMD_Android_Client\library\src\debug\assets"/></dataSet></merger>

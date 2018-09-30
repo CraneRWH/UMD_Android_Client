@@ -112,6 +112,10 @@ public class AlterLoginPwActivity extends BaseActivity {
             ToastUtil.ToastMessage(this, "请再次输入新密码");
             return;
         }
+        if (!ToolUtil.isLetterDigit(confimPassword)) {
+            ToastUtil.ToastMessage(this, "新密码格式不正确", ToastUtil.WARN);
+            return;
+        }
         if (!newPassword.equals(confimPassword)) {
             ToastUtil.ToastMessage(this, "两次新密码输入不一致");
             return;

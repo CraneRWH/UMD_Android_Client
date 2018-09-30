@@ -165,7 +165,8 @@ public class DialogUtil {
 	 * @param isCancelableOutside 是否可点击外部取消对话框
 	 */
 	public static LoadingDialog showProgrssDialog(Context context, String message, boolean isCancelableOutside) {
-		LoadingDialog dialog = LoadingDialog.createDialog(context, message);
+		LoadingDialog dialog = new LoadingDialog(context);
+		dialog.setMessage(message);
 		dialog.setCanceledOnTouchOutside(isCancelableOutside);
 		return dialog;
 	}

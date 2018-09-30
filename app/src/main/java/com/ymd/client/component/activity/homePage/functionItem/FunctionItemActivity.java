@@ -253,6 +253,7 @@ public class FunctionItemActivity extends BaseActivity implements ViewPager.OnPa
             }
             name_tv.setText(ToolUtil.changeString(item.getGoodsName()));
             desc_tv.setText(ToolUtil.changeString(item.getMerchantName()));
+            now_price_tv.setText(ToolUtil.changeString(item.getCost()));
         //    now_price_tv.setText(ToolUtil.changeString(item.get));
             //将int数组中的数据放到ImageView中
         //    icon_iv.setImageResource(ToolUtil.changeInteger(datas.get(x).get("icon")));

@@ -496,29 +496,33 @@ public class MerchantDetailActivity extends TabBaseActivity {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(GoodsEvent goodsEntity) {
-        double allMoney = 0;
-        double disAllMoney = 0;
-        buyList.clear();
-        int count = 0;
-        for (YmdGoodsEntity item : goodsEntity.getGoods()) {
-            allMoney = ToolUtil.changeDouble(item.getPrice()) * item.getBuyCount() + allMoney;
-            count = count + item.getBuyCount();
-            disAllMoney = ((ToolUtil.changeDouble(item.getPrice()) * ToolUtil.changeDouble(merchantInfo.getDiscount())) / 10) * item.getBuyCount() + disAllMoney;
-        }
-        goodsEntity.setAllMoney(allMoney);
-        goodsEntity.setDisAllMoney(disAllMoney);
-        productMoneyTv.setText(ToolUtil.double2Point(allMoney) + "元");
-        orderMoneyTv.setText("¥" + ToolUtil.double2Point(disAllMoney));
-        if (goodsEntity.getGoods() == null || goodsEntity.getGoods().isEmpty()) {
-            noShop.setVisibility(View.GONE);
-            warnNumTv.setVisibility(View.GONE);
-            warnNumTv.setText("0");
-        } else {
-            warnNumTv.setText(ToolUtil.changeString(count));
-            warnNumTv.setVisibility(View.VISIBLE);
-            noShop.setVisibility(View.VISIBLE);
-            buyList.addAll(goodsEntity.getGoods());
-            mainGoods = goodsEntity;
+        try {
+            double allMoney = 0;
+            double disAllMoney = 0;
+            buyList.clear();
+            int count = 0;
+            for (YmdGoodsEntity item : goodsEntity.getGoods()) {
+                allMoney = ToolUtil.changeDouble(item.getPrice()) * item.getBuyCount() + allMoney;
+                count = count + item.getBuyCount();
+                disAllMoney = ((ToolUtil.changeDouble(item.getPrice()) * ToolUtil.changeDouble(merchantInfo.getDiscount())) / 10) * item.getBuyCount() + disAllMoney;
+            }
+            goodsEntity.setAllMoney(allMoney);
+            goodsEntity.setDisAllMoney(disAllMoney);
+            productMoneyTv.setText(ToolUtil.double2Point(allMoney) + "元");
+            orderMoneyTv.setText("¥" + ToolUtil.double2Point(disAllMoney));
+            if (goodsEntity.getGoods() == null || goodsEntity.getGoods().isEmpty()) {
+                noShop.setVisibility(View.GONE);
+                warnNumTv.setVisibility(View.GONE);
+                warnNumTv.setText("0");
+            } else {
+                warnNumTv.setText(ToolUtil.changeString(count));
+                warnNumTv.setVisibility(View.VISIBLE);
+                noShop.setVisibility(View.VISIBLE);
+                buyList.addAll(goodsEntity.getGoods());
+                mainGoods = goodsEntity;
+            }
+        } catch(NullPointerException e) {
+            e.printStackTrace();
         }
     }
 

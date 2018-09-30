@@ -104,6 +104,10 @@ public class ForgetPasswrodActivity extends BaseActivity {
             ToastUtil.ToastMessage(this, "请输入密码", ToastUtil.WARN);
             return;
         }
+        if (!ToolUtil.isLetterDigit(password)) {
+            ToastUtil.ToastMessage(this, "新密码格式不正确", ToastUtil.WARN);
+            return;
+        }
 
         Map<String,Object> params = new HashMap<>();
         params.put("phone", mobileNumberString);

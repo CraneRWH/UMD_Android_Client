@@ -3,7 +3,9 @@ package com.ymd.client.component.widget.dialog;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.drawable.AnimationDrawable;
+import android.graphics.drawable.ColorDrawable;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.widget.ImageView;
@@ -20,76 +22,25 @@ import com.ymd.client.R;
  */
 public class LoadingDialog extends Dialog {
 
-    private Context context = null;
-    private static LoadingDialog runningManDialog = null;
+    private TextView tv_text;
 
-    private LoadingDialog(Context context) {
+    public LoadingDialog(Context context) {
         super(context);
-        this.context = context;
-    }
-
-    private LoadingDialog(Context context, int theme) {
-        super(context, theme);
-        this.context = context;
-
-    }
-
-    /***
-     * 创建对话框对象
-     *
-     * @param context
-     * @return
-     */
-    public static LoadingDialog createDialog(Context context) {
-        return createDialog(context, null);
-    }
-
-    /***
-     * 创建对话框对象
-     *
-     * @param context
-     * @param message
-     * @return
-     */
-    public static LoadingDialog createDialog(Context context, String message) {
-        runningManDialog = new LoadingDialog(context, R.style.running_man_dialog);
-        runningManDialog.setContentView(R.layout.progress_dialog);
-        runningManDialog.getWindow().getAttributes().gravity = Gravity.CENTER;
-        TextView tvMsg = (TextView) runningManDialog.findViewById(R.id.loadingTv);
-        if (tvMsg != null && !TextUtils.isEmpty(message)) {
-            tvMsg.setText(message);
-        }
-        return runningManDialog;
-    }
-
-    @Override
-    public void onWindowFocusChanged(boolean hasFocus) {
-        if (runningManDialog == null) {
-            return;
-        }
-        ImageView imageView = (ImageView) runningManDialog.findViewById(R.id.loadingIv);
-        imageView.setBackgroundResource(R.drawable.dialog_runningman);
-        // 通过ImageView对象拿到背景显示的AnimationDrawable
-        final AnimationDrawable mAnimation = (AnimationDrawable) imageView.getBackground();
-        imageView.post(new Runnable() {
-            @Override
-            public void run() {
-                mAnimation.start();
-            }
-        });
+        /**设置对话框背景透明*/
+        getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        setContentView(R.layout.dialog_loading);
+        tv_text = (TextView) findViewById(R.id.tv_text);
+        setCanceledOnTouchOutside(false);
     }
 
     /**
-     * setMessage 提示内容
+     * 为加载进度个对话框设置不同的提示消息
      *
-     * @param strMessage
-     * @return
+     * @param message 给用户展示的提示信息
+     * @return build模式设计，可以链式调用
      */
-    public void setMessage(String strMessage) {
-        TextView tvMsg = (TextView) runningManDialog.findViewById(R.id.loadingTv);
-        if (tvMsg != null) {
-            tvMsg.setText(strMessage);
-        }
+    public LoadingDialog setMessage(String message) {
+        tv_text.setText(message);
+        return this;
     }
-
 }

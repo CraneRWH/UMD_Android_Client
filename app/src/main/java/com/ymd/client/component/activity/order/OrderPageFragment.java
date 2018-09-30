@@ -268,6 +268,7 @@ public class OrderPageFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
+        if (!EventBus.getDefault().isRegistered(this))
         EventBus.getDefault().register(this);
     }
 

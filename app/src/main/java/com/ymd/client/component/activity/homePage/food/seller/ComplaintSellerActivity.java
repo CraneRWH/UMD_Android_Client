@@ -226,12 +226,12 @@ public class ComplaintSellerActivity extends BaseActivity {
                 new WebUtil.WebCallBack() {
                     @Override
                     public void onWebSuccess(JSONObject result) {
+                        ToastUtil.ToastMessage(ComplaintSellerActivity.this,"投诉成功");
                         finish();
                     }
 
                     @Override
                     public void onWebFailed(String errorMsg) {
-
                     }
                 });
     }
