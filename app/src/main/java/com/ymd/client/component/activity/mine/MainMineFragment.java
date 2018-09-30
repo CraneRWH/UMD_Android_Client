@@ -17,10 +17,13 @@ import com.ymd.client.component.activity.mine.collection.MyCollectionActivity;
 import com.ymd.client.component.activity.mine.info.PersonInfoActivity;
 import com.ymd.client.component.activity.mine.setting.SettingActivity;
 import com.ymd.client.component.activity.mine.ub.MyUbActivity;
+import com.ymd.client.component.event.CityShowEvent;
 import com.ymd.client.component.event.LoginEvent;
+import com.ymd.client.component.event.LoginRefreshEvent;
 import com.ymd.client.component.widget.CircleImageView;
 import com.ymd.client.model.info.LoginInfo;
 import com.ymd.client.utils.ToastUtil;
+import com.ymd.client.utils.ToolUtil;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -103,9 +106,11 @@ public class MainMineFragment extends Fragment {
                 mHeadView.setImageResource(R.mipmap.ic_launcher);
             }
             mNickName.setText(LoginInfo.getInstance().getLoginInfo().getUserName());
+            mMyUbCount.setText(ToolUtil.changeString(LoginInfo.getInstance().getLoginInfo().getuNumber()));
         } else {
             mHeadView.setImageResource(R.mipmap.ic_launcher);
             mNickName.setText("未登录");
+            mMyUbCount.setText("");
         }
 
     }
@@ -202,6 +207,13 @@ public class MainMineFragment extends Fragment {
         } else {
             mHeadView.setImageResource(R.mipmap.ic_launcher);
             mNickName.setText("未登录");
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(LoginRefreshEvent event) {
+        if (event.isRefresh()) {
+            refreshInfo();
         }
     }
 }

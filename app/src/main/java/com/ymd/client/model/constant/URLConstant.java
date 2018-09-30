@@ -203,7 +203,7 @@ public class URLConstant {
     /**
      * 获取热门搜索
      */
-    public static final String QUEYR_HOT_SEARCH = "ymdUCurrency/uBInfo";
+    public static final String QUEYR_HOT_SEARCH = "ymdMerchantController/popularSearch";
 
     /**
      * 获取支付信息

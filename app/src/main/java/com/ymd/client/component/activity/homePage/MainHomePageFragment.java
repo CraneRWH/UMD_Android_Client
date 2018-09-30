@@ -47,6 +47,7 @@ import com.ymd.client.model.bean.homePage.PictureEntity;
 import com.ymd.client.model.constant.URLConstant;
 import com.ymd.client.model.info.LocationInfo;
 import com.ymd.client.utils.DataUtils;
+import com.ymd.client.utils.FastDoubleClickUtil;
 import com.ymd.client.utils.ToolUtil;
 import com.ymd.client.web.WebUtil;
 
@@ -199,7 +200,9 @@ public class MainHomePageFragment extends Fragment {
         searchLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SearchActivity.startAction(getActivity());
+                if(!FastDoubleClickUtil.isFastDoubleClick()) {
+                    SearchActivity.startAction(getActivity());
+                }
             }
         });
         saoIv.setOnClickListener(new View.OnClickListener() {

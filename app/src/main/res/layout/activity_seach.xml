@@ -88,6 +88,8 @@
                 android:id="@+id/hot_flt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/mar_pad_len_16px"
+                android:layout_marginRight="@dimen/mar_pad_len_16px"
                 app:max_select="-1"></com.ymd.client.component.widget.flowlayout.TagFlowLayout>
             <TextView
                 android:layout_width="wrap_content"
@@ -102,6 +104,8 @@
                 android:id="@+id/history_flt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/mar_pad_len_16px"
+                android:layout_marginRight="@dimen/mar_pad_len_16px"
                 app:max_select="-1"></com.ymd.client.component.widget.flowlayout.TagFlowLayout>
         </LinearLayout>
     </RelativeLayout>

@@ -3,6 +3,7 @@ package com.ymd.client.component.activity.homePage.food.seller;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
@@ -29,9 +30,11 @@ import com.google.gson.Gson;
 import com.ymd.client.R;
 import com.ymd.client.component.activity.homePage.food.seller.fragment.ChooseDishesFragment;
 import com.ymd.client.component.activity.homePage.food.seller.fragment.EvaluateSellerFragment;
+import com.ymd.client.component.activity.homePage.food.seller.fragment.MerchantZiZhiFragment;
 import com.ymd.client.component.activity.homePage.food.seller.fragment.SellerDetailFragment;
 import com.ymd.client.component.activity.order.detail.OrderDetailActivity;
 import com.ymd.client.component.adapter.TabFragmentAdapter;
+import com.ymd.client.component.adapter.food.MerchantZiZhiAdapter;
 import com.ymd.client.component.event.GoodsEvent;
 import com.ymd.client.component.event.MessageEvent;
 import com.ymd.client.model.bean.homePage.MerchantInfoEntity;
@@ -180,6 +183,32 @@ public class MerchantDetailActivity extends TabBaseActivity {
                 }
             }
         });
+
+        phoneIv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                diallPhone(ToolUtil.changeString(merchantInfo.getMerTel()));
+            }
+        });
+
+    }
+
+
+    /**
+     * 拨打电话（跳转到拨号界面，用户手动点击拨打）
+     *
+     * @param phoneNum 电话号码
+     */
+    public void diallPhone(String phoneNum) {
+        try {
+            Intent intent = new Intent(Intent.ACTION_DIAL);
+            Uri data = Uri.parse("tel:" + phoneNum);
+            intent.setData(data);
+            startActivity(intent);
+        } catch (Exception e) {
+            e.printStackTrace();
+            ToastUtil.ToastMessage(this, "无商家电话");
+        }
     }
 
     private void resetMerchantViewData() {
@@ -201,7 +230,8 @@ public class MerchantDetailActivity extends TabBaseActivity {
 
         ChooseDishesFragment disheslFragment = ChooseDishesFragment.newInstance(merchantInfo);
         EvaluateSellerFragment evaluateSellerFragment = EvaluateSellerFragment.newInstance(merchantInfo);
-        SellerDetailFragment detailFragment = SellerDetailFragment.newInstance(merchantInfo);
+    //    SellerDetailFragment detailFragment = SellerDetailFragment.newInstance(merchantInfo);
+        MerchantZiZhiFragment detailFragment = MerchantZiZhiFragment.newInstance(merchantInfo);
         mFragments.add(disheslFragment);
         mFragments.add(evaluateSellerFragment);
         mFragments.add(detailFragment);
@@ -228,6 +258,10 @@ public class MerchantDetailActivity extends TabBaseActivity {
                                 AnimationUtil.createInAnimation(MerchantDetailActivity.this, shopCartMain.getMeasuredHeight()));
                         break;
                     case 1:
+                        shopCartMain.startAnimation(
+                                AnimationUtil.createOutAnimation(MerchantDetailActivity.this, shopCartMain.getMeasuredHeight()));
+                        break;
+                    case 2:
                         shopCartMain.startAnimation(
                                 AnimationUtil.createOutAnimation(MerchantDetailActivity.this, shopCartMain.getMeasuredHeight()));
                         break;

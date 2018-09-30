@@ -20,6 +20,7 @@ import com.bigkoo.pickerview.view.TimePickerView;
 import com.squareup.picasso.Picasso;
 import com.ymd.client.R;
 import com.ymd.client.common.base.BaseActivity;
+import com.ymd.client.component.event.LoginRefreshEvent;
 import com.ymd.client.component.widget.dialog.CommonDialogs;
 import com.ymd.client.component.widget.photo.ChoiceImageCallBack;
 import com.ymd.client.component.widget.photo.ChoiceImageUtil;
@@ -34,6 +35,7 @@ import com.ymd.client.utils.StatusBarUtils;
 import com.ymd.client.utils.ToolUtil;
 import com.ymd.client.web.WebUtil;
 
+import org.greenrobot.eventbus.EventBus;
 import org.json.JSONObject;
 
 import java.io.File;
@@ -52,9 +54,6 @@ import butterknife.OnClick;
  * 我的-个人信息
  */
 public class PersonInfoActivity extends BaseActivity {
-
-    @BindView(R.id.base_title)
-    TextView mTxtTitle;
 
     @BindView(R.id.person_alter_head_iv)
     ImageView mIvHead;//头像
@@ -85,7 +84,7 @@ public class PersonInfoActivity extends BaseActivity {
         setContentView(R.layout.activity_person_info);
         ButterKnife.bind(this);
         setStatusBar(R.color.white);
-        mTxtTitle.setText(getResources().getString(R.string.fragment_person));
+        setTitle(getResources().getString(R.string.fragment_person));
 
         ciutil = new ChoiceImageUtil(this);
 
@@ -302,6 +301,7 @@ public class PersonInfoActivity extends BaseActivity {
                     @Override
                     public void onWebSuccess(JSONObject resultJson) {
                         LoginInfo.setLoginInfo(resultJson.optString("user"));
+                        EventBus.getDefault().post(new LoginRefreshEvent(true));
                         resetUserViewInfo();
                     }
 
@@ -317,7 +317,7 @@ public class PersonInfoActivity extends BaseActivity {
                 new WebUtil.WebCallBack() {
                     @Override
                     public void onWebSuccess(JSONObject resultJson) {
-                        updateInfo("photo", resultJson.optString("photo"));
+                        updateInfo("icon", resultJson.optString("url"));
                         Picasso.with(PersonInfoActivity.this).load(new File(fileUrl)).into(mIvHead);
                     }
 

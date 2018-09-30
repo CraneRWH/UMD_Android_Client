@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="vertical"
+    tools:context=".component.activity.homePage.food.seller.fragment.SellerDetailFragment">
+
+    <LinearLayout
+        android:id="@+id/main_lt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/mar_pad_len_20px"
+                android:layout_marginTop="@dimen/mar_pad_len_30px"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/icon_merchant_shop" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/mar_pad_len_10px"
+                    android:text="商家门店照片"
+                    android:textColor="@color/common_text_color"
+                    android:textSize="@dimen/text_size_32px" />
+            </LinearLayout>
+
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/mar_pad_len_20px"
+                android:scrollbars="none">
+
+                <LinearLayout
+                    android:id="@+id/shopLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/mar_pad_len_20px"
+                    android:orientation="horizontal"></LinearLayout>
+            </HorizontalScrollView>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/mar_pad_len_20px"
+                android:layout_marginTop="@dimen/mar_pad_len_30px"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/icon_merchant_manage" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/mar_pad_len_10px"
+                    android:text="商家经营消息"
+                    android:textColor="@color/common_text_color"
+                    android:textSize="@dimen/text_size_32px" />
+            </LinearLayout>
+
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/mar_pad_len_20px"
+                android:scrollbars="none">
+
+                <LinearLayout
+                    android:id="@+id/manageLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/mar_pad_len_20px"
+                    android:orientation="horizontal"></LinearLayout>
+            </HorizontalScrollView>
+
+        </LinearLayout>
+
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/mar_pad_len_50px"
+            android:scrollbars="none">
+
+            <LinearLayout
+                android:id="@+id/shopSLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/mar_pad_len_20px"
+                android:orientation="horizontal"></LinearLayout>
+        </HorizontalScrollView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/mar_pad_len_20px"
+            android:layout_marginTop="@dimen/mar_pad_len_56px"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/icon_merchant_time" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/mar_pad_len_10px"
+                android:text="营业时间"
+                android:textColor="@color/common_text_color"
+                android:textSize="@dimen/text_size_30px" />
+
+            <TextView
+                android:id="@+id/shap_work_time_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/mar_pad_len_20px"
+                android:textColor="@color/common_text_color"
+                android:textSize="@dimen/text_size_30px" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/complaint_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/mar_pad_len_20px"
+            android:layout_marginTop="@dimen/mar_pad_len_42px"
+            android:layout_marginRight="@dimen/mar_pad_len_20px"
+            android:layout_marginBottom="@dimen/mar_pad_len_42px"
+            android:background="@drawable/shape_rect_corner_green"
+            android:gravity="center"
+            android:padding="@dimen/mar_pad_len_20px"
+            android:text="投诉"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_32px" />
+    </LinearLayout>
+</LinearLayout>

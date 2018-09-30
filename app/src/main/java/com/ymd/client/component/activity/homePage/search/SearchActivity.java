@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,6 +21,7 @@ import com.ymd.client.component.widget.flowlayout.FlowLayout;
 import com.ymd.client.component.widget.flowlayout.TagAdapter;
 import com.ymd.client.component.widget.flowlayout.TagFlowLayout;
 import com.ymd.client.model.constant.URLConstant;
+import com.ymd.client.utils.ToastUtil;
 import com.ymd.client.web.WebUtil;
 
 import org.json.JSONObject;
@@ -40,6 +42,8 @@ import butterknife.ButterKnife;
  */
 public class SearchActivity extends BaseActivity {
 
+    @BindView(R.id.iv_back)
+    ImageView backIv;
     @BindView(R.id.search_et)
     EditText searchEt;
     @BindView(R.id.search_btn)
@@ -89,11 +93,19 @@ public class SearchActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 String aa = searchEt.getText().toString().trim();
+                ToastUtil.ToastMessage(SearchActivity.this, "尚无商家可搜索");
                 if (aa.length() >0) {
                     historyStrs.add(aa);
                     //通知handler更新UI
                     handler.sendEmptyMessageDelayed(1, 0);
                 }
+            }
+        });
+
+        backIv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
             }
         });
 
@@ -122,6 +134,8 @@ public class SearchActivity extends BaseActivity {
 
         handler.sendEmptyMessage(1);
         handler.sendEmptyMessage(2);
+
+        requestHotSearch();
     }
 
     public Handler handler = new Handler() {
@@ -158,7 +172,7 @@ public class SearchActivity extends BaseActivity {
     private void requestHotSearch() {
         Map<String, Object> params = new HashMap<>();
         params.put("type", 1);
-        WebUtil.getInstance().requestPOST(this, URLConstant.QUEYR_U_LIST, params, true,
+        WebUtil.getInstance().requestPOST(this, URLConstant.QUEYR_HOT_SEARCH, params, true,
                 new WebUtil.WebCallBack() {
                     @Override
                     public void onWebSuccess(JSONObject result) {

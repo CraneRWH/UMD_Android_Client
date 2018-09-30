@@ -6,7 +6,7 @@
     android:orientation="vertical"
     tools:context=".component.activity.mine.setting.SettingActivity">
 
-    <include layout="@layout/layout_title_base" />
+    <include layout="@layout/header_white_bar" />
 
     <View
         android:layout_width="match_parent"

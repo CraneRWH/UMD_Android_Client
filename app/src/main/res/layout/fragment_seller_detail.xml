@@ -14,6 +14,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:minHeight="1080dp"
             android:orientation="vertical">
 
             <LinearLayout
@@ -39,7 +40,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/mar_pad_len_10px"
-                        android:background="@color/bg_color"
                         android:text="商家门店照片"
                         android:textColor="@color/common_text_color"
                         android:textSize="@dimen/text_size_32px" />
@@ -86,7 +86,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/mar_pad_len_10px"
-                        android:background="@color/bg_color"
                         android:text="商家经营消息"
                         android:textColor="@color/common_text_color"
                         android:textSize="@dimen/text_size_32px" />

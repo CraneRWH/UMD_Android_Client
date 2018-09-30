@@ -24,6 +24,7 @@ import com.ymd.client.R;
 import com.ymd.client.common.base.BaseActivity;
 import com.ymd.client.component.activity.homePage.food.FoodListFragment;
 import com.ymd.client.component.activity.homePage.food.seller.MerchantDetailActivity;
+import com.ymd.client.component.activity.homePage.search.SearchActivity;
 import com.ymd.client.component.activity.order.PageFragmentAdapter;
 import com.ymd.client.component.widget.other.MyChooseItemView;
 import com.ymd.client.model.bean.homePage.MerchantInfoEntity;
@@ -31,6 +32,7 @@ import com.ymd.client.model.bean.homePage.YmdIndustryEntity;
 import com.ymd.client.model.bean.homePage.YmdRecommendEntity;
 import com.ymd.client.model.constant.URLConstant;
 import com.ymd.client.model.info.LocationInfo;
+import com.ymd.client.utils.FastDoubleClickUtil;
 import com.ymd.client.utils.ToolUtil;
 import com.ymd.client.web.WebUtil;
 
@@ -72,6 +74,9 @@ public class FunctionItemActivity extends BaseActivity implements ViewPager.OnPa
     RadioGroup rgChannel;
     @BindView(R.id.hvChannel)
     HorizontalScrollView hvChannel;
+    @BindView(R.id.recommend_llt)
+    LinearLayout recommendLlt;
+
 
     private PageFragmentAdapter adapter=null;
     private List<Fragment> fragmentList=new ArrayList<Fragment>();
@@ -135,6 +140,14 @@ public class FunctionItemActivity extends BaseActivity implements ViewPager.OnPa
         }
 
         setTitle(title);
+        searchLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(!FastDoubleClickUtil.isFastDoubleClick()) {
+                    SearchActivity.startAction(FunctionItemActivity.this);
+                }
+            }
+        });
         rgChannel.setOnCheckedChangeListener(
                 new RadioGroup.OnCheckedChangeListener() {
                     @Override
@@ -209,6 +222,12 @@ public class FunctionItemActivity extends BaseActivity implements ViewPager.OnPa
 
     private void setRecommendMerchant(String resultJson) {
         List<YmdRecommendEntity> list = new Gson().fromJson(resultJson, new TypeToken<List<YmdRecommendEntity>>(){}.getType());
+        if (list == null || list.isEmpty()) {
+            recommendLlt.setVisibility(View.GONE);
+            return;
+        } else {
+            recommendLlt.setVisibility(View.VISIBLE);
+        }
         //开始添加数据
         for (int x = 0; x < list.size(); x++) {
             YmdRecommendEntity item = list.get(x);
