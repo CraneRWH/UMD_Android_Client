@@ -14,7 +14,6 @@
         android:id="@+id/icon_iv"
         android:layout_width="match_parent"
         android:layout_height="@dimen/mar_pad_len_200px"
-        android:src="@mipmap/nice_good_icon1"
         android:scaleType="centerCrop"
         />
     <TextView

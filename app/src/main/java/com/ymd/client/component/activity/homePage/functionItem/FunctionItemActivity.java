@@ -102,6 +102,9 @@ public class FunctionItemActivity extends BaseActivity implements ViewPager.OnPa
 
         functionType = getIntent().getExtras().getInt("type");
         switch (functionType) {
+            case 1:
+                title = "美食";
+                break;
             case 2:
                 title = "酒店";
                 break;
@@ -226,6 +229,9 @@ public class FunctionItemActivity extends BaseActivity implements ViewPager.OnPa
             old_price_tv = (TextView) view.findViewById(R.id.old_price_tv);
             old_price_tv.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
 
+            if (ToolUtil.changeString(item.getPhoto()).length() > 0) {
+                Glide.with(this).load(ToolUtil.changeString(item.getPhoto())).into(icon_iv);
+            }
             name_tv.setText(ToolUtil.changeString(item.getGoodsName()));
             desc_tv.setText(ToolUtil.changeString(item.getMerchantName()));
         //    now_price_tv.setText(ToolUtil.changeString(item.get));

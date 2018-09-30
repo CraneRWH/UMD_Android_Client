@@ -22,7 +22,6 @@
                 android:id="@+id/icon_iv"
                 android:layout_width="@dimen/mar_pad_len_180px"
                 android:layout_height="@dimen/mar_pad_len_180px"
-                android:src="@mipmap/nice_good_icon1"
                 android:scaleType="centerCrop"
                 />
             <LinearLayout

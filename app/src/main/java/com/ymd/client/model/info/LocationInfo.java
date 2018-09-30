@@ -9,6 +9,7 @@ import android.content.Context;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.ymd.client.component.event.CityShowEvent;
 import com.ymd.client.model.bean.city.CityEntity;
 import com.ymd.client.model.bean.city.LocationInfoEntity;
 import com.ymd.client.model.constant.URLConstant;
@@ -16,6 +17,7 @@ import com.ymd.client.utils.CommonShared;
 import com.ymd.client.utils.ToolUtil;
 import com.ymd.client.web.WebUtil;
 
+import org.greenrobot.eventbus.EventBus;
 import org.json.JSONObject;
 
 /**
@@ -65,7 +67,7 @@ public class LocationInfo implements java.io.Serializable{
 		if (cityInfo != null && cityInfo.length() > 0 ) {
 			chooseCity = new Gson().fromJson(cityInfo, CityEntity.class);
 		} else {
-			chooseCity.setCityID(1100);
+			chooseCity.setCityID(0);
 			chooseCity.setCityName("北京市");
 		}
 	}
@@ -146,9 +148,10 @@ public class LocationInfo implements java.io.Serializable{
 	public void setChooseCity(CityEntity chooseCity) {
 		LocationInfo.chooseCity = chooseCity;
 		CommonShared.setString(CITY_CHOOSE_SETTING, new Gson().toJson(chooseCity));
-		if (changeListener!= null) {
+	/*	if (changeListener!= null) {
 			changeListener.onChange(chooseCity);
-		}
+		}*/
+		EventBus.getDefault().post(new CityShowEvent(true));
 	}
 
 	public List<CityEntity> getAllCitys() {
@@ -160,15 +163,16 @@ public class LocationInfo implements java.io.Serializable{
 	}
 
 	private void locationChangeChooseCity() {
-		if (ToolUtil.changeString(chooseCity.getCityName()).length() > 0) {
+		if (ToolUtil.changeInteger(chooseCity.getCityID()) == 0) {
 			for (CityEntity item : allCitys) {
 				if (item.getCityName().contains(locationInfo.getCity()) || locationInfo.getCity().contains(item.getCityName())) {
 					chooseCity = item;
 					chooseCity.setCountyName(locationInfo.getCounty());
 					CommonShared.setString(CITY_CHOOSE_SETTING, new Gson().toJson(chooseCity));
-					if (changeListener != null) {
+				/*	if (changeListener != null) {
 						changeListener.onChange(chooseCity);
-					}
+					}*/
+					EventBus.getDefault().post(new CityShowEvent(true));
 					break;
 				}
 			}
@@ -176,15 +180,15 @@ public class LocationInfo implements java.io.Serializable{
 
 	}
 
-	private OnCityChangeListener changeListener;
+//	private OnCityChangeListener changeListener;
 
-	public OnCityChangeListener getChangeListener() {
+/*	public OnCityChangeListener getChangeListener() {
 		return changeListener;
 	}
 
 	public void setChangeListener(OnCityChangeListener changeListener) {
 		this.changeListener = changeListener;
-	}
+	}*/
 
 	public interface OnCityChangeListener {
 		void onChange(CityEntity cityEntity);

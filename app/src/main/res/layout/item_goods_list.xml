@@ -103,8 +103,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:background="@mipmap/adver_icon_1"/>
+                    android:layout_centerVertical="true"/>
 
 
                 <TextView
@@ -124,8 +123,7 @@
                     android:id="@+id/ivGoodsMinus"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_toLeftOf="@id/tvGoodsSelectNum"
-                    android:background="@mipmap/adver_icon_1"/>
+                    android:layout_toLeftOf="@id/tvGoodsSelectNum"/>
 
             </RelativeLayout>
         </LinearLayout>

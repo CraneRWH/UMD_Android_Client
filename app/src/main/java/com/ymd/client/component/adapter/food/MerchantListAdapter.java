@@ -12,6 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.ymd.client.R;
 import com.ymd.client.common.base.OnUMDItemClickListener;
 import com.ymd.client.model.bean.homePage.MerchantInfoEntity;
@@ -52,6 +53,9 @@ public class MerchantListAdapter extends RecyclerView.Adapter<MerchantListAdapte
     public void onBindViewHolder(ViewHolder holder, int position) {
 
         MerchantInfoEntity data = datas.get(position);
+        if (ToolUtil.changeString(data.getPhotoUrl()).length() > 0) {
+            Glide.with(mContext).load(ToolUtil.changeString(data.getPhotoUrl())).into(holder.iconIv);
+        }
         holder.nameTv.setText(ToolUtil.changeString(data.getName()));
         if (data.getDistance() == null) {
             data.setDistance(ToolUtil.Distance(ToolUtil.changeDouble(data.getLatitude()), ToolUtil.changeDouble(data.getLongitude())));

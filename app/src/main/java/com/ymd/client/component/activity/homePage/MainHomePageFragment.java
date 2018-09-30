@@ -34,6 +34,8 @@ import com.ymd.client.component.activity.homePage.scan.ScanCodeActivity;
 import com.ymd.client.component.activity.homePage.search.SearchActivity;
 import com.ymd.client.component.adapter.MySimpleAdapter;
 import com.ymd.client.component.adapter.food.MerchantListAdapter;
+import com.ymd.client.component.event.CityShowEvent;
+import com.ymd.client.component.event.LoginEvent;
 import com.ymd.client.component.widget.other.MyChooseItemView;
 import com.ymd.client.component.widget.pullRefreshView.PullToRefreshLayout;
 import com.ymd.client.component.widget.pullRefreshView.PullableScrollView;
@@ -48,6 +50,9 @@ import com.ymd.client.utils.DataUtils;
 import com.ymd.client.utils.ToolUtil;
 import com.ymd.client.web.WebUtil;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -222,12 +227,14 @@ public class MainHomePageFragment extends Fragment {
             });
         }
 
+/*
         LocationInfo.getInstance().setChangeListener(new LocationInfo.OnCityChangeListener() {
             @Override
             public void onChange(CityEntity cityEntity) {
                 onRefreshCityName();
             }
         });
+*/
 
         onRefreshData();
     }
@@ -632,5 +639,25 @@ public class MainHomePageFragment extends Fragment {
         list.add(map);
 
         return list;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(CityShowEvent event) {
+        if (event.isRefresh()) {
+            onRefreshCityName();
+            onRefreshData();
+        }
     }
 }

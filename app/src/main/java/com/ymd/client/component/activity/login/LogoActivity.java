@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.location.LocationManager;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -257,8 +258,10 @@ public class LogoActivity extends AppCompatActivity {
                     locationInfoEntity.setCityCode(location.getCityCode());
                     locationInfoEntity.setAdCode(location.getAdCode());
                     locationInfoEntity.setAddress(location.getAddress());
-                    LocationInfo.getInstance().setLocationInfo(locationInfoEntity);
-                    toMainActivity();
+                    timeTask = new TimeTask();
+                    timeTask.execute(locationInfoEntity);
+                    /*LocationInfo.getInstance().setLocationInfo(locationInfoEntity);
+                    toMainActivity();*/
                     //定位完成的时间
                     //    sb.append("定位时间: " + Utils.formatUTC(location.getTime(), "yyyy-MM-dd HH:mm:ss") + "\n");
                 } else {
@@ -360,6 +363,35 @@ public class LogoActivity extends AppCompatActivity {
             locationClient.onDestroy();
             locationClient = null;
             locationOption = null;
+        }
+    }
+
+    private TimeTask timeTask;
+    class TimeTask extends AsyncTask<LocationInfoEntity, Integer, Boolean> {
+
+        @Override
+        protected Boolean doInBackground(LocationInfoEntity... locationInfoEntities) {
+            LocationInfo.getInstance().setLocationInfo(locationInfoEntities[0]);
+            toMainActivity();
+            return true;
+        }
+
+        @Override
+        protected void onPreExecute() {
+        }
+
+        @Override
+        protected void onPostExecute(Boolean aBoolean) {
+            toMainActivity();
+        }
+
+        @Override
+        protected void onProgressUpdate(Integer... values) {
+        }
+
+
+        @Override
+        protected void onCancelled() {
         }
     }
 }

@@ -10,7 +10,6 @@
         android:id="@+id/icon_iv"
         android:layout_width="@dimen/mar_pad_len_446px"
         android:layout_height="@dimen/mar_pad_len_256px"
-        android:src="@mipmap/nice_good_icon1"
         />
     <TextView
         android:id="@+id/name_tv"

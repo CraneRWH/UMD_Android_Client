@@ -272,14 +272,14 @@ public class OrderPayActivity extends BaseActivity {
         AlertUtil.AskDialog(this, "是否支付完成", new MyDialog.SureListener() {
             @Override
             public void onSureListener() {
-                OrderPayResultActivity.startAction(OrderPayActivity.this, orderDetail);
+                getPayResult();
             }
         });
     }
 
 
     private void sendPay() {
-        /*String payTypeStr = "";
+        String payTypeStr = "";
         for (Map<String,Object> item : payTypeList) {
             if (ToolUtil.changeBoolean(item.get("isChoose"))) {
                 payTypeStr = ToolUtil.changeString(item.get("id"));
@@ -289,7 +289,7 @@ public class OrderPayActivity extends BaseActivity {
             ToastUtil.ToastMessage(this, "请选择付款方式");
             return;
         }
-        Map<String, Object> params = new HashMap<>();
+     /*   Map<String, Object> params = new HashMap<>();
         params.put("orderId", orderId);
         params.put("payType", payTypeStr);
         WebUtil.getInstance().requestPOST(this, URLConstant.ORDER_PAY_INFO, params,true,
@@ -314,6 +314,34 @@ public class OrderPayActivity extends BaseActivity {
         } else {
             gotoWechat(ToolUtil.changeString(orderDetail.getId()), WebUtil.webUrl + "ymdOrder/pay");
         }
+    }
+
+    private void getPayResult() {
+        String payTypeStr = "";
+        for (Map<String,Object> item : payTypeList) {
+            if (ToolUtil.changeBoolean(item.get("isChoose"))) {
+                payTypeStr = ToolUtil.changeString(item.get("id"));
+            }
+        }
+        Map<String, Object> params = new HashMap<>();
+        params.put("orderId", orderId);
+        params.put("payType", payTypeStr);
+        WebUtil.getInstance().requestPOST(this, URLConstant.ORDER_PAY_INFO, params,true,
+                new WebUtil.WebCallBack() {
+                    @Override
+                    public void onWebSuccess(JSONObject result) {
+                        //        resetOrderView(result.optString("ymdOrder"));
+                        if (result.optInt("payStatus") == 2)
+                            OrderPayResultActivity.startAction(OrderPayActivity.this, orderDetail);
+                        else
+                            ToastUtil.ToastMessage(OrderPayActivity.this, "支付未成功");
+                    }
+
+                    @Override
+                    public void onWebFailed(String errorMsg) {
+
+                    }
+                });
     }
 
 }

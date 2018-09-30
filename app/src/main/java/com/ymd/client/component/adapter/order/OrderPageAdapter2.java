@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.ymd.client.R;
 import com.ymd.client.common.base.OnUMDItemClickListener;
 import com.ymd.client.component.adapter.CommonRecyclerAdapter;
@@ -62,6 +63,10 @@ public class OrderPageAdapter2 extends CommonRecyclerAdapter<OrderResultForm> {
         } else {
             holder.statusNameTv.setTextColor(R.color.bg_header);
             holder.btn1.setVisibility(View.GONE);
+        }
+
+        if (ToolUtil.changeString(data.getmIcon()).length() > 0) {
+            Glide.with(mContext).load(ToolUtil.changeString(data.getmIcon())).into(holder.iconIv);
         }
         List<YmdOrderGoods> products = data.getYmdOrderGoodsList();
 

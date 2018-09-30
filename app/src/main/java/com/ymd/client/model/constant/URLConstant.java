@@ -208,7 +208,7 @@ public class URLConstant {
     /**
      * 获取支付信息
      */
-    public static final String ORDER_PAY_INFO = "ymdOrder/pay";
+    public static final String ORDER_PAY_INFO = "ymdOrder/orderQuery";
 
 
     /**

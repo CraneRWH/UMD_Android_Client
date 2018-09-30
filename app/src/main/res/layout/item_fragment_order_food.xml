@@ -17,7 +17,6 @@
             android:id="@+id/food_icon_iv"
             android:layout_width="@dimen/mar_pad_len_105px"
             android:layout_height="@dimen/mar_pad_len_105px"
-            android:src="@mipmap/adver_icon_1"
             android:scaleType="centerCrop"
             />
         <TextView

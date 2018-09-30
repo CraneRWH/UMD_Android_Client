@@ -282,6 +282,9 @@ public class OrderDetailFragment extends Fragment {
             TextView priceView = v.findViewById(R.id.food_price_tv);
             priceView.setText("¥" + item.getGoodsAmt());
             nameView.setText(ToolUtil.changeString(item.getGoodsName()));
+            if (ToolUtil.changeString(item.getGoodsIcon()).length() > 0) {
+                Glide.with(getActivity()).load(ToolUtil.changeString(item.getGoodsIcon())).into(iconView);
+            }
             numView.setText("x" + item.getGoodsNum());
             if (item.getGoodsIcon() != null) {
                 Glide.with(getActivity()).load(item.getGoodsIcon()).into(iconView);

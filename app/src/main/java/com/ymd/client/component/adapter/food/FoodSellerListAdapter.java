@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.ymd.client.R;
 import com.ymd.client.common.base.OnUMDItemClickListener;
 import com.ymd.client.model.bean.homePage.YmdGoodsEntity;
@@ -56,6 +57,9 @@ public class FoodSellerListAdapter extends RecyclerView.Adapter<FoodSellerListAd
     public void onBindViewHolder(ViewHolder holder, int position) {
 
         YmdGoodsEntity data = datas.get(position);
+        if (ToolUtil.changeString(data.getGoodsUrl()).length() > 0) {
+            Glide.with(mContext).load(ToolUtil.changeString(data.getGoodsUrl())).into(holder.iconIv);
+        }
         holder.nameTv.setText(ToolUtil.changeString(data.getGoodsName()));
         holder.descTv.setText(ToolUtil.changeString(data.getDescribe()));
         holder.saleNumTv.setText(ToolUtil.changeString(0));
