@@ -120,7 +120,9 @@ public class OrderPageFragment extends Fragment {
         if (!LoginInfo.isLogin) {
             ToastUtil.ToastMessage(getActivity(), "请首先登录");
             resetOrderList("");
-            LoginByPWActivity.startAction(getActivity());
+            if(!LoginByPWActivity.isFront){
+                LoginByPWActivity.startAction(getActivity());
+            }
             return;
         }
         Map<String, Object> params = new HashMap<>();

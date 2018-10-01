@@ -1,8 +1,10 @@
 package com.ymd.client.component.activity.mine;
 
+import android.Manifest;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -24,6 +26,8 @@ import com.ymd.client.component.widget.CircleImageView;
 import com.ymd.client.model.info.LoginInfo;
 import com.ymd.client.utils.ToastUtil;
 import com.ymd.client.utils.ToolUtil;
+import com.ymd.client.utils.helper.PermissionHelper;
+import com.ymd.client.utils.helper.PermissionInterface;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -40,7 +44,7 @@ import butterknife.Unbinder;
  * 描述:    “我的”选项卡
  * 修改历史:
  */
-public class MainMineFragment extends Fragment {
+public class MainMineFragment extends Fragment implements PermissionInterface {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
@@ -94,6 +98,8 @@ public class MainMineFragment extends Fragment {
 
 
         EventBus.getDefault().register(this);
+        mPermissionHelper = new PermissionHelper(getActivity(), this);
+        mPermissionHelper.requestPermissions();
         refreshInfo();
         return mView;
     }
@@ -115,7 +121,7 @@ public class MainMineFragment extends Fragment {
 
     }
 
-    @OnClick({R.id.fragment_mine_my_ub, R.id.fragment_person_nickname,R.id.fragment_mine_my_collection, R.id.fragment_mine_my_rate,
+    @OnClick({R.id.fragment_mine_my_ub, R.id.fragment_person_nickname, R.id.fragment_mine_my_collection, R.id.fragment_mine_my_rate,
             R.id.fragment_mine_my_cards, R.id.fragment_mine_links, R.id.fragment_mine_banks,
             R.id.fragment_mine_introduce, R.id.fragment_mine_cooperation, R.id.fragment_setting,
             R.id.fragment_person, R.id.fragment_person_iv})
@@ -130,7 +136,7 @@ public class MainMineFragment extends Fragment {
                 //个人信息
             case R.id.fragment_person:
                 //个人信息
-                if(!LoginInfo.isLogin) {
+                if (!LoginInfo.isLogin) {
                     LoginByPWActivity.startAction(getActivity());
                 } else {
                     PersonInfoActivity.startAction(getActivity());
@@ -189,7 +195,7 @@ public class MainMineFragment extends Fragment {
         Intent intent = new Intent(Intent.ACTION_DIAL);
         Uri data = Uri.parse("tel:" + phoneNum);
         intent.setData(data);
-        getActivity().startActivity(intent);
+        startActivity(intent);
     }
 
     @Override
@@ -215,5 +221,42 @@ public class MainMineFragment extends Fragment {
         if (event.isRefresh()) {
             refreshInfo();
         }
+    }
+
+    private PermissionHelper mPermissionHelper;
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (mPermissionHelper.requestPermissionsResult(requestCode, permissions, grantResults)) {            //权限请求结果，并已经处理了该回调
+            return;
+        }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
+    @Override
+    public int getPermissionsRequestCode() {        //设置权限请求requestCode，只有不跟onRequestPermissionsResult方法中的其他请求码冲突即可。
+        return 10000;
+    }
+
+    @Override
+    public String[] getPermissions() {        //设置该界面所需的全部权限
+        return new String[]{
+                Manifest.permission.CALL_PHONE,
+                Manifest.permission.READ_PHONE_STATE};
+    }
+
+    @Override
+    public void requestPermissionsSuccess() {        //权限请求用户已经全部允许
+        initViews();
+    }
+
+    @Override
+    public void requestPermissionsFail() {        //权限请求不被用户允许。可以提示并退出或者提示权限的用途并重新发起权限申请。
+        ToastUtil.ToastMessage(getActivity(), "打电话权限未允许");
+    }
+
+    private void initViews() {        //已经拥有所需权限，可以放心操作任何东西了
+
+
     }
 }
