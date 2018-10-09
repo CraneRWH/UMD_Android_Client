@@ -45,23 +45,30 @@ public class MerchantInfoEntity implements Serializable {
      * 区县
      */
     private String county;
-    /*
+    /**
     距离
      */
     private String distance;
-    /*
+    /**
     距离
      */
     private String score;
 
-    //文件
+    /**
+     * 文件
+     */
     private List<FileInfo> file;
-    //人均消费
+
+    /**
+     * 人均消费
+     */
     private String consumption;
+
     /**
      * 营业开始时间
      */
     private String startBusinessTime;
+
     /**
      * 营业结束时间
      */

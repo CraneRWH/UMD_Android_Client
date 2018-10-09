@@ -17,6 +17,7 @@ import com.ymd.client.component.event.LoginEvent;
 import com.ymd.client.model.constant.URLConstant;
 import com.ymd.client.model.info.LoginInfo;
 import com.ymd.client.utils.CommonShared;
+import com.ymd.client.utils.FastDoubleClickUtil;
 import com.ymd.client.utils.LogUtil;
 import com.ymd.client.utils.ToastUtil;
 import com.ymd.client.web.WebUtil;
@@ -63,10 +64,12 @@ public class LoginByPWActivity extends BaseActivity {
      * @param context
      */
     public static void startAction(Context context) {
-        Intent intent = new Intent(context, LoginByPWActivity.class);
-        LogUtil.showD(context.getClass().getName());
-        intent.putExtra("index", context.getClass().getName());
-        context.startActivity(intent);
+        if (!FastDoubleClickUtil.isFastDoubleClick()) {
+            Intent intent = new Intent(context, LoginByPWActivity.class);
+            LogUtil.showD(context.getClass().getName());
+            intent.putExtra("index", context.getClass().getName());
+            context.startActivity(intent);
+        }
     }
 
     @Override

@@ -428,6 +428,7 @@ public class MainHomePageFragment extends Fragment {
     private void setYouHuiItem(String datas) {
         List<DiscountsMerchantEntity> list = new Gson().fromJson(datas, new TypeToken<List<DiscountsMerchantEntity>>(){}.getType());
 
+        youhuiServiceLayout.removeAllViews();
         //开始添加数据
         for(int i=0; i<list.size(); i++){
             //寻找行布局，第一个参数为行布局ID，第二个参数为这个行布局需要放到那个容器上

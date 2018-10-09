@@ -299,6 +299,13 @@ public class FunctionItemActivity extends BaseActivity implements ViewPager.OnPa
     List<YmdIndustryEntity> typeList = new ArrayList<>();
     private void initTab(String functionJson) {
         typeList = new Gson().fromJson(functionJson, new TypeToken<List<YmdIndustryEntity>>(){}.getType());
+        YmdIndustryEntity firstType = new YmdIndustryEntity();
+        firstType.setName("全部");
+        firstType.setPid(null);
+        if (typeList==null) {
+            typeList = new ArrayList<>();
+        }
+        typeList.add(0, firstType);
         for(int i=0;i<typeList.size();i++){
             RadioButton rb=(RadioButton)LayoutInflater.from(this).
                     inflate(R.layout.tab_rb, null);

@@ -64,7 +64,7 @@ public class OrderPageFragment extends Fragment {
     Unbinder unbinder;
     private ZRecyclerView recyclerView;
 
-    private int type;
+    private int type;      //订单的状态（0：全部，1：待支付，2：退款）
 
     public static OrderPageFragment newInstance(int type) {
         OrderPageFragment fragment = new OrderPageFragment();
