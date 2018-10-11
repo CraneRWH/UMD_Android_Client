@@ -108,7 +108,8 @@ public class ChooseDishesFragment extends BaseFragment implements PersonAdapter.
 
     private void initView() {
      //   setRecommendLayoutData();
-        EventBus.getDefault().post(new GoodsEvent());
+        if(!EventBus.getDefault().isRegistered(this))
+            EventBus.getDefault().post(new GoodsEvent());
         requestRecommendData();
         requestFoodType();
         requestFoodList();

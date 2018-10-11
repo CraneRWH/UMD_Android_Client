@@ -92,7 +92,6 @@
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="15dp"
                     android:visibility="gone"
-                    android:text="购物车为空"
                     android:textColor="#999999"
                     android:textSize="@dimen/text_size_24px"
                     android:textStyle="bold"/>

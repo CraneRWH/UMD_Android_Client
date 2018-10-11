@@ -186,7 +186,7 @@ public class FunctionItemActivity extends BaseActivity implements ViewPager.OnPa
     protected void chooseItem(int position) {
         chooseStatus = position;
         if (!fragmentList.isEmpty() && viewPager.getAdapter() != null) {
-            ((FoodListFragment) fragmentList.get(viewPager.getCurrentItem())).refreshData(chooseStatus);
+            ((FunctionItemListFragment) fragmentList.get(viewPager.getCurrentItem())).refreshData(chooseStatus);
         }
         try {
             for (int i = 0; i < textViewList.size(); i++) {
@@ -301,7 +301,7 @@ public class FunctionItemActivity extends BaseActivity implements ViewPager.OnPa
         typeList = new Gson().fromJson(functionJson, new TypeToken<List<YmdIndustryEntity>>(){}.getType());
         YmdIndustryEntity firstType = new YmdIndustryEntity();
         firstType.setName("全部");
-        firstType.setPid(null);
+        firstType.setPid(-1l);
         if (typeList==null) {
             typeList = new ArrayList<>();
         }
@@ -321,7 +321,7 @@ public class FunctionItemActivity extends BaseActivity implements ViewPager.OnPa
 
     private void initViewPager(){
         for(int i=0;i< typeList.size();i++){
-            FoodListFragment frag= FoodListFragment.newInstance(chooseStatus, typeList.get(i).getPid(), functionType);
+            FunctionItemListFragment frag= FunctionItemListFragment.newInstance(chooseStatus, typeList.get(i).getPid(), functionType);
       /*      Bundle bundle=new Bundle();
             bundle.putString("weburl", channelList.get(i).getWeburl());
             bundle.putString("name", channelList.get(i).getName());

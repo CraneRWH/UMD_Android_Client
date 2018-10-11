@@ -161,7 +161,7 @@ public class MainMineFragment extends Fragment implements PermissionInterface {
                 break;
             case R.id.fragment_mine_links:
                 //    startActivity(new Intent(getContext(), LinkServiceActivity.class));
-                diallPhone("40012012345");
+                diallPhone("4007656588");
                 //联系客服
                 break;
             case R.id.fragment_mine_banks:

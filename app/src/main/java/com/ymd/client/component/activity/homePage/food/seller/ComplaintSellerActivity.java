@@ -134,29 +134,23 @@ public class ComplaintSellerActivity extends BaseActivity {
     private void setComplaintTypeData() {
 
         Map<String, Object> map = new HashMap<>();
-        map.put("name", "商家服务");
+        map.put("name", "拒绝服务");
         map.put("isChoose", true);
         complaintTypeList.add(map);
 
         map = new HashMap<>();
-        map.put("name", "提供发票");
+        map.put("name", "卫生差");
         map.put("isChoose", true);
         complaintTypeList.add(map);
 
         map = new HashMap<>();
-        map.put("name", "到店自取");
+        map.put("name", "商家欺诈");
         map.put("isChoose", false);
         complaintTypeList.add(map);
 
 
         map = new HashMap<>();
-        map.put("name", "到店自取");
-        map.put("isChoose", false);
-        complaintTypeList.add(map);
-
-
-        map = new HashMap<>();
-        map.put("name", "到店自取");
+        map.put("name", "未提供优惠");
         map.put("isChoose", false);
         complaintTypeList.add(map);
 

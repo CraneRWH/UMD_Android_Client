@@ -116,7 +116,7 @@ public class FunctionItemListFragment extends Fragment {
         params.put("latitude",LocationInfo.getInstance().getLocationInfo().getLatitude());
         params.put("longitude",LocationInfo.getInstance().getLocationInfo().getLongitude());
         params.put("pageNum", page);
-        params.put("twoClasses", pid);
+        params.put("twoClasses", pid > 0 ? pid : "");
         params.put("classes", functionType);
         String method = URLConstant.COMPREHENSIVE_MERCHANT;
         switch (type){
