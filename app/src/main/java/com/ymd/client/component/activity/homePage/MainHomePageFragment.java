@@ -499,8 +499,8 @@ public class MainHomePageFragment extends Fragment {
      */
     private void requestMerchant(int type){
         Map<String,Object> params = new HashMap<>();
-        params.put("county",ToolUtil.changeInteger(LocationInfo.getInstance().getChooseCity().getCountyCode()) > 0 ? LocationInfo.getInstance().getChooseCity().getCountyCode() : null);
-        params.put("city", LocationInfo.getInstance().getChooseCity().getCityID() > 0 ? LocationInfo.getInstance().getChooseCity().getCityID() : null);
+        params.put("county",ToolUtil.changeInteger(LocationInfo.getInstance().getChooseCity().getCountyCode()) > 0 ? LocationInfo.getInstance().getChooseCity().getCountyCode() : "");
+        params.put("city", LocationInfo.getInstance().getChooseCity().getCityID() > 0 ? LocationInfo.getInstance().getChooseCity().getCityID() : "");
         params.put("latitude",LocationInfo.getInstance().getLocationInfo().getLatitude());
         params.put("longitude",LocationInfo.getInstance().getLocationInfo().getLongitude());
         params.put("pageNum", page);
@@ -541,7 +541,6 @@ public class MainHomePageFragment extends Fragment {
         List<MerchantInfoEntity> datas = new Gson().fromJson(result, new TypeToken<List<MerchantInfoEntity>>(){}.getType());
         if (page == 1) {
             marchantDatas.clear();
-
         }
         marchantDatas.addAll(datas);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
@@ -587,62 +586,6 @@ public class MainHomePageFragment extends Fragment {
             }
         });
         recyclerView.setAdapter(adapter);
-    }
-
-    private List getData() {
-        List<Map<String,Object>> list = new ArrayList<>();
-        Map<String, Object> map = new HashMap<>();
-        map.put("name", "半天妖烤鱼");
-        map.put("distance","253m");
-        map.put("point",4);
-        map.put("work_time", "9:00~21:30");
-        map.put("dis_str","全场");
-        map.put("dis_num", "8.6折");
-        map.put("price", 86);
-        map.put("unit","人");
-        List<String> diss = new ArrayList<>();
-        diss.add("全场8.9折优惠");
-        diss.add("早餐免费领豆浆");
-        diss.add("上午9:00至12:00有7折优惠");
-        map.put("diss", diss);
-
-        list.add(map);
-
-        map = new HashMap<>();
-        map.put("name", "驴肉火烧");
-        map.put("distance","253m");
-        map.put("point",4.3);
-        map.put("work_time", "9:00~21:30");
-        map.put("dis_str","全场");
-        map.put("dis_num", "8.6折");
-        map.put("price", 86);
-        map.put("unit","人");
-        diss = new ArrayList<>();
-        diss.add("全场8.9折优惠");
-        diss.add("早餐免费领豆浆");
-        diss.add("上午9:00至12:00有7折优惠");
-        map.put("diss", diss);
-
-        list.add(map);
-
-        map = new HashMap<>();
-        map.put("name", "沙县小吃");
-        map.put("distance","253m");
-        map.put("point",4.3);
-        map.put("work_time", "9:00~21:30");
-        map.put("dis_str","全场");
-        map.put("dis_num", "8.6折");
-        map.put("price", 86);
-        map.put("unit","人");
-        diss = new ArrayList<>();
-        diss.add("全场8.9折优惠");
-        diss.add("早餐免费领豆浆");
-        diss.add("上午9:00至12:00有7折优惠");
-        map.put("diss", diss);
-
-        list.add(map);
-
-        return list;
     }
 
     @Override

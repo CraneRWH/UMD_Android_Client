@@ -111,7 +111,7 @@ public class FunctionItemListFragment extends Fragment {
      */
     private void requestMerchant(int type){
         Map<String,Object> params = new HashMap<>();
-        params.put("county",LocationInfo.getInstance().getChooseCity().getCountyCode());
+        params.put("county",LocationInfo.getInstance().getChooseCity().getCountyCode() > 0 ? LocationInfo.getInstance().getChooseCity().getCountyCode() : "");
         params.put("city", LocationInfo.getInstance().getChooseCity().getCityID());
         params.put("latitude",LocationInfo.getInstance().getLocationInfo().getLatitude());
         params.put("longitude",LocationInfo.getInstance().getLocationInfo().getLongitude());
