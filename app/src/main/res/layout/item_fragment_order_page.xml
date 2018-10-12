@@ -25,7 +25,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             style="@style/font_size_32px_black"
-            android:text="独一处"
             android:layout_margin="@dimen/mar_pad_len_20px"
             />
         <TextView
@@ -44,7 +43,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             style="@style/font_size_28px_green"
-            android:text="订单已提交"
             android:layout_margin="@dimen/mar_pad_len_20px"
             />
     </LinearLayout>
@@ -84,7 +82,6 @@
             android:layout_height="wrap_content"
             style="@style/font_size_30px_green"
             android:layout_marginRight="@dimen/mar_pad_len_64px"
-            android:text="20"
             />
         <TextView
             android:layout_width="wrap_content"
@@ -97,7 +94,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             style="@style/font_size_24px_gray_"
-            android:text="1"
             />
         <TextView
             android:layout_width="wrap_content"
@@ -110,7 +106,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             style="@style/font_size_30px_black"
-            android:text="¥36"
             />
     </LinearLayout>
     <LinearLayout

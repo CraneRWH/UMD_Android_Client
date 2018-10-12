@@ -161,9 +161,13 @@ public class ChooseDishesFragment extends BaseFragment implements PersonAdapter.
             buy_btn = (ImageView) view.findViewById(R.id.buy_btn);
             sub_btn = (ImageView) view.findViewById(R.id.sub_btn);
             num_tv = (TextView) view.findViewById(R.id.num_tv);
-            //将int数组中的数据放到ImageView中
-            if (ToolUtil.changeString(data.getGoodsUrl()).length() > 0) {
-                Glide.with(this).load(ToolUtil.changeString(data.getGoodsUrl())).into(icon_iv);
+            try {
+                //将int数组中的数据放到ImageView中
+                if (ToolUtil.changeString(data.getGoodsUrl().get(0)).length() > 0) {
+                    Glide.with(this).load(ToolUtil.changeString(data.getGoodsUrl().get(0))).into(icon_iv);
+                }
+            } catch (IndexOutOfBoundsException e) {
+                e.printStackTrace();
             }
             name_tv.setText(data.getGoodsName());
             sale_num_tv.setText("月销 "+data.getSales());

@@ -144,48 +144,52 @@ public class OrderPageFragment extends Fragment {
     }
 
     List<OrderResultForm> orderList = new ArrayList<>();
-
+    OrderPageAdapter2 adapter;
     private void resetOrderList(String resultJson) {
         List<OrderResultForm> datas = new Gson().fromJson(resultJson, new TypeToken<List<OrderResultForm>>() {
         }.getType());
         if (page == 1) {
             orderList.clear();
-        }
-        if (datas != null ) {
             orderList.addAll(datas);
+            adapter = new OrderPageAdapter2(orderList,getActivity());
+            adapter.setListener(new OnUMDItemClickListener() {
+                @Override
+                public void onClick(Object data, View view, int position) {
+                    OrderResultForm item = (OrderResultForm) data;
+                    OrderDetailActivity.startAction(getActivity(), item.getId(), ToolUtil.changeInteger(item.getOrderType()));
+                }
+            });
+            adapter.setBtnClickListener(new OrderPageAdapter2.OnBtnClickListener() {
+                @Override
+                public void onClick(Object data, int position, int id) {
+                    OrderResultForm item = (OrderResultForm) data;
+                    if (id == R.id.btn3) {
+                        switch (item.getOrderStatus()) {
+                            case 0:
+                                OrderPayActivity.startAction(getActivity(), item.getId());
+                                break;
+                            case 4:
+                                CommentSellerActivity.startAction(getActivity(), item);
+                                break;
+                        }
+                    } else if (id == R.id.btn2) {
+                        submitOrder(item);
+                    }
+                }
+            });
+            recyclerView.setAdapter(adapter);
+        } else {
+            if (datas != null) {
+                adapter.appendItems(datas);
+                orderList.addAll(datas);
+            }
         }
         if (orderList.isEmpty()) {
             emptyView.setVisibility(View.VISIBLE);
         } else {
             emptyView.setVisibility(View.GONE);
         }
-        OrderPageAdapter2 adapter = new OrderPageAdapter2(orderList,getActivity());
-        adapter.setListener(new OnUMDItemClickListener() {
-            @Override
-            public void onClick(Object data, View view, int position) {
-                OrderResultForm item = (OrderResultForm) data;
-                OrderDetailActivity.startAction(getActivity(), item.getId(), ToolUtil.changeInteger(item.getOrderType()));
-            }
-        });
-        adapter.setBtnClickListener(new OrderPageAdapter2.OnBtnClickListener() {
-            @Override
-            public void onClick(Object data, int position, int id) {
-                OrderResultForm item = (OrderResultForm) data;
-                if (id == R.id.btn3) {
-                    switch (item.getOrderStatus()) {
-                        case 0:
-                            OrderPayActivity.startAction(getActivity(), item.getId());
-                            break;
-                        case 4:
-                            CommentSellerActivity.startAction(getActivity(), item);
-                            break;
-                    }
-                } else if (id == R.id.btn2) {
-                    submitOrder(item);
-                }
-            }
-        });
-        recyclerView.setAdapter(adapter);
+
         recyclerView.refreshComplete();
     }
 

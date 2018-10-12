@@ -68,8 +68,18 @@ public class OrderPageAdapter2 extends CommonRecyclerAdapter<OrderResultForm> {
         if (ToolUtil.changeString(data.getmIcon()).length() > 0) {
             Glide.with(mContext).load(ToolUtil.changeString(data.getmIcon())).into(holder.iconIv);
         }
+        holder.nameTv.setText(ToolUtil.changeString(data.getmName()));
         List<YmdOrderGoods> products = data.getYmdOrderGoodsList();
 
+        try {
+            holder.payMoneyTv.setText("¥" + ToolUtil.changeDouble(data.getPayAmt()));
+            holder.uMoneyTv.setText(ToolUtil.changeInteger(data.getuObtain()));
+        } catch (Exception e) {
+            e.printStackTrace();
+
+            holder.payMoneyTv.setText("¥0.0");
+            holder.uMoneyTv.setText("0");
+        }
         holder.productListLt.removeAllViews();
         for (YmdOrderGoods item : products) {
             View v = LayoutInflater.from(getContext()).inflate(R.layout.item_fragment_order_page_product, null);
@@ -102,10 +112,12 @@ public class OrderPageAdapter2 extends CommonRecyclerAdapter<OrderResultForm> {
             case 0:
                 holder.btn3.setVisibility(View.VISIBLE);
                 holder.btn3.setText("立即支付");
+                holder.statusNameTv.setText("待支付");
                 break;
             case 1:
             case 2:
                 holder.btn3.setVisibility(View.GONE);
+                holder.statusNameTv.setText("待接单");
                 break;
             case 3:
                 holder.btn3.setVisibility(View.VISIBLE);
@@ -116,16 +128,19 @@ public class OrderPageAdapter2 extends CommonRecyclerAdapter<OrderResultForm> {
                 } else if (data.getPayStatus() == 7) {
                     holder.btn3.setText("退款失败");
                 }
+                holder.statusNameTv.setText("已拒单");
                 break;
             case 4:
                 holder.btn3.setVisibility(View.VISIBLE);
                 holder.btn3.setText("评价");
+
+                holder.statusNameTv.setText("待评价");
                 break;
             case 5:
             case 6:
             case 7:
                 holder.btn3.setVisibility(View.GONE);
-
+                holder.statusNameTv.setText("");
         }
         holder.btn3.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -57,8 +57,12 @@ public class FoodSellerListAdapter extends RecyclerView.Adapter<FoodSellerListAd
     public void onBindViewHolder(ViewHolder holder, int position) {
 
         YmdGoodsEntity data = datas.get(position);
-        if (ToolUtil.changeString(data.getGoodsUrl()).length() > 0) {
-            Glide.with(mContext).load(ToolUtil.changeString(data.getGoodsUrl())).into(holder.iconIv);
+        try {
+            if (ToolUtil.changeString(data.getGoodsUrl().get(0)).length() > 0) {
+                Glide.with(mContext).load(ToolUtil.changeString(data.getGoodsUrl().get(0))).into(holder.iconIv);
+            }
+        } catch (IndexOutOfBoundsException e) {
+            e.printStackTrace();
         }
         holder.nameTv.setText(ToolUtil.changeString(data.getGoodsName()));
         holder.descTv.setText(ToolUtil.changeString(data.getDescribe()));
