@@ -120,6 +120,10 @@ public class RegisterActivity extends BaseActivity {
             return;
         }
 
+        if (!agreeCb.isChecked()) {
+            ToastUtil.ToastMessage(this, "请同意注册与服务协议", ToastUtil.WARN);
+            return;
+        }
         Map<String,Object> params= new HashMap<>();
         params.put("code", mobileCodeString);
         params.put("password", password);

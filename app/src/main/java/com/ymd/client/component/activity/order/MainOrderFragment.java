@@ -82,9 +82,9 @@ public class MainOrderFragment extends Fragment {
         txtTitle.setText("订单");
         status = 3;
         fragmentList=new ArrayList<Fragment>();
-        fragmentList.add(new OrderPageFragment());
-        fragmentList.add(new OrderPageFragment());
-        fragmentList.add(new OrderPageFragment());
+        fragmentList.add(OrderPageFragment.newInstance(0));
+        fragmentList.add(OrderPageFragment.newInstance(1));
+        fragmentList.add(OrderPageFragment.newInstance(2));
 
         textViewList=new ArrayList<MyChooseItemView>();
         textViewList.add(chooseItem0);
