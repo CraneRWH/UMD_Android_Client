@@ -150,6 +150,9 @@ public class OrderPageFragment extends Fragment {
         }.getType());
         if (page == 1) {
             orderList.clear();
+            if(datas== null) {
+                return;
+            }
             orderList.addAll(datas);
             adapter = new OrderPageAdapter2(orderList,getActivity());
             adapter.setListener(new OnUMDItemClickListener() {

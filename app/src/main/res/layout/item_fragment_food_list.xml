@@ -78,7 +78,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         style="@style/font_size_24px_gray_"
-                        android:text="营业时间："
                         />
                 </LinearLayout>
                 <LinearLayout

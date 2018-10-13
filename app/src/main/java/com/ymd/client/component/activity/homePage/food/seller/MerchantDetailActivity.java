@@ -191,6 +191,12 @@ public class MerchantDetailActivity extends TabBaseActivity {
             }
         });
 
+        shareIv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ToastUtil.ToastMessage(MerchantDetailActivity.this, "功能开发中，敬请期待");
+            }
+        });
     }
 
 
@@ -224,6 +230,7 @@ public class MerchantDetailActivity extends TabBaseActivity {
             disTv.setVisibility(View.GONE);
             merchantInfo.setDiscount("10");
         }
+        workTimeTv.setText(ToolUtil.changeString(merchantInfo.getStartBusinessTime()) + "-" + ToolUtil.changeString(merchantInfo.getEndBusinessTime()));
     }
 
     private void setViewPager() {

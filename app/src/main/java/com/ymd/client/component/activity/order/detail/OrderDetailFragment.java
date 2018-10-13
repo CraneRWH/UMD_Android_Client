@@ -135,8 +135,10 @@ public class OrderDetailFragment extends Fragment {
                 if (fragmentType == 0) {
                     requestRoomList();
                     eatLocationLt.setVisibility(View.VISIBLE);
+                    eatPersonNumRt.setVisibility(View.VISIBLE);
                 } else {
                     eatLocationLt.setVisibility(View.GONE);
+                    eatPersonNumRt.setVisibility(View.GONE);
                 }
             } else {
                 foodLlt.setVisibility(View.GONE);

@@ -72,6 +72,8 @@ public class MerchantZiZhiAdapter extends RecyclerView.Adapter<MerchantZiZhiAdap
             setServiceData(holder);
             setManageData(manageStr,holder);
             setShopData(shopStr,holder);
+
+            holder.shapWorkTimeTv.setText(ToolUtil.changeString(merchantInfo.getStartBusinessTime()) + "-" + ToolUtil.changeString(merchantInfo.getEndBusinessTime()));
             holder.main_lt.setVisibility(View.VISIBLE);
         } else {
             holder.main_lt.setVisibility(View.GONE);
@@ -82,6 +84,7 @@ public class MerchantZiZhiAdapter extends RecyclerView.Adapter<MerchantZiZhiAdap
                 ComplaintSellerActivity.startAction(mContext, merchantInfo);
             }
         });
+
     }
 
     private void setServiceData(ViewHolder holder) {
