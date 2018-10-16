@@ -23,6 +23,7 @@
                 android:layout_width="@dimen/mar_pad_len_180px"
                 android:layout_height="@dimen/mar_pad_len_180px"
                 android:scaleType="centerCrop"
+                android:src="@mipmap/app_icon"
                 />
             <LinearLayout
                 android:layout_width="match_parent"
@@ -42,14 +43,12 @@
                         android:layout_height="wrap_content"
                         android:textColor="@color/black"
                         android:textSize="@dimen/text_size_32px"
-                        android:text="兰州拉面"
                         />
                     <TextView
                         android:id="@+id/distance_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         style="@style/font_size_24px_gray_"
-                        android:text="224m"
                         />
                 </LinearLayout>
                 <RatingBar
@@ -97,14 +96,12 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         style="@style/font_size_24px_black"
-                        android:text="全场"
                         />
                     <TextView
                         android:id="@+id/dis_num_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         style="@style/font_size_36px_orange"
-                        android:text="8.6折"
                         />
 
                     <View
@@ -118,7 +115,7 @@
                         android:layout_height="wrap_content"
                         style="@style/font_size_36px_orange"
                         android:textSize="@dimen/text_size_48px"
-                        android:text="¥86"
+                        android:text="¥"
                         />
                     <TextView
                         android:id="@+id/unit_tv"

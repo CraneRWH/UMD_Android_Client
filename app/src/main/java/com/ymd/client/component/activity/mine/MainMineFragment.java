@@ -19,7 +19,6 @@ import com.ymd.client.component.activity.mine.collection.MyCollectionActivity;
 import com.ymd.client.component.activity.mine.info.PersonInfoActivity;
 import com.ymd.client.component.activity.mine.setting.SettingActivity;
 import com.ymd.client.component.activity.mine.ub.MyUbActivity;
-import com.ymd.client.component.event.CityShowEvent;
 import com.ymd.client.component.event.LoginEvent;
 import com.ymd.client.component.event.LoginRefreshEvent;
 import com.ymd.client.component.widget.CircleImageView;
@@ -109,12 +108,12 @@ public class MainMineFragment extends Fragment implements PermissionInterface {
             if (!TextUtils.isEmpty(LoginInfo.getInstance().getLoginInfo().getIcon())) {
                 Glide.with(getActivity()).load(LoginInfo.getInstance().getLoginInfo().getIcon()).into(mHeadView);
             } else {
-                mHeadView.setImageResource(R.mipmap.ic_launcher);
+                mHeadView.setImageResource(R.mipmap.app_icon);
             }
             mNickName.setText(LoginInfo.getInstance().getLoginInfo().getUserName());
             mMyUbCount.setText(ToolUtil.changeString(LoginInfo.getInstance().getLoginInfo().getuNumber()));
         } else {
-            mHeadView.setImageResource(R.mipmap.ic_launcher);
+            mHeadView.setImageResource(R.mipmap.app_icon);
             mNickName.setText("未登录");
             mMyUbCount.setText("");
         }
@@ -211,7 +210,7 @@ public class MainMineFragment extends Fragment implements PermissionInterface {
         if (event.isSuccess()) {
             refreshInfo();
         } else {
-            mHeadView.setImageResource(R.mipmap.ic_launcher);
+            mHeadView.setImageResource(R.mipmap.app_icon);
             mNickName.setText("未登录");
         }
     }

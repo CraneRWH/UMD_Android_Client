@@ -11,6 +11,7 @@ import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +27,7 @@ import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.ymd.client.R;
 import com.ymd.client.component.activity.homePage.food.seller.fragment.ChooseDishesFragment;
@@ -222,6 +224,9 @@ public class MerchantDetailActivity extends TabBaseActivity {
         nameTv.setText(ToolUtil.changeString(merchantInfo.getName()));
         scoreBarView.setRating(ToolUtil.changeFloat(merchantInfo.getScore()));
         addressTv.setText(ToolUtil.changeString(merchantInfo.getAddress()));
+        if (!TextUtils.isEmpty(merchantInfo.getPhotoUrl())) {
+            Glide.with(this).load(merchantInfo.getPhotoUrl()).into(iconIv);
+        }
         if (merchantInfo.getDiscount() != null) {
             disTv.setText("享受" + merchantInfo.getDiscount() + "折优惠");
             disTv.setVisibility(View.VISIBLE);

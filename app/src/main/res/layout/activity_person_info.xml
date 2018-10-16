@@ -37,7 +37,7 @@
             android:layout_width="@dimen/mar_pad_len_120px"
             android:layout_height="@dimen/mar_pad_len_120px"
             android:layout_marginRight="@dimen/mar_pad_len_30px"
-            android:src="@mipmap/ic_launcher" />
+            android:src="@mipmap/app_icon" />
 
         <ImageView
             style="@style/default_arrow_right"

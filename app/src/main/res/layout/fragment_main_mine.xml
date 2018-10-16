@@ -26,7 +26,7 @@
                 android:layout_width="@dimen/mar_pad_len_160px"
                 android:layout_height="@dimen/mar_pad_len_160px"
                 android:layout_gravity="center"
-                android:src="@mipmap/ic_launcher"
+                android:src="@mipmap/app_icon"
                 app:civ_fill_color="@color/white" />
 
             <LinearLayout

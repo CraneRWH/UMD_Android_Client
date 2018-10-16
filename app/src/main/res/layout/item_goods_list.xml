@@ -17,7 +17,7 @@
             android:id="@+id/ivGoodsImage"
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:background="@mipmap/icon_umd"/>
+            android:src="@mipmap/default_icon"/>
 
         <LinearLayout
             android:id="@+id/goodsInfo"

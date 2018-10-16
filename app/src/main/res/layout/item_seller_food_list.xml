@@ -23,7 +23,7 @@
                 android:layout_width="@dimen/mar_pad_len_168px"
                 android:layout_height="@dimen/mar_pad_len_168px"
                 android:scaleType="centerCrop"
-                android:src="@mipmap/ic_launcher"
+                android:src="@mipmap/app_icon"
                 />
             <LinearLayout
                 android:layout_width="match_parent"
@@ -43,7 +43,6 @@
                         android:layout_height="wrap_content"
                         android:textColor="@color/black"
                         android:textSize="@dimen/text_size_32px"
-                        android:text="兰州拉面"
                         android:lines="2"
                         android:ellipsize="end"
                         />
@@ -54,7 +53,6 @@
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
                     style="@style/font_size_24px_gray_"
-                    android:text="兰州拉面"
                     android:layout_marginTop="@dimen/mar_pad_len_10px"
                     android:lines="1"
                     android:ellipsize="end"
@@ -76,7 +74,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         style="@style/font_size_24px_gray_"
-                        android:text="300"
                         android:layout_marginLeft="@dimen/mar_pad_len_10px"
                         />
                 </LinearLayout>
@@ -110,7 +107,6 @@
                             android:ellipsize="end"
                             android:textColor="@color/text_orange"
                             android:textSize="@dimen/text_size_32px"
-                            android:text="19.01"
                             />
 
                         <TextView
