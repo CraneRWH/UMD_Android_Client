@@ -38,6 +38,7 @@ import com.ymd.client.component.activity.order.detail.OrderDetailActivity;
 import com.ymd.client.component.adapter.TabFragmentAdapter;
 import com.ymd.client.component.event.GoodsEvent;
 import com.ymd.client.component.event.MessageEvent;
+import com.ymd.client.component.widget.dialog.CommonDialogs;
 import com.ymd.client.model.bean.homePage.MerchantInfoEntity;
 import com.ymd.client.model.bean.homePage.YmdGoodsEntity;
 import com.ymd.client.model.constant.URLConstant;
@@ -570,5 +571,23 @@ public class MerchantDetailActivity extends TabBaseActivity {
 
     private void toOrderDetail(String orderCode) {
         OrderDetailActivity.startAction(this, ToolUtil.changeLong(orderCode), functionType);
+    }
+
+    private void mapOnLine() {
+        String[] items = new String[]{""};
+
+        CommonDialogs.showListDialog(this, "", items,
+                new CommonDialogs.DialogItemClickListener() {
+                    @Override
+                    public void confirm(String result) {
+                        if (items[0].equals(result)) {
+                            //相册选择
+                      //      ciutil.ChoiceFromAlbum(true);
+                        } else if (items[1].equals(result)) {
+                            //检查权限
+                      //      applyPermissions();
+                        }
+                    }
+                });
     }
 }
