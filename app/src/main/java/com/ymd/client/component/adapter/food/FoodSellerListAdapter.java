@@ -39,6 +39,7 @@ public class FoodSellerListAdapter extends RecyclerView.Adapter<FoodSellerListAd
     private Context mContext;
 
     private OnUMDItemClickListener listener;
+    private OnSubORAddListener btnListener;
 
     public FoodSellerListAdapter(List<YmdGoodsEntity> datas, Context mContext) {
         this.datas = datas;
@@ -92,6 +93,9 @@ public class FoodSellerListAdapter extends RecyclerView.Adapter<FoodSellerListAd
                 data.setBuyCount(ToolUtil.changeInteger(data.getBuyCount()) + 1);
                 notifyDataSetChanged();
                 EventBus.getDefault().post(data);
+                if (btnListener != null) {
+                    btnListener.onAddClick(data, v, position );
+                }
             }
         });
 
@@ -102,6 +106,9 @@ public class FoodSellerListAdapter extends RecyclerView.Adapter<FoodSellerListAd
                     data.setBuyCount(ToolUtil.changeInteger(data.getBuyCount()) - 1);
                     notifyDataSetChanged();
                     EventBus.getDefault().post(data);
+                    if (btnListener != null) {
+                        btnListener.onSubClick(data, v, position );
+                    }
                 }
             }
         });
@@ -128,6 +135,14 @@ public class FoodSellerListAdapter extends RecyclerView.Adapter<FoodSellerListAd
 
     public void setListener(OnUMDItemClickListener listener) {
         this.listener = listener;
+    }
+
+    public OnSubORAddListener getBtnListener() {
+        return btnListener;
+    }
+
+    public void setBtnListener(OnSubORAddListener btnListener) {
+        this.btnListener = btnListener;
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder{
@@ -161,5 +176,10 @@ public class FoodSellerListAdapter extends RecyclerView.Adapter<FoodSellerListAd
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void Event(YmdGoodsEntity goodsEntity) {
         refreshData(goodsEntity);
+    }
+
+    public interface OnSubORAddListener {
+        public void onSubClick(YmdGoodsEntity data, View view, int position);
+        public void onAddClick(YmdGoodsEntity data, View view, int position);
     }
 }
