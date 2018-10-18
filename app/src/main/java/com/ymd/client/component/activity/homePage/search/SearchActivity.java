@@ -172,7 +172,7 @@ public class SearchActivity extends BaseActivity {
     private void requestHotSearch() {
         Map<String, Object> params = new HashMap<>();
         params.put("type", 1);
-        WebUtil.getInstance().requestPOST(this, URLConstant.QUEYR_HOT_SEARCH, params, true,
+        WebUtil.getInstance().requestPOST(this, URLConstant.QUEYR_HOT_SEARCH, params, false,
                 new WebUtil.WebCallBack() {
                     @Override
                     public void onWebSuccess(JSONObject result) {
