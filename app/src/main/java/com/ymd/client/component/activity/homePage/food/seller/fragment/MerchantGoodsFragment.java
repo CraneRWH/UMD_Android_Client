@@ -158,13 +158,6 @@ public class MerchantGoodsFragment extends Fragment {
 
     }
 
-    private void setData(String shopStr, String manageStr) {
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
-        recyclerView.setLayoutManager(layoutManager);
-        MerchantZiZhiAdapter adapter = new MerchantZiZhiAdapter(merchantInfo, manageStr, shopStr, getActivity());
-        recyclerView.setAdapter(adapter);
-    }
-
     @Override
     public void onDestroyView() {
         super.onDestroyView();

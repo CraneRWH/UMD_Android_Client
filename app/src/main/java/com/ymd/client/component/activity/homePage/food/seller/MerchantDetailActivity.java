@@ -252,6 +252,7 @@ public class MerchantDetailActivity extends TabBaseActivity {
     private void setViewPager() {
 
         ChooseDishesFragment disheslFragment = ChooseDishesFragment.newInstance(merchantInfo);
+    //    MerchantGoodsFragment disheslFragment = MerchantGoodsFragment.newInstance(merchantInfo);
         EvaluateSellerFragment evaluateSellerFragment = EvaluateSellerFragment.newInstance(merchantInfo);
     //    SellerDetailFragment detailFragment = SellerDetailFragment.newInstance(merchantInfo);
         MerchantZiZhiFragment detailFragment = MerchantZiZhiFragment.newInstance(merchantInfo);

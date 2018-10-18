@@ -49,8 +49,7 @@ public class MerchantGoodsAdapter extends RecyclerView.Adapter<MerchantGoodsAdap
 
     private List<YmdRangeGoodsEntity> typeDatas = new ArrayList<>();
     private List<YmdGoodsEntity> foodDatas = new ArrayList<>();
-    FoodSellerListAdapter foodAdapter;
-    FoodTypeListAdapter typeAdapter;
+    MerchantGoodsListAdapter listAdapter;
 
     public MerchantGoodsAdapter(MerchantInfoEntity datas, List<YmdGoodsEntity> recommendFoodDatas, List<YmdRangeGoodsEntity> typeDatas, List<YmdGoodsEntity> foodDatas, Activity mContext) {
         this.merchantInfo = datas;
@@ -72,8 +71,16 @@ public class MerchantGoodsAdapter extends RecyclerView.Adapter<MerchantGoodsAdap
     public void onBindViewHolder(ViewHolder holder, int position) {
         if (position == 0) {
             refreshRecommendDatas(holder);
-            setFoodTypeData(holder);
-            setFoodData(holder);
+            listAdapter = new MerchantGoodsListAdapter(merchantInfo, typeDatas, foodDatas,mContext);
+            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mContext);
+            holder.recyclerView.setLayoutManager(linearLayoutManager);
+            listAdapter.setRefreshListener(new MerchantGoodsListAdapter.OnRefreshListener() {
+                @Override
+                public void onRefresh(YmdGoodsEntity data) {
+                    setRecommendListCount(data);
+                }
+            });
+            holder.recyclerView.setAdapter(listAdapter);
         } else {
             holder.rootView.setVisibility(View.GONE);
         }
@@ -158,13 +165,7 @@ public class MerchantGoodsAdapter extends RecyclerView.Adapter<MerchantGoodsAdap
     }
 
     private void setFoodListCount(YmdGoodsEntity map) {
-        for (YmdGoodsEntity item : foodDatas) {
-            if (item.getId() == map.getId()) {
-                item.setBuyCount(map.getBuyCount());
-                break;
-            }
-        }
-        foodAdapter.notifyDataSetChanged();
+        listAdapter.setFoodListCount(map);
     }
 
     private void setRecommendListCount(YmdGoodsEntity map) {
@@ -175,116 +176,6 @@ public class MerchantGoodsAdapter extends RecyclerView.Adapter<MerchantGoodsAdap
             }
         }
         notifyDataSetChanged();
-    }
-
-    //目标项是否在最后一个可见项之后
-    private boolean mShouldScroll;
-    //记录目标项位置
-    private int mToPosition;
-
-    /**
-     * 滑动到指定位置
-     */
-    private void smoothMoveToPosition(RecyclerView mRecyclerView, final int position) {
-        // 第一个可见位置
-        int firstItem = mRecyclerView.getChildLayoutPosition(mRecyclerView.getChildAt(0));
-        // 最后一个可见位置
-        int lastItem = mRecyclerView.getChildLayoutPosition(mRecyclerView.getChildAt(mRecyclerView.getChildCount() - 1));
-        if (position < firstItem) {
-            // 第一种可能:跳转位置在第一个可见位置之前
-            mRecyclerView.smoothScrollToPosition(position);
-        } else if (position <= lastItem) {
-            // 第二种可能:跳转位置在第一个可见位置之后
-            int movePosition = position - firstItem;
-            if (movePosition >= 0 && movePosition < mRecyclerView.getChildCount()) {
-                int top = mRecyclerView.getChildAt(movePosition).getTop();
-                mRecyclerView.smoothScrollBy(0, top);
-            }
-        } else {
-            // 第三种可能:跳转位置在最后可见项之后
-            mRecyclerView.smoothScrollToPosition(position);
-            mToPosition = position;
-            mShouldScroll = true;
-        }
-    }
-
-    private void setFoodTypeData(ViewHolder holder) {
-
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mContext);
-        holder.typeRv.setLayoutManager(linearLayoutManager);
-        typeAdapter = new FoodTypeListAdapter(typeDatas, mContext);
-        typeAdapter.setOnItemClickListener(new OnUMDItemClickListener() {
-            @Override
-            public void onClick(Object data, View view, int position) {
-                YmdRangeGoodsEntity map = (YmdRangeGoodsEntity) data;
-                long pid = map.getId();
-                try {
-                    for (int i = 0; i < foodDatas.size(); i++) {
-                        YmdGoodsEntity item = foodDatas.get(i);
-                        if (item.getRangeGoods() == pid) {
-                      /*  linearLayoutManager.scrollToPositionWithOffset(i, 0);
-                        linearLayoutManager.setStackFromEnd(true);*/
-                            if (i != -1) {
-                                smoothMoveToPosition(holder.typeRv, i);
-                            } else {
-                                smoothMoveToPosition(holder.typeRv, i + 1);
-                            }
-                            break;
-                        }
-                    }
-                } catch (ArrayIndexOutOfBoundsException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-        holder.typeRv.setAdapter(typeAdapter);
-        holder.typeRv.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-                if (mShouldScroll && RecyclerView.SCROLL_STATE_IDLE == newState) {
-                    mShouldScroll = false;
-                    smoothMoveToPosition(holder.typeRv, mToPosition);
-                }
-            }
-        });
-    }
-
-    private void setFoodData(ViewHolder holder) {
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mContext);
-        holder.foodRv.setLayoutManager(linearLayoutManager);
-        foodAdapter = new FoodSellerListAdapter(foodDatas, mContext);
-        foodAdapter.setBtnListener(new FoodSellerListAdapter.OnSubORAddListener() {
-            @Override
-            public void onSubClick(YmdGoodsEntity data, View view, int position) {
-                setRecommendListCount(data);
-            }
-
-            @Override
-            public void onAddClick(YmdGoodsEntity data, View view, int position) {
-                setRecommendListCount(data);
-            }
-        });
-        holder.foodRv.setAdapter(foodAdapter);
-        holder.foodRv.setOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-            }
-
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                int position = linearLayoutManager.findFirstVisibleItemPosition();
-                long typeId = ToolUtil.changeLong(foodDatas.get(position).getRangeGoods());
-                for (int i = 0; i < typeDatas.size(); i++) {
-                    if (ToolUtil.changeLong(typeDatas.get(i).getId()) == typeId) {
-                        typeAdapter.changeChooseItem(i);
-                    }
-                }
-
-            }
-        });
     }
 
     @Override
@@ -307,10 +198,8 @@ public class MerchantGoodsAdapter extends RecyclerView.Adapter<MerchantGoodsAdap
         LinearLayout recommendLayout;
         @BindView(R.id.fcollapsing)
         CollapsingToolbarLayout fcollapsing;
-        @BindView(R.id.type_rv)
-        RecyclerView typeRv;
-        @BindView(R.id.food_rv)
-        RecyclerView foodRv;
+        @BindView(R.id.recyclerView)
+        RecyclerView recyclerView;
         @BindView(R.id.fragment_main)
         CoordinatorLayout fragmentMain;
 
