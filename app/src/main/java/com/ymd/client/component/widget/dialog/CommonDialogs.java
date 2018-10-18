@@ -15,6 +15,9 @@ import android.widget.TextView;
 import com.ymd.client.R;
 import com.ymd.client.utils.ScreenUtil;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @author zhl
  * @class com.ymaidan.client.widget
@@ -36,6 +39,25 @@ public class CommonDialogs {
      */
     public static Dialog showListDialog(Context context,
                                         String title, String[] items,
+                                        final DialogItemClickListener dialogItemClickListener) {
+        List<String> strs = new ArrayList<>();
+        for (String item: items) {
+            strs.add(item);
+        }
+        return ShowDialog(context, title, strs, dialogItemClickListener);
+    }
+
+    /**
+     * 创建一个内容多选对话框
+     *
+     * @param context
+     * @param title                   标题
+     * @param items                   数组
+     * @param dialogItemClickListener 监听点击的内容结果
+     * @return
+     */
+    public static Dialog showListDialog(Context context,
+                                        String title, List<String> items,
                                         final DialogItemClickListener dialogItemClickListener) {
         return ShowDialog(context, title, items, dialogItemClickListener);
     }
@@ -195,7 +217,7 @@ public class CommonDialogs {
     }
 
     private static Dialog ShowDialog(Context context, String title,
-                                     String[] items, final DialogItemClickListener dialogClickListener) {
+                                     List<String> items, final DialogItemClickListener dialogClickListener) {
         final Dialog dialog = new Dialog(context,
                 R.style.DialogStyle);
         dialog.setCancelable(false);
@@ -208,14 +230,14 @@ public class CommonDialogs {
         LinearLayout parent = (LinearLayout) view
                 .findViewById(R.id.dialogLayout);
         parent.removeAllViews();
-        int length = items.length;
-        for (int i = 0; i < items.length; i++) {
+        int length = items.size();
+        for (int i = 0; i < items.size(); i++) {
             LinearLayout.LayoutParams params1 = new LinearLayout.LayoutParams(-1, ScreenUtil.dip2px(context, 48));
             params1.rightMargin = 1;
             final TextView tv = new TextView(context);
             tv.setLayoutParams(params1);
             tv.setTextSize(16);
-            tv.setText(items[i]);
+            tv.setText(items.get(i));
             tv.setTextColor(context.getResources().getColor(R.color.common_color_bg));
             int pad = context.getResources().getDimensionPixelSize(
                     R.dimen.mar_pad_len_20px);

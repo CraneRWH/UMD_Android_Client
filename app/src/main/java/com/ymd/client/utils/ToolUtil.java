@@ -3,6 +3,8 @@ package com.ymd.client.utils;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
@@ -16,8 +18,10 @@ import java.net.SocketException;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Enumeration;
+import java.util.List;
 import java.util.Locale;
 import java.util.UUID;
 
@@ -364,5 +368,41 @@ public class ToolUtil {
 		nf.setRoundingMode(RoundingMode.UP);
 
 		return nf.format(d);
+	}
+
+	/**
+	 * @author Administrator
+	 * @describe 获取所有已安装应用
+	 */
+	public static List<String> getApkList(Context context) {
+		//获取packagemanager
+		final PackageManager packageManager = context.getPackageManager();
+		//获取所有已安装程序的包信息
+		List<PackageInfo> packageInfos = packageManager.getInstalledPackages(0);
+		//用于存储所有已安装程序的包名
+		List<String> packageNames = new ArrayList<String>();
+		//从pinfo中将包名字逐一取出，压入pName list中
+		if (packageInfos != null) {
+			for (int i = 0; i < packageInfos.size(); i++) {
+				String packName = packageInfos.get(i).packageName;
+				packageNames.add(packName);
+			}
+		}
+		return packageNames;
+	}
+
+	/**
+	 * @author Administrator
+	 * @describe 高德转百度（火星坐标gcj02ll–>百度坐标bd09ll）
+	 */
+	public static double[] gaoDeToBaidu(double gd_lat, double gd_lon) {
+		double x_pi = 3.14159265358979324 * 3000.0 / 180.0;
+		double x = gd_lon, y = gd_lat;
+		double z = Math.sqrt(x * x + y * y) + 0.00002 * Math.sin(y * x_pi);
+		double theta = Math.atan2(y, x) + 0.000003 * Math.cos(x * x_pi);
+		double tempLon = z * Math.cos(theta) + 0.0065;
+		double tempLat = z * Math.sin(theta) + 0.006;
+		double[] gps = {tempLat, tempLon};
+		return gps;
 	}
 }

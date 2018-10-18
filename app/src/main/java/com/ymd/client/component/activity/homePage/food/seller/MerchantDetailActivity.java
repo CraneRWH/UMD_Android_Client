@@ -1,7 +1,10 @@
 package com.ymd.client.component.activity.homePage.food.seller;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
@@ -43,6 +46,7 @@ import com.ymd.client.model.bean.homePage.MerchantInfoEntity;
 import com.ymd.client.model.bean.homePage.YmdGoodsEntity;
 import com.ymd.client.model.constant.URLConstant;
 import com.ymd.client.model.info.LoginInfo;
+import com.ymd.client.utils.AlertUtil;
 import com.ymd.client.utils.AnimationUtil;
 import com.ymd.client.utils.ToastUtil;
 import com.ymd.client.utils.ToolUtil;
@@ -53,6 +57,7 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONObject;
 
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -197,6 +202,12 @@ public class MerchantDetailActivity extends TabBaseActivity {
             @Override
             public void onClick(View view) {
                 ToastUtil.ToastMessage(MerchantDetailActivity.this, "功能开发中，敬请期待");
+            }
+        });
+        addressTv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mapOnLine();
             }
         });
     }
@@ -574,20 +585,102 @@ public class MerchantDetailActivity extends TabBaseActivity {
     }
 
     private void mapOnLine() {
-        String[] items = new String[]{""};
 
-        CommonDialogs.showListDialog(this, "", items,
+        List<String> items = getMapApk();
+        if (items.isEmpty()) {
+            AlertUtil.WarnDialog(this, "请安装百度地图、高德地图、腾讯地图中的任意一个地图软件");
+            return;
+        }
+        CommonDialogs.showListDialog(this, "地图选择", items,
                 new CommonDialogs.DialogItemClickListener() {
                     @Override
                     public void confirm(String result) {
-                        if (items[0].equals(result)) {
-                            //相册选择
-                      //      ciutil.ChoiceFromAlbum(true);
-                        } else if (items[1].equals(result)) {
-                            //检查权限
-                      //      applyPermissions();
+                        switch (result) {
+                            case "百度地图" :
+                                toBaidu();
+                                break;
+                            case "高德地图" :
+                                toGaode();
+                                break;
+                            case "腾讯地图" :
+                                toTengxun();
+                                break;
                         }
                     }
                 });
     }
+
+    private void toBaidu() {
+        try {
+            Intent intent = new Intent();
+            double[] doubles = ToolUtil.gaoDeToBaidu(ToolUtil.changeDouble(merchantInfo.getLatitude()), ToolUtil.changeDouble(merchantInfo.getLongitude()));
+            intent.setData(Uri.parse("baidumap://map/direction?"+ "destination=" + doubles[0] + "," + doubles[1]
+                    + "&title=" + ToolUtil.changeString(merchantInfo.getName())
+                    + "&content=" + getIntent().getStringExtra(merchantInfo.getAddress()) + "&traffic=on"+ "&mode=driving"));
+//                                intent.setData(Uri.parse("baidumap://map/marker?location=" + getIntent().getStringExtra(LAT) + "," + getIntent().getStringExtra(LNG)
+//                                        + "&title=" + getIntent().getStringExtra(SHOP_TITLE)
+//                                        + "&content=" + getIntent().getStringExtra(SHOP_PHONE) + "&traffic=on"));
+
+            startActivity(intent);
+        } catch (Exception e) {
+            ToastUtil.ToastMessage(this,"您尚未安装百度地图或地图版本过低");
+            Uri uri = Uri.parse("market://details?id=com.baidu.BaiduMap");
+            Intent BIntent = new Intent(Intent.ACTION_VIEW, uri);
+            startActivity(BIntent);
+            e.printStackTrace();
+        }
+    }
+
+    private void toGaode() {
+        try {
+            Intent intent = Intent.getIntent("androidamap://route?sourceApplication=" + getResources().getString(R.string.app_name) + "&sname=我的位置&dlat="
+                    + ToolUtil.changeDouble(merchantInfo.getLatitude()) + "&dlon=" + ToolUtil.changeDouble(merchantInfo.getLongitude())
+                    + "&dname="+ ToolUtil.changeString(merchantInfo.getName())
+                    + "&dev=1&m=2&t=3");
+            startActivity(intent);
+        } catch (URISyntaxException e) {
+            ToastUtil.ToastMessage(this,"您尚未安装高德地图或地图版本过低");
+            Uri uri = Uri.parse("market://details?id=com.autonavi.minimap");
+            Intent AIntent = new Intent(Intent.ACTION_VIEW, uri);
+            startActivity(AIntent);
+            e.printStackTrace();
+        }
+    }
+
+    private void toTengxun() {
+        try {
+            Intent intent = new Intent();
+            intent.setAction(Intent.ACTION_VIEW);
+            intent.addCategory(Intent.CATEGORY_DEFAULT);
+            //将功能Scheme以URI的方式传入data
+            Uri uri = Uri.parse("qqmap://map/routeplan?type=drive&to=" + ToolUtil.changeString(merchantInfo.getName())
+                    + "&tocoord=" + merchantInfo.getLatitude() + "," + ToolUtil.changeDouble(merchantInfo.getLongitude()));
+            intent.setData(uri);
+            startActivity(intent);
+        } catch (Exception e) {
+            ToastUtil.ToastMessage(this,"您尚未安装腾讯地图或地图版本过低");
+            Uri uri = Uri.parse("market://details?id=com.tencent.map");
+            Intent TIntent = new Intent(Intent.ACTION_VIEW, uri);
+            startActivity(TIntent);
+            e.printStackTrace();
+        }
+    }
+
+    //获取地图应用
+    private List<String> getMapApk() {
+        List<String> mydata = new ArrayList<>();
+        List<String> apkList = ToolUtil.getApkList(this);
+        if (apkList.contains("com.baidu.BaiduMap")){
+            mydata.add("百度地图");
+        }
+        if (apkList.contains("com.autonavi.minimap")){
+            mydata.add("高德地图");
+        }
+        if (apkList.contains("com.tencent.map")){
+            mydata.add("腾讯地图");
+        }
+        return mydata;
+    }
+
+
 }
