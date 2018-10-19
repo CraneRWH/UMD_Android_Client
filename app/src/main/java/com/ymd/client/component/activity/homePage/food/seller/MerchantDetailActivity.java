@@ -239,7 +239,7 @@ public class MerchantDetailActivity extends TabBaseActivity {
             Glide.with(this).load(merchantInfo.getPhotoUrl()).into(iconIv);
         }
         if (merchantInfo.getDiscount() != null) {
-            disTv.setText("享受" + merchantInfo.getDiscount() + "折优惠");
+            disTv.setText("享受" + (ToolUtil.changeDouble(merchantInfo.getDiscount()) * 10) + "折优惠");
             disTv.setVisibility(View.VISIBLE);
             noShop.setVisibility(View.GONE);
         } else {
@@ -528,7 +528,7 @@ public class MerchantDetailActivity extends TabBaseActivity {
             for (YmdGoodsEntity item : goodsEntity.getGoods()) {
                 allMoney = ToolUtil.changeDouble(item.getPrice()) * item.getBuyCount() + allMoney;
                 count = count + item.getBuyCount();
-                disAllMoney = ((ToolUtil.changeDouble(item.getPrice()) * ToolUtil.changeDouble(merchantInfo.getDiscount())) / 10) * item.getBuyCount() + disAllMoney;
+                disAllMoney = ((ToolUtil.changeDouble(item.getPrice()) * ToolUtil.changeDouble(merchantInfo.getDiscount())) / 1) * item.getBuyCount() + disAllMoney;
             }
             goodsEntity.setAllMoney(allMoney);
             goodsEntity.setDisAllMoney(disAllMoney);

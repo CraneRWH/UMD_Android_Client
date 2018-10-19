@@ -108,7 +108,7 @@ dependencies {
     implementation 'com.zhy:okhttputils:2.6.2'
     implementation 'com.squareup.okhttp3:okhttp-urlconnection:3.2.0'
     // recyclerview工具类
- //   implementation 'com.android.support:recyclerview-v7:25.3.1'
+    //   implementation 'com.android.support:recyclerview-v7:25.3.1'
     // httpcore工具类
     implementation 'org.apache.httpcomponents:httpcore:4.4.4'
 

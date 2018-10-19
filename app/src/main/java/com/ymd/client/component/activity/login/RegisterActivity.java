@@ -53,6 +53,8 @@ public class RegisterActivity extends BaseActivity {
     Button loginBtn;
     @BindView(R.id.to_login_btn)
     TextView toLoginBtn;
+    @BindView(R.id.agreement_tv)
+    TextView agreementTv;
 
     /**
      * 启动
@@ -90,6 +92,14 @@ public class RegisterActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 LoginActivity.startAction(RegisterActivity.this);
+                finish();
+            }
+        });
+
+        agreementTv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AgreementActivity.startAction(RegisterActivity.this);
             }
         });
     }

@@ -65,17 +65,18 @@
             android:launchMode="singleTop" />
 
         <!-- 验证码登录 -->
-        <activity android:name=".component.activity.login.LoginActivity" >
-<!--
+        <activity android:name=".component.activity.login.LoginActivity">
+
+            <!--
             <intent-filter >
                 <action android:name="com.mnet.TO_LOGIN"/>
                 <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>-->
+            </intent-filter>
+            -->
         </activity>
 
         <!-- 密码登录 -->
-        <activity android:name=".component.activity.login.LoginByPWActivity" >
-        </activity>
+        <activity android:name=".component.activity.login.LoginByPWActivity"></activity>
 
         <!-- 启动页面 -->
         <activity android:name=".component.activity.login.LogoActivity">
@@ -108,7 +109,7 @@
         <activity android:name=".component.activity.mine.IntroduceActivity" />
         <!-- 我的-我要合作 -->
         <activity android:name=".component.activity.mine.CooperationActivity" />
-        <activity android:name=".component.activity.homePage.city.CountyChooseActivity"/>
+        <activity android:name=".component.activity.homePage.city.CountyChooseActivity" />
         <activity
             android:name=".component.activity.order.detail.OrderDetailActivity"
             android:label="@string/title_activity_order_detail"
@@ -126,7 +127,7 @@
         <activity android:name="com.soundcloud.android.crop.CropImageActivity" />
         <activity android:name=".component.activity.mine.evaluation.AddEvaluationActivity" />
         <activity android:name=".component.widget.photo.CropImageActivity" />
-        <activity android:name=".component.activity.homePage.food.seller.MerchantDetailActivity"/>
+        <activity android:name=".component.activity.homePage.food.seller.MerchantDetailActivity" />
         <activity
             android:name=".component.activity.homePage.food.seller.SellerDetailActivity"
             android:label="@string/title_activity_seller_detail"
@@ -139,13 +140,15 @@
         <activity android:name=".component.activity.order.pay.OrderPayResultActivity" />
         <activity android:name=".component.activity.homePage.scan.ScanCodeActivity" />
         <activity android:name=".component.activity.homePage.city.CityChooseActivity" />
+        <activity android:name=".component.activity.mine.info.MemberSexChangeActivity" />
+        <activity android:name=".component.activity.mine.info.NickNameChangeActivity" />
+        <activity android:name=".component.activity.homePage.functionItem.FunctionItemActivity" />
 
-        <activity android:name=".component.activity.mine.info.MemberSexChangeActivity"/>
-        <activity android:name=".component.activity.mine.info.NickNameChangeActivity"/>
-        <activity android:name=".component.activity.homePage.functionItem.FunctionItemActivity"/>
         <service
             android:name=".common.base.service.LocationIntentService"
-            android:exported="false"></service>
+            android:exported="false" />
+
+        <activity android:name=".component.activity.login.AgreementActivity"></activity>
     </application>
 
 </manifest>
