@@ -21,16 +21,23 @@ import com.ymd.client.component.activity.mine.setting.SettingActivity;
 import com.ymd.client.component.activity.mine.ub.MyUbActivity;
 import com.ymd.client.component.event.LoginEvent;
 import com.ymd.client.component.event.LoginRefreshEvent;
+import com.ymd.client.component.event.UEvent;
 import com.ymd.client.component.widget.CircleImageView;
+import com.ymd.client.model.constant.URLConstant;
 import com.ymd.client.model.info.LoginInfo;
 import com.ymd.client.utils.ToastUtil;
 import com.ymd.client.utils.ToolUtil;
 import com.ymd.client.utils.helper.PermissionHelper;
 import com.ymd.client.utils.helper.PermissionInterface;
+import com.ymd.client.web.WebUtil;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -112,6 +119,7 @@ public class MainMineFragment extends Fragment implements PermissionInterface {
             }
             mNickName.setText(LoginInfo.getInstance().getLoginInfo().getUserName());
             mMyUbCount.setText(ToolUtil.changeString(LoginInfo.getInstance().getLoginInfo().getuNumber()));
+            requestUnum();
         } else {
             mHeadView.setImageResource(R.mipmap.app_icon);
             mNickName.setText("未登录");
@@ -258,4 +266,28 @@ public class MainMineFragment extends Fragment implements PermissionInterface {
 
 
     }
+
+    private void requestUnum() {
+        WebUtil.getInstance().requestPOST(getActivity(), URLConstant.QUEYR_U_NUM, null, true,
+                new WebUtil.WebCallBack() {
+                    @Override
+                    public void onWebSuccess(JSONObject result) {
+                        mMyUbCount.setText(result.optString("data"));
+                    }
+
+                    @Override
+                    public void onWebFailed(String errorMsg) {
+
+                    }
+                });
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(UEvent event) {
+        if (event.isSuccess()) {
+            requestUnum();
+        }
+
+    }
+
 }

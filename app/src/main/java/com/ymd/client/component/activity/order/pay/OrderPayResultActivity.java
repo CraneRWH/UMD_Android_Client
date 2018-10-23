@@ -22,12 +22,15 @@ import com.google.zxing.WriterException;
 import com.ymd.client.R;
 import com.ymd.client.common.base.BaseActivity;
 import com.ymd.client.component.activity.order.detail.OrderDetailActivity;
+import com.ymd.client.component.event.UEvent;
 import com.ymd.client.component.widget.other.MyChooseItemView;
 import com.ymd.client.model.bean.order.OrderResultForm;
 import com.ymd.client.model.bean.order.YmdOrderGoods;
 import com.ymd.client.utils.AlertUtil;
 import com.ymd.client.utils.QRCodeUtil;
 import com.ymd.client.utils.ToolUtil;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -102,7 +105,7 @@ public class OrderPayResultActivity extends BaseActivity {
     private void initView(){
         if (getIntent()!= null) {
             orderDetail = (OrderResultForm) getIntent().getExtras().getSerializable("order");
-
+            EventBus.getDefault().post(new UEvent(true));
             setShopData();
         } else {
             finish();

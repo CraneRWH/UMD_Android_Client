@@ -201,6 +201,11 @@ public class URLConstant {
     public static final String QUEYR_U_LIST = "ymdUCurrency/uBInfo";
 
     /**
+     * 获取我的U币
+     */
+    public static final String QUEYR_U_NUM = "ymdConsumer/consumerUNumber";
+
+    /**
      * 获取热门搜索
      */
     public static final String QUEYR_HOT_SEARCH = "ymdMerchantController/popularSearch";
