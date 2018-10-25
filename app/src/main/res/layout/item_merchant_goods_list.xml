@@ -117,6 +117,7 @@
                             android:ellipsize="end"
                             android:textColor="@color/text_gray_dark"
                             android:textSize="@dimen/text_size_24px"
+                            android:layout_marginLeft="5dp"
                             />
                     </LinearLayout>
                     <LinearLayout

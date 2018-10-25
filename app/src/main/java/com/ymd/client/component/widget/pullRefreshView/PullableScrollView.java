@@ -2,12 +2,13 @@ package com.ymd.client.component.widget.pullRefreshView;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.support.v4.widget.NestedScrollView;
 import android.util.AttributeSet;
 import android.widget.ScrollView;
 
 import com.ymd.client.R;
 
-public class PullableScrollView extends ScrollView implements Pullable
+public class PullableScrollView extends NestedScrollView implements Pullable
 {
 
 	private boolean canPullUp = true;		//能否上拉加载

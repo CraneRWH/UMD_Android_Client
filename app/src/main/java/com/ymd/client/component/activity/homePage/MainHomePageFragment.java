@@ -539,8 +539,20 @@ public class MainHomePageFragment extends Fragment {
             marchantDatas.clear();
         }
         marchantDatas.addAll(datas);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
-        recyclerView.setLayoutManager(layoutManager);
+   //     LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()){
+                                          @Override
+                                          public boolean canScrollVertically() {
+                                              //解决ScrollView里存在多个RecyclerView时滑动卡顿的问题
+                                              //如果你的RecyclerView是水平滑动的话可以重写canScrollHorizontally方法
+                                              return false;
+                                          }
+                                      });
+        //解决数据加载不完的问题
+        recyclerView.setNestedScrollingEnabled(false);
+        recyclerView.setHasFixedSize(true);
+        //解决数据加载完成后, 没有停留在顶部的问题
+        recyclerView.setFocusable(false);
         MerchantListAdapter adapter = new MerchantListAdapter(marchantDatas, getContext());
         adapter.setListener(new OnUMDItemClickListener() {
             @Override

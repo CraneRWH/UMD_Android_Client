@@ -53,8 +53,8 @@ public class MerchantListAdapter extends RecyclerView.Adapter<MerchantListAdapte
     public void onBindViewHolder(ViewHolder holder, int position) {
 
         MerchantInfoEntity data = datas.get(position);
-        if (ToolUtil.changeString(data.getPhotoUrl()).length() > 0) {
-            Glide.with(mContext).load(ToolUtil.changeString(data.getPhotoUrl())).into(holder.iconIv);
+        if (data.getFile() != null && !data.getFile().isEmpty()) {
+            Glide.with(mContext).load(ToolUtil.changeString(data.getFile().get(0).getUrl())).into(holder.iconIv);
         }
         holder.nameTv.setText(ToolUtil.changeString(data.getName()));
         if (data.getDistance() == null) {
