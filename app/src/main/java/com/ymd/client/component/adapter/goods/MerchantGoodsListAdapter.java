@@ -1,4 +1,4 @@
-package com.ymd.client.component.adapter.food;
+package com.ymd.client.component.adapter.goods;
 
 import android.content.Context;
 import android.graphics.Paint;
@@ -22,7 +22,6 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.List;
-import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -33,7 +32,7 @@ import butterknife.ButterKnife;
  * 描述:  卖家美事列表的Adapter
  * 修改历史:
  */
-public class FoodSellerListAdapter extends RecyclerView.Adapter<FoodSellerListAdapter.ViewHolder> {
+public class MerchantGoodsListAdapter extends RecyclerView.Adapter<MerchantGoodsListAdapter.ViewHolder> {
 
     private List<YmdGoodsEntity> datas;
     private Context mContext;
@@ -41,14 +40,14 @@ public class FoodSellerListAdapter extends RecyclerView.Adapter<FoodSellerListAd
     private OnUMDItemClickListener listener;
     private OnSubORAddListener btnListener;
 
-    public FoodSellerListAdapter(List<YmdGoodsEntity> datas, Context mContext) {
+    public MerchantGoodsListAdapter(List<YmdGoodsEntity> datas, Context mContext) {
         this.datas = datas;
         this.mContext = mContext;
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_seller_food_list, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_merchant_goods_list, parent, false);
         ViewHolder holder = new ViewHolder(view);
         return holder;
     }
@@ -68,8 +67,8 @@ public class FoodSellerListAdapter extends RecyclerView.Adapter<FoodSellerListAd
         holder.nameTv.setText(ToolUtil.changeString(data.getGoodsName()));
         holder.descTv.setText(ToolUtil.changeString(data.getDescribe()));
         holder.saleNumTv.setText(ToolUtil.changeString(0));
-        holder.nowPriceTv.setText(ToolUtil.changeString(data.getPrice()));
-    //    holder.oldPriceTv.setText("¥" + ToolUtil.changeString(data.get("old_pride")));
+        holder.nowPriceTv.setText(ToolUtil.changeString(data.getPreferentialPrice()));
+        holder.oldPriceTv.setText("¥" + ToolUtil.changeString(data.getPrice()));
         if (ToolUtil.changeInteger(data.getBuyCount()) == 0) {
             holder.numTv.setVisibility(View.GONE);
             holder.subBtn.setVisibility(View.GONE);
@@ -78,7 +77,7 @@ public class FoodSellerListAdapter extends RecyclerView.Adapter<FoodSellerListAd
             holder.subBtn.setVisibility(View.VISIBLE);
         }
         holder.numTv.setText(ToolUtil.changeString(ToolUtil.changeInteger(data.getBuyCount())));
-    //    holder.oldPriceTv.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+        holder.oldPriceTv.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
         holder.rootView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

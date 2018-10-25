@@ -1,4 +1,4 @@
-package com.ymd.client.component.activity.homePage.food.seller.fragment;
+package com.ymd.client.component.activity.homePage.merchant.fragment;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,7 +14,7 @@ import com.eowise.recyclerview.stickyheaders.OnHeaderClickListener;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.ymd.client.R;
-import com.ymd.client.component.activity.homePage.food.seller.ComplaintSellerActivity;
+import com.ymd.client.component.activity.homePage.merchant.ComplaintSellerActivity;
 import com.ymd.client.component.adapter.merchant.PersonAdapter;
 import com.ymd.client.component.event.GoodsListEvent;
 import com.ymd.client.model.bean.homePage.MerchantInfoEntity;

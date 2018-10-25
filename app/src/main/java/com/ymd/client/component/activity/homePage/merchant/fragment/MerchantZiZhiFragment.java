@@ -1,4 +1,4 @@
-package com.ymd.client.component.activity.homePage.food.seller.fragment;
+package com.ymd.client.component.activity.homePage.merchant.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -7,27 +7,16 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
-import com.eowise.recyclerview.stickyheaders.OnHeaderClickListener;
 import com.ymd.client.R;
-import com.ymd.client.component.adapter.food.MerchantZiZhiAdapter;
-import com.ymd.client.component.adapter.merchant.PersonAdapter;
-import com.ymd.client.component.event.GoodsListEvent;
+import com.ymd.client.component.adapter.goods.MerchantZiZhiAdapter;
 import com.ymd.client.model.bean.homePage.MerchantInfoEntity;
 import com.ymd.client.model.constant.URLConstant;
-import com.ymd.client.utils.ToolUtil;
 import com.ymd.client.web.WebUtil;
 
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import butterknife.BindView;

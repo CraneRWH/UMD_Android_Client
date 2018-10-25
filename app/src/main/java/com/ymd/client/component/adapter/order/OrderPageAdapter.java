@@ -1,9 +1,7 @@
 package com.ymd.client.component.adapter.order;
 
 import android.annotation.SuppressLint;
-import android.annotation.TargetApi;
 import android.content.Context;
-import android.os.Build;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,13 +13,11 @@ import android.widget.TextView;
 
 import com.ymd.client.R;
 import com.ymd.client.common.base.OnUMDItemClickListener;
-import com.ymd.client.component.activity.homePage.food.seller.CommentSellerActivity;
 import com.ymd.client.model.bean.order.OrderResultForm;
 import com.ymd.client.model.bean.order.YmdOrderGoods;
 import com.ymd.client.utils.ToolUtil;
 
 import java.util.List;
-import java.util.Map;
 
 import static com.raizlabs.android.dbflow.config.FlowManager.getContext;
 

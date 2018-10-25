@@ -1,15 +1,13 @@
-package com.ymd.client.component.adapter.food;
+package com.ymd.client.component.adapter.goods;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.graphics.Paint;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ymd.client.R;
@@ -18,7 +16,6 @@ import com.ymd.client.model.bean.homePage.YmdRangeGoodsEntity;
 import com.ymd.client.utils.ToolUtil;
 
 import java.util.List;
-import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -29,21 +26,21 @@ import butterknife.ButterKnife;
  * 描述:  卖家美事种类列表的Adapter
  * 修改历史:
  */
-public class FoodTypeListAdapter extends RecyclerView.Adapter<FoodTypeListAdapter.ViewHolder> {
+public class MerchantGoodTypeListAdapter extends RecyclerView.Adapter<MerchantGoodTypeListAdapter.ViewHolder> {
 
     private List<YmdRangeGoodsEntity> datas;
     private Context mContext;
 
     private OnUMDItemClickListener onItemClickListener;
 
-    public FoodTypeListAdapter(List<YmdRangeGoodsEntity> datas, Context mContext) {
+    public MerchantGoodTypeListAdapter(List<YmdRangeGoodsEntity> datas, Context mContext) {
         this.datas = datas;
         this.mContext = mContext;
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_seller_food_type, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_merchant_good_type_list, parent, false);
         ViewHolder holder = new ViewHolder(view);
         return holder;
     }

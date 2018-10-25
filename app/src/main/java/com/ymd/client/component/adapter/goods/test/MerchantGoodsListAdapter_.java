@@ -1,28 +1,22 @@
-package com.ymd.client.component.adapter.food;
+package com.ymd.client.component.adapter.goods.test;
 
 import android.app.Activity;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
-import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.ymd.client.R;
 import com.ymd.client.common.base.OnUMDItemClickListener;
+import com.ymd.client.component.adapter.goods.MerchantGoodTypeListAdapter;
+import com.ymd.client.component.adapter.goods.MerchantGoodsListAdapter;
 import com.ymd.client.model.bean.homePage.MerchantInfoEntity;
 import com.ymd.client.model.bean.homePage.YmdGoodsEntity;
 import com.ymd.client.model.bean.homePage.YmdRangeGoodsEntity;
 import com.ymd.client.utils.ToolUtil;
-
-import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,7 +30,7 @@ import butterknife.ButterKnife;
  * 描述:
  * 修改历史:
  */
-public class MerchantGoodsListAdapter extends RecyclerView.Adapter<MerchantGoodsListAdapter.ViewHolder> {
+public class MerchantGoodsListAdapter_ extends RecyclerView.Adapter<MerchantGoodsListAdapter_.ViewHolder> {
 
 
     MerchantInfoEntity merchantInfo;
@@ -47,12 +41,12 @@ public class MerchantGoodsListAdapter extends RecyclerView.Adapter<MerchantGoods
 
     private List<YmdRangeGoodsEntity> typeDatas = new ArrayList<>();
     private List<YmdGoodsEntity> foodDatas = new ArrayList<>();
-    FoodSellerListAdapter foodAdapter;
-    FoodTypeListAdapter typeAdapter;
+    MerchantGoodsListAdapter foodAdapter;
+    MerchantGoodTypeListAdapter typeAdapter;
 
     private OnRefreshListener refreshListener;
 
-    public MerchantGoodsListAdapter(MerchantInfoEntity datas, List<YmdRangeGoodsEntity> typeDatas, List<YmdGoodsEntity> foodDatas, Activity mContext) {
+    public MerchantGoodsListAdapter_(MerchantInfoEntity datas, List<YmdRangeGoodsEntity> typeDatas, List<YmdGoodsEntity> foodDatas, Activity mContext) {
         this.merchantInfo = datas;
         this.typeDatas = typeDatas;
         this.foodDatas = foodDatas;
@@ -61,7 +55,7 @@ public class MerchantGoodsListAdapter extends RecyclerView.Adapter<MerchantGoods
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_merchant_goods_list, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_merchant_goods_list_test, parent, false);
         ViewHolder holder = new ViewHolder(view);
         return holder;
     }
@@ -123,7 +117,7 @@ public class MerchantGoodsListAdapter extends RecyclerView.Adapter<MerchantGoods
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mContext);
         holder.typeRv.setLayoutManager(linearLayoutManager);
-        typeAdapter = new FoodTypeListAdapter(typeDatas, mContext);
+        typeAdapter = new MerchantGoodTypeListAdapter(typeDatas, mContext);
         typeAdapter.setOnItemClickListener(new OnUMDItemClickListener() {
             @Override
             public void onClick(Object data, View view, int position) {
@@ -164,8 +158,8 @@ public class MerchantGoodsListAdapter extends RecyclerView.Adapter<MerchantGoods
     private void setFoodData(ViewHolder holder) {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mContext);
         holder.foodRv.setLayoutManager(linearLayoutManager);
-        foodAdapter = new FoodSellerListAdapter(foodDatas, mContext);
-        foodAdapter.setBtnListener(new FoodSellerListAdapter.OnSubORAddListener() {
+        foodAdapter = new MerchantGoodsListAdapter(foodDatas, mContext);
+        foodAdapter.setBtnListener(new MerchantGoodsListAdapter.OnSubORAddListener() {
             @Override
             public void onSubClick(YmdGoodsEntity data, View view, int position) {
                 if (refreshListener != null)

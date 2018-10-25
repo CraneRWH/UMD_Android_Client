@@ -1,7 +1,6 @@
-package com.ymd.client.component.adapter.food;
+package com.ymd.client.component.adapter.goods.test;
 
 import android.content.Context;
-import android.graphics.Paint;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.support.v7.widget.RecyclerView;
@@ -19,7 +18,6 @@ import com.ymd.client.model.bean.homePage.YmdEvaluationEntity;
 import com.ymd.client.utils.ToolUtil;
 
 import java.util.List;
-import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

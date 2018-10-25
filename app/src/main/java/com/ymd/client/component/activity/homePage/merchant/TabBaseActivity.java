@@ -1,4 +1,4 @@
-package com.ymd.client.component.activity.homePage.food.seller;
+package com.ymd.client.component.activity.homePage.merchant;
 
 import android.support.annotation.LayoutRes;
 import android.support.v7.app.AppCompatActivity;

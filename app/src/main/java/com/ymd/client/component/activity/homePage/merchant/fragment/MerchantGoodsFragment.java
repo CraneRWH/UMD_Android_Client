@@ -1,7 +1,6 @@
-package com.ymd.client.component.activity.homePage.food.seller.fragment;
+package com.ymd.client.component.activity.homePage.merchant.fragment;
 
 import android.annotation.SuppressLint;
-import android.media.Image;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.CoordinatorLayout;
@@ -20,8 +19,8 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.ymd.client.R;
 import com.ymd.client.common.base.OnUMDItemClickListener;
-import com.ymd.client.component.adapter.food.FoodSellerListAdapter;
-import com.ymd.client.component.adapter.food.FoodTypeListAdapter;
+import com.ymd.client.component.adapter.goods.MerchantGoodsListAdapter;
+import com.ymd.client.component.adapter.goods.MerchantGoodTypeListAdapter;
 import com.ymd.client.component.adapter.merchant.PersonAdapter;
 import com.ymd.client.component.event.GoodsEvent;
 import com.ymd.client.component.event.GoodsListEvent;
@@ -52,7 +51,7 @@ import butterknife.Unbinder;
  * 描述:  点餐页面
  * 修改历史:
  */
-public class ChooseDishesFragment extends BaseFragment implements PersonAdapter.OnShopCartGoodsChangeListener, OnHeaderClickListener {
+public class MerchantGoodsFragment extends BaseFragment implements PersonAdapter.OnShopCartGoodsChangeListener, OnHeaderClickListener {
 
     Unbinder unbinder;
     @BindView(R.id.recommendLayout)
@@ -70,18 +69,18 @@ public class ChooseDishesFragment extends BaseFragment implements PersonAdapter.
     private List<Integer> titlePois = new ArrayList<>();
     //上一个标题的小标
     private int lastTitlePoi;
-    private FoodTypeListAdapter typeAdapter;
-    private FoodSellerListAdapter foodAdapter;
+    private MerchantGoodTypeListAdapter typeAdapter;
+    private MerchantGoodsListAdapter foodAdapter;
 
     private List<YmdRangeGoodsEntity> typeDatas = new ArrayList<>();
     private List<YmdGoodsEntity> foodDatas = new ArrayList<>();
     MerchantInfoEntity merchantInfo;
-    public ChooseDishesFragment() {
+    public MerchantGoodsFragment() {
         // Required empty public constructor
     }
 
-    public static ChooseDishesFragment newInstance(MerchantInfoEntity merchantInfo/*String param1, String param2*/) {
-        ChooseDishesFragment fragment = new ChooseDishesFragment();
+    public static MerchantGoodsFragment newInstance(MerchantInfoEntity merchantInfo/*String param1, String param2*/) {
+        MerchantGoodsFragment fragment = new MerchantGoodsFragment();
         Bundle args = new Bundle();
         args.putSerializable("merchant", merchantInfo);
         fragment.setArguments(args);
@@ -100,7 +99,7 @@ public class ChooseDishesFragment extends BaseFragment implements PersonAdapter.
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_choose_dishes_, container, false);
+        View view = inflater.inflate(R.layout.fragment_merchant_goods, container, false);
         unbinder = ButterKnife.bind(this, view);
         initView();
         return view;
@@ -145,7 +144,7 @@ public class ChooseDishesFragment extends BaseFragment implements PersonAdapter.
         //开始添加数据
         for (int x = 0; x < recommendFoodDatas.size(); x++) {
             //寻找行布局，第一个参数为行布局ID，第二个参数为这个行布局需要放到那个容器上
-            View view = LayoutInflater.from(getActivity()).inflate(R.layout.item_seller_food_recommend, recommendLayout, false);
+            View view = LayoutInflater.from(getActivity()).inflate(R.layout.item_merchant_goods_recommend, recommendLayout, false);
             YmdGoodsEntity data = recommendFoodDatas.get(x);
             ImageView icon_iv;
             TextView name_tv;
@@ -171,7 +170,7 @@ public class ChooseDishesFragment extends BaseFragment implements PersonAdapter.
             }
             name_tv.setText(data.getGoodsName());
             sale_num_tv.setText("月销 "+data.getSales());
-            now_price_tv.setText(ToolUtil.changeString(data.getPrice()));
+            now_price_tv.setText(ToolUtil.changeString(data.getPreferentialPrice()));
             if(ToolUtil.changeInteger(data.getBuyCount()) > 0) {
                 num_tv.setText(ToolUtil.changeString(data.getBuyCount()));
                 sub_btn.setVisibility(View.VISIBLE);
@@ -237,7 +236,7 @@ public class ChooseDishesFragment extends BaseFragment implements PersonAdapter.
         typeDatas = new Gson().fromJson(resultJson, new TypeToken<List<YmdRangeGoodsEntity>>(){}.getType());
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         typeRv.setLayoutManager(linearLayoutManager);
-        typeAdapter = new FoodTypeListAdapter(typeDatas, getActivity());
+        typeAdapter = new MerchantGoodTypeListAdapter(typeDatas, getActivity());
         typeAdapter.setOnItemClickListener(new OnUMDItemClickListener() {
             @Override
             public void onClick(Object data, View view, int position) {
@@ -327,7 +326,7 @@ public class ChooseDishesFragment extends BaseFragment implements PersonAdapter.
         foodDatas = new Gson().fromJson(resultJson, new TypeToken<List<YmdGoodsEntity>>(){}.getType());
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         foodRv.setLayoutManager(linearLayoutManager);
-        foodAdapter = new FoodSellerListAdapter(foodDatas, getActivity());
+        foodAdapter = new MerchantGoodsListAdapter(foodDatas, getActivity());
         foodRv.setAdapter(foodAdapter);
         foodRv.setOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override

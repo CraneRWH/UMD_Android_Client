@@ -1,4 +1,4 @@
-package com.ymd.client.component.activity.homePage.food.seller;
+package com.ymd.client.component.activity.homePage.merchant.seller;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -12,9 +12,10 @@ import android.widget.TextView;
 
 import com.ymd.client.R;
 import com.ymd.client.common.base.BaseActivity;
-import com.ymd.client.component.activity.homePage.food.seller.fragment.ChooseDishesFragment;
-import com.ymd.client.component.activity.homePage.food.seller.fragment.EvaluateSellerFragment;
-import com.ymd.client.component.activity.homePage.food.seller.fragment.SellerDetailFragment;
+import com.ymd.client.component.activity.homePage.merchant.MerchantDetailActivity;
+import com.ymd.client.component.activity.homePage.merchant.fragment.MerchantGoodsFragment;
+import com.ymd.client.component.activity.homePage.merchant.fragment.test.EvaluateSellerFragment;
+import com.ymd.client.component.activity.homePage.merchant.fragment.SellerDetailFragment;
 import com.ymd.client.component.adapter.AppFragmentPageAdapter;
 import com.ymd.client.component.widget.other.MyChooseItemView;
 import com.ymd.client.component.widget.viewPager.CustomViewPager;
@@ -92,7 +93,7 @@ public class SellerDetailActivity extends BaseActivity {
         chooseItem1.setText("点评（3）");
         status = 3;
         fragmentList=new ArrayList<Fragment>();
-        fragmentList.add(new ChooseDishesFragment());
+        fragmentList.add(new MerchantGoodsFragment());
         fragmentList.add(new EvaluateSellerFragment());
         fragmentList.add(new SellerDetailFragment());
 

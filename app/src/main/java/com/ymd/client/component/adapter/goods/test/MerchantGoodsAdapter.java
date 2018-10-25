@@ -1,4 +1,4 @@
-package com.ymd.client.component.adapter.food;
+package com.ymd.client.component.adapter.goods.test;
 
 import android.app.Activity;
 import android.os.Build;
@@ -49,7 +49,7 @@ public class MerchantGoodsAdapter extends RecyclerView.Adapter<MerchantGoodsAdap
 
     private List<YmdRangeGoodsEntity> typeDatas = new ArrayList<>();
     private List<YmdGoodsEntity> foodDatas = new ArrayList<>();
-    MerchantGoodsListAdapter listAdapter;
+    MerchantGoodsListAdapter_ listAdapter;
 
     public MerchantGoodsAdapter(MerchantInfoEntity datas, List<YmdGoodsEntity> recommendFoodDatas, List<YmdRangeGoodsEntity> typeDatas, List<YmdGoodsEntity> foodDatas, Activity mContext) {
         this.merchantInfo = datas;
@@ -71,10 +71,10 @@ public class MerchantGoodsAdapter extends RecyclerView.Adapter<MerchantGoodsAdap
     public void onBindViewHolder(ViewHolder holder, int position) {
         if (position == 0) {
             refreshRecommendDatas(holder);
-            listAdapter = new MerchantGoodsListAdapter(merchantInfo, typeDatas, foodDatas,mContext);
+            listAdapter = new MerchantGoodsListAdapter_(merchantInfo, typeDatas, foodDatas,mContext);
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mContext);
             holder.recyclerView.setLayoutManager(linearLayoutManager);
-            listAdapter.setRefreshListener(new MerchantGoodsListAdapter.OnRefreshListener() {
+            listAdapter.setRefreshListener(new MerchantGoodsListAdapter_.OnRefreshListener() {
                 @Override
                 public void onRefresh(YmdGoodsEntity data) {
                     setRecommendListCount(data);
@@ -92,7 +92,7 @@ public class MerchantGoodsAdapter extends RecyclerView.Adapter<MerchantGoodsAdap
         //开始添加数据
         for (int x = 0; x < recommendFoodDatas.size(); x++) {
             //寻找行布局，第一个参数为行布局ID，第二个参数为这个行布局需要放到那个容器上
-            View view = LayoutInflater.from(mContext).inflate(R.layout.item_seller_food_recommend, holder.recommendLayout, false);
+            View view = LayoutInflater.from(mContext).inflate(R.layout.item_merchant_goods_recommend, holder.recommendLayout, false);
             YmdGoodsEntity data = recommendFoodDatas.get(x);
             ImageView icon_iv;
             TextView name_tv;

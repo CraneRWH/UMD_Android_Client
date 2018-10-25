@@ -17,7 +17,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.ymd.client.R;
-import com.ymd.client.component.activity.homePage.food.seller.MerchantDetailActivity;
+import com.ymd.client.component.activity.homePage.merchant.MerchantDetailActivity;
 import com.ymd.client.component.adapter.merchant.bean.GoodsListBean;
 import com.ymd.client.component.event.GoodsListEvent;
 import com.ymd.client.component.event.MessageEvent;

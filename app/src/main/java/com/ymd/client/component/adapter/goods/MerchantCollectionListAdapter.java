@@ -1,4 +1,4 @@
-package com.ymd.client.component.adapter.food;
+package com.ymd.client.component.adapter.goods;
 
 import android.content.Context;
 import android.os.Build;
@@ -12,9 +12,9 @@ import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.ymd.client.R;
 import com.ymd.client.common.base.OnUMDItemClickListener;
+import com.ymd.client.component.adapter.CommonRecyclerAdapter;
 import com.ymd.client.model.bean.homePage.MerchantInfoEntity;
 import com.ymd.client.utils.ToolUtil;
 
@@ -29,14 +29,12 @@ import butterknife.ButterKnife;
  * 描述:  订单列表的Adapter
  * 修改历史:
  */
-public class MerchantListAdapter extends RecyclerView.Adapter<MerchantListAdapter.ViewHolder> {
-
-    private List<MerchantInfoEntity> datas;
-    private Context mContext;
+public class MerchantCollectionListAdapter extends CommonRecyclerAdapter<MerchantInfoEntity> {
 
     private OnUMDItemClickListener listener;
 
-    public MerchantListAdapter(List<MerchantInfoEntity> datas, Context mContext) {
+    public MerchantCollectionListAdapter(List<MerchantInfoEntity> datas, Context mContext) {
+        super(mContext);
         this.datas = datas;
         this.mContext = mContext;
     }
@@ -50,12 +48,14 @@ public class MerchantListAdapter extends RecyclerView.Adapter<MerchantListAdapte
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        onUmdBindViewHolder((ViewHolder) holder,position);
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    public void onUmdBindViewHolder(ViewHolder holder, int position) {
 
         MerchantInfoEntity data = datas.get(position);
-        if (ToolUtil.changeString(data.getPhotoUrl()).length() > 0) {
-            Glide.with(mContext).load(ToolUtil.changeString(data.getPhotoUrl())).into(holder.iconIv);
-        }
         holder.nameTv.setText(ToolUtil.changeString(data.getName()));
         if (data.getDistance() == null) {
             data.setDistance(ToolUtil.Distance(ToolUtil.changeDouble(data.getLatitude()), ToolUtil.changeDouble(data.getLongitude())));
@@ -67,11 +67,11 @@ public class MerchantListAdapter extends RecyclerView.Adapter<MerchantListAdapte
             holder.distanceTv.setText(ToolUtil.double2Point(ToolUtil.changeDouble(data.getDistance())) + "m");
         }
         holder.scoreBarView.setRating(ToolUtil.changeFloat(data.getScore()));
-        holder.workTimeTv.setText(ToolUtil.changeString(data.getStartBusinessTime()) + "-" + ToolUtil.changeString(data.getEndBusinessTime()));
+    //    holder.workTimeTv.setText(ToolUtil.changeString(data.get("work_time")));
     //    holder.disStrTv.setText(ToolUtil.changeString(data.get("dis_str")));
         holder.disNumTv.setText(ToolUtil.changeString(data.getDiscount()) +"折");
-        holder.priceTv.setText("¥" + ToolUtil.changeString(data.getConsumption())/*+ data.get("price")*/);
-        holder.unitTv.setText("/人"/*+ data.get("unit")*/);
+        holder.priceTv.setText("¥" /*+ data.get("price")*/);
+        holder.unitTv.setText("/"/*+ data.get("unit")*/);
      //   List<String> disStrs = (List<String>) data.get("diss");
         //开始添加数据
     /*    for (int x = 0; x < disStrs.size(); x++) {

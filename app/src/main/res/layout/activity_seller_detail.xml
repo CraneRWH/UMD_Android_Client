@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/white"
-    tools:context=".component.activity.homePage.food.NiceFoodActivity">
+    tools:context=".component.activity.homePage.merchant.seller.NiceFoodActivity">
     <LinearLayout
         android:id="@+id/head_view"
         android:layout_width="match_parent"

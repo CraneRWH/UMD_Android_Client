@@ -1,4 +1,4 @@
-package com.ymd.client.component.activity.homePage.food.seller;
+package com.ymd.client.component.activity.homePage.merchant.seller;
 
 import android.app.Activity;
 import android.content.Context;
@@ -8,12 +8,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ListView;
 import android.widget.PopupWindow;
 
 import com.ymd.client.R;
-import com.ymd.client.component.adapter.MySimpleAdapter;
 import com.ymd.client.component.adapter.merchant.ShopCarAdapter;
 import com.ymd.client.component.event.GoodsEvent;
 import com.ymd.client.model.bean.homePage.YmdGoodsEntity;
@@ -22,9 +19,7 @@ import com.ymd.client.utils.ToolUtil;
 import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * 包名:com.ymd.client.component.activity.homePage.food.seller

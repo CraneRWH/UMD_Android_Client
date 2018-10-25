@@ -1,4 +1,4 @@
-package com.ymd.client.component.activity.homePage.food;
+package com.ymd.client.component.activity.homePage.merchant.seller;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -22,7 +22,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.ymd.client.R;
 import com.ymd.client.common.base.BaseActivity;
-import com.ymd.client.component.activity.homePage.food.seller.MerchantDetailActivity;
+import com.ymd.client.component.activity.homePage.merchant.MerchantDetailActivity;
 import com.ymd.client.component.activity.order.PageFragmentAdapter;
 import com.ymd.client.component.widget.other.MyChooseItemView;
 import com.ymd.client.model.bean.homePage.MerchantInfoEntity;

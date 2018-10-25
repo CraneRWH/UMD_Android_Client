@@ -84,6 +84,7 @@
                     style="@style/font_size_24px_green"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:visibility="gone"
                     android:layout_marginLeft="@dimen/mar_pad_len_20px" />
                 <TextView
                     android:id="@+id/noShop"

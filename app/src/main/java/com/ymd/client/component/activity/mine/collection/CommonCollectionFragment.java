@@ -15,8 +15,8 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.ymd.client.R;
 import com.ymd.client.common.base.OnUMDItemClickListener;
-import com.ymd.client.component.activity.homePage.food.seller.MerchantDetailActivity;
-import com.ymd.client.component.adapter.food.MerchantListAdapter2;
+import com.ymd.client.component.activity.homePage.merchant.MerchantDetailActivity;
+import com.ymd.client.component.adapter.goods.MerchantCollectionListAdapter;
 import com.ymd.client.component.widget.zrecyclerview.ProgressStyle;
 import com.ymd.client.component.widget.zrecyclerview.ZRecyclerView;
 import com.ymd.client.model.bean.homePage.MerchantInfoEntity;
@@ -47,7 +47,7 @@ public class CommonCollectionFragment extends Fragment {
     @BindView(R.id.ubfragment_recycler_empty)
     ImageView mEmptyView;
 
-    MerchantListAdapter2 mAdapter;
+    MerchantCollectionListAdapter mAdapter;
     int page = 1;
 
     int currentPosition = 0;
@@ -155,7 +155,7 @@ public class CommonCollectionFragment extends Fragment {
             }
             LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
             recyclerView.setLayoutManager(layoutManager);
-            mAdapter = new MerchantListAdapter2(marchantDatas, getContext());
+            mAdapter = new MerchantCollectionListAdapter(marchantDatas, getContext());
             mAdapter.setListener(new OnUMDItemClickListener() {
                 @Override
                 public void onClick(Object data, View view, int position) {

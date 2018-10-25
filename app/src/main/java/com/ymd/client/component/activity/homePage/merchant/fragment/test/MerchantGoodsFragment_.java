@@ -1,4 +1,4 @@
-package com.ymd.client.component.activity.homePage.food.seller.fragment;
+package com.ymd.client.component.activity.homePage.merchant.fragment.test;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -11,8 +11,7 @@ import android.view.ViewGroup;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.ymd.client.R;
-import com.ymd.client.component.adapter.food.MerchantGoodsAdapter;
-import com.ymd.client.component.adapter.food.MerchantZiZhiAdapter;
+import com.ymd.client.component.adapter.goods.test.MerchantGoodsAdapter;
 import com.ymd.client.model.bean.homePage.MerchantInfoEntity;
 import com.ymd.client.model.bean.homePage.YmdGoodsEntity;
 import com.ymd.client.model.bean.homePage.YmdRangeGoodsEntity;
@@ -36,7 +35,7 @@ import butterknife.Unbinder;
  * 描述:    商家页面
  * 修改历史:
  */
-public class MerchantGoodsFragment extends Fragment {
+public class MerchantGoodsFragment_ extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
@@ -53,12 +52,12 @@ public class MerchantGoodsFragment extends Fragment {
     private List<YmdRangeGoodsEntity> typeDatas = new ArrayList<>();
     private List<YmdGoodsEntity> foodDatas = new ArrayList<>();
 
-    public MerchantGoodsFragment() {
+    public MerchantGoodsFragment_() {
         // Required empty public constructor
     }
 
-    public static MerchantGoodsFragment newInstance(MerchantInfoEntity merchantInfo) {
-        MerchantGoodsFragment fragment = new MerchantGoodsFragment();
+    public static MerchantGoodsFragment_ newInstance(MerchantInfoEntity merchantInfo) {
+        MerchantGoodsFragment_ fragment = new MerchantGoodsFragment_();
         Bundle args = new Bundle();
         args.putSerializable("merchant", merchantInfo);
         fragment.setArguments(args);
@@ -78,7 +77,7 @@ public class MerchantGoodsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_merchant_goods, container, false);
+        View view = inflater.inflate(R.layout.fragment_merchant_goods_, container, false);
         unbinder = ButterKnife.bind(this, view);
       /*  setShopData();
         setManageData();*/

@@ -1,7 +1,6 @@
-package com.ymd.client.component.adapter.food;
+package com.ymd.client.component.adapter.goods;
 
 import android.app.Activity;
-import android.content.Context;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.support.v7.widget.RecyclerView;
@@ -18,14 +17,9 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.ymd.client.R;
 import com.ymd.client.common.base.OnUMDItemClickListener;
-import com.ymd.client.component.activity.homePage.food.seller.ComplaintSellerActivity;
+import com.ymd.client.component.activity.homePage.merchant.ComplaintSellerActivity;
 import com.ymd.client.model.bean.homePage.MerchantInfoEntity;
-import com.ymd.client.model.bean.homePage.YmdGoodsEntity;
 import com.ymd.client.utils.ToolUtil;
-
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.HashMap;

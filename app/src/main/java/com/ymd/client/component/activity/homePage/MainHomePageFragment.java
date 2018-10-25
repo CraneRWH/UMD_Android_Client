@@ -27,20 +27,17 @@ import com.jude.rollviewpager.adapter.StaticPagerAdapter;
 import com.ymd.client.R;
 import com.ymd.client.common.base.OnUMDItemClickListener;
 import com.ymd.client.component.activity.homePage.city.CityChooseActivity;
-import com.ymd.client.component.activity.homePage.food.seller.MerchantDetailActivity;
-import com.ymd.client.component.activity.homePage.food.seller.SellerDetailActivity;
+import com.ymd.client.component.activity.homePage.merchant.MerchantDetailActivity;
 import com.ymd.client.component.activity.homePage.functionItem.FunctionItemActivity;
 import com.ymd.client.component.activity.homePage.scan.ScanCodeActivity;
 import com.ymd.client.component.activity.homePage.search.SearchActivity;
 import com.ymd.client.component.adapter.MySimpleAdapter;
-import com.ymd.client.component.adapter.food.MerchantListAdapter;
+import com.ymd.client.component.adapter.goods.MerchantListAdapter;
 import com.ymd.client.component.event.CityShowEvent;
-import com.ymd.client.component.event.LoginEvent;
 import com.ymd.client.component.widget.other.MyChooseItemView;
 import com.ymd.client.component.widget.pullRefreshView.PullToRefreshLayout;
 import com.ymd.client.component.widget.pullRefreshView.PullableScrollView;
 import com.ymd.client.component.widget.recyclerView.MyGridView;
-import com.ymd.client.model.bean.city.CityEntity;
 import com.ymd.client.model.bean.homePage.DiscountsMerchantEntity;
 import com.ymd.client.model.bean.homePage.MerchantInfoEntity;
 import com.ymd.client.model.bean.homePage.PictureEntity;
@@ -529,7 +526,6 @@ public class MainHomePageFragment extends Fragment {
 
                     @Override
                     public void onWebFailed(String errorMsg) {
-                        resetMerchantData();
                         refreshHandler.sendEmptyMessageDelayed(0, 2000);
                     }
                 });
@@ -571,21 +567,6 @@ public class MainHomePageFragment extends Fragment {
 
                     }
                 });
-    }
-
-
-    private void resetMerchantData() {
-
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
-        recyclerView.setLayoutManager(layoutManager);
-        MerchantListAdapter adapter = new MerchantListAdapter(DataUtils.getMeachantData(), getContext());
-        adapter.setListener(new OnUMDItemClickListener() {
-            @Override
-            public void onClick(Object data, View view, int position) {
-                SellerDetailActivity.startAction(getActivity());
-            }
-        });
-        recyclerView.setAdapter(adapter);
     }
 
     @Override

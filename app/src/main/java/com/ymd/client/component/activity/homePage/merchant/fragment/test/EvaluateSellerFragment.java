@@ -1,4 +1,4 @@
-package com.ymd.client.component.activity.homePage.food.seller.fragment;
+package com.ymd.client.component.activity.homePage.merchant.fragment.test;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.ymd.client.R;
-import com.ymd.client.component.adapter.food.EvaluateSellerAdapter;
+import com.ymd.client.component.adapter.goods.test.EvaluateSellerAdapter;
 import com.ymd.client.model.bean.homePage.MerchantInfoEntity;
 import com.ymd.client.model.bean.homePage.YmdEvaluationEntity;
 import com.ymd.client.model.constant.URLConstant;

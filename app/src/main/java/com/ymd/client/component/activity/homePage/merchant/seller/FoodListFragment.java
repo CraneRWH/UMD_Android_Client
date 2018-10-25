@@ -1,4 +1,4 @@
-package com.ymd.client.component.activity.homePage.food;
+package com.ymd.client.component.activity.homePage.merchant.seller;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -13,8 +13,8 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.ymd.client.R;
 import com.ymd.client.common.base.OnUMDItemClickListener;
-import com.ymd.client.component.activity.homePage.food.seller.MerchantDetailActivity;
-import com.ymd.client.component.adapter.food.MerchantListAdapter;
+import com.ymd.client.component.activity.homePage.merchant.MerchantDetailActivity;
+import com.ymd.client.component.adapter.goods.MerchantListAdapter;
 import com.ymd.client.model.bean.homePage.MerchantInfoEntity;
 import com.ymd.client.model.constant.URLConstant;
 import com.ymd.client.model.info.LocationInfo;

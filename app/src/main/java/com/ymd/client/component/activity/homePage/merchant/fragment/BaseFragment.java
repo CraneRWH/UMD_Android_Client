@@ -1,4 +1,4 @@
-package com.ymd.client.component.activity.homePage.food.seller.fragment;
+package com.ymd.client.component.activity.homePage.merchant.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;

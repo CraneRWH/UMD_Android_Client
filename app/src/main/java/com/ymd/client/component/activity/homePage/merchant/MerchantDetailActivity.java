@@ -1,10 +1,7 @@
-package com.ymd.client.component.activity.homePage.food.seller;
+package com.ymd.client.component.activity.homePage.merchant;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
@@ -33,10 +30,10 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.ymd.client.R;
-import com.ymd.client.component.activity.homePage.food.seller.fragment.ChooseDishesFragment;
-import com.ymd.client.component.activity.homePage.food.seller.fragment.EvaluateSellerFragment;
-import com.ymd.client.component.activity.homePage.food.seller.fragment.MerchantGoodsFragment;
-import com.ymd.client.component.activity.homePage.food.seller.fragment.MerchantZiZhiFragment;
+import com.ymd.client.component.activity.homePage.merchant.seller.ShopCarPopupWindow;
+import com.ymd.client.component.activity.homePage.merchant.fragment.MerchantGoodsFragment;
+import com.ymd.client.component.activity.homePage.merchant.fragment.test.EvaluateSellerFragment;
+import com.ymd.client.component.activity.homePage.merchant.fragment.MerchantZiZhiFragment;
 import com.ymd.client.component.activity.order.detail.OrderDetailActivity;
 import com.ymd.client.component.adapter.TabFragmentAdapter;
 import com.ymd.client.component.event.GoodsEvent;
@@ -240,7 +237,7 @@ public class MerchantDetailActivity extends TabBaseActivity {
         }
         if (merchantInfo.getDiscount() != null) {
             disTv.setText("享受" + (ToolUtil.changeDouble(merchantInfo.getDiscount()) * 10) + "折优惠");
-            disTv.setVisibility(View.VISIBLE);
+            disTv.setVisibility(View.GONE);
             noShop.setVisibility(View.GONE);
         } else {
             disTv.setVisibility(View.GONE);
@@ -251,8 +248,8 @@ public class MerchantDetailActivity extends TabBaseActivity {
 
     private void setViewPager() {
 
-        ChooseDishesFragment disheslFragment = ChooseDishesFragment.newInstance(merchantInfo);
-    //    MerchantGoodsFragment disheslFragment = MerchantGoodsFragment.newInstance(merchantInfo);
+        MerchantGoodsFragment disheslFragment = MerchantGoodsFragment.newInstance(merchantInfo);
+    //    MerchantGoodsFragment_ disheslFragment = MerchantGoodsFragment_.newInstance(merchantInfo);
         EvaluateSellerFragment evaluateSellerFragment = EvaluateSellerFragment.newInstance(merchantInfo);
     //    SellerDetailFragment detailFragment = SellerDetailFragment.newInstance(merchantInfo);
         MerchantZiZhiFragment detailFragment = MerchantZiZhiFragment.newInstance(merchantInfo);
@@ -528,7 +525,8 @@ public class MerchantDetailActivity extends TabBaseActivity {
             for (YmdGoodsEntity item : goodsEntity.getGoods()) {
                 allMoney = ToolUtil.changeDouble(item.getPrice()) * item.getBuyCount() + allMoney;
                 count = count + item.getBuyCount();
-                disAllMoney = ((ToolUtil.changeDouble(item.getPrice()) * ToolUtil.changeDouble(merchantInfo.getDiscount())) / 1) * item.getBuyCount() + disAllMoney;
+            //    disAllMoney = ((ToolUtil.changeDouble(item.getPrice()) * ToolUtil.changeDouble(merchantInfo.getDiscount())) / 10) * item.getBuyCount() + disAllMoney;
+                disAllMoney = ToolUtil.changeDouble(item.getPreferentialPrice()) * item.getBuyCount() + disAllMoney;
             }
             goodsEntity.setAllMoney(allMoney);
             goodsEntity.setDisAllMoney(disAllMoney);
@@ -541,7 +539,7 @@ public class MerchantDetailActivity extends TabBaseActivity {
             } else {
                 warnNumTv.setText(ToolUtil.changeString(count));
                 warnNumTv.setVisibility(View.VISIBLE);
-                noShop.setVisibility(View.VISIBLE);
+                noShop.setVisibility(View.GONE);
                 buyList.addAll(goodsEntity.getGoods());
                 mainGoods = goodsEntity;
             }
