@@ -232,6 +232,9 @@ public class MerchantDetailActivity extends TabBaseActivity {
         nameTv.setText(ToolUtil.changeString(merchantInfo.getName()));
         scoreBarView.setRating(ToolUtil.changeFloat(merchantInfo.getScore()));
         addressTv.setText(ToolUtil.changeString(merchantInfo.getAddress()));
+        if (merchantInfo.getFile() != null && !merchantInfo.getFile().isEmpty()) {
+            Glide.with(this).load(ToolUtil.changeString(merchantInfo.getFile().get(0).getUrl())).into(iconIv);
+        }
         if (!TextUtils.isEmpty(merchantInfo.getPhotoUrl())) {
             Glide.with(this).load(merchantInfo.getPhotoUrl()).into(iconIv);
         }

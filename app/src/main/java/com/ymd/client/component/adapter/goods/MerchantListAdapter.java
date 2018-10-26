@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -55,6 +56,9 @@ public class MerchantListAdapter extends RecyclerView.Adapter<MerchantListAdapte
         MerchantInfoEntity data = datas.get(position);
         if (data.getFile() != null && !data.getFile().isEmpty()) {
             Glide.with(mContext).load(ToolUtil.changeString(data.getFile().get(0).getUrl())).into(holder.iconIv);
+        }
+        if (!TextUtils.isEmpty(data.getPhotoUrl())) {
+            Glide.with(mContext).load(data.getPhotoUrl()).into(holder.iconIv);
         }
         holder.nameTv.setText(ToolUtil.changeString(data.getName()));
         if (data.getDistance() == null) {
