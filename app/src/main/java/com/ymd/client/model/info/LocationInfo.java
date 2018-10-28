@@ -10,9 +10,11 @@ import android.content.Context;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.ymd.client.component.event.CityShowEvent;
+import com.ymd.client.component.widget.dialog.MyDialog;
 import com.ymd.client.model.bean.city.CityEntity;
 import com.ymd.client.model.bean.city.LocationInfoEntity;
 import com.ymd.client.model.constant.URLConstant;
+import com.ymd.client.utils.AlertUtil;
 import com.ymd.client.utils.CommonShared;
 import com.ymd.client.utils.ToolUtil;
 import com.ymd.client.web.WebUtil;
@@ -93,28 +95,33 @@ public class LocationInfo implements java.io.Serializable{
 		}
 		return cityValue;
 	}
-/*
-	public void isLocationCity() {
-		LocationValueObject city = getCityInfo(locationStr);
-		if (!locationInfo.getCity().contains(locationInfo.getChooseCity())) {
-			AlertUtil.DialogMessage(applicationContext, city.getCity(), "定位城市与选择城市不符!是否使用定位城市?", 3 ,0.8,"使用", "不使用",
-					new SureListener() {
+	public void isLocationCity(Context context) {
+		try {
+			if (chooseCity!= null && !locationInfo.getCity().contains(chooseCity.getCityName())) {
+				AlertUtil.DialogMessage(context, locationInfo.getCity(), "定位城市与选择城市不符!是否使用定位城市?", 3, 0.8, "使用", "不使用",
+						new MyDialog.SureListener() {
 
-						@Override
-						public void onSureListener() {
-							locationInfo.setChooseCity(locationInfo.getCity());
-							saveLocationInfo();
-							//		SettingInfo.getInstance().addString(applicationContext, LocationInfo.LOCATION_INFO_SETTING, locationStr);
-							initInstance(applicationContext);
-						}
-					},null);
+							@Override
+							public void onSureListener() {
+								CityEntity cityEntity = new CityEntity();
+								cityEntity.setCityID(ToolUtil.changeLong(locationInfo.getCityCode()));
+								cityEntity.setCityName(locationInfo.getCity());
+								LocationInfo.chooseCity = cityEntity;
+								CommonShared.setString(CITY_CHOOSE_SETTING, new Gson().toJson(chooseCity));
+								locationChangeChooseCity();
+							}
+						}, null);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-	}*/
+	}
 
 	public void setLocationInfo(LocationInfoEntity info) {
 		locationInfo = info;
 		CommonShared.setString(LOCATION_INFO_SETTING, new Gson().toJson(info));
-		locationChangeChooseCity();
+		if (ToolUtil.changeInteger(chooseCity.getCityID()) == 0)
+			locationChangeChooseCity();
 	}
 
 	public void saveLocationInfo() {
@@ -163,21 +170,18 @@ public class LocationInfo implements java.io.Serializable{
 	}
 
 	private void locationChangeChooseCity() {
-		if (ToolUtil.changeInteger(chooseCity.getCityID()) == 0) {
-			for (CityEntity item : allCitys) {
-				if (item.getCityName().contains(locationInfo.getCity()) || locationInfo.getCity().contains(item.getCityName())) {
-					chooseCity = item;
-					chooseCity.setCountyName(locationInfo.getCounty());
-					CommonShared.setString(CITY_CHOOSE_SETTING, new Gson().toJson(chooseCity));
+		for (CityEntity item : allCitys) {
+			if (item.getCityName().contains(locationInfo.getCity()) || locationInfo.getCity().contains(item.getCityName())) {
+				chooseCity = item;
+				chooseCity.setCountyName(locationInfo.getCounty());
+				CommonShared.setString(CITY_CHOOSE_SETTING, new Gson().toJson(chooseCity));
 				/*	if (changeListener != null) {
 						changeListener.onChange(chooseCity);
 					}*/
-					EventBus.getDefault().post(new CityShowEvent(true));
-					break;
-				}
+				EventBus.getDefault().post(new CityShowEvent(true));
+				break;
 			}
 		}
-
 	}
 
 //	private OnCityChangeListener changeListener;

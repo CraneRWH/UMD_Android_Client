@@ -11,7 +11,7 @@ package com.ymd.client.model.bean.city;
 public class CityEntity {
     private long cityID;
     private String cityName;
-    private String cityFirst;
+    private String cityFirst;   //首字母
 
     private String countyName;
     private long countyCode;

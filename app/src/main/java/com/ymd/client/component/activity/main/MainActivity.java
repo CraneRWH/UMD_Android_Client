@@ -20,6 +20,7 @@ import com.ymd.client.component.activity.order.MainOrderFragment;
 import com.ymd.client.component.activity.sao.MainSaoFragment;
 import com.ymd.client.component.widget.dialog.CommonDialogs;
 import com.ymd.client.model.constant.Constants;
+import com.ymd.client.model.info.LocationInfo;
 import com.ymd.client.utils.PermissionUtils;
 import com.ymd.client.utils.helper.BottomNavigationViewHelper;
 
@@ -89,6 +90,8 @@ public class MainActivity extends BaseActivity {
 
         //申请文件权限
         applyPermissions();
+
+        LocationInfo.getInstance().isLocationCity(this);
     }
 
     private void chooseMainItem(int tag) {

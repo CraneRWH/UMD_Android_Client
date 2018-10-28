@@ -428,12 +428,19 @@ public class MainHomePageFragment extends Fragment {
         youhuiServiceLayout.removeAllViews();
         //开始添加数据
         for(int i=0; i<list.size(); i++){
+            final int position = i;
             //寻找行布局，第一个参数为行布局ID，第二个参数为这个行布局需要放到那个容器上
             View view=LayoutInflater.from(getActivity()).inflate(R.layout.main_preferential_item , youhuiServiceLayout,false);
             //通过View寻找ID实例化控件
             ImageView img= (ImageView) view.findViewById(R.id.itemImage);
             //实例化TextView控件
             Glide.with(getActivity()).load(list.get(i).getPhoto()).into(img);
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    MerchantDetailActivity.startAction(getActivity(), list.get(position).getMerchantId(), 1);
+                }
+            });
             //把行布局放到linear里
             youhuiServiceLayout.addView(view);
         }
@@ -584,8 +591,9 @@ public class MainHomePageFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        if (!EventBus.getDefault().isRegistered(this))
-        EventBus.getDefault().register(this);
+        if (!EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().register(this);
+        }
     }
 
     @Override

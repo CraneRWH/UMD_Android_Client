@@ -120,6 +120,8 @@ public class MerchantDetailActivity extends TabBaseActivity {
 
     private int functionType;   //美食相关类别的标记
 
+    private Long merchantId;
+
     /**
      * 启动
      *
@@ -131,6 +133,20 @@ public class MerchantDetailActivity extends TabBaseActivity {
         intent.putExtra("functionType", functionType);
         context.startActivity(intent);
     }
+
+
+    /**
+     * 启动
+     *
+     * @param context
+     */
+    public static void startAction(Activity context, Long merchantId, int functionType) {
+        Intent intent = new Intent(context, MerchantDetailActivity.class);
+        intent.putExtra("merchantId", merchantId);
+        intent.putExtra("functionType", functionType);
+        context.startActivity(intent);
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -152,6 +168,11 @@ public class MerchantDetailActivity extends TabBaseActivity {
 
         merchantInfo = (MerchantInfoEntity) getIntent().getExtras().getSerializable("merchant");
         functionType = getIntent().getExtras().getInt("functionType");
+        if (merchantInfo == null) {
+            merchantId = getIntent().getExtras().getLong("merchantId");
+        } else {
+            merchantId = merchantInfo.getId();
+        }
 
         collectionIv.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -302,7 +323,7 @@ public class MerchantDetailActivity extends TabBaseActivity {
 
     private void requestMerchantInfo() {
         Map<String, Object> params = new HashMap<>();
-        params.put("merchantId", merchantInfo.getId());
+        params.put("merchantId", merchantId);
         WebUtil.getInstance().requestPOST(this, URLConstant.MERCHANT_DETAIL_INFO, params,
                 new WebUtil.WebCallBack() {
                     @Override
