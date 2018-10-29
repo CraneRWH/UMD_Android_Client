@@ -107,6 +107,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             style="@style/font_size_30px_black"
+            android:layout_marginRight="@dimen/mar_pad_len_10px"
             />
     </LinearLayout>
     <LinearLayout
@@ -115,7 +116,6 @@
         android:orientation="horizontal"
         android:gravity="right|bottom"
         android:layout_marginTop="@dimen/mar_pad_len_30px"
-        android:layout_marginRight="@dimen/mar_pad_len_20px"
         android:layout_marginBottom="@dimen/mar_pad_len_20px"
         >
         <Button
@@ -146,6 +146,7 @@
             android:background="@mipmap/rect_orange_bg_icon"
             android:textColor="@color/white"
             android:textSize="@dimen/text_size_26px"
+            android:layout_marginRight="@dimen/mar_pad_len_30px"
             android:text="评价"
             />
     </LinearLayout>

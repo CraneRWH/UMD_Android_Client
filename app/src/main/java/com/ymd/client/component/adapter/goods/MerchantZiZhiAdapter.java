@@ -88,7 +88,7 @@ public class MerchantZiZhiAdapter extends RecyclerView.Adapter<MerchantZiZhiAdap
         map.put("icon", R.mipmap.icon_merchant_serve);
         list.add(map);
 
-        if (merchantInfo.getInvoice() == 1) {
+        if (ToolUtil.changeInteger(merchantInfo.getInvoice()) == 1) {
             map = new HashMap<>();
             map.put("name", "提供发票");
             map.put("icon", R.mipmap.icon_merchant_ticket);

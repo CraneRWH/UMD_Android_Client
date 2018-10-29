@@ -147,31 +147,36 @@ public class MyRatesActivity extends BaseActivity {
     }
 
     public void refreshList(String resultJson) {
-        datas = new Gson().fromJson(resultJson, new TypeToken<List<YmdEvaluation>>(){}.getType());
+        try {
+            datas = new Gson().fromJson(resultJson, new TypeToken<List<YmdEvaluation>>() {
+            }.getType());
 
-        if (datas == null || datas.size() == 0) {
-            recyclerView.loadMoreComplete();
-            recyclerView.refreshComplete();
-            if (page == 1) {
-                mEmptyView.setVisibility(View.VISIBLE);
-                recyclerView.setVisibility(View.GONE);
-            } else {
-                ToastUtil.ToastMessage(this,"没有更多的数据了");
-            }
-        } else {
-            if (page == 1) {
-                mAdapter.addItems(datas);
-                recyclerView.refreshComplete();
-            } else {
+            if (datas == null || datas.size() == 0) {
                 recyclerView.loadMoreComplete();
-                mAdapter.appendItems(datas);
+                recyclerView.refreshComplete();
+                if (page == 1) {
+                    mEmptyView.setVisibility(View.VISIBLE);
+                    recyclerView.setVisibility(View.GONE);
+                } else {
+                    ToastUtil.ToastMessage(this, "没有更多的数据了");
+                }
+            } else {
+                if (page == 1) {
+                    mAdapter.addItems(datas);
+                    recyclerView.refreshComplete();
+                } else {
+                    recyclerView.loadMoreComplete();
+                    mAdapter.appendItems(datas);
+                }
+                mEmptyView.setVisibility(View.GONE);
+                recyclerView.setVisibility(View.VISIBLE);
             }
-            mEmptyView.setVisibility(View.GONE);
-            recyclerView.setVisibility(View.VISIBLE);
-        }
 
-        recyclerView.refreshComplete();
-        recyclerView.loadMoreComplete();
+            recyclerView.refreshComplete();
+            recyclerView.loadMoreComplete();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void showError(String msg) {

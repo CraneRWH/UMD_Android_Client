@@ -57,12 +57,12 @@ public class OrderPageAdapter2 extends CommonRecyclerAdapter<OrderResultForm> {
     public void onUmdBindViewHolder(ViewHolder holder, int position) {
 
         OrderResultForm data = datas.get(position);
-        if (ToolUtil.changeInteger(data.getOrderStatus()) > 2) {
+        if (ToolUtil.changeInteger(data.getOrderStatus()) == 4) {
             holder.statusNameTv.setTextColor(R.color.text_gray_dark);
-        //    holder.btn1.setVisibility(View.GONE);
+            holder.btn1.setVisibility(View.GONE);
         } else {
             holder.statusNameTv.setTextColor(R.color.bg_header);
-        //    holder.btn1.setVisibility(View.GONE);
+            holder.btn1.setVisibility(View.GONE);
         }
 
         if (ToolUtil.changeString(data.getmIcon()).length() > 0) {
@@ -70,14 +70,16 @@ public class OrderPageAdapter2 extends CommonRecyclerAdapter<OrderResultForm> {
         }
         holder.nameTv.setText(ToolUtil.changeString(data.getmName()));
         List<YmdOrderGoods> products = data.getYmdOrderGoodsList();
-
         try {
             holder.payMoneyTv.setText("¥" + ToolUtil.changeDouble(data.getPayAmt()));
+        } catch (Exception e) {
+            e.printStackTrace();
+            holder.payMoneyTv.setText("¥0.0");
+        }
+        try {
             holder.uMoneyTv.setText(ToolUtil.changeInteger(data.getuObtain()));
         } catch (Exception e) {
             e.printStackTrace();
-
-            holder.payMoneyTv.setText("¥0.0");
             holder.uMoneyTv.setText("0");
         }
         holder.productListLt.removeAllViews();
@@ -115,9 +117,12 @@ public class OrderPageAdapter2 extends CommonRecyclerAdapter<OrderResultForm> {
                 holder.statusNameTv.setText("待支付");
                 break;
             case 1:
-            case 2:
                 holder.btn3.setVisibility(View.GONE);
                 holder.statusNameTv.setText("待接单");
+                break;
+            case 2:
+                holder.btn3.setVisibility(View.GONE);
+                holder.statusNameTv.setText("待确认");
                 break;
             case 3:
                 holder.btn3.setVisibility(View.VISIBLE);
