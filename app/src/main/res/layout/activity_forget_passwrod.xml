@@ -217,7 +217,7 @@
                 android:layout_marginRight="@dimen/mar_pad_len_20px"
                 android:layout_marginLeft="@dimen/mar_pad_len_20px"
                 android:background="@drawable/shape_rect_corner_green"
-                android:text="立即注册"
+                android:text="确认修改"
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_size_36px" />
             <LinearLayout

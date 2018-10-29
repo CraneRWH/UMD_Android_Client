@@ -17,6 +17,7 @@ import com.ymd.client.component.activity.homePage.merchant.CommentSellerActivity
 import com.ymd.client.component.activity.login.LoginByPWActivity;
 import com.ymd.client.component.activity.order.detail.OrderDetailActivity;
 import com.ymd.client.component.activity.order.pay.OrderPayActivity;
+import com.ymd.client.component.activity.order.pay.OrderPayResultActivity;
 import com.ymd.client.component.adapter.order.OrderPageAdapter2;
 import com.ymd.client.component.event.LoginEvent;
 import com.ymd.client.component.widget.zrecyclerview.ProgressStyle;
@@ -155,7 +156,11 @@ public class OrderPageFragment extends Fragment {
                 @Override
                 public void onClick(Object data, View view, int position) {
                     OrderResultForm item = (OrderResultForm) data;
-                    OrderDetailActivity.startAction(getActivity(), item.getId(), ToolUtil.changeInteger(item.getOrderType()));
+                    if (item.getOrderStatus() == 1 || item.getOrderStatus() ==2) {
+                        OrderPayResultActivity.startAction(getActivity(), item);
+                    } else {
+                        OrderDetailActivity.startAction(getActivity(), item.getId(), ToolUtil.changeInteger(item.getOrderType()));
+                    }
                 }
             });
             adapter.setBtnClickListener(new OrderPageAdapter2.OnBtnClickListener() {
@@ -166,6 +171,10 @@ public class OrderPageFragment extends Fragment {
                         switch (item.getOrderStatus()) {
                             case 0:
                                 OrderPayActivity.startAction(getActivity(), item.getId());
+                                break;
+                            case 1:
+                            case 2:
+                                OrderPayResultActivity.startAction(getActivity(), item);
                                 break;
                             case 4:
                                 CommentSellerActivity.startAction(getActivity(), item);

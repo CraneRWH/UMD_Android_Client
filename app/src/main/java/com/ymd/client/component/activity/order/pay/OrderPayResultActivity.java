@@ -121,6 +121,7 @@ public class OrderPayResultActivity extends BaseActivity {
         orderAllMoneyTv.setText(ToolUtil.changeString(orderDetail.getTotalAmt()));
         orderUTv.setText(ToolUtil.changeString(orderDetail.getuCurrency()));
         uDisTv.setText(ToolUtil.changeString(orderDetail.getuObtain()));
+        orderMoneyTv.setText(ToolUtil.changeString(orderDetail.getPayAmt()));
         createQRcode();
         /*List<Map<String ,Object>> list = new ArrayList<>();
         Map<String, Object> map = new HashMap<>();

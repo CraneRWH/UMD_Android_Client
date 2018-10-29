@@ -59,10 +59,10 @@ public class OrderPageAdapter2 extends CommonRecyclerAdapter<OrderResultForm> {
         OrderResultForm data = datas.get(position);
         if (ToolUtil.changeInteger(data.getOrderStatus()) > 2) {
             holder.statusNameTv.setTextColor(R.color.text_gray_dark);
-            holder.btn1.setVisibility(View.VISIBLE);
+        //    holder.btn1.setVisibility(View.GONE);
         } else {
             holder.statusNameTv.setTextColor(R.color.bg_header);
-            holder.btn1.setVisibility(View.GONE);
+        //    holder.btn1.setVisibility(View.GONE);
         }
 
         if (ToolUtil.changeString(data.getmIcon()).length() > 0) {
