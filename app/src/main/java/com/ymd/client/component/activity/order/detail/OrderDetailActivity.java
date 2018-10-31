@@ -130,6 +130,11 @@ public class OrderDetailActivity extends BaseActivity {
             count = count + item.getGoodsNum();
         }
         warnNumTv.setText(ToolUtil.changeString(count));
+        if (ToolUtil.changeInteger(orderDetail.getOrderStatus()) > 0) {
+            submitBtn.setVisibility(View.GONE);
+        } else {
+            submitBtn.setVisibility(View.VISIBLE);
+        }
     }
 
     /**

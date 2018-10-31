@@ -151,7 +151,7 @@ public class WebUtil {
             ToastUtil.ToastMessage(context, "请首先登陆");
             return;
         }
-        LogUtil.showW("▶▶ " + method + " ▶ " + new Gson().toJson(params));
+    //    LogUtil.showW("▶▶ " + method + " ▶ " + new Gson().toJson(params));
         RequestBody requestBody = paramsBuilder(context, method, params, isLogin, isDialog);
         Request request = new Request.Builder()
                 .post(requestBody)

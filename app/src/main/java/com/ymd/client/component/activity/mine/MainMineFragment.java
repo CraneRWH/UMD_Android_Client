@@ -118,7 +118,7 @@ public class MainMineFragment extends Fragment implements PermissionInterface {
                 mHeadView.setImageResource(R.mipmap.app_icon);
             }
             mNickName.setText(LoginInfo.getInstance().getLoginInfo().getUserName());
-            mMyUbCount.setText(ToolUtil.changeString(LoginInfo.getInstance().getLoginInfo().getuNumber()));
+        //    mMyUbCount.setText(ToolUtil.changeString(LoginInfo.getInstance().getLoginInfo().getuNumber()));
             requestUnum();
         } else {
             mHeadView.setImageResource(R.mipmap.app_icon);
