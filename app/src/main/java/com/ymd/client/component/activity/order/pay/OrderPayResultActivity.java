@@ -8,6 +8,8 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Message;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
@@ -23,10 +25,12 @@ import com.ymd.client.R;
 import com.ymd.client.common.base.BaseActivity;
 import com.ymd.client.component.activity.order.detail.OrderDetailActivity;
 import com.ymd.client.component.event.UEvent;
+import com.ymd.client.component.widget.dialog.LoadingDialog;
 import com.ymd.client.component.widget.other.MyChooseItemView;
 import com.ymd.client.model.bean.order.OrderResultForm;
 import com.ymd.client.model.bean.order.YmdOrderGoods;
 import com.ymd.client.utils.AlertUtil;
+import com.ymd.client.utils.DialogUtil;
 import com.ymd.client.utils.QRCodeUtil;
 import com.ymd.client.utils.ToolUtil;
 
@@ -122,6 +126,7 @@ public class OrderPayResultActivity extends BaseActivity {
         orderUTv.setText(ToolUtil.changeString(orderDetail.getuCurrency()));
         uDisTv.setText(ToolUtil.changeString(orderDetail.getuObtain()));
         orderMoneyTv.setText(ToolUtil.changeString(orderDetail.getPayAmt()));
+        remarkTv.setText(ToolUtil.changeString(orderDetail.getRemarks()));
         createQRcode();
         /*List<Map<String ,Object>> list = new ArrayList<>();
         Map<String, Object> map = new HashMap<>();
@@ -180,6 +185,7 @@ public class OrderPayResultActivity extends BaseActivity {
         final String filePath = getFileRoot(this)
                 + File.separator + "qr_" + System.currentTimeMillis()
                 + ".jpg";
+        showLoadingDialog(this);
         // 二维码图片较大时，生成图片、保存文件的时间可能较长，因此放在新线程中
         new Thread(new Runnable() {
             @Override
@@ -196,6 +202,7 @@ public class OrderPayResultActivity extends BaseActivity {
                                 qrCodeBitmap = BitmapFactory
                                         .decodeFile(filePath);
                                 qrCodeIv.setImageBitmap(qrCodeBitmap);
+                                dialogHandler.sendEmptyMessage(0);
                             }
                         });
                     }
@@ -207,6 +214,13 @@ public class OrderPayResultActivity extends BaseActivity {
             }
         }).start();
     }
+
+    private Handler dialogHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            dismissLoadingDialog();
+        }
+    };
 
     // 文件存储根目录
     private String getFileRoot(Context context) {
@@ -250,5 +264,38 @@ public class OrderPayResultActivity extends BaseActivity {
         }
         // 最后通知图库更新
         context.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.parse("file://" + Environment.getExternalStorageDirectory())));
+    }
+
+    /**
+     * 显示进度条对话框
+     */
+    private int dialogShow = 0;
+    private LoadingDialog mLoadingDialog = null;
+
+    public void showLoadingDialog(Context context) {
+        dialogShow++;
+        if (mLoadingDialog == null) {
+            mLoadingDialog = DialogUtil.showProgrssDialog(context);
+            mLoadingDialog.setMessage("数据加载中...");
+            mLoadingDialog.setCancelable(false);
+            //    mLoadingDialog.setTitleText("数据加载中...");
+        }
+        mLoadingDialog.show();
+    }
+
+    public void dismissLoadingDialog() {
+        try {
+            if (dialogShow <= 1) {
+                dialogShow = 0;
+                if (mLoadingDialog.isShowing()) {
+                    mLoadingDialog.dismiss();
+                }
+                mLoadingDialog = null;
+            } else {
+                dialogShow--;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -69,9 +69,6 @@ public class OrderPageAdapter2 extends CommonRecyclerAdapter<OrderResultForm> {
         if (ToolUtil.changeString(data.getmIcon()).length() > 0) {
             Glide.with(mContext).load(ToolUtil.changeString(data.getmIcon())).into(holder.iconIv);
         }
-        if (ToolUtil.changeString(data.getmIcon()).length() > 0) {
-            Glide.with(mContext).load(ToolUtil.changeString(data.getmIcon())).into(holder.iconIv);
-        }
         holder.nameTv.setText(ToolUtil.changeString(data.getmName()));
         List<YmdOrderGoods> products = data.getYmdOrderGoodsList();
         try {

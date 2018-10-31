@@ -56,7 +56,9 @@ public class MyRateAdapter extends CommonRecyclerAdapter<YmdEvaluation> {
     private void bindCouponListHolder(ViewHolder holder, int position) {
 
         YmdEvaluation data = getContentList().get(position);
-
+        if (ToolUtil.changeString(data.getUserUrl()).length() > 0) {
+            Glide.with(mContext).load(ToolUtil.changeString(data.getUserUrl())).into(holder.iconIv);
+        }
         int width = (ScreenUtil.getScreenWidthPix(mContext) - ScreenUtil.dip2px(mContext, 88)) / 3;
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(width, width);
         holder.itemMyRateImg3.setLayoutParams(params);

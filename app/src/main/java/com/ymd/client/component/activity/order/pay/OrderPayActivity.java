@@ -15,6 +15,8 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 import com.ymd.client.R;
 import com.ymd.client.common.base.BaseActivity;
+import com.ymd.client.component.event.OrderListRefreshEvent;
+import com.ymd.client.component.event.UEvent;
 import com.ymd.client.component.widget.dialog.MyDialog;
 import com.ymd.client.model.bean.order.OrderResultForm;
 import com.ymd.client.model.constant.URLConstant;
@@ -23,6 +25,7 @@ import com.ymd.client.utils.ToastUtil;
 import com.ymd.client.utils.ToolUtil;
 import com.ymd.client.web.WebUtil;
 
+import org.greenrobot.eventbus.EventBus;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -331,8 +334,12 @@ public class OrderPayActivity extends BaseActivity {
                     @Override
                     public void onWebSuccess(JSONObject result) {
                         //        resetOrderView(result.optString("ymdOrder"));
-                        if (result.optInt("payStatus") == 2)
+                        if (result.optInt("payStatus") == 2) {
                             OrderPayResultActivity.startAction(OrderPayActivity.this, orderDetail);
+                            EventBus.getDefault().post(new OrderListRefreshEvent(true));
+                            EventBus.getDefault().post(new UEvent(true));
+                            finish();
+                        }
                         else
                             ToastUtil.ToastMessage(OrderPayActivity.this, "支付未成功");
                     }

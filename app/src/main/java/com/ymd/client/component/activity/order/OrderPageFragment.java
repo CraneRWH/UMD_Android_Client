@@ -20,6 +20,7 @@ import com.ymd.client.component.activity.order.pay.OrderPayActivity;
 import com.ymd.client.component.activity.order.pay.OrderPayResultActivity;
 import com.ymd.client.component.adapter.order.OrderPageAdapter2;
 import com.ymd.client.component.event.LoginEvent;
+import com.ymd.client.component.event.OrderListRefreshEvent;
 import com.ymd.client.component.widget.zrecyclerview.ProgressStyle;
 import com.ymd.client.component.widget.zrecyclerview.ZRecyclerView;
 import com.ymd.client.model.bean.order.OrderResultForm;
@@ -256,6 +257,18 @@ public class OrderPageFragment extends Fragment {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(LoginEvent event) {
+        if (event.isSuccess()) {
+            page = 1;
+            requestOrderInfo();
+        } else {
+            page = 1;
+            orderList.clear();
+            adapter.clear();
+            adapter.notifyDataSetChanged();
+        }
+    }
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(OrderListRefreshEvent event) {
         if (event.isSuccess()) {
             page = 1;
             requestOrderInfo();

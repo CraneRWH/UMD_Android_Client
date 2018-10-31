@@ -103,6 +103,8 @@ public class OrderDetailFragment extends Fragment {
 
     OrderResultForm orderDetail;
     int fragmentType;
+    @BindView(R.id.time_rv)
+    RelativeLayout timeRv;
 
     private int functionType;
 
@@ -110,7 +112,7 @@ public class OrderDetailFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public static OrderDetailFragment newInstance(int type, int functionType,OrderResultForm orderGoods) {
+    public static OrderDetailFragment newInstance(int type, int functionType, OrderResultForm orderGoods) {
         OrderDetailFragment fragment = new OrderDetailFragment();
         Bundle args = new Bundle();
         args.putSerializable("order", orderGoods);
@@ -136,6 +138,8 @@ public class OrderDetailFragment extends Fragment {
                     requestRoomList();
                     eatLocationLt.setVisibility(View.VISIBLE);
                     eatPersonNumRt.setVisibility(View.VISIBLE);
+                    eatNum = ToolUtil.changeInteger(orderDetail.getEatNumber());
+                    eatNumRefresh();
                 } else {
                     eatLocationLt.setVisibility(View.GONE);
                     eatPersonNumRt.setVisibility(View.GONE);
@@ -199,7 +203,7 @@ public class OrderDetailFragment extends Fragment {
             }
         });
 
-        timeTv.setOnClickListener(new View.OnClickListener() {
+        timeRv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // 日期格式为yyyy-MM-dd HH:mm
@@ -219,13 +223,13 @@ public class OrderDetailFragment extends Fragment {
             baofangTv.setBackgroundResource(R.mipmap.baofang_green_icon);
             baofangTv.setTextColor(Color.WHITE);
             datingTv.setBackgroundResource(R.mipmap.baofang_white_little_icon);
-            datingTv.setTextColor(R.color.text_gray_dark);
+            datingTv.setTextColor(R.color.common_text_color);
             baofangRv.setVisibility(View.VISIBLE);
         } else {
             baofangTv.setBackgroundResource(R.mipmap.baofang_white_little_icon);
-            baofangTv.setTextColor(R.color.text_gray_dark);
+            baofangTv.setTextColor(R.color.common_text_color);
             datingTv.setBackgroundResource(R.mipmap.baofang_green_icon);
-            datingTv.setTextColor(R.color.white);
+            datingTv.setTextColor(Color.WHITE);
             baofangRv.setVisibility(View.GONE);
         }
     }
@@ -263,6 +267,29 @@ public class OrderDetailFragment extends Fragment {
     private void resetRoomListData(String resultJson) {
         roomsList = new Gson().fromJson(resultJson, new TypeToken<List<YmdMerchantRooms>>() {
         }.getType());
+        if (orderDetail != null) {
+            roomType = ToolUtil.changeInteger(orderDetail.getRoom());
+            chooseRoomType();
+            if (roomType == 0 ) {
+                for (YmdMerchantRooms item : roomsList) {
+                    if (item.getId() == ToolUtil.changeLong(orderDetail.getRoomId())) {
+                        item.setChoose(true);
+                        chooseRoom = item;
+                        break;
+                    }
+                }
+            }
+            try {
+                String[] timeStrs = orderDetail.getEatTime().split(" ");
+                dateStr = timeStrs[0];
+                timeStr = timeStrs[1].substring(0,5);
+                dateTv.setText(dateStr);
+                timeTv.setText(timeStr);
+            } catch (ArrayIndexOutOfBoundsException e) {
+                e.printStackTrace();
+            }
+
+        }
         OrderDetailBaofangAdapter adapter = new OrderDetailBaofangAdapter(roomsList, getContext());
         adapter.setListener(new OnUMDItemClickListener() {
             @Override
@@ -339,7 +366,7 @@ public class OrderDetailFragment extends Fragment {
                 ToastUtil.ToastMessage(getActivity(), "请选择包房");
                 return;
             }
-            params.put("roomId", chooseRoom.getRoomId());
+            params.put("roomId", chooseRoom.getId());
         } else {
             params.put("roomId", 0);
         }
@@ -359,6 +386,7 @@ public class OrderDetailFragment extends Fragment {
                         result.optString("id");
 
                         OrderPayActivity.startAction(getActivity(), orderDetail.getId());
+                        getActivity().finish();
                     }
 
                     @Override

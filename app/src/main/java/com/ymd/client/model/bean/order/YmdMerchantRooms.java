@@ -11,9 +11,7 @@ package com.ymd.client.model.bean.order;
 
 public class YmdMerchantRooms {
 
-    private static final long serialVersionUID = 1L;
-
-    private long roomId;
+    private long id;
 
     /**
      * 包间名称
@@ -30,12 +28,22 @@ public class YmdMerchantRooms {
 
 	private boolean isChoose;
 
-	public long getRoomId() {
-		return roomId;
+	private int roomsStatus;
+
+	public int getRoomsStatus() {
+		return roomsStatus;
 	}
 
-	public void setRoomId(long roomId) {
-		this.roomId = roomId;
+	public void setRoomsStatus(int roomsStatus) {
+		this.roomsStatus = roomsStatus;
+	}
+
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
 	}
 
 	public boolean isChoose() {

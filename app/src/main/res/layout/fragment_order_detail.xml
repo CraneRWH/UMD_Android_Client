@@ -37,25 +37,25 @@
 
                     <TextView
                         android:id="@+id/date_tv"
-                        style="@style/font_size_42px"
+                        style="@style/font_size_32px_black"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
                         android:text="今天" />
 
                     <RelativeLayout
+                        android:id="@+id/time_rv"
                         android:layout_width="@dimen/mar_pad_len_164px"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
                         android:background="@mipmap/baofang_white_little_icon"
-                        android:gravity="center_vertical"
                         android:paddingLeft="@dimen/mar_pad_len_12px"
                         android:paddingRight="@dimen/mar_pad_len_12px">
 
                         <TextView
                             android:id="@+id/time_tv"
-                            style="@style/font_size_36px_black"
+                            style="@style/font_size_32px_gray"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
@@ -299,7 +299,7 @@
 
                     <TextView
                         android:id="@+id/u_dis_price_tv"
-                        style="@style/font_size_26px_black"
+                        style="@style/font_size_32px_black"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"

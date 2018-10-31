@@ -97,6 +97,7 @@ public class CommentSellerActivity extends BaseActivity {
             view.setButtonDrawable(R.drawable.checkbox_star_selector);
             view.setChecked(false);
             view.setPadding(5, 0, 5, 0);
+            view.setLayoutParams(new LinearLayout.LayoutParams(30,30));
             view.setOnClickListener(new View.OnClickListener() {
 
                 @Override

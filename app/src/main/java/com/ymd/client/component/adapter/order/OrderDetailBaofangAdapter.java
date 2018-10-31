@@ -2,6 +2,7 @@ package com.ymd.client.component.adapter.order;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.support.v7.widget.RecyclerView;
@@ -59,8 +60,8 @@ public class OrderDetailBaofangAdapter extends RecyclerView.Adapter<OrderDetailB
 
         if (data.isChoose()) {
             holder.mainView.setBackgroundResource(R.mipmap.baojian_green_icon);
-            holder.name_tv.setTextColor(R.color.white);
-            holder.desc_tv.setTextColor(R.color.white);
+            holder.name_tv.setTextColor(Color.WHITE);
+            holder.desc_tv.setTextColor(Color.WHITE);
         } else {
             holder.mainView.setBackgroundResource(R.mipmap.baojian_white_icon);
             holder.name_tv.setTextColor(R.color.common_text_color);
