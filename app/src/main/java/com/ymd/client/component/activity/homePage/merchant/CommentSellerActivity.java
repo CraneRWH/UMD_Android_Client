@@ -89,6 +89,7 @@ public class CommentSellerActivity extends BaseActivity {
 
     private void initView() {
         setTitle("评价");
+        orderDetail = (OrderResultForm) getIntent().getExtras().getSerializable("order");
         ciutil = new ChoiceImageUtil(this);
         for (int i = 0; i < 5; i ++) {
             final int position = i;
@@ -177,7 +178,7 @@ public class CommentSellerActivity extends BaseActivity {
         params.put("score", score);
         params.put("userName", LoginInfo.getInstance().getLoginInfo().getUserName());
         params.put("userUrl", LoginInfo.getInstance().getLoginInfo().getIcon());
-        WebUtil.getInstance().requestPOST(this, URLConstant.MERCHANT_ADD_EVALUATION, params,
+        WebUtil.getInstance().requestPOST(this, URLConstant.MERCHANT_ADD_EVALUATION, params,true,
                 new WebUtil.WebCallBack() {
                     @Override
                     public void onWebSuccess(JSONObject result) {

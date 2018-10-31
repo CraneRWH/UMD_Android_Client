@@ -17,6 +17,7 @@ import com.ymd.client.common.base.OnUMDItemClickListener;
 import com.ymd.client.component.adapter.CommonRecyclerAdapter;
 import com.ymd.client.model.bean.order.OrderResultForm;
 import com.ymd.client.model.bean.order.YmdOrderGoods;
+import com.ymd.client.model.constant.UmdDataConstants;
 import com.ymd.client.utils.ToolUtil;
 
 import java.util.List;
@@ -68,6 +69,9 @@ public class OrderPageAdapter2 extends CommonRecyclerAdapter<OrderResultForm> {
         if (ToolUtil.changeString(data.getmIcon()).length() > 0) {
             Glide.with(mContext).load(ToolUtil.changeString(data.getmIcon())).into(holder.iconIv);
         }
+        if (ToolUtil.changeString(data.getmIcon()).length() > 0) {
+            Glide.with(mContext).load(ToolUtil.changeString(data.getmIcon())).into(holder.iconIv);
+        }
         holder.nameTv.setText(ToolUtil.changeString(data.getmName()));
         List<YmdOrderGoods> products = data.getYmdOrderGoodsList();
         try {
@@ -77,7 +81,7 @@ public class OrderPageAdapter2 extends CommonRecyclerAdapter<OrderResultForm> {
             holder.payMoneyTv.setText("¥0.0");
         }
         try {
-            holder.uMoneyTv.setText(ToolUtil.changeInteger(data.getuObtain()));
+            holder.uMoneyTv.setText(ToolUtil.changeString(data.getuObtain()));
         } catch (Exception e) {
             e.printStackTrace();
             holder.uMoneyTv.setText("0");
@@ -110,19 +114,23 @@ public class OrderPageAdapter2 extends CommonRecyclerAdapter<OrderResultForm> {
             }
         });
 
+        try {
+            holder.statusNameTv.setText(UmdDataConstants.orderStatusList[ToolUtil.changeInteger(data.getOrderStatus())]);
+        } catch (ArrayIndexOutOfBoundsException e) {
+            e.printStackTrace();
+        }
         switch (data.getOrderStatus()) {
             case 0:
                 holder.btn3.setVisibility(View.VISIBLE);
                 holder.btn3.setText("立即支付");
-                holder.statusNameTv.setText("待支付");
                 break;
             case 1:
                 holder.btn3.setVisibility(View.GONE);
-                holder.statusNameTv.setText("待接单");
+            //    holder.statusNameTv.setText("待接单");
                 break;
             case 2:
                 holder.btn3.setVisibility(View.GONE);
-                holder.statusNameTv.setText("待确认");
+            //    holder.statusNameTv.setText("待确认");
                 break;
             case 3:
                 holder.btn3.setVisibility(View.VISIBLE);
@@ -133,19 +141,19 @@ public class OrderPageAdapter2 extends CommonRecyclerAdapter<OrderResultForm> {
                 } else if (data.getPayStatus() == 7) {
                     holder.btn3.setText("退款失败");
                 }
-                holder.statusNameTv.setText("已拒单");
+            //    holder.statusNameTv.setText("已拒单");
                 break;
             case 4:
                 holder.btn3.setVisibility(View.VISIBLE);
                 holder.btn3.setText("评价");
 
-                holder.statusNameTv.setText("待评价");
+            //    holder.statusNameTv.setText("待评价");
                 break;
             case 5:
             case 6:
             case 7:
                 holder.btn3.setVisibility(View.GONE);
-                holder.statusNameTv.setText("");
+            //    holder.statusNameTv.setText("");
         }
         holder.btn3.setOnClickListener(new View.OnClickListener() {
             @Override
