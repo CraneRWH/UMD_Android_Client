@@ -179,6 +179,11 @@ public class CommentSellerActivity extends BaseActivity {
         params.put("score", score);
         params.put("userName", LoginInfo.getInstance().getLoginInfo().getUserName());
         params.put("userUrl", LoginInfo.getInstance().getLoginInfo().getIcon());
+        List<String> fileList = new ArrayList<>();
+        for (PictureEntity item :pictures) {
+            fileList.add(item.getUrl());
+        }
+        params.put("fileList", fileList);
         WebUtil.getInstance().requestPOST(this, URLConstant.MERCHANT_ADD_EVALUATION, params,true,
                 new WebUtil.WebCallBack() {
                     @Override
