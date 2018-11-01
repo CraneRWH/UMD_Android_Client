@@ -147,8 +147,6 @@ public class OrderDetailFragment extends Fragment {
             } else {
                 foodLlt.setVisibility(View.GONE);
             }
-            resetGoodList();
-            resetOrderView();
         }
         initView(view);
         return view;
@@ -168,7 +166,6 @@ public class OrderDetailFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 roomType = 0;
-
                 chooseRoomType();
             }
         });
@@ -211,10 +208,12 @@ public class OrderDetailFragment extends Fragment {
             }
         });
 
-        if (functionType == 1) {
-            initDatePicker();
+        /*if (functionType == 1) {
+            roomType = ToolUtil.changeInteger(orderDetail.getRoom());
             chooseRoomType();
-        }
+        }*/
+        resetGoodList();
+        resetOrderView();
     }
 
     @SuppressLint("ResourceAsColor")
@@ -239,6 +238,23 @@ public class OrderDetailFragment extends Fragment {
         disPriceTv.setText("-" + ToolUtil.changeString(orderDetail.getDiscountAmt()) + "元");
         uGetTv.setText(ToolUtil.changeString(orderDetail.getuObtain()));
         uDisPriceTv.setText("-" + ToolUtil.changeString(orderDetail.getuCurrency()));
+        if (orderDetail != null) {
+            try {
+                String[] timeStrs = orderDetail.getEatTime().split(" ");
+                dateStr = timeStrs[0];
+                timeStr = timeStrs[1].substring(0,5);
+                dateTv.setText(dateStr);
+                timeTv.setText(timeStr);
+            } catch (ArrayIndexOutOfBoundsException e) {
+                e.printStackTrace();
+                initDatePicker();
+            } catch (NullPointerException e) {
+                e.printStackTrace();
+                initDatePicker();
+            }
+        } else {
+            initDatePicker();
+        }
     }
 
     private void eatNumRefresh() {
@@ -267,10 +283,10 @@ public class OrderDetailFragment extends Fragment {
     private void resetRoomListData(String resultJson) {
         roomsList = new Gson().fromJson(resultJson, new TypeToken<List<YmdMerchantRooms>>() {
         }.getType());
-        if (orderDetail != null) {
+        if(orderDetail != null) {
             roomType = ToolUtil.changeInteger(orderDetail.getRoom());
             chooseRoomType();
-            if (roomType == 0 ) {
+            if (roomType == 0) {
                 for (YmdMerchantRooms item : roomsList) {
                     if (item.getId() == ToolUtil.changeLong(orderDetail.getRoomId())) {
                         item.setChoose(true);
@@ -279,16 +295,6 @@ public class OrderDetailFragment extends Fragment {
                     }
                 }
             }
-            try {
-                String[] timeStrs = orderDetail.getEatTime().split(" ");
-                dateStr = timeStrs[0];
-                timeStr = timeStrs[1].substring(0,5);
-                dateTv.setText(dateStr);
-                timeTv.setText(timeStr);
-            } catch (ArrayIndexOutOfBoundsException e) {
-                e.printStackTrace();
-            }
-
         }
         OrderDetailBaofangAdapter adapter = new OrderDetailBaofangAdapter(roomsList, getContext());
         adapter.setListener(new OnUMDItemClickListener() {
@@ -358,7 +364,7 @@ public class OrderDetailFragment extends Fragment {
 
         Map<String, Object> params = new HashMap<>();
         params.put("id", orderDetail.getId());
-        params.put("eatNumber", ToolUtil.changeString(eatNum));
+
         params.put("eatTime", dateStr + " " + timeStr + ":00");
         params.put("room", roomType);
         if (roomType == 0) {
@@ -373,6 +379,11 @@ public class OrderDetailFragment extends Fragment {
         switch (fragmentType) {
             case 0:
                 params.put("himself", 1);
+                if (eatNum == 0) {
+                    ToastUtil.ToastMessage(getActivity(), "请添加就餐人数");
+                    return;
+                }
+                params.put("eatNumber", ToolUtil.changeString(eatNum));
                 break;
             case 1:
                 params.put("himself", 0);

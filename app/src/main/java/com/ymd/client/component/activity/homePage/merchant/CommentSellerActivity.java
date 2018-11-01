@@ -181,7 +181,9 @@ public class CommentSellerActivity extends BaseActivity {
         params.put("userUrl", LoginInfo.getInstance().getLoginInfo().getIcon());
         List<String> fileList = new ArrayList<>();
         for (PictureEntity item :pictures) {
-            fileList.add(item.getUrl());
+            if (!TextUtils.isEmpty(item.getUrl())) {
+                fileList.add(item.getUrl());
+            }
         }
         params.put("fileList", fileList);
         WebUtil.getInstance().requestPOST(this, URLConstant.MERCHANT_ADD_EVALUATION, params,true,

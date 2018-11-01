@@ -227,7 +227,13 @@ public class OrderDetailActivity extends BaseActivity {
         //    fragmentList.add(new OrderDetailFragment());
 
         viewPagerListener();
-        chooseItem(0);
+        if(ToolUtil.changeInteger(orderDetail.getHimself()) == 0) {
+            chooseItem(1);
+            businessViewPager.setCurrentItem(1);
+        } else {
+            chooseItem(0);
+            businessViewPager.setCurrentItem(0);
+        }
 
         resetOrderView();
     }

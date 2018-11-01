@@ -111,6 +111,9 @@ public class OrderPageFragment extends ViewPagerFragment {
                 requestOrderInfo();
             }
         });
+        if (type == 0) {
+            setUserVisibleHint(true);
+        }
     }
 
     int page = 1;

@@ -2,6 +2,7 @@ package com.ymd.client.common.base.fragment;
 
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,33 +17,24 @@ import com.ymd.client.utils.LogUtil;
  */
 public abstract class ViewPagerFragment extends Fragment {
 
-    /**
-     * rootView 是否初始化标志，防止回调函数在rootView为空时触发
-     */
-    private boolean hasCreateView;
 
-    /**
-     * 当前Fragment是否处于可见状态标志，防止因ViewPager的缓存机制而导致回调函数的触发
-     */
     private boolean isFragmentVisible;
-
     private boolean isReuseView;
     private boolean isFirstVisible;
-
-    /**
-     * onCreateView()返回的view,修饰为protected,所以子类集成该类是，在onCreateView里必须对该变量进行初始化
-     */
     protected View rootView;
 
 
+    //setUserVisibleHint()在Fragment创建时会先被调用一次，传入isVisibleToUser = false
+    //如果当前Fragment可见，那么setUserVisibleHint()会再次被调用一次，传入isVisibleToUser = true
+    //如果Fragment从可见->不可见，那么setUserVisibleHint()也会被调用，传入isVisibleToUser = false
+    //总结：setUserVisibleHint()除了Fragment的可见状态发生变化时会被回调外，在new Fragment()时也会被回调
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
-        LogUtil.d("setUserVisibleHint() -> isVisibleToUser: " + isVisibleToUser);
+        //setUserVisibleHint()有可能在fragment的生命周期外被调用
         if (rootView == null) {
             return;
         }
-        hasCreateView = true;
         if (isFirstVisible && isVisibleToUser) {
             onFragmentFirstVisible();
             isFirstVisible = false;
@@ -59,13 +51,13 @@ public abstract class ViewPagerFragment extends Fragment {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initVariable();
     }
 
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         //如果setUserVisibleHint()在rootView创建前调用时，那么
         //就等到rootView创建完后才回调onFragmentVisibleChange(true)
         //保证onFragmentVisibleChange()的回调发生在rootView创建完成之后，以便支持ui操作

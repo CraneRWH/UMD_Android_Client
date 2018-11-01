@@ -12,6 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.ymd.client.R;
+import com.ymd.client.common.base.fragment.ViewPagerFragment;
 import com.ymd.client.component.adapter.AppFragmentPageAdapter;
 import com.ymd.client.component.widget.other.MyChooseItemView;
 
@@ -28,7 +29,7 @@ import butterknife.Unbinder;
  * 描述:    “订单”选项卡
  * 修改历史:
  */
-public class MainOrderFragment extends Fragment {
+public class MainOrderFragment extends ViewPagerFragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     @BindView(R.id.txtTitle)
@@ -71,10 +72,12 @@ public class MainOrderFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_main_order, container, false);
-        unbinder = ButterKnife.bind(this, view);
-        initView(view);
-        return view;
+        if (rootView == null) {
+            rootView = inflater.inflate(R.layout.fragment_main_order, container, false);
+            unbinder = ButterKnife.bind(this, rootView);
+            initView(rootView);
+        }
+        return rootView;
     }
 
     private void initView(View view) {
