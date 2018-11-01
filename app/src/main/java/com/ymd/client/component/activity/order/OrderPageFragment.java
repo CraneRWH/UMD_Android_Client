@@ -13,6 +13,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.ymd.client.R;
 import com.ymd.client.common.base.OnUMDItemClickListener;
+import com.ymd.client.common.base.fragment.ViewPagerFragment;
 import com.ymd.client.component.activity.homePage.merchant.CommentSellerActivity;
 import com.ymd.client.component.activity.login.LoginByPWActivity;
 import com.ymd.client.component.activity.order.detail.OrderDetailActivity;
@@ -53,7 +54,7 @@ import butterknife.Unbinder;
  * 功能简介:
  * 修改历史:
  */
-public class OrderPageFragment extends Fragment {
+public class OrderPageFragment extends ViewPagerFragment {
 
     @BindView(R.id.emptyView)
     TextView emptyView;
@@ -63,7 +64,6 @@ public class OrderPageFragment extends Fragment {
     private ZRecyclerView recyclerView;
 
     private int type;      //订单的状态（0：全部，1：待支付，2：退款）
-
     public static OrderPageFragment newInstance(int type) {
         OrderPageFragment fragment = new OrderPageFragment();
         Bundle args = new Bundle();
@@ -83,10 +83,12 @@ public class OrderPageFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_order_page, container, false);
-        unbinder = ButterKnife.bind(this, view);
-        initView(view);
-        return view;
+        if (rootView == null) {
+            rootView = inflater.inflate(R.layout.fragment_order_page, container, false);
+            unbinder = ButterKnife.bind(this, rootView);
+            initView(rootView);
+        }
+        return rootView;
     }
 
     private void initView(View view) {
@@ -109,7 +111,6 @@ public class OrderPageFragment extends Fragment {
                 requestOrderInfo();
             }
         });
-        requestOrderInfo();
     }
 
     int page = 1;
@@ -205,7 +206,6 @@ public class OrderPageFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        unbinder.unbind();
     }
 
     private void submitOrder(OrderResultForm data) {
@@ -253,6 +253,8 @@ public class OrderPageFragment extends Fragment {
     public void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
+
+        unbinder.unbind();
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -276,5 +278,19 @@ public class OrderPageFragment extends Fragment {
             page = 1;
             resetOrderList("");
         }
+    }
+
+    @Override
+    protected void onFragmentVisibleChange(boolean isVisible) {
+        if (isVisible) {
+
+        } else {
+
+        }
+    }
+
+    @Override
+    protected void onFragmentFirstVisible() {
+        requestOrderInfo();
     }
 }
