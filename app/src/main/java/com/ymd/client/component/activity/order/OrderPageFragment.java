@@ -175,7 +175,8 @@ public class OrderPageFragment extends ViewPagerFragment {
                     if (id == R.id.btn3) {
                         switch (item.getOrderStatus()) {
                             case 0:
-                                OrderPayActivity.startAction(getActivity(), item.getId());
+                                CommentSellerActivity.startAction(getActivity(), item);
+                            //    OrderPayActivity.startAction(getActivity(), item.getId());
                                 break;
                             case 1:
                             case 2:

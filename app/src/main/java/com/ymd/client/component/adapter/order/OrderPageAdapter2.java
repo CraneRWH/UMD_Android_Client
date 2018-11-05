@@ -22,7 +22,7 @@ import com.ymd.client.utils.ToolUtil;
 
 import java.util.List;
 
-import static com.raizlabs.android.dbflow.config.FlowManager.getContext;
+import butterknife.BindView;
 
 /**
  * 作者:rongweihe
@@ -36,7 +36,7 @@ public class OrderPageAdapter2 extends CommonRecyclerAdapter<OrderResultForm> {
     private OnUMDItemClickListener listener;
     private OnBtnClickListener btnClickListener;
 
-    public OrderPageAdapter2(  List<OrderResultForm> datas,Context mContext) {
+    public OrderPageAdapter2(List<OrderResultForm> datas, Context mContext) {
         super(mContext);
         this.mContext = mContext;
         this.datas = datas;
@@ -120,14 +120,20 @@ public class OrderPageAdapter2 extends CommonRecyclerAdapter<OrderResultForm> {
             case 0:
                 holder.btn3.setVisibility(View.VISIBLE);
                 holder.btn3.setText("立即支付");
+                holder.statusNameTv.setVisibility(View.VISIBLE);
+                holder.uLlt.setVisibility(View.GONE);
                 break;
             case 1:
                 holder.btn3.setVisibility(View.GONE);
-            //    holder.statusNameTv.setText("待接单");
+                holder.statusNameTv.setVisibility(View.VISIBLE);
+                holder.uLlt.setVisibility(View.VISIBLE);
+                //    holder.statusNameTv.setText("待接单");
                 break;
             case 2:
                 holder.btn3.setVisibility(View.GONE);
-            //    holder.statusNameTv.setText("待确认");
+                holder.statusNameTv.setVisibility(View.VISIBLE);
+                holder.uLlt.setVisibility(View.VISIBLE);
+                //    holder.statusNameTv.setText("待确认");
                 break;
             case 3:
                 holder.btn3.setVisibility(View.VISIBLE);
@@ -138,19 +144,25 @@ public class OrderPageAdapter2 extends CommonRecyclerAdapter<OrderResultForm> {
                 } else if (data.getPayStatus() == 7) {
                     holder.btn3.setText("退款失败");
                 }
-            //    holder.statusNameTv.setText("已拒单");
+                holder.statusNameTv.setVisibility(View.GONE);
+                holder.uLlt.setVisibility(View.GONE);
+                //    holder.statusNameTv.setText("已拒单");
                 break;
             case 4:
                 holder.btn3.setVisibility(View.VISIBLE);
                 holder.btn3.setText("评价");
 
-            //    holder.statusNameTv.setText("待评价");
+                holder.statusNameTv.setVisibility(View.VISIBLE);
+                holder.uLlt.setVisibility(View.VISIBLE);
+                //    holder.statusNameTv.setText("待评价");
                 break;
             case 5:
             case 6:
             case 7:
                 holder.btn3.setVisibility(View.GONE);
-            //    holder.statusNameTv.setText("");
+                holder.statusNameTv.setVisibility(View.VISIBLE);
+                holder.uLlt.setVisibility(View.VISIBLE);
+                //    holder.statusNameTv.setText("");
         }
         holder.btn3.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -195,7 +207,7 @@ public class OrderPageAdapter2 extends CommonRecyclerAdapter<OrderResultForm> {
         public Button btn1;
         public Button btn2;
         public Button btn3;
-
+        LinearLayout uLlt;
         public ViewHolder(View rootView) {
             super(rootView);
             this.rootView = rootView;
@@ -203,6 +215,7 @@ public class OrderPageAdapter2 extends CommonRecyclerAdapter<OrderResultForm> {
             this.nameTv = (TextView) rootView.findViewById(R.id.name_tv);
             this.statusNameTv = (TextView) rootView.findViewById(R.id.status_name_tv);
             this.productListLt = (LinearLayout) rootView.findViewById(R.id.product_list_lt);
+            this.uLlt = (LinearLayout) rootView.findViewById(R.id.u_llt);
             this.uMoneyTv = (TextView) rootView.findViewById(R.id.u_money_tv);
             this.allProductNumTv = (TextView) rootView.findViewById(R.id.all_product_num_tv);
             this.payMoneyTv = (TextView) rootView.findViewById(R.id.pay_money_tv);
