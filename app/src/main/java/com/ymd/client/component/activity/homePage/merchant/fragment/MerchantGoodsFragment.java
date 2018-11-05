@@ -234,6 +234,16 @@ public class MerchantGoodsFragment extends BaseFragment implements PersonAdapter
     private void setFoodTypeData(String resultJson) {
 
         typeDatas = new Gson().fromJson(resultJson, new TypeToken<List<YmdRangeGoodsEntity>>(){}.getType());
+        for (int i = 0 ; i < typeDatas.size(); i ++ ) {
+            for (int j = i+1 ; j < typeDatas.size(); j ++) {
+                if (typeDatas.get(i).getId() > typeDatas.get(j).getId()) {
+                    YmdRangeGoodsEntity item1  = typeDatas.get(i);
+                    YmdRangeGoodsEntity item2  = typeDatas.get(j);
+                    typeDatas.set(i, item2);
+                    typeDatas.set(j, item1);
+                }
+            }
+        }
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         typeRv.setLayoutManager(linearLayoutManager);
         typeAdapter = new MerchantGoodTypeListAdapter(typeDatas, getActivity());
@@ -249,9 +259,9 @@ public class MerchantGoodsFragment extends BaseFragment implements PersonAdapter
                       /*  linearLayoutManager.scrollToPositionWithOffset(i, 0);
                         linearLayoutManager.setStackFromEnd(true);*/
                             if (i != -1) {
-                                smoothMoveToPosition(typeRv, i);
+                                smoothMoveToPosition(foodRv, i);
                             } else {
-                                smoothMoveToPosition(typeRv, i + 1);
+                                smoothMoveToPosition(foodRv, i + 1);
                             }
                             break;
                         }
@@ -324,6 +334,16 @@ public class MerchantGoodsFragment extends BaseFragment implements PersonAdapter
 
     private void setFoodData(String resultJson) {
         foodDatas = new Gson().fromJson(resultJson, new TypeToken<List<YmdGoodsEntity>>(){}.getType());
+        for (int i = 0 ; i < foodDatas.size(); i ++ ) {
+            for (int j = i+1 ; j < foodDatas.size(); j ++) {
+                if (foodDatas.get(i).getRangeGoods() > foodDatas.get(j).getRangeGoods()) {
+                    YmdGoodsEntity item1  = foodDatas.get(i);
+                    YmdGoodsEntity item2  = foodDatas.get(j);
+                    foodDatas.set(i, item2);
+                    foodDatas.set(j, item1);
+                }
+            }
+        }
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         foodRv.setLayoutManager(linearLayoutManager);
         foodAdapter = new MerchantGoodsListAdapter(foodDatas, getActivity());
