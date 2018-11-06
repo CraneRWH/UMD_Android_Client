@@ -51,8 +51,8 @@ public class UbFragmentAdapter extends RecyclerView.Adapter<UbFragmentAdapter.Vi
         Glide.with(mContext).load(data.getIcon()).into(holder.iconIv);
      //   holder.statusNameTv.setText(ToolUtil.changeString(data.get));
         holder.orderPriceTv.setText(ToolUtil.changeString(data.getPayAmt()));
-        holder.useUTv.setText(ToolUtil.changeString(data.getAvailable() + "U"));
-        holder.uTv.setText(ToolUtil.changeString(data.getNumber()) + "U");
+        holder.useUTv.setText("使用U币："+ToolUtil.changeString(data.getNumber() + "U"));
+        holder.uTv.setText(ToolUtil.changeString(data.getAvailable()) + "U");
         holder.goodsLt.removeAllViews();
         int i = 0;
         for (GoodsForm item : data.getGoods()) {

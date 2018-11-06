@@ -3,6 +3,7 @@ package com.ymd.client.component.adapter.mine;
 import android.content.Context;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,13 +51,15 @@ public class UbFragmentAdapter2 extends CommonRecyclerAdapter<UForm> {
 
     public void onUmdBindViewHolder(UbFragmentAdapter2.ViewHolder holder, int position) {
         UForm data = datas.get(position);
+        if (!TextUtils.isEmpty(data.getIcon())) {
+            Glide.with(mContext).load(data.getIcon()).into(holder.iconIv);
+        }
         holder.merchantNameTv.setText(ToolUtil.changeString(data.getMerchantName()));
         holder.orderDateTv.setText(ToolUtil.changeString(data.getTime()));
-        Glide.with(mContext).load(data.getIcon()).into(holder.iconIv);
      //   holder.statusNameTv.setText(ToolUtil.changeString(data.get));
         holder.orderPriceTv.setText(ToolUtil.changeString(data.getPayAmt()));
-        holder.useUTv.setText(ToolUtil.changeString(data.getAvailable() + "U"));
-        holder.uTv.setText(ToolUtil.changeString(data.getNumber()) + "U");
+        holder.useUTv.setText("新增U币："+ToolUtil.changeString(data.getNumber() + "U"));
+        holder.uTv.setText(ToolUtil.changeString(data.getAvailable()) + "U");
         holder.goodsLt.removeAllViews();
         int i = 0;
         for (GoodsForm item : data.getGoods()) {

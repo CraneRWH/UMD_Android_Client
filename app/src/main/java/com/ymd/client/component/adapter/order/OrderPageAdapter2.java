@@ -84,15 +84,18 @@ public class OrderPageAdapter2 extends CommonRecyclerAdapter<OrderResultForm> {
             holder.uMoneyTv.setText("0");
         }
         holder.productListLt.removeAllViews();
+        int allNum = 0;
         for (YmdOrderGoods item : products) {
             View v = LayoutInflater.from(getContext()).inflate(R.layout.item_fragment_order_page_product, null);
             TextView nameView = v.findViewById(R.id.product_name_tv);
             TextView numView = v.findViewById(R.id.product_num_tv);
             nameView.setText(ToolUtil.changeString(item.getGoodsName()));
             numView.setText("x" + item.getGoodsNum());
+            allNum = allNum + item.getGoodsNum();
             holder.productListLt.addView(v);
         }
 
+        holder.allProductNumTv.setText(ToolUtil.changeString(allNum));
         holder.rootView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -41,8 +41,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="@dimen/mar_pad_len_10px"
-                    android:textSize="@dimen/text_size_32px"
-                    android:text="独一处" />
+                    android:textSize="@dimen/text_size_32px" />
                 <ImageView
                     android:layout_width="12dp"
                     android:layout_height="12dp"
@@ -54,8 +53,7 @@
                 android:id="@+id/order_date_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/text_size_28px"
-                android:text="2017-02-30" />
+                android:textSize="@dimen/text_size_28px"/>
         </LinearLayout>
 
         <View
@@ -69,7 +67,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/mar_pad_len_20px"
-            android:text="支付完成，已使用"
             android:textColor="@color/text_gray_dark" />
     </LinearLayout>
 
@@ -135,8 +132,7 @@
                         style="@style/font_size_24px_gray_"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="@dimen/text_size_32px"
-                        android:text="￥54.9" />
+                        android:textSize="@dimen/text_size_32px" />
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -150,7 +146,7 @@
                         android:layout_height="wrap_content"
                         android:textColor="@color/text_gray_dark"
                         android:textSize="@dimen/text_size_28px"
-                        android:text="使用U币：" />
+                        android:text="" />
 
                     <TextView
                         android:id="@+id/use_u_tv"
@@ -158,8 +154,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="@dimen/text_size_32px"
-                        android:textColor="@color/red"
-                        android:text="-15U" />
+                        android:textColor="@color/red"/>
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -190,8 +185,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="@dimen/text_size_32px"
-                        android:textStyle="bold"
-                        android:text="105U" />
+                        android:textStyle="bold"/>
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
