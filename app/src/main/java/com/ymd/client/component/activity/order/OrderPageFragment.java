@@ -187,7 +187,12 @@ public class OrderPageFragment extends ViewPagerFragment {
                                 break;
                         }
                     } else if (id == R.id.btn2) {
-                        submitOrder(item);
+                        if (item.getOrderStatus() == 0) {
+                            cancelOrder(item, position);
+
+                        } else {
+                            submitOrder(item);
+                        }
                     }
                 }
             });
@@ -210,6 +215,23 @@ public class OrderPageFragment extends ViewPagerFragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+    }
+
+    private void cancelOrder(OrderResultForm data , final int position) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("orderId", data.getmId());
+        WebUtil.getInstance().requestPOST(getActivity(), URLConstant.CANCLE_ORDER, params, true,
+                new WebUtil.WebCallBack() {
+                    @Override
+                    public void onWebSuccess(JSONObject result) {
+                        adapter.deleteItem(position);
+                    }
+
+                    @Override
+                    public void onWebFailed(String errorMsg) {
+
+                    }
+                });
     }
 
     private void submitOrder(OrderResultForm data) {

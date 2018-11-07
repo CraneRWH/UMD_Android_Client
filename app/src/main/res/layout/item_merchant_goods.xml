@@ -6,7 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/white"
     android:orientation="vertical"
-    tools:context=".component.activity.homePage.merchant.fragment.SellerDetailFragment">
+    tools:context=".component.activity.homePage.merchant.fragment.test.SellerDetailFragment">
     <android.support.design.widget.CoordinatorLayout
         android:id="@+id/fragment_main"
         android:fitsSystemWindows="true"

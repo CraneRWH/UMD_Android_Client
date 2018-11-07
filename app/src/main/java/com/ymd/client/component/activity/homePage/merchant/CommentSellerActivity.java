@@ -8,10 +8,12 @@ import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.ymd.client.R;
@@ -93,12 +95,13 @@ public class CommentSellerActivity extends BaseActivity {
         ciutil = new ChoiceImageUtil(this);
         for (int i = 0; i < 5; i ++) {
             final int position = i;
-            CheckBox view = new CheckBox(this);
+            ImageView iv = (ImageView) LayoutInflater.from(this).inflate(R.layout.item_image_star, scoreLt, false);
+        /*    CheckBox view = new CheckBox(this);
             view.setButtonDrawable(R.drawable.checkbox_star_selector);
             view.setChecked(false);
             view.setPadding(5, 0, 5, 0);
-            view.setLayoutParams(new LinearLayout.LayoutParams(30,30));
-            view.setOnClickListener(new View.OnClickListener() {
+            view.setLayoutParams(new LinearLayout.LayoutParams(30,30));*/
+            iv.setOnClickListener(new View.OnClickListener() {
 
                 @Override
                 public void onClick(View arg0) {
@@ -106,7 +109,7 @@ public class CommentSellerActivity extends BaseActivity {
                     score = position + 1;
                 }
             });
-            scoreLt.addView(view);
+            scoreLt.addView(iv);
         }
         pictures = new ArrayList<>();
         PictureEntity picture = new PictureEntity();
@@ -149,12 +152,12 @@ public class CommentSellerActivity extends BaseActivity {
     private void setChoose(LinearLayout layout,int position) {
         score = position + 1;
         for(int i = 0 ; i < layout.getChildCount() ; i ++ ) {
-            CheckBox view = (CheckBox) layout.getChildAt(i);
+            ImageView view = (ImageView) layout.getChildAt(i);
             if (i <= position) {
-                view.setChecked(true);
+                view.setImageResource(R.mipmap.star_yellow_icon);
             }
             else {
-                view.setChecked(false);
+                view.setImageResource(R.mipmap.star_black_icon);
             }
         }
     }

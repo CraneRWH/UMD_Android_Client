@@ -9,9 +9,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.ymd.client.R;
 import com.ymd.client.common.base.OnUMDItemClickListener;
 import com.ymd.client.model.bean.homePage.YmdEvaluationEntity;
@@ -29,6 +31,7 @@ import butterknife.ButterKnife;
  * 修改历史:
  */
 public class EvaluateSellerAdapter extends RecyclerView.Adapter<EvaluateSellerAdapter.ViewHolder> {
+
 
     private List<YmdEvaluationEntity> datas;
     private Context mContext;
@@ -52,15 +55,31 @@ public class EvaluateSellerAdapter extends RecyclerView.Adapter<EvaluateSellerAd
     public void onBindViewHolder(ViewHolder holder, int position) {
 
         YmdEvaluationEntity data = datas.get(position);
+        if (ToolUtil.changeString(data.getUserUrl()).length() > 0) {
+            Glide.with(mContext).load(ToolUtil.changeString(data.getUserUrl())).into(holder.iconIv);
+        }
         holder.shopNameTv.setText(ToolUtil.changeString(data.getMerchantName()));
         holder.descTv.setText(ToolUtil.changeString(data.getContent()));
         holder.dateTv.setText(ToolUtil.changeString(data.getTime()));
         holder.scoreBarView.setRating(ToolUtil.changeFloat(data.getScore()));
         holder.sellerReplayTv.setText(ToolUtil.changeString(data.getReply()));
-        if(ToolUtil.changeString(data.getReply()).length() ==0) {
-            holder.sellerReplayTv.setVisibility(View.GONE);
+        if (ToolUtil.changeString(data.getReply()).length() == 0) {
+            holder.replayLlt.setVisibility(View.GONE);
         } else {
-            holder.sellerReplayTv.setVisibility(View.VISIBLE);
+            holder.replayLlt.setVisibility(View.VISIBLE);
+        }
+        if (data.getFileList().size() == 0) {
+            holder.imageLlt.setVisibility(View.GONE);
+        } else {
+            holder.imageLlt.setVisibility(View.VISIBLE);
+            try {
+                Glide.with(mContext).load(ToolUtil.changeString(data.getUserUrl())).into(holder.iconIv);
+                Glide.with(mContext).load(ToolUtil.changeString(data.getFileList().get(0))).into(holder.itemMyRateImg1);
+                Glide.with(mContext).load(ToolUtil.changeString(data.getFileList().get(1))).into(holder.itemMyRateImg2);
+                Glide.with(mContext).load(ToolUtil.changeString(data.getFileList().get(2))).into(holder.itemMyRateImg3);
+            } catch (IndexOutOfBoundsException e) {
+                e.printStackTrace();
+            }
         }
         holder.rootView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -98,11 +117,18 @@ public class EvaluateSellerAdapter extends RecyclerView.Adapter<EvaluateSellerAd
         RatingBar scoreBarView;
         @BindView(R.id.desc_tv)
         TextView descTv;
-        @BindView(R.id.picture_gv)
-        GridView pictureGv;
         @BindView(R.id.seller_replay_tv)
         TextView sellerReplayTv;
-
+        @BindView(R.id.item_my_rate_img1)
+        ImageView itemMyRateImg1;
+        @BindView(R.id.item_my_rate_img2)
+        ImageView itemMyRateImg2;
+        @BindView(R.id.item_my_rate_img3)
+        ImageView itemMyRateImg3;
+        @BindView(R.id.image_llt)
+        LinearLayout imageLlt;
+        @BindView(R.id.replay_llt)
+        LinearLayout replayLlt;
         ViewHolder(View view) {
             super(view);
             rootView = view;

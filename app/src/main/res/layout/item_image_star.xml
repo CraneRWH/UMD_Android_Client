@@ -1,0 +1,7 @@
+<ImageView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/star_iv"
+    android:padding="@dimen/mar_pad_len_8px"
+    android:layout_width="50dp"
+    android:src="@mipmap/star_black_icon"
+    android:layout_height="50dp">
+</ImageView>

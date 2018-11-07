@@ -1,4 +1,4 @@
-package com.ymd.client.component.activity.homePage.merchant.fragment.test;
+package com.ymd.client.component.activity.homePage.merchant.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;

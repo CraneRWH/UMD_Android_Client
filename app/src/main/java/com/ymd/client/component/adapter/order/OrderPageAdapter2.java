@@ -125,6 +125,7 @@ public class OrderPageAdapter2 extends CommonRecyclerAdapter<OrderResultForm> {
                 holder.btn3.setText("立即支付");
                 holder.statusNameTv.setVisibility(View.VISIBLE);
                 holder.uLlt.setVisibility(View.GONE);
+                holder.btn2.setText("取消订单");
                 break;
             case 1:
                 holder.btn3.setVisibility(View.GONE);
@@ -192,6 +193,16 @@ public class OrderPageAdapter2 extends CommonRecyclerAdapter<OrderResultForm> {
 
     public OnBtnClickListener getBtnClickListener() {
         return btnClickListener;
+    }
+
+    public void refreshItem(OrderResultForm data , int position) {
+        datas.set(position, data);
+        notifyDataSetChanged();
+    }
+
+    public void deleteItem(int position) {
+        datas.remove(position);
+        notifyDataSetChanged();
     }
 
     public void setBtnClickListener(OnBtnClickListener btnClickListener) {
