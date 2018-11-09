@@ -36,6 +36,11 @@ public class YmdRecommendEntity  {
 	 * 商户名称
 	 */
 	private String merchantName;
+
+	/**
+	 * 商品价格
+	 */
+	private double goodsPrice;
     /**
      * 上线时间
      */
@@ -108,6 +113,14 @@ public class YmdRecommendEntity  {
 
 	public void setMerchantName(String merchantName) {
 		this.merchantName = merchantName;
+	}
+
+	public double getGoodsPrice() {
+		return goodsPrice;
+	}
+
+	public void setGoodsPrice(double goodsPrice) {
+		this.goodsPrice = goodsPrice;
 	}
 
 	@Override
