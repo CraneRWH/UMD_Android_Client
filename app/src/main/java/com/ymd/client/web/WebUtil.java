@@ -118,7 +118,7 @@ public class WebUtil {
         }
 
         Gson gson = new Gson();
-        LogUtil.showW("▶▶ " + method + " ▶ " + gson.toJson(params));
+        LogUtil.showW(">>>> " + method + " >> " + gson.toJson(params));
         String GET_URL = attachHttpGetParams(webUrl + method, params);
         Request request = new Request.Builder()
                 .url(GET_URL)
@@ -151,7 +151,7 @@ public class WebUtil {
             ToastUtil.ToastMessage(context, "请首先登陆");
             return;
         }
-    //    LogUtil.showW("▶▶ " + method + " ▶ " + new Gson().toJson(params));
+    //    LogUtil.showW(">>>> " + method + " >> " + new Gson().toJson(params));
         RequestBody requestBody = paramsBuilder(context, method, params, isLogin, isDialog);
         Request request = new Request.Builder()
                 .post(requestBody)
@@ -271,8 +271,8 @@ public class WebUtil {
         }
 
         Gson gson = new Gson();
-        LogUtil.showW("▶▶ " + method + " ▶ " + gson.toJson(params));
-     //   System.out.println("▶▶ " + method + " ▶ " + gson.toJson(params));
+        LogUtil.showW(">>>> " + method + " >> " + gson.toJson(params));
+     //   System.out.println(">>>> " + method + " >> " + gson.toJson(params));
         RequestBody requestBody = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), gson.toJson(params));
         return requestBody;
     }

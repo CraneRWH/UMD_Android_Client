@@ -31,6 +31,7 @@ import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.ymd.client.R;
 import com.ymd.client.component.activity.homePage.merchant.fragment.EvaluateSellerFragment;
+import com.ymd.client.component.activity.homePage.merchant.fragment.test.MerchantGoodsFragment_;
 import com.ymd.client.component.activity.homePage.merchant.seller.ShopCarPopupWindow;
 import com.ymd.client.component.activity.homePage.merchant.fragment.MerchantGoodsFragment;
 import com.ymd.client.component.activity.homePage.merchant.fragment.MerchantZiZhiFragment;
@@ -38,6 +39,7 @@ import com.ymd.client.component.activity.order.detail.OrderDetailActivity;
 import com.ymd.client.component.adapter.TabFragmentAdapter;
 import com.ymd.client.component.event.GoodsEvent;
 import com.ymd.client.component.event.MessageEvent;
+import com.ymd.client.component.event.OrderListRefreshEvent;
 import com.ymd.client.component.widget.dialog.CommonDialogs;
 import com.ymd.client.model.bean.homePage.MerchantInfoEntity;
 import com.ymd.client.model.bean.homePage.YmdGoodsEntity;
@@ -594,6 +596,7 @@ public class MerchantDetailActivity extends TabBaseActivity {
                     @Override
                     public void onWebSuccess(JSONObject result) {
                         toOrderDetail(result.optString("id"));
+                        EventBus.getDefault().post(new OrderListRefreshEvent(true));
                     }
 
                     @Override

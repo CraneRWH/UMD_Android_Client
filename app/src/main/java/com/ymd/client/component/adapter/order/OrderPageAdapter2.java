@@ -131,12 +131,14 @@ public class OrderPageAdapter2 extends CommonRecyclerAdapter<OrderResultForm> {
                 holder.btn3.setVisibility(View.GONE);
                 holder.statusNameTv.setVisibility(View.VISIBLE);
                 holder.uLlt.setVisibility(View.VISIBLE);
+                holder.btn2.setText("再来一单");
                 //    holder.statusNameTv.setText("待接单");
                 break;
             case 2:
                 holder.btn3.setVisibility(View.GONE);
                 holder.statusNameTv.setVisibility(View.VISIBLE);
                 holder.uLlt.setVisibility(View.VISIBLE);
+                holder.btn2.setText("再来一单");
                 //    holder.statusNameTv.setText("待确认");
                 break;
             case 3:
@@ -150,6 +152,7 @@ public class OrderPageAdapter2 extends CommonRecyclerAdapter<OrderResultForm> {
                 }
                 holder.statusNameTv.setVisibility(View.GONE);
                 holder.uLlt.setVisibility(View.GONE);
+                holder.btn2.setText("再来一单");
                 //    holder.statusNameTv.setText("已拒单");
                 break;
             case 4:
@@ -158,6 +161,7 @@ public class OrderPageAdapter2 extends CommonRecyclerAdapter<OrderResultForm> {
 
                 holder.statusNameTv.setVisibility(View.VISIBLE);
                 holder.uLlt.setVisibility(View.VISIBLE);
+                holder.btn2.setText("再来一单");
                 //    holder.statusNameTv.setText("待评价");
                 break;
             case 5:
@@ -166,6 +170,7 @@ public class OrderPageAdapter2 extends CommonRecyclerAdapter<OrderResultForm> {
                 holder.btn3.setVisibility(View.GONE);
                 holder.statusNameTv.setVisibility(View.VISIBLE);
                 holder.uLlt.setVisibility(View.VISIBLE);
+                holder.btn2.setText("再来一单");
                 //    holder.statusNameTv.setText("");
         }
         holder.btn3.setOnClickListener(new View.OnClickListener() {

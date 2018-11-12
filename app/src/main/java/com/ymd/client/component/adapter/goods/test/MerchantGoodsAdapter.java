@@ -71,6 +71,8 @@ public class MerchantGoodsAdapter extends RecyclerView.Adapter<MerchantGoodsAdap
     public void onBindViewHolder(ViewHolder holder, int position) {
         if (position == 0) {
             refreshRecommendDatas(holder);
+
+        } else if (position == 1){
             listAdapter = new MerchantGoodsListAdapter_(merchantInfo, typeDatas, foodDatas,mContext);
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mContext);
             holder.recyclerView.setLayoutManager(linearLayoutManager);
@@ -81,7 +83,6 @@ public class MerchantGoodsAdapter extends RecyclerView.Adapter<MerchantGoodsAdap
                 }
             });
             holder.recyclerView.setAdapter(listAdapter);
-        } else {
             holder.rootView.setVisibility(View.GONE);
         }
 

@@ -219,13 +219,14 @@ public class OrderPageFragment extends ViewPagerFragment {
 
     private void cancelOrder(OrderResultForm data , final int position) {
         Map<String, Object> params = new HashMap<>();
-        params.put("orderId", data.getmId());
+        params.put("orderId", data.getId());
     //    params.put("payType", data.getP);
         WebUtil.getInstance().requestPOST(getActivity(), URLConstant.CANCLE_ORDER, params, true,
                 new WebUtil.WebCallBack() {
                     @Override
                     public void onWebSuccess(JSONObject result) {
                         adapter.deleteItem(position);
+                        ToastUtil.ToastMessage(getActivity(), result.optString("msg"));
                     }
 
                     @Override
@@ -255,6 +256,7 @@ public class OrderPageFragment extends ViewPagerFragment {
                     @Override
                     public void onWebSuccess(JSONObject result) {
                         toOrderDetail(result.optString("id"), data);
+                        EventBus.getDefault().post(new OrderListRefreshEvent(true));
                     }
 
                     @Override
