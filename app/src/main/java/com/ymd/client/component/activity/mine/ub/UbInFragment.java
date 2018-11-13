@@ -103,7 +103,7 @@ public class UbInFragment extends Fragment {
 
     private void requestUlist() {
         Map<String, Object> params = new HashMap<>();
-        params.put("type", 1);
+        params.put("type", 0);
         params.put("pageNum", page);
         WebUtil.getInstance().requestPOST(getActivity(), URLConstant.QUEYR_U_LIST, params, true,
                 new WebUtil.WebCallBack() {

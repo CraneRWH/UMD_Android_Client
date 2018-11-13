@@ -143,13 +143,14 @@ public class OrderPageAdapter2 extends CommonRecyclerAdapter<OrderResultForm> {
                 break;
             case 3:
                 holder.btn3.setVisibility(View.VISIBLE);
-                if (data.getPayStatus() == 5) {
+                /*if (data.getPayStatus() == 5) {
                     holder.btn3.setText("退款中");
                 } else if (data.getPayStatus() == 6) {
                     holder.btn3.setText("退款成功");
                 } else if (data.getPayStatus() == 7) {
                     holder.btn3.setText("退款失败");
-                }
+                }*/
+                holder.btn3.setText(UmdDataConstants.payStatusList[ToolUtil.changeInteger(data.getPayStatus())]);
                 holder.statusNameTv.setVisibility(View.GONE);
                 holder.uLlt.setVisibility(View.GONE);
                 holder.btn2.setText("再来一单");

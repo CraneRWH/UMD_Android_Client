@@ -263,9 +263,7 @@ public class FunctionItemActivity extends BaseActivity implements ViewPager.OnPa
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    MerchantInfoEntity data = new MerchantInfoEntity();
-                    data.setId(item.getGoodsId());
-                    MerchantDetailActivity.startAction(FunctionItemActivity.this,data, functionType);
+                    MerchantDetailActivity.startAction(FunctionItemActivity.this,item.getMerchantId(), functionType);
                 }
             });
             recommendLayout.addView(view);

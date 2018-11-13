@@ -15,4 +15,14 @@ public class UmdDataConstants {
         "订单已失效",
         "已评价"
     };
+    public static final String[] payStatusList = new String[]{
+            "创建",
+            "待支付",
+            "支付成功",
+            "支付失败",
+            "退款申请",
+            "退款处理中",
+            "退款成功",
+            "退款失败"
+    };
 }

@@ -2,8 +2,7 @@ package com.ymd.client.component.activity.homePage.merchant.fragment;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.AppBarLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -19,11 +18,12 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.ymd.client.R;
 import com.ymd.client.common.base.OnUMDItemClickListener;
-import com.ymd.client.component.adapter.goods.MerchantGoodsListAdapter;
 import com.ymd.client.component.adapter.goods.MerchantGoodTypeListAdapter;
+import com.ymd.client.component.adapter.goods.MerchantGoodsListAdapter;
 import com.ymd.client.component.adapter.merchant.PersonAdapter;
 import com.ymd.client.component.event.GoodsEvent;
 import com.ymd.client.component.event.GoodsListEvent;
+import com.ymd.client.component.event.MEvent;
 import com.ymd.client.model.bean.homePage.MerchantInfoEntity;
 import com.ymd.client.model.bean.homePage.YmdGoodsEntity;
 import com.ymd.client.model.bean.homePage.YmdRangeGoodsEntity;
@@ -56,14 +56,16 @@ public class MerchantGoodsFragment extends BaseFragment implements PersonAdapter
     Unbinder unbinder;
     @BindView(R.id.recommendLayout)
     LinearLayout recommendLayout;
-    @BindView(R.id.fcollapsing)
-    CollapsingToolbarLayout fcollapsing;
+    /*    @BindView(R.id.fcollapsing)
+        CollapsingToolbarLayout fcollapsing;*/
     @BindView(R.id.type_rv)
     RecyclerView typeRv;
     @BindView(R.id.food_rv)
     RecyclerView foodRv;
-    @BindView(R.id.fragment_main)
-    CoordinatorLayout fragmentMain;
+    @BindView(R.id.appbar)
+    AppBarLayout appbar;
+/*    @BindView(R.id.fragment_main)
+    CoordinatorLayout fragmentMain;*/
 
     //存储含有标题的第一个含有商品类别名称的条目的下表
     private List<Integer> titlePois = new ArrayList<>();
@@ -75,6 +77,7 @@ public class MerchantGoodsFragment extends BaseFragment implements PersonAdapter
     private List<YmdRangeGoodsEntity> typeDatas = new ArrayList<>();
     private List<YmdGoodsEntity> foodDatas = new ArrayList<>();
     MerchantInfoEntity merchantInfo;
+
     public MerchantGoodsFragment() {
         // Required empty public constructor
     }
@@ -90,7 +93,7 @@ public class MerchantGoodsFragment extends BaseFragment implements PersonAdapter
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments()!=null) {
+        if (getArguments() != null) {
             merchantInfo = (MerchantInfoEntity) getArguments().getSerializable("merchant");
         }
     }
@@ -106,19 +109,19 @@ public class MerchantGoodsFragment extends BaseFragment implements PersonAdapter
     }
 
     private void initView() {
-     //   setRecommendLayoutData();
-        if(!EventBus.getDefault().isRegistered(this))
+        //   setRecommendLayoutData();
+        if (!EventBus.getDefault().isRegistered(this))
             EventBus.getDefault().post(new GoodsEvent());
         requestRecommendData();
         requestFoodType();
         requestFoodList();
-    //    setFoodTypeData();
-    //    setFoodData();
+        //    setFoodTypeData();
+        //    setFoodData();
     }
 
     private void requestRecommendData() {
-        Map<String,Object> params = new HashMap<>();
-        params.put("merchantId",merchantInfo.getId());
+        Map<String, Object> params = new HashMap<>();
+        params.put("merchantId", merchantInfo.getId());
         WebUtil.getInstance().requestPOST(getActivity(), URLConstant.MERCHANT_RECOMMEND_GOODS, params,
                 new WebUtil.WebCallBack() {
                     @Override
@@ -134,8 +137,10 @@ public class MerchantGoodsFragment extends BaseFragment implements PersonAdapter
     }
 
     List<YmdGoodsEntity> recommendFoodDatas = new ArrayList<>();
+
     private void setRecommendLayoutData(String resultJson) {
-        recommendFoodDatas = new Gson().fromJson(resultJson, new TypeToken<List<YmdGoodsEntity>>(){}.getType());
+        recommendFoodDatas = new Gson().fromJson(resultJson, new TypeToken<List<YmdGoodsEntity>>() {
+        }.getType());
         refreshRecommendDatas();
     }
 
@@ -169,9 +174,9 @@ public class MerchantGoodsFragment extends BaseFragment implements PersonAdapter
                 e.printStackTrace();
             }
             name_tv.setText(data.getGoodsName());
-            sale_num_tv.setText("月销 "+data.getSales());
+            sale_num_tv.setText("月销 " + data.getSales());
             now_price_tv.setText(ToolUtil.changeString(data.getPreferentialPrice()));
-            if(ToolUtil.changeInteger(data.getBuyCount()) > 0) {
+            if (ToolUtil.changeInteger(data.getBuyCount()) > 0) {
                 num_tv.setText(ToolUtil.changeString(data.getBuyCount()));
                 sub_btn.setVisibility(View.VISIBLE);
                 num_tv.setVisibility(View.VISIBLE);
@@ -214,8 +219,8 @@ public class MerchantGoodsFragment extends BaseFragment implements PersonAdapter
     }
 
     private void requestFoodType() {
-        Map<String,Object> params = new HashMap<>();
-        params.put("merchantId",merchantInfo.getId());
+        Map<String, Object> params = new HashMap<>();
+        params.put("merchantId", merchantInfo.getId());
         WebUtil.getInstance().requestPOST(getActivity(), URLConstant.MERCHANT_GOOD_TYPE, params,
                 new WebUtil.WebCallBack() {
                     @Override
@@ -233,12 +238,13 @@ public class MerchantGoodsFragment extends BaseFragment implements PersonAdapter
     @SuppressLint("ResourceAsColor")
     private void setFoodTypeData(String resultJson) {
 
-        typeDatas = new Gson().fromJson(resultJson, new TypeToken<List<YmdRangeGoodsEntity>>(){}.getType());
-        for (int i = 0 ; i < typeDatas.size(); i ++ ) {
-            for (int j = i+1 ; j < typeDatas.size(); j ++) {
+        typeDatas = new Gson().fromJson(resultJson, new TypeToken<List<YmdRangeGoodsEntity>>() {
+        }.getType());
+        for (int i = 0; i < typeDatas.size(); i++) {
+            for (int j = i + 1; j < typeDatas.size(); j++) {
                 if (typeDatas.get(i).getId() > typeDatas.get(j).getId()) {
-                    YmdRangeGoodsEntity item1  = typeDatas.get(i);
-                    YmdRangeGoodsEntity item2  = typeDatas.get(j);
+                    YmdRangeGoodsEntity item1 = typeDatas.get(i);
+                    YmdRangeGoodsEntity item2 = typeDatas.get(j);
                     typeDatas.set(i, item2);
                     typeDatas.set(j, item1);
                 }
@@ -276,7 +282,7 @@ public class MerchantGoodsFragment extends BaseFragment implements PersonAdapter
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
-                if (mShouldScroll&& RecyclerView.SCROLL_STATE_IDLE == newState) {
+                if (mShouldScroll && RecyclerView.SCROLL_STATE_IDLE == newState) {
                     mShouldScroll = false;
                     smoothMoveToPosition(typeRv, mToPosition);
                 }
@@ -288,6 +294,7 @@ public class MerchantGoodsFragment extends BaseFragment implements PersonAdapter
     private boolean mShouldScroll;
     //记录目标项位置
     private int mToPosition;
+
     /**
      * 滑动到指定位置
      */
@@ -316,8 +323,8 @@ public class MerchantGoodsFragment extends BaseFragment implements PersonAdapter
 
 
     private void requestFoodList() {
-        Map<String,Object> params = new HashMap<>();
-        params.put("merchantId",merchantInfo.getId());
+        Map<String, Object> params = new HashMap<>();
+        params.put("merchantId", merchantInfo.getId());
         WebUtil.getInstance().requestPOST(getActivity(), URLConstant.MERCHANT_GOOD_LIST, params,
                 new WebUtil.WebCallBack() {
                     @Override
@@ -333,12 +340,13 @@ public class MerchantGoodsFragment extends BaseFragment implements PersonAdapter
     }
 
     private void setFoodData(String resultJson) {
-        foodDatas = new Gson().fromJson(resultJson, new TypeToken<List<YmdGoodsEntity>>(){}.getType());
-        for (int i = 0 ; i < foodDatas.size(); i ++ ) {
-            for (int j = i+1 ; j < foodDatas.size(); j ++) {
+        foodDatas = new Gson().fromJson(resultJson, new TypeToken<List<YmdGoodsEntity>>() {
+        }.getType());
+        for (int i = 0; i < foodDatas.size(); i++) {
+            for (int j = i + 1; j < foodDatas.size(); j++) {
                 if (foodDatas.get(i).getRangeGoods() > foodDatas.get(j).getRangeGoods()) {
-                    YmdGoodsEntity item1  = foodDatas.get(i);
-                    YmdGoodsEntity item2  = foodDatas.get(j);
+                    YmdGoodsEntity item1 = foodDatas.get(i);
+                    YmdGoodsEntity item2 = foodDatas.get(j);
                     foodDatas.set(i, item2);
                     foodDatas.set(j, item1);
                 }
@@ -359,8 +367,8 @@ public class MerchantGoodsFragment extends BaseFragment implements PersonAdapter
                 super.onScrolled(recyclerView, dx, dy);
                 int position = linearLayoutManager.findFirstVisibleItemPosition();
                 long typeId = ToolUtil.changeLong(foodDatas.get(position).getRangeGoods());
-                for (int i=0;i<typeDatas.size();i++){
-                    if(ToolUtil.changeLong(typeDatas.get(i).getId()) == typeId ){
+                for (int i = 0; i < typeDatas.size(); i++) {
+                    if (ToolUtil.changeLong(typeDatas.get(i).getId()) == typeId) {
                         typeAdapter.changeChooseItem(i);
                     }
                 }
@@ -377,7 +385,7 @@ public class MerchantGoodsFragment extends BaseFragment implements PersonAdapter
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(YmdGoodsEntity event) {
         foodAdapter.refreshData(event);
-        for (int i = 0 ; i < recommendFoodDatas.size();i ++) {
+        for (int i = 0; i < recommendFoodDatas.size(); i++) {
             YmdGoodsEntity item = recommendFoodDatas.get(i);
             if (item.getId() == event.getId()) {
                 item.setBuyCount(event.getBuyCount());
@@ -398,6 +406,16 @@ public class MerchantGoodsFragment extends BaseFragment implements PersonAdapter
                 goodscatrgoryEntities.get(i).setBugNum(event.buyNums[i]);
             }
             mGoodsCategoryListAdapter.changeData(goodscatrgoryEntities);*/
+        }
+
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(MEvent event) {
+        if (event.isRefresh()) {
+            appbar.setFocusable(true);
+        } else {
+            appbar.setFocusable(false);
         }
 
     }

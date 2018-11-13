@@ -38,12 +38,14 @@ import com.ymd.client.component.activity.homePage.merchant.fragment.MerchantZiZh
 import com.ymd.client.component.activity.order.detail.OrderDetailActivity;
 import com.ymd.client.component.adapter.TabFragmentAdapter;
 import com.ymd.client.component.event.GoodsEvent;
+import com.ymd.client.component.event.MEvent;
 import com.ymd.client.component.event.MessageEvent;
 import com.ymd.client.component.event.OrderListRefreshEvent;
 import com.ymd.client.component.widget.dialog.CommonDialogs;
 import com.ymd.client.model.bean.homePage.MerchantInfoEntity;
 import com.ymd.client.model.bean.homePage.YmdGoodsEntity;
 import com.ymd.client.model.constant.URLConstant;
+import com.ymd.client.model.helper.AppBarStateChangeListener;
 import com.ymd.client.model.info.LoginInfo;
 import com.ymd.client.utils.AlertUtil;
 import com.ymd.client.utils.AnimationUtil;
@@ -228,6 +230,16 @@ public class MerchantDetailActivity extends TabBaseActivity {
             @Override
             public void onClick(View v) {
                 mapOnLine();
+            }
+        });
+        appBarLayout.addOnOffsetChangedListener(new AppBarStateChangeListener() {
+            @Override
+            public void onStateChanged(AppBarLayout appBarLayout, State state) {
+                if (state == State.COLLAPSED) {
+                    EventBus.getDefault().post(new MEvent(true));
+                } else {
+                    EventBus.getDefault().post(new MEvent(false));
+                }
             }
         });
     }
