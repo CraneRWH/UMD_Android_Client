@@ -63,7 +63,7 @@ public class LogoActivity extends AppCompatActivity {
         setContentView(R.layout.activity_logo);
         View view = findViewById(R.id.splash_parent);
         AlphaAnimation animation = new AlphaAnimation(0.8f, 1.0f);
-        animation.setDuration(2000);
+        animation.setDuration(10);
         view.startAnimation(animation);
 
         animation.setAnimationListener(new Animation.AnimationListener() {
@@ -101,23 +101,28 @@ public class LogoActivity extends AppCompatActivity {
 
     private void requestCities() {
 
+        if (CommonShared.getString(LocationInfo.CITYS_INFO_SETTING, "").length() > 0) {
+            LocationInfo.getInstance().refreshCitiesData();
+            quanxian();
+        } else {
         /*CommonShared.setString(LocationInfo.CITYS_INFO_SETTING, DataUtils.getCityList());
         LocationInfo.getInstance().refreshCitiesData();*/
-        //    toMainActivity();
-        WebUtil.getInstance().requestPOST(this, URLConstant.QUERY_CITY_DATA, null,
-                new WebUtil.WebCallBack() {
-                    @Override
-                    public void onWebSuccess(JSONObject result) {
-                        CommonShared.setString(LocationInfo.CITYS_INFO_SETTING, result.optString("list"));
-                        LocationInfo.getInstance().refreshCitiesData();
-                        quanxian();
-                    }
+            //    toMainActivity();
+            WebUtil.getInstance().requestPOST(this, URLConstant.QUERY_CITY_DATA, null,
+                    new WebUtil.WebCallBack() {
+                        @Override
+                        public void onWebSuccess(JSONObject result) {
+                            CommonShared.setString(LocationInfo.CITYS_INFO_SETTING, result.optString("list"));
+                            LocationInfo.getInstance().refreshCitiesData();
+                            quanxian();
+                        }
 
-                    @Override
-                    public void onWebFailed(String errorMsg) {
+                        @Override
+                        public void onWebFailed(String errorMsg) {
 
-                    }
-                });
+                        }
+                    });
+        }
     }
 
     private void toMainActivity() {
