@@ -7,157 +7,160 @@
     android:orientation="vertical"
     android:paddingBottom="@dimen/mar_pad_len_105px">
 
-        <!--<android.support.design.widget.CoordinatorLayout
-            android:id="@+id/fragment_main"
+    <!--<android.support.design.widget.CoordinatorLayout
+        android:id="@+id/fragment_main"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <android.support.design.widget.AppBarLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:background="@color/white">
 
-            <android.support.design.widget.AppBarLayout
+            <android.support.design.widget.CollapsingToolbarLayout
+                android:id="@+id/fcollapsing"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/white">
+                android:layout_height="match_parent"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
-                <android.support.design.widget.CollapsingToolbarLayout
-                    android:id="@+id/fcollapsing"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    app:layout_scrollFlags="scroll|exitUntilCollapsed">
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical">
+                        android:orientation="horizontal"
+                        android:paddingLeft="@dimen/mar_pad_len_20px"
+                        android:paddingTop="@dimen/mar_pad_len_36px"
+                        android:paddingBottom="@dimen/mar_pad_len_36px">
 
-                        <LinearLayout
-                            android:layout_width="match_parent"
+                        <TextView
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:paddingLeft="@dimen/mar_pad_len_20px"
-                            android:paddingTop="@dimen/mar_pad_len_36px"
-                            android:paddingBottom="@dimen/mar_pad_len_36px">
+                            android:text="商家推荐"
+                            android:textColor="@color/black_"
+                            android:textSize="@dimen/text_size_36px" />
 
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="商家推荐"
-                                android:textColor="@color/black_"
-                                android:textSize="@dimen/text_size_36px" />
-
-                            <TextView
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:background="@color/bg_color"
-                                android:gravity="right"
-                                android:text="更多"
-                                android:textColor="@color/common_text_color"
-                                android:textSize="@dimen/text_size_32px"
-                                android:visibility="gone" />
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
+                        <TextView
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:background="@color/text_gray"
-                            android:orientation="vertical"
-                            android:paddingLeft="@dimen/mar_pad_len_10px">
-
-                            <HorizontalScrollView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:scrollbars="none">
-
-                                <LinearLayout
-                                    android:id="@+id/recommendLayout"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:orientation="horizontal"></LinearLayout>
-                            </HorizontalScrollView>
-
-                        </LinearLayout>
+                            android:layout_weight="1"
+                            android:background="@color/bg_color"
+                            android:gravity="right"
+                            android:text="更多"
+                            android:textColor="@color/common_text_color"
+                            android:textSize="@dimen/text_size_32px"
+                            android:visibility="gone" />
                     </LinearLayout>
 
-                    <android.support.v7.widget.Toolbar
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/mar_pad_len_2px"
+                        android:layout_height="wrap_content"
                         android:background="@color/text_gray"
-                        app:layout_collapseMode="pin">
+                        android:orientation="vertical"
+                        android:paddingLeft="@dimen/mar_pad_len_10px">
 
-                    </android.support.v7.widget.Toolbar>
-                </android.support.design.widget.CollapsingToolbarLayout>
+                        <HorizontalScrollView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:scrollbars="none">
 
-            </android.support.design.widget.AppBarLayout>
+                            <LinearLayout
+                                android:id="@+id/recommendLayout"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"></LinearLayout>
+                        </HorizontalScrollView>
+
+                    </LinearLayout>
+                </LinearLayout>
+
+                <android.support.v7.widget.Toolbar
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/mar_pad_len_2px"
+                    android:background="@color/text_gray"
+                    app:layout_collapseMode="pin">
+
+                </android.support.v7.widget.Toolbar>
+            </android.support.design.widget.CollapsingToolbarLayout>
+
+        </android.support.design.widget.AppBarLayout>
 
 
-        </android.support.design.widget.CoordinatorLayout>-->
-      <android.support.v4.widget.NestedScrollView
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content">
-          <android.support.design.widget.AppBarLayout
-              android:id="@+id/appbar"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:background="@color/white">
-          <android.support.design.widget.CollapsingToolbarLayout
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              app:layout_scrollFlags="scroll|exitUntilCollapsed">
-          <LinearLayout
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:orientation="vertical">
+    </android.support.design.widget.CoordinatorLayout>-->
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-              <LinearLayout
-                  android:layout_width="match_parent"
-                  android:layout_height="wrap_content"
-                  android:orientation="horizontal"
-                  android:paddingLeft="@dimen/mar_pad_len_20px"
-                  android:paddingTop="@dimen/mar_pad_len_36px"
-                  android:paddingBottom="@dimen/mar_pad_len_36px">
+        <android.support.design.widget.AppBarLayout
+            android:id="@+id/appbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white">
 
-                  <TextView
-                      android:layout_width="wrap_content"
-                      android:layout_height="wrap_content"
-                      android:text="商家推荐"
-                      android:textColor="@color/black_"
-                      android:textSize="@dimen/text_size_36px" />
+            <android.support.design.widget.CollapsingToolbarLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
-                  <TextView
-                      android:layout_width="0dp"
-                      android:layout_height="wrap_content"
-                      android:layout_weight="1"
-                      android:background="@color/bg_color"
-                      android:gravity="right"
-                      android:text="更多"
-                      android:textColor="@color/common_text_color"
-                      android:textSize="@dimen/text_size_32px"
-                      android:visibility="gone" />
-              </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
 
-              <LinearLayout
-                  android:layout_width="match_parent"
-                  android:layout_height="wrap_content"
-                  android:background="@color/text_gray"
-                  android:orientation="vertical"
-                  android:paddingLeft="@dimen/mar_pad_len_10px">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:paddingLeft="@dimen/mar_pad_len_14px"
+                        android:paddingTop="@dimen/mar_pad_len_20px"
+                        android:paddingBottom="@dimen/mar_pad_len_20px">
 
-                  <HorizontalScrollView
-                      android:layout_width="match_parent"
-                      android:layout_height="wrap_content"
-                      android:scrollbars="none">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="商家推荐"
+                            android:textColor="@color/black_"
+                            android:textSize="@dimen/text_size_32px" />
 
-                      <LinearLayout
-                          android:id="@+id/recommendLayout"
-                          android:layout_width="match_parent"
-                          android:layout_height="wrap_content"
-                          android:orientation="horizontal"></LinearLayout>
-                  </HorizontalScrollView>
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="@color/bg_color"
+                            android:gravity="right"
+                            android:text="更多"
+                            android:textColor="@color/common_text_color"
+                            android:textSize="@dimen/text_size_32px"
+                            android:visibility="gone" />
+                    </LinearLayout>
 
-              </LinearLayout>
-          </LinearLayout>
-          </android.support.design.widget.CollapsingToolbarLayout>
-          </android.support.design.widget.AppBarLayout>
-      </android.support.v4.widget.NestedScrollView>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/text_gray"
+                        android:orientation="vertical"
+                        android:paddingLeft="@dimen/mar_pad_len_10px">
+
+                        <HorizontalScrollView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:scrollbars="none">
+
+                            <LinearLayout
+                                android:id="@+id/recommendLayout"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"></LinearLayout>
+                        </HorizontalScrollView>
+
+                    </LinearLayout>
+                </LinearLayout>
+            </android.support.design.widget.CollapsingToolbarLayout>
+        </android.support.design.widget.AppBarLayout>
+    </android.support.v4.widget.NestedScrollView>
 
     <LinearLayout
         android:layout_width="match_parent"

@@ -1,8 +1,11 @@
 package com.ymd.client.component.activity.homePage.merchant.fragment;
 
 import android.annotation.SuppressLint;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.AppBarLayout;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -64,6 +67,8 @@ public class MerchantGoodsFragment extends BaseFragment implements PersonAdapter
     RecyclerView foodRv;
     @BindView(R.id.appbar)
     AppBarLayout appbar;
+ /*   @BindView(R.id.scroll_view)
+    NestedScrollView scrollView;*/
 /*    @BindView(R.id.fragment_main)
     CoordinatorLayout fragmentMain;*/
 
@@ -98,6 +103,7 @@ public class MerchantGoodsFragment extends BaseFragment implements PersonAdapter
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -108,6 +114,7 @@ public class MerchantGoodsFragment extends BaseFragment implements PersonAdapter
         return view;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     private void initView() {
         //   setRecommendLayoutData();
         if (!EventBus.getDefault().isRegistered(this))
@@ -146,6 +153,12 @@ public class MerchantGoodsFragment extends BaseFragment implements PersonAdapter
 
     private void refreshRecommendDatas() {
         recommendLayout.removeAllViews();
+        if (recommendFoodDatas == null || recommendFoodDatas.isEmpty()) {
+            appbar.setVisibility(View.GONE);
+            return;
+        } else {
+            appbar.setVisibility(View.VISIBLE);
+        }
         //开始添加数据
         for (int x = 0; x < recommendFoodDatas.size(); x++) {
             //寻找行布局，第一个参数为行布局ID，第二个参数为这个行布局需要放到那个容器上

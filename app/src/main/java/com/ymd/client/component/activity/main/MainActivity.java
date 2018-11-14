@@ -1,28 +1,43 @@
 package com.ymd.client.component.activity.main;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Environment;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.ymd.client.R;
 import com.ymd.client.UApplication;
 import com.ymd.client.common.base.BaseActivity;
+import com.ymd.client.common.base.service.LocationIntentService;
 import com.ymd.client.component.activity.homePage.MainHomePageFragment;
 import com.ymd.client.component.activity.mine.MainMineFragment;
 import com.ymd.client.component.activity.order.MainOrderFragment;
 import com.ymd.client.component.activity.sao.MainSaoFragment;
+import com.ymd.client.component.event.LocationPermissionEvent;
+import com.ymd.client.component.event.OrderListRefreshEvent;
 import com.ymd.client.component.widget.dialog.CommonDialogs;
 import com.ymd.client.model.constant.Constants;
 import com.ymd.client.model.info.LocationInfo;
 import com.ymd.client.utils.PermissionUtils;
 import com.ymd.client.utils.helper.BottomNavigationViewHelper;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.File;
 import java.util.HashMap;
@@ -55,6 +70,26 @@ public class MainActivity extends BaseActivity {
     public static void startAction(Activity context) {
         Intent intent = new Intent(context, MainActivity.class);
         context.startActivity(intent);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        if (!EventBus.getDefault().isRegistered(this))
+            EventBus.getDefault().register(this);
+    /*    Intent intent = new Intent(this, LocationIntentService.class);
+        startService(intent);*/
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
     }
 
     @Override
@@ -141,6 +176,7 @@ public class MainActivity extends BaseActivity {
         }
     }
 
+
     /**
      * 申请文件权限
      */
@@ -192,6 +228,17 @@ public class MainActivity extends BaseActivity {
                     showReqPermissionsDialog();
                 }
                 break;
+            case LOCATION_CODE: {
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // 权限被用户同意。
+                    EventBus.getDefault().post(new LocationPermissionEvent(true, true));
+                } else {
+                    // 权限被用户拒绝了。
+                    Toast.makeText(this, "定位权限被禁止，相关地图功能无法使用！", Toast.LENGTH_LONG).show();
+                }
+
+            }
         }
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
@@ -223,6 +270,43 @@ public class MainActivity extends BaseActivity {
         //裁剪图片的文件夹
         if (!fileCache.exists()) {
             fileCache.mkdirs();
+        }
+    }
+
+
+    private static final int LOCATION_CODE = 1;
+    private LocationManager lm;//【位置管理】
+
+    public void quanxian() {
+        lm = (LocationManager) this.getSystemService(this.LOCATION_SERVICE);
+        boolean ok = lm.isProviderEnabled(LocationManager.GPS_PROVIDER);
+        if (ok) {//开了定位服务
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                    != PackageManager.PERMISSION_GRANTED) {
+                Log.e("BRG", "没有权限");
+                // 没有权限，申请权限。
+                // 申请授权。
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, LOCATION_CODE);
+                //Toast.makeText(getActivity(), "没有权限", Toast.LENGTH_SHORT).show();
+
+            } else {
+                EventBus.getDefault().post(new LocationPermissionEvent(true, true));
+                // 有权限了，去放肆吧。
+                // Toast.makeText(getActivity(), "有权限", Toast.LENGTH_SHORT).show();
+            }
+        } else {
+            Log.e("BRG", "系统检测到未开启GPS定位服务");
+            Toast.makeText(this, "系统检测到未开启GPS定位服务", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent();
+            intent.setAction(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+            startActivityForResult(intent, 1315);
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(LocationPermissionEvent event) {
+        if (event.isGetPermission()) {
+            quanxian();
         }
     }
 }
