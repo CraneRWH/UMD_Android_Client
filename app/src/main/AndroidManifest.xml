@@ -147,6 +147,7 @@
         <activity android:name=".component.activity.mine.info.NickNameChangeActivity" />
         <activity android:name=".component.activity.homePage.functionItem.FunctionItemActivity" />
 
+        <activity android:name=".component.activity.homePage.merchant.seller.test.MerchantDetail2Activity"/>
         <service
             android:name=".common.base.service.LocationIntentService" />
 

@@ -1,4 +1,4 @@
-package com.ymd.client.component.activity.homePage.merchant;
+package com.ymd.client.component.activity.homePage.merchant.seller.test;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -30,11 +30,11 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.ymd.client.R;
+import com.ymd.client.component.activity.homePage.merchant.TabBaseActivity;
 import com.ymd.client.component.activity.homePage.merchant.fragment.EvaluateSellerFragment;
-import com.ymd.client.component.activity.homePage.merchant.fragment.test.MerchantGoodsFragment_;
-import com.ymd.client.component.activity.homePage.merchant.seller.ShopCarPopupWindow;
 import com.ymd.client.component.activity.homePage.merchant.fragment.MerchantGoodsFragment;
 import com.ymd.client.component.activity.homePage.merchant.fragment.MerchantZiZhiFragment;
+import com.ymd.client.component.activity.homePage.merchant.seller.ShopCarPopupWindow;
 import com.ymd.client.component.activity.order.detail.OrderDetailActivity;
 import com.ymd.client.component.adapter.TabFragmentAdapter;
 import com.ymd.client.component.event.GoodsEvent;
@@ -70,7 +70,7 @@ import butterknife.ButterKnife;
 /**
  * 商户详情
  */
-public class MerchantDetailActivity extends TabBaseActivity {
+public class MerchantDetail2Activity extends TabBaseActivity {
     @BindView(R.id.icon_iv)
     ImageView iconIv;
     @BindView(R.id.name_tv)
@@ -126,15 +126,13 @@ public class MerchantDetailActivity extends TabBaseActivity {
 
     private Long merchantId;
 
-    private boolean isCollection = false;   //是否收藏此商家
-
     /**
      * 启动
      *
      * @param context
      */
     public static void startAction(Activity context, MerchantInfoEntity merchant, int functionType) {
-        Intent intent = new Intent(context, MerchantDetailActivity.class);
+        Intent intent = new Intent(context, MerchantDetail2Activity.class);
         intent.putExtra("merchant", merchant);
         intent.putExtra("functionType", functionType);
         context.startActivity(intent);
@@ -147,7 +145,7 @@ public class MerchantDetailActivity extends TabBaseActivity {
      * @param context
      */
     public static void startAction(Activity context, Long merchantId, int functionType) {
-        Intent intent = new Intent(context, MerchantDetailActivity.class);
+        Intent intent = new Intent(context, MerchantDetail2Activity.class);
         intent.putExtra("merchantId", merchantId);
         intent.putExtra("functionType", functionType);
         context.startActivity(intent);
@@ -157,7 +155,7 @@ public class MerchantDetailActivity extends TabBaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_merchant_detail);
+        setContentView(R.layout.activity_merchant_detail2);
         ButterKnife.bind(this);
         setCollsapsing();
         initView();
@@ -183,11 +181,7 @@ public class MerchantDetailActivity extends TabBaseActivity {
         collectionIv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!isCollection)
                 addCollection();
-                else {
-                    delCollection();
-                }
             }
         });
 
@@ -212,7 +206,7 @@ public class MerchantDetailActivity extends TabBaseActivity {
             @Override
             public void onClick(View v) {
                 if (buyList.isEmpty()) {
-                    ToastUtil.ToastMessage(MerchantDetailActivity.this,"请选择要购买的商品");
+                    ToastUtil.ToastMessage(MerchantDetail2Activity.this,"请选择要购买的商品");
                 } else {
                     submitOrder();
                 }
@@ -229,7 +223,7 @@ public class MerchantDetailActivity extends TabBaseActivity {
         shareIv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ToastUtil.ToastMessage(MerchantDetailActivity.this, "功能开发中，敬请期待");
+                ToastUtil.ToastMessage(MerchantDetail2Activity.this, "功能开发中，敬请期待");
             }
         });
         addressTv.setOnClickListener(new View.OnClickListener() {
@@ -320,15 +314,15 @@ public class MerchantDetailActivity extends TabBaseActivity {
                 switch (position) {
                     case 0:
                         shopCartMain.startAnimation(
-                                AnimationUtil.createInAnimation(MerchantDetailActivity.this, shopCartMain.getMeasuredHeight()));
+                                AnimationUtil.createInAnimation(MerchantDetail2Activity.this, shopCartMain.getMeasuredHeight()));
                         break;
                     case 1:
                         shopCartMain.startAnimation(
-                                AnimationUtil.createOutAnimation(MerchantDetailActivity.this, shopCartMain.getMeasuredHeight()));
+                                AnimationUtil.createOutAnimation(MerchantDetail2Activity.this, shopCartMain.getMeasuredHeight()));
                         break;
                     case 2:
                         shopCartMain.startAnimation(
-                                AnimationUtil.createOutAnimation(MerchantDetailActivity.this, shopCartMain.getMeasuredHeight()));
+                                AnimationUtil.createOutAnimation(MerchantDetail2Activity.this, shopCartMain.getMeasuredHeight()));
                         break;
                 }
 
@@ -372,13 +366,11 @@ public class MerchantDetailActivity extends TabBaseActivity {
                     @Override
                     public void onWebSuccess(JSONObject result) {
                         ToastUtil.ToastMessage(getApplicationContext(), "收藏成功");
-                        isCollection = true;
-                        collectionIv.setImageResource(R.mipmap.collection_green_icon);
                     }
 
                     @Override
                     public void onWebFailed(String errorMsg) {
-                        ToastUtil.ToastMessage(getApplicationContext(), "收藏失败");
+                        ToastUtil.ToastMessage(getApplicationContext(), "收藏成功");
                     }
                 });
     }
@@ -394,14 +386,12 @@ public class MerchantDetailActivity extends TabBaseActivity {
                 new WebUtil.WebCallBack() {
                     @Override
                     public void onWebSuccess(JSONObject result) {
-                        ToastUtil.ToastMessage(getApplicationContext(), "取消收藏成功");
-                        isCollection = false;
-                        collectionIv.setImageResource(R.mipmap.icon_merchant_collect);
+                        ToastUtil.ToastMessage(getApplicationContext(), "收藏成功");
                     }
 
                     @Override
                     public void onWebFailed(String errorMsg) {
-                        ToastUtil.ToastMessage(getApplicationContext(), "取消收藏失败");
+                        ToastUtil.ToastMessage(getApplicationContext(), "收藏成功");
                     }
                 });
     }
