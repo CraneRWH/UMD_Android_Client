@@ -373,7 +373,7 @@ public class MerchantDetailActivity extends TabBaseActivity {
                     public void onWebSuccess(JSONObject result) {
                         ToastUtil.ToastMessage(getApplicationContext(), "收藏成功");
                         isCollection = true;
-                        collectionIv.setImageResource(R.mipmap.collection_green_icon);
+                        collectionIv.setImageResource(R.mipmap.collection_red_icon);
                     }
 
                     @Override
