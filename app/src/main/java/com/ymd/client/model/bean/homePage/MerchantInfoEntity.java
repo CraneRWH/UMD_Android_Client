@@ -76,6 +76,16 @@ public class MerchantInfoEntity implements Serializable {
     //门头照
     private String photoUrl;
 
+    private int collection;
+
+    public int getCollection() {
+        return collection;
+    }
+
+    public void setCollection(int collection) {
+        this.collection = collection;
+    }
+
     public String getPhotoUrl() {
         return photoUrl;
     }

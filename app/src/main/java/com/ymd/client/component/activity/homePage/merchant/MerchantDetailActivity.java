@@ -288,6 +288,9 @@ public class MerchantDetailActivity extends TabBaseActivity {
             merchantInfo.setDiscount("10");
         }
         workTimeTv.setText(ToolUtil.changeString(merchantInfo.getStartBusinessTime()) + "-" + ToolUtil.changeString(merchantInfo.getEndBusinessTime()));
+
+        isCollection = ToolUtil.changeInteger(merchantInfo.getCollection()) > 0 ? true : false;
+        setCollectionImage();
     }
 
     private void setViewPager() {
@@ -344,6 +347,7 @@ public class MerchantDetailActivity extends TabBaseActivity {
     private void requestMerchantInfo() {
         Map<String, Object> params = new HashMap<>();
         params.put("merchantId", merchantId);
+        params.put("consumerId", LoginInfo.getInstance().getLoginInfo().getId());
         WebUtil.getInstance().requestPOST(this, URLConstant.MERCHANT_DETAIL_INFO, params,
                 new WebUtil.WebCallBack() {
                     @Override
@@ -360,6 +364,14 @@ public class MerchantDetailActivity extends TabBaseActivity {
                 });
     }
 
+    private void setCollectionImage() {
+        if (isCollection) {
+            collectionIv.setImageResource(R.mipmap.collection_red_icon);
+        } else {
+            collectionIv.setImageResource(R.mipmap.icon_merchant_collect);
+        }
+    }
+
     /**
      * 添加收藏
      */
@@ -373,7 +385,7 @@ public class MerchantDetailActivity extends TabBaseActivity {
                     public void onWebSuccess(JSONObject result) {
                         ToastUtil.ToastMessage(getApplicationContext(), "收藏成功");
                         isCollection = true;
-                        collectionIv.setImageResource(R.mipmap.collection_red_icon);
+                        setCollectionImage();
                     }
 
                     @Override
@@ -396,7 +408,7 @@ public class MerchantDetailActivity extends TabBaseActivity {
                     public void onWebSuccess(JSONObject result) {
                         ToastUtil.ToastMessage(getApplicationContext(), "取消收藏成功");
                         isCollection = false;
-                        collectionIv.setImageResource(R.mipmap.icon_merchant_collect);
+                        setCollectionImage();
                     }
 
                     @Override

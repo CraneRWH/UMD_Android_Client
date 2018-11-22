@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.ymd.client.R;
 import com.ymd.client.common.base.OnUMDItemClickListener;
 import com.ymd.client.component.adapter.CommonRecyclerAdapter;
@@ -57,6 +59,12 @@ public class MerchantCollectionListAdapter extends CommonRecyclerAdapter<Merchan
 
         MerchantInfoEntity data = datas.get(position);
         holder.nameTv.setText(ToolUtil.changeString(data.getName()));
+        if (data.getFile() != null && !data.getFile().isEmpty()) {
+            Glide.with(mContext).load(ToolUtil.changeString(data.getFile().get(0).getUrl())).into(holder.iconIv);
+        }
+        if (!TextUtils.isEmpty(data.getPhotoUrl())) {
+            Glide.with(mContext).load(data.getPhotoUrl()).into(holder.iconIv);
+        }
         if (data.getDistance() == null) {
             data.setDistance(ToolUtil.Distance(ToolUtil.changeDouble(data.getLatitude()), ToolUtil.changeDouble(data.getLongitude())));
         }
