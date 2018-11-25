@@ -220,6 +220,10 @@ public class URLConstant {
      */
     public static final String ORDER_PAY_INFO = "ymdOrder/orderQuery";
 
+    /**
+     * 支付信息
+     */
+    public static final String ORDER_PAY = "ymdOrder/pay";
 
     /**
      * 获取个人的评论列表

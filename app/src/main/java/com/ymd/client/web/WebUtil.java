@@ -494,4 +494,68 @@ public class WebUtil {
         }
     }
 
+    /**
+     * POST请求方式
+     *
+     * @param context  调用的Context
+     * @param method   接口名称
+     * @param params   额外添加的参数
+     *                 @params isLogin  是否需要登录
+     * @param callback 回调方法
+     */
+    public void requestPOSTS(Context context,
+                            final String method,
+                            Map<String, Object> params,  //附加信息
+                            boolean isLogin,
+                            final WebCallBacks callback) {
+
+        if (isLogin && !LoginInfo.isLogin && !LoginByPWActivity.isFront) {
+            //   ToolUtil.toLoginHandler.sendEmptyMessage(0);
+            LoginByPWActivity.startAction(context);
+            ToastUtil.ToastMessage(context, "请首先登陆");
+            return;
+        }
+        //    LogUtil.showW(">>>> " + method + " >> " + new Gson().toJson(params));
+        RequestBody requestBody = paramsBuilder(context, method, params, isLogin, true);
+        Request request = new Request.Builder()
+                .post(requestBody)
+                .addHeader("token", CommonShared.getString(CommonShared.LOGIN_TOKEN,""))
+                .url(webUrl + method)
+                .build();
+        try {
+            mOkHttpClient.newCall(request).enqueue(new Callback() {
+                @Override
+                public void onFailure(Call call, IOException e) {
+                    callback.onWebFailed("操作失败");
+                }
+
+                @Override
+                public void onResponse(Call call, Response response) throws IOException {
+                    dismissLoadingDialog();
+                    if (response.isSuccessful()) {
+                        String result = response.body().string();
+
+                        LogUtil.showW("★★ " + method + " ★ " + result);
+                        callback.onWebSuccess(result);
+                    } else {
+                        callback.onWebFailed("操作失败");
+                    }
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public interface WebCallBacks<T> {
+        /**
+         * 响应成功
+         */
+        void onWebSuccess(T resultJson);
+
+        /**
+         * 响应失败
+         */
+        void onWebFailed(String errorMsg);
+    }
 }

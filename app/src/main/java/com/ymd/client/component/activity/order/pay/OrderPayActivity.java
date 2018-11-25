@@ -260,15 +260,38 @@ public class OrderPayActivity extends BaseActivity {
      * 调用微信支付
      */
     private void gotoWechat(String wechatMoneyView,String wechatUrlView){
-
-        Intent mIntent = new Intent(this, PayWayActivity.class);
-        mIntent.putExtra(PaysdkConstants.CHINAPNR_PAY_WAY_KEY,PaysdkConstants.WECHAT_WAY);//选择微信支付
         String tradeMoney = "{\"orderId\": \"%s\" } ";
+        Map<String,String> dataMap = new HashMap();
+        dataMap.put(PaysdkConstants.PAY_PARAM_INFO_KEY, TextUtils.isEmpty(wechatMoneyView) ? "" : String.format(tradeMoney, wechatMoneyView));
+        dataMap.put(PaysdkConstants.QUICK_PAY_URL_KEY,wechatUrlView);
+        Map<String, Object> params = new HashMap<>();
+        params.put("self_param_info", dataMap);
+        params.put("pay_type", "10");
+        WebUtil.getInstance().requestPOSTS(this, URLConstant.ORDER_PAY, params,true,
+                new WebUtil.WebCallBacks<String>() {
+                    @Override
+                    public void onWebSuccess(String result) {
+                        wechatPay(result);
+                    }
+
+                    @Override
+                    public void onWebFailed(String errorMsg) {
+
+                    }
+                });
+        /*Intent mIntent = new Intent(this, PayWayActivity.class);
+        mIntent.putExtra(PaysdkConstants.CHINAPNR_PAY_WAY_KEY,PaysdkConstants.WECHAT_WAY);//选择微信支付
+
         mIntent.putExtra(PaysdkConstants.PAY_PARAM_INFO_KEY,String.format(tradeMoney, wechatMoneyView));
         mIntent.putExtra(PaysdkConstants.APP_PAY_URL_KEY,wechatUrlView);
+*/
 
+ //       startActivityForResult(mIntent,REQ_CODE);
+    }
+
+    private void wechatPay(String payInfo) {
+        String result = ToolUtil.UrlCode2String(payInfo);
         showPayResultDialog();
-        startActivityForResult(mIntent,REQ_CODE);
     }
 
     private void showPayResultDialog() {
@@ -292,26 +315,7 @@ public class OrderPayActivity extends BaseActivity {
             ToastUtil.ToastMessage(this, "请选择付款方式");
             return;
         }
-     /*   Map<String, Object> params = new HashMap<>();
-        params.put("orderId", orderId);
-        params.put("payType", payTypeStr);
-        WebUtil.getInstance().requestPOST(this, URLConstant.ORDER_PAY_INFO, params,true,
-                new WebUtil.WebCallBack() {
-                    @Override
-                    public void onWebSuccess(JSONObject result) {
-                //        resetOrderView(result.optString("ymdOrder"));
-                        if (payType == 0) {
-                            gotoAlipay(result.optString("money"), result.optString("url"));
-                        } else {
-                            gotoWechat(result.optString("money"), result.optString("url"));
-                        }
-                    }
-
-                    @Override
-                    public void onWebFailed(String errorMsg) {
-
-                    }
-                });*/
+     /*  */
         if (payType == 0) {
             gotoAlipay(ToolUtil.changeString(orderDetail.getId()), WebUtil.webUrl + "ymdOrder/pay");
         } else {

@@ -11,10 +11,13 @@ import android.util.Log;
 
 import com.ymd.client.model.info.LocationInfo;
 
+import java.io.UnsupportedEncodingException;
 import java.math.RoundingMode;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
@@ -404,5 +407,27 @@ public class ToolUtil {
 		double tempLat = z * Math.sin(theta) + 0.006;
 		double[] gps = {tempLat, tempLon};
 		return gps;
+	}
+
+	/**
+	 * URLEncode和URLDecode用于完成普通字符串和 application/x-www-from-urlencoded MIME字符串之间的相互转化
+	 * @param urlCode
+	 * @return
+	 */
+	public static String UrlCode2String(String urlCode) {
+		try {
+			// 将application/x-www-from-urlencoded字符串转换成普通字符串
+			String keyWord = URLDecoder.decode(urlCode, "UTF-8");
+			return keyWord;
+			/*System.out.println(keyWord);  //输出你好
+			// 将普通字符创转换成application/x-www-from-urlencoded字符串
+			String urlString = URLEncoder.encode("你好", "GBK");  //输出%C4%E3%BA%C3
+
+			System.out.println(urlString);*/
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return "";
 	}
 }
