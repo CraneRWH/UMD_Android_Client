@@ -499,13 +499,13 @@ public class WebUtil {
      *
      * @param context  调用的Context
      * @param method   接口名称
-     * @param params   额外添加的参数
+     * @param orderId   额外添加的参数
      *                 @params isLogin  是否需要登录
      * @param callback 回调方法
      */
     public void requestPOSTS(Context context,
                             final String method,
-                            Map<String, Object> params,  //附加信息
+                            String orderId,  //附加信息
                             boolean isLogin,
                             final WebCallBacks callback) {
 
@@ -516,10 +516,21 @@ public class WebUtil {
             return;
         }
         //    LogUtil.showW(">>>> " + method + " >> " + new Gson().toJson(params));
-        RequestBody requestBody = paramsBuilder(context, method, params, isLogin, true);
+    //    RequestBody requestBody = paramsBuilder(context, method, params, isLogin, true);
+        Map<String,String> dataMap = new HashMap();
+        dataMap.put("orderId", orderId);
+        RequestBody multipartBody = new MultipartBody.Builder()
+                .setType(MultipartBody.ALTERNATIVE)
+                .addFormDataPart("self_param_info",new Gson().toJson(dataMap))
+                .addFormDataPart("pay_type","10")
+        /*        .addFormDataPart("volume",currentPlan.getVolume())
+                .addFormDataPart("type",currentPlan.getType()+"")
+                .addFormDataPart("mode",currentPlan.getMode()+"")
+                .addFormDataPart("params","plans.xml",fileBody)*/
+                .build();
         Request request = new Request.Builder()
-                .post(requestBody)
-                .addHeader("token", CommonShared.getString(CommonShared.LOGIN_TOKEN,""))
+                .post(multipartBody)
+        //        .addHeader("token", CommonShared.getString(CommonShared.LOGIN_TOKEN,""))
                 .url(webUrl + method)
                 .build();
         try {

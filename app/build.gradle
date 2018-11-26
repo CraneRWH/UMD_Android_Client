@@ -108,7 +108,7 @@ dependencies {
     testImplementation 'junit:junit:4.12'
 
     //微信sdk
-    implementation 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:1.0.2'
+    implementation files('libs/wechat-sdk-android-with-mta-1.0.2.jar')
 
     //支付+sdk 包
     implementation(name: 'chinapnrpay_sdk_v1.1.0_build13_release_enc', ext: 'aar')

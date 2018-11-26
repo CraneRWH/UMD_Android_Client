@@ -1,6 +1,7 @@
 package com.ymd.client.component.activity.order.pay;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.media.Image;
 import android.os.Bundle;
@@ -13,21 +14,33 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
+import com.tencent.mm.opensdk.modelpay.PayReq;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.ymd.client.R;
 import com.ymd.client.common.base.BaseActivity;
+import com.ymd.client.common.base.bean.PayInfo;
+import com.ymd.client.common.base.bean.PayOrderResult;
 import com.ymd.client.component.event.OrderListRefreshEvent;
 import com.ymd.client.component.event.UEvent;
 import com.ymd.client.component.widget.dialog.MyDialog;
 import com.ymd.client.model.bean.order.OrderResultForm;
 import com.ymd.client.model.constant.URLConstant;
 import com.ymd.client.utils.AlertUtil;
+import com.ymd.client.utils.LogUtil;
 import com.ymd.client.utils.ToastUtil;
 import com.ymd.client.utils.ToolUtil;
 import com.ymd.client.web.WebUtil;
+import com.ymd.client.wxapi.WXPayEntryActivity;
 
 import org.greenrobot.eventbus.EventBus;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -262,12 +275,13 @@ public class OrderPayActivity extends BaseActivity {
     private void gotoWechat(String wechatMoneyView,String wechatUrlView){
         String tradeMoney = "{\"orderId\": \"%s\" } ";
         Map<String,String> dataMap = new HashMap();
-        dataMap.put(PaysdkConstants.PAY_PARAM_INFO_KEY, TextUtils.isEmpty(wechatMoneyView) ? "" : String.format(tradeMoney, wechatMoneyView));
-        dataMap.put(PaysdkConstants.QUICK_PAY_URL_KEY,wechatUrlView);
+        dataMap.put("orderId", wechatMoneyView);
+        /*dataMap.put(PaysdkConstants.PAY_PARAM_INFO_KEY, TextUtils.isEmpty(wechatMoneyView) ? "" : String.format(tradeMoney, wechatMoneyView));
+        dataMap.put(PaysdkConstants.QUICK_PAY_URL_KEY,wechatUrlView);*/
         Map<String, Object> params = new HashMap<>();
-        params.put("self_param_info", dataMap);
+        params.put("self_param_info", new Gson().toJson(dataMap));
         params.put("pay_type", "10");
-        WebUtil.getInstance().requestPOSTS(this, URLConstant.ORDER_PAY, params,true,
+        WebUtil.getInstance().requestPOSTS(this, URLConstant.ORDER_PAY, wechatMoneyView,true,
                 new WebUtil.WebCallBacks<String>() {
                     @Override
                     public void onWebSuccess(String result) {
@@ -288,10 +302,40 @@ public class OrderPayActivity extends BaseActivity {
 
  //       startActivityForResult(mIntent,REQ_CODE);
     }
+    private IWXAPI api;
+    private void wechatPay(String payInfoStr) {
+        String result = ToolUtil.UrlCode2String(payInfoStr);
+        LogUtil.showW("★★ "  + " ★ " + result);
+        PayOrderResult orderResult = new Gson().fromJson(result, PayOrderResult.class);
+        if (orderResult.getBg_bank_code().equals("SUCCESS")) {
+            PayInfo payInfo = new Gson().fromJson(orderResult.getPay_info(), PayInfo.class);
+            api = WXAPIFactory.createWXAPI(this, payInfo.getAppId());
+            PayReq req = new PayReq();
+            req.appId = payInfo.getAppId();
+            req.partnerId = payInfo.getPartnerId();
+            req.prepayId = payInfo.getPrepayId();
+            req.nonceStr = payInfo.getNonceStr();
+            req.timeStamp = payInfo.getTimeStamp();
+            req.packageValue = payInfo.getPackAge();
+            req.sign = payInfo.getPaySign();
+            //	req.extData			= "app data"; // optional
+            // 在支付之前，如果应用没有注册到微信，应该先调用IWXMsg.registerApp将应用注册到微信
+            showPayResultDialog();
+            api.sendReq(req);
+            WXPayEntryActivity.setResultListener(new WXPayEntryActivity.PayResultListener() {
 
-    private void wechatPay(String payInfo) {
-        String result = ToolUtil.UrlCode2String(payInfo);
-        showPayResultDialog();
+                @Override
+                public void onResult(int resultCode) {
+                    if (resultCode == 0) {
+                        getPayResult();
+                    } else{
+                        AlertUtil.FailDialog(OrderPayActivity.this, "订单支付失败");
+                    }
+                }
+            });
+        } else {
+            ToastUtil.ToastMessage(this, orderResult.getResp_desc());
+        }
     }
 
     private void showPayResultDialog() {
@@ -355,4 +399,48 @@ public class OrderPayActivity extends BaseActivity {
                 });
     }
 
+    public static void sendHttpRequest(final String address,
+                                       final HttpCallbackListener listener) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                HttpURLConnection connection = null;
+                try {
+                    URL url = new URL(address);
+                    connection = (HttpURLConnection) url.openConnection();
+                    connection.setRequestMethod("GET");
+                    connection.setConnectTimeout(8000);    //超时链接时间设置为8秒
+                    connection.setReadTimeout(8000);
+                    InputStream in = connection.getInputStream();
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+                    StringBuilder response = new StringBuilder();
+                    String line;
+                    while ((line = reader.readLine()) != null) {
+                        response.append(line);
+                    }
+                    if (listener != null) {
+                        // 回调onFinish()方法
+                        listener.onFinish(response.toString());
+                    }
+                } catch (Exception e) {
+                    if (listener != null) {
+                        // 回调onError()方法
+                        listener.onError(e);
+                    }
+                } finally {
+                    if (connection != null) {
+                        connection.disconnect();
+                    }
+                }
+            }
+        }).start();
+
+    }
+    public interface HttpCallbackListener {
+
+        void onFinish(String response);
+
+        void onError(Exception e);
+
+    }
 }

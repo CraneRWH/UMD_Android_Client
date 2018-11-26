@@ -30,4 +30,6 @@ public class Constants {
     public static final String GES_KEY = "GES_KEY";
 
     public static final String LOCATION_ACTION = "locationAction";
+
+    public static final String WX_APP_ID = "wxd7ea0a0c6e613465";
 }
