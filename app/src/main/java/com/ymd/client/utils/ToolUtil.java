@@ -17,8 +17,6 @@ import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.net.URLDecoder;
-import java.net.URLEncoder;
-import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -430,4 +428,5 @@ public class ToolUtil {
 		}
 		return "";
 	}
+
 }

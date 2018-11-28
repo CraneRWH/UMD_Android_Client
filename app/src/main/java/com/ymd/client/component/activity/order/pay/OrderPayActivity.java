@@ -34,6 +34,7 @@ import com.ymd.client.web.WebUtil;
 import com.ymd.client.wxapi.WXPayEntryActivity;
 
 import org.greenrobot.eventbus.EventBus;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -273,11 +274,8 @@ public class OrderPayActivity extends BaseActivity {
      * 调用微信支付
      */
     private void gotoWechat(String wechatMoneyView,String wechatUrlView){
-        String tradeMoney = "{\"orderId\": \"%s\" } ";
         Map<String,String> dataMap = new HashMap();
         dataMap.put("orderId", wechatMoneyView);
-        /*dataMap.put(PaysdkConstants.PAY_PARAM_INFO_KEY, TextUtils.isEmpty(wechatMoneyView) ? "" : String.format(tradeMoney, wechatMoneyView));
-        dataMap.put(PaysdkConstants.QUICK_PAY_URL_KEY,wechatUrlView);*/
         Map<String, Object> params = new HashMap<>();
         params.put("self_param_info", new Gson().toJson(dataMap));
         params.put("pay_type", "10");
@@ -285,12 +283,20 @@ public class OrderPayActivity extends BaseActivity {
                 new WebUtil.WebCallBacks<String>() {
                     @Override
                     public void onWebSuccess(String result) {
-                        wechatPay(result);
+                        try {
+                            if (result != null && result.length() > 0) {
+                                wechatPay(result);
+                            } else {
+                                ToastUtil.ToastMessage(OrderPayActivity.this, "支付异常，请联系管理员");
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                     }
 
                     @Override
                     public void onWebFailed(String errorMsg) {
-
+                        ToastUtil.ToastMessage(OrderPayActivity.this, "支付异常，请联系管理员");
                     }
                 });
         /*Intent mIntent = new Intent(this, PayWayActivity.class);
@@ -303,38 +309,59 @@ public class OrderPayActivity extends BaseActivity {
  //       startActivityForResult(mIntent,REQ_CODE);
     }
     private IWXAPI api;
-    private void wechatPay(String payInfoStr) {
-        String result = ToolUtil.UrlCode2String(payInfoStr);
+    private void wechatPay(String data) throws Exception  {
+        String result = ToolUtil.UrlCode2String(data);
         LogUtil.showW("★★ "  + " ★ " + result);
-        PayOrderResult orderResult = new Gson().fromJson(result, PayOrderResult.class);
-        if (orderResult.getBg_bank_code().equals("SUCCESS")) {
-            PayInfo payInfo = new Gson().fromJson(orderResult.getPay_info(), PayInfo.class);
-            api = WXAPIFactory.createWXAPI(this, payInfo.getAppId());
-            PayReq req = new PayReq();
-            req.appId = payInfo.getAppId();
-            req.partnerId = payInfo.getPartnerId();
-            req.prepayId = payInfo.getPrepayId();
-            req.nonceStr = payInfo.getNonceStr();
-            req.timeStamp = payInfo.getTimeStamp();
-            req.packageValue = payInfo.getPackAge();
-            req.sign = payInfo.getPaySign();
-            //	req.extData			= "app data"; // optional
-            // 在支付之前，如果应用没有注册到微信，应该先调用IWXMsg.registerApp将应用注册到微信
-            showPayResultDialog();
-            api.sendReq(req);
-            WXPayEntryActivity.setResultListener(new WXPayEntryActivity.PayResultListener() {
 
-                @Override
-                public void onResult(int resultCode) {
-                    if (resultCode == 0) {
-                        getPayResult();
-                    } else{
-                        AlertUtil.FailDialog(OrderPayActivity.this, "订单支付失败");
+        JSONObject jsonObject;
+        try {
+            jsonObject = new JSONObject(result);
+            if (jsonObject == null) {
+                ToastUtil.ToastMessage(this, "支付异常，请联系管理员");
+                return;
+            } else {
+                String pis = jsonObject.optString("pay_info");
+                if ( pis == null && pis.length() == 0) {
+                    ToastUtil.ToastMessage(this, "支付异常，请联系管理员");
+                    return;
+                } else {
+                    if (jsonObject.optString("bg_bank_code").equals("SUCCESS")) {
+                        PayInfo payInfo = new Gson().fromJson(pis, PayInfo.class);
+                        api = WXAPIFactory.createWXAPI(this, payInfo.getAppId());
+                        PayReq req = new PayReq();
+                        req.appId = payInfo.getAppId();
+                        req.partnerId = payInfo.getPartnerId();
+                        req.prepayId = payInfo.getPrepayId();
+                        req.nonceStr = payInfo.getNonceStr();
+                        req.timeStamp = payInfo.getTimeStamp();
+                        req.packageValue = payInfo.getPackAge();
+                        req.sign = payInfo.getPaySign();
+                        //	req.extData			= "app data"; // optional
+                        // 在支付之前，如果应用没有注册到微信，应该先调用IWXMsg.registerApp将应用注册到微信
+                        showPayResultDialog();
+                        api.sendReq(req);
+                        WXPayEntryActivity.setResultListener(new WXPayEntryActivity.PayResultListener() {
+
+                            @Override
+                            public void onResult(int resultCode) {
+                                if (resultCode == 0) {
+                                    getPayResult();
+                                } else {
+                                    AlertUtil.FailDialog(OrderPayActivity.this, "订单支付失败");
+                                }
+                            }
+                        });
+                    } else {
+                        ToastUtil.ToastMessage(this, jsonObject.optString("resp_desc"));
+                        return;
                     }
                 }
-            });
-        } else {
-            ToastUtil.ToastMessage(this, orderResult.getResp_desc());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            ToastUtil.ToastMessage(this, "支付异常，请联系管理员");
+        } finally {
+            showPayResultDialog();
         }
     }
 

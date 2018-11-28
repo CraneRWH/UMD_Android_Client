@@ -515,6 +515,7 @@ public class WebUtil {
             ToastUtil.ToastMessage(context, "请首先登陆");
             return;
         }
+        showLoadingDialog(context);
         //    LogUtil.showW(">>>> " + method + " >> " + new Gson().toJson(params));
     //    RequestBody requestBody = paramsBuilder(context, method, params, isLogin, true);
         Map<String,String> dataMap = new HashMap();
@@ -543,13 +544,17 @@ public class WebUtil {
                 @Override
                 public void onResponse(Call call, Response response) throws IOException {
                     dismissLoadingDialog();
-                    if (response.isSuccessful()) {
-                        String result = response.body().string();
+                    try {
+                        if (response.isSuccessful()) {
+                            String result = response.body().string();
 
-                        LogUtil.showW("★★ " + method + " ★ " + result);
-                        callback.onWebSuccess(result);
-                    } else {
-                        callback.onWebFailed("操作失败");
+                            LogUtil.showW("★★ " + method + " ★ " + result);
+                            callback.onWebSuccess(result);
+                        } else {
+                            callback.onWebFailed("操作失败");
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
                 }
             });
