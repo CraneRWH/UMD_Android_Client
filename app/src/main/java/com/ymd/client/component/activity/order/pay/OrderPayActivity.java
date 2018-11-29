@@ -338,7 +338,6 @@ public class OrderPayActivity extends BaseActivity {
                         req.sign = payInfo.getPaySign();
                         //	req.extData			= "app data"; // optional
                         // 在支付之前，如果应用没有注册到微信，应该先调用IWXMsg.registerApp将应用注册到微信
-                        showPayResultDialog();
                         api.sendReq(req);
                         WXPayEntryActivity.setResultListener(new WXPayEntryActivity.PayResultListener() {
 
@@ -361,7 +360,7 @@ public class OrderPayActivity extends BaseActivity {
             e.printStackTrace();
             ToastUtil.ToastMessage(this, "支付异常，请联系管理员");
         } finally {
-            showPayResultDialog();
+    //        showPayResultDialog();
         }
     }
 
@@ -424,50 +423,5 @@ public class OrderPayActivity extends BaseActivity {
 
                     }
                 });
-    }
-
-    public static void sendHttpRequest(final String address,
-                                       final HttpCallbackListener listener) {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                HttpURLConnection connection = null;
-                try {
-                    URL url = new URL(address);
-                    connection = (HttpURLConnection) url.openConnection();
-                    connection.setRequestMethod("GET");
-                    connection.setConnectTimeout(8000);    //超时链接时间设置为8秒
-                    connection.setReadTimeout(8000);
-                    InputStream in = connection.getInputStream();
-                    BufferedReader reader = new BufferedReader(new InputStreamReader(in));
-                    StringBuilder response = new StringBuilder();
-                    String line;
-                    while ((line = reader.readLine()) != null) {
-                        response.append(line);
-                    }
-                    if (listener != null) {
-                        // 回调onFinish()方法
-                        listener.onFinish(response.toString());
-                    }
-                } catch (Exception e) {
-                    if (listener != null) {
-                        // 回调onError()方法
-                        listener.onError(e);
-                    }
-                } finally {
-                    if (connection != null) {
-                        connection.disconnect();
-                    }
-                }
-            }
-        }).start();
-
-    }
-    public interface HttpCallbackListener {
-
-        void onFinish(String response);
-
-        void onError(Exception e);
-
     }
 }
