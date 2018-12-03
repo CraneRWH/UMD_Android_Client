@@ -1,11 +1,13 @@
 package com.ymd.client.model.info;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.text.TextUtils;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -32,10 +34,13 @@ public class LocationInfo implements java.io.Serializable{
 	public final static String LOCATION_INFO_SETTING = "locationInfo";
 	public final static String CITYS_INFO_SETTING = "citysInfo";
 	public final static String CITY_CHOOSE_SETTING = "cityChooseInfo";
+	public final static String COUNTY = "county";
 	private static LocationInfo instance = null;
 	private static LocationInfoEntity locationInfo = new LocationInfoEntity();
 	private static CityEntity chooseCity = new CityEntity();
 	private static List<CityEntity> allCitys;
+	private static Map<Long, List<CityEntity>> countyMaps;
+	private static List<CityEntity> countyList;
 	private Context applicationContext;
 
 	public static String locationStr = "";
@@ -50,6 +55,21 @@ public class LocationInfo implements java.io.Serializable{
 		resetCitysData();
 		setLocationInfoData();
 		setChooseCityInfo();
+		setCountyInfo();
+	}
+
+	private static void setCountyInfo() {
+		String countysStr = CommonShared.getString(COUNTY, "");
+		countyMaps = new HashMap<>();
+		countyList = new ArrayList<>();
+		if (TextUtils.isEmpty(countysStr)) {
+		} else {
+			String[] countys = countysStr.split("_");
+			for (String item : countys) {
+				List<CityEntity> list = new Gson().fromJson(CommonShared.getString(COUNTY + item, ""), new TypeToken<List<CityEntity>>(){}.getType());
+				countyMaps.put(ToolUtil.changeLong(item), list);
+			}
+		}
 	}
 
 	private static void resetCitysData() {
@@ -81,7 +101,6 @@ public class LocationInfo implements java.io.Serializable{
 		if (cityInfo != null && cityInfo.length() > 0 ) {
 			locationInfo = new Gson().fromJson(cityInfo, LocationInfoEntity.class);
 		}
-		//	locationInfo.setCity("济南市");
 	}
 
 	private LocationInfoEntity getCityInfo(String cityInfo) {
@@ -125,8 +144,6 @@ public class LocationInfo implements java.io.Serializable{
 	}
 
 	public void saveLocationInfo() {
-
-
 		CommonShared.setString(LOCATION_INFO_SETTING, new Gson().toJson(locationInfo));
 	}
 
@@ -173,6 +190,22 @@ public class LocationInfo implements java.io.Serializable{
 		for (CityEntity item : allCitys) {
 			if (item.getCityName().contains(locationInfo.getCity()) || locationInfo.getCity().contains(item.getCityName())) {
 				chooseCity = item;
+				chooseCity.setCityName(locationInfo.getCity());
+				CommonShared.setString(CITY_CHOOSE_SETTING, new Gson().toJson(chooseCity));
+				/*	if (changeListener != null) {
+						changeListener.onChange(chooseCity);
+					}*/
+				getLocationCounty();
+			//	EventBus.getDefault().post(new CityShowEvent(true));
+				break;
+			}
+		}
+	}
+
+	private void locationChangeChooseCounty() {
+		for (CityEntity item : countyList) {
+			if (item.getCityName().contains(locationInfo.getCounty()) || locationInfo.getCountry().contains(item.getCityName())) {
+				chooseCity = item;
 				chooseCity.setCountyName(locationInfo.getCounty());
 				CommonShared.setString(CITY_CHOOSE_SETTING, new Gson().toJson(chooseCity));
 				/*	if (changeListener != null) {
@@ -196,5 +229,38 @@ public class LocationInfo implements java.io.Serializable{
 
 	public interface OnCityChangeListener {
 		void onChange(CityEntity cityEntity);
+	}
+
+	private void getLocationCounty() {
+
+		if (countyMaps.containsKey(chooseCity.getCityID())) {
+			countyList = countyMaps.get(chooseCity.getCityID());
+			locationChangeChooseCounty();
+		} else {
+			Map<String,Object> params = new HashMap<>();
+			params.put("cityID", chooseCity.getCityID());
+			WebUtil.getInstance().requestPOST(applicationContext, URLConstant.QUERY_COUTY_DATA, params, false, false,
+					new WebUtil.WebCallBack() {
+						@Override
+						public void onWebSuccess(JSONObject resultJson) {
+							addCounty(resultJson.optString("list"), chooseCity.getCityID());
+						}
+
+						@Override
+						public void onWebFailed(String errorMsg) {
+
+						}
+					});
+		}
+
+	}
+
+	private void addCounty(String countyListStr, Long cityId) {
+		countyList = new Gson().fromJson(countyListStr, new TypeToken<List<CityEntity>>(){}.getType());
+		countyMaps.put(cityId, countyList);
+		CommonShared.setString(COUNTY + cityId, countyListStr);
+		String countyIds = CommonShared.getString(COUNTY, "");
+		CommonShared.setString(COUNTY, countyIds.concat(ToolUtil.changeString(cityId)));
+		locationChangeChooseCounty();
 	}
 }

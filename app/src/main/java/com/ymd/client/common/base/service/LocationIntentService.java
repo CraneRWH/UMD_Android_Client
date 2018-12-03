@@ -11,6 +11,7 @@ import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
 import com.amap.api.location.AMapLocationQualityReport;
+import com.ymd.client.component.event.LocationFinishEvent;
 import com.ymd.client.component.event.LocationPermissionEvent;
 import com.ymd.client.model.bean.city.LocationInfoEntity;
 import com.ymd.client.model.constant.URLConstant;
@@ -38,7 +39,8 @@ public class LocationIntentService extends Service {
         if (!EventBus.getDefault().isRegistered(this))
             EventBus.getDefault().register(this);
         initLocation();
-        requestCities();
+        startLocation();
+    //    requestCities();
     }
 
     /**
@@ -173,8 +175,7 @@ public class LocationIntentService extends Service {
                     locationInfoEntity.setCityCode(location.getCityCode());
                     locationInfoEntity.setAdCode(location.getAdCode());
                     locationInfoEntity.setAddress(location.getAddress());
-                    /*LocationInfo.getInstance().setLocationInfo(locationInfoEntity);
-                    toMainActivity();*/
+                    LocationInfo.getInstance().setLocationInfo(locationInfoEntity);
                     //定位完成的时间
                     //    sb.append("定位时间: " + Utils.formatUTC(location.getTime(), "yyyy-MM-dd HH:mm:ss") + "\n");
                 } else {
@@ -256,6 +257,7 @@ public class LocationIntentService extends Service {
      * @since 2.8.0
      */
     private void stopLocation() {
+        EventBus.getDefault().post(new LocationFinishEvent(true));
         // 停止定位
         locationClient.stopLocation();
     }

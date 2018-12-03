@@ -150,6 +150,7 @@
         <service
             android:name=".common.base.service.LocationIntentService" />
 
+        <service android:name=".common.base.service.LocationIntentService"/>
         <activity android:name=".component.activity.login.AgreementActivity"></activity>
         <activity android:name=".wxapi.WXPayEntryActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"

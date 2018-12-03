@@ -103,7 +103,8 @@ public class LogoActivity extends AppCompatActivity {
 
         if (CommonShared.getString(LocationInfo.CITYS_INFO_SETTING, "").length() > 0) {
             LocationInfo.getInstance().refreshCitiesData();
-            quanxian();
+            toMainActivity();
+        //    quanxian();
         } else {
         /*CommonShared.setString(LocationInfo.CITYS_INFO_SETTING, DataUtils.getCityList());
         LocationInfo.getInstance().refreshCitiesData();*/
@@ -114,7 +115,8 @@ public class LogoActivity extends AppCompatActivity {
                         public void onWebSuccess(JSONObject result) {
                             CommonShared.setString(LocationInfo.CITYS_INFO_SETTING, result.optString("list"));
                             LocationInfo.getInstance().refreshCitiesData();
-                            quanxian();
+                            toMainActivity();
+                        //    quanxian();
                         }
 
                         @Override
@@ -168,7 +170,7 @@ public class LogoActivity extends AppCompatActivity {
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     // 权限被用户同意。
 
-                    startLocation();
+           //         startLocation();
                 } else {
                     // 权限被用户拒绝了。
                     Toast.makeText(this, "定位权限被禁止，相关地图功能无法使用！", Toast.LENGTH_LONG).show();

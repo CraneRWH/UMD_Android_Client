@@ -27,6 +27,7 @@ import com.ymd.client.component.activity.homePage.MainHomePageFragment;
 import com.ymd.client.component.activity.mine.MainMineFragment;
 import com.ymd.client.component.activity.order.MainOrderFragment;
 import com.ymd.client.component.activity.sao.MainSaoFragment;
+import com.ymd.client.component.event.LocationFinishEvent;
 import com.ymd.client.component.event.LocationPermissionEvent;
 import com.ymd.client.component.event.OrderListRefreshEvent;
 import com.ymd.client.component.widget.dialog.CommonDialogs;
@@ -77,8 +78,7 @@ public class MainActivity extends BaseActivity {
         super.onStart();
         if (!EventBus.getDefault().isRegistered(this))
             EventBus.getDefault().register(this);
-    /*    Intent intent = new Intent(this, LocationIntentService.class);
-        startService(intent);*/
+
     }
 
     @Override
@@ -126,7 +126,7 @@ public class MainActivity extends BaseActivity {
         //申请文件权限
         applyPermissions();
 
-        LocationInfo.getInstance().isLocationCity(this);
+        quanxian();
     }
 
     private void chooseMainItem(int tag) {
@@ -233,6 +233,7 @@ public class MainActivity extends BaseActivity {
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     // 权限被用户同意。
                     EventBus.getDefault().post(new LocationPermissionEvent(true, true));
+                    LocationIntentService.startAction(this);
                 } else {
                     // 权限被用户拒绝了。
                     Toast.makeText(this, "定位权限被禁止，相关地图功能无法使用！", Toast.LENGTH_LONG).show();
@@ -290,7 +291,8 @@ public class MainActivity extends BaseActivity {
                 //Toast.makeText(getActivity(), "没有权限", Toast.LENGTH_SHORT).show();
 
             } else {
-                EventBus.getDefault().post(new LocationPermissionEvent(true, true));
+                LocationIntentService.startAction(this);
+             //   EventBus.getDefault().post(new LocationPermissionEvent(true, true));
                 // 有权限了，去放肆吧。
                 // Toast.makeText(getActivity(), "有权限", Toast.LENGTH_SHORT).show();
             }
@@ -309,4 +311,12 @@ public class MainActivity extends BaseActivity {
             quanxian();
         }
     }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(LocationFinishEvent event) {
+        if (event.isFinish()) {
+            LocationInfo.getInstance().isLocationCity(this);
+        }
+    }
+
 }
