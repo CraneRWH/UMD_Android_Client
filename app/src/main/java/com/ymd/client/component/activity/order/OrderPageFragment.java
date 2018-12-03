@@ -22,12 +22,14 @@ import com.ymd.client.component.activity.order.pay.OrderPayResultActivity;
 import com.ymd.client.component.adapter.order.OrderPageAdapter2;
 import com.ymd.client.component.event.LoginEvent;
 import com.ymd.client.component.event.OrderListRefreshEvent;
+import com.ymd.client.component.widget.dialog.MyDialog;
 import com.ymd.client.component.widget.zrecyclerview.ProgressStyle;
 import com.ymd.client.component.widget.zrecyclerview.ZRecyclerView;
 import com.ymd.client.model.bean.order.OrderResultForm;
 import com.ymd.client.model.bean.order.YmdOrderGoods;
 import com.ymd.client.model.constant.URLConstant;
 import com.ymd.client.model.info.LoginInfo;
+import com.ymd.client.utils.AlertUtil;
 import com.ymd.client.utils.ToastUtil;
 import com.ymd.client.utils.ToolUtil;
 import com.ymd.client.web.WebUtil;
@@ -196,6 +198,12 @@ public class OrderPageFragment extends ViewPagerFragment {
                     }
                 }
             });
+            adapter.setLongClickListener(new OrderPageAdapter2.OnItemLongClickListener() {
+                @Override
+                public void onClick(OrderResultForm data, int position) {
+                    showDeleteDialog(data,position);
+                }
+            });
             recyclerView.setAdapter(adapter);
         } else {
             if (datas != null) {
@@ -210,6 +218,32 @@ public class OrderPageFragment extends ViewPagerFragment {
         }
 
         recyclerView.refreshComplete();
+    }
+
+    private void showDeleteDialog(final OrderResultForm data,final int positon) {
+        AlertUtil.AskDialog(getActivity(), "是否删除此订单？", new MyDialog.SureListener() {
+            @Override
+            public void onSureListener() {
+                deleteOrder(data, positon);
+            }
+        });
+    }
+
+    private void deleteOrder(OrderResultForm data, final int position) {
+        Map<String,Object> params = new HashMap<>();
+        params.put("orderId", data.getId());
+        WebUtil.getInstance().requestPOST(getContext(), URLConstant.DELETE_ORDER, params , true, true,
+        new WebUtil.WebCallBack() {
+            @Override
+            public void onWebSuccess(JSONObject resultJson) {
+                adapter.deleteItem(position);
+            }
+
+            @Override
+            public void onWebFailed(String errorMsg) {
+
+            }
+        });
     }
 
     @Override

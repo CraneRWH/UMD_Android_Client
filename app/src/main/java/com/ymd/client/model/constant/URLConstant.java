@@ -235,4 +235,9 @@ public class URLConstant {
      */
     public static final String VERSION_NEW = "file/appVersion";
 
+    /**
+     * 删除订单
+     */
+    public static final String DELETE_ORDER = "ymdOrder/deleteOrder";
+
 }

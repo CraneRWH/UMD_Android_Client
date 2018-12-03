@@ -5,7 +5,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -15,13 +17,23 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.ymd.client.R;
 import com.ymd.client.common.base.BaseActivity;
+import com.ymd.client.common.base.OnUMDItemClickListener;
+import com.ymd.client.component.activity.homePage.merchant.MerchantDetailActivity;
+import com.ymd.client.component.adapter.goods.MerchantListAdapter;
 import com.ymd.client.component.widget.flowlayout.FlowLayout;
 import com.ymd.client.component.widget.flowlayout.TagAdapter;
 import com.ymd.client.component.widget.flowlayout.TagFlowLayout;
+import com.ymd.client.component.widget.other.MyChooseItemView;
+import com.ymd.client.component.widget.pullRefreshView.PullToRefreshLayout;
+import com.ymd.client.model.bean.homePage.MerchantInfoEntity;
 import com.ymd.client.model.constant.URLConstant;
+import com.ymd.client.model.info.LocationInfo;
 import com.ymd.client.utils.ToastUtil;
+import com.ymd.client.utils.ToolUtil;
 import com.ymd.client.web.WebUtil;
 
 import org.json.JSONObject;
@@ -56,6 +68,18 @@ public class SearchActivity extends BaseActivity {
     TagFlowLayout historyFlt;
     @BindView(R.id.history_lt)
     LinearLayout historyLt;
+    @BindView(R.id.chooseItem0)
+    MyChooseItemView chooseItem0;
+    @BindView(R.id.chooseItem1)
+    MyChooseItemView chooseItem1;
+    @BindView(R.id.chooseItem2)
+    MyChooseItemView chooseItem2;
+    @BindView(R.id.chooseItem3)
+    MyChooseItemView chooseItem3;
+    @BindView(R.id.businessView)
+    LinearLayout businessView;
+
+    private List<MyChooseItemView> textViewList;
 
     private List<String> hotStrs = new ArrayList<>();
     private List<String> historyStrs = new ArrayList<>();
@@ -64,12 +88,14 @@ public class SearchActivity extends BaseActivity {
 
     /**
      * 启动
+     *
      * @param context
      */
     public static void startAction(Activity context) {
         Intent intent = new Intent(context, SearchActivity.class);
         context.startActivity(intent);
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -93,12 +119,14 @@ public class SearchActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 String aa = searchEt.getText().toString().trim();
-                ToastUtil.ToastMessage(SearchActivity.this, "尚无商家可搜索");
-                if (aa.length() >0) {
+        //        ToastUtil.ToastMessage(SearchActivity.this, "尚无商家可搜索");
+                if (aa.length() > 0) {
                     historyStrs.add(aa);
                     //通知handler更新UI
                     handler.sendEmptyMessageDelayed(1, 0);
                 }
+
+                requestMerchant(chooseStatus);
             }
         });
 
@@ -136,6 +164,25 @@ public class SearchActivity extends BaseActivity {
         handler.sendEmptyMessage(2);
 
         requestHotSearch();
+
+
+        textViewList = new ArrayList<MyChooseItemView>();
+        textViewList.add(chooseItem0);
+        textViewList.add(chooseItem1);
+        textViewList.add(chooseItem2);
+        textViewList.add(chooseItem3);
+
+
+        for (int i = 0 ; i < textViewList.size() ; i ++ ) {
+            final int position = i;
+            textViewList.get(i).setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View arg0) {
+                    chooseItem(position);
+                }
+            });
+        }
     }
 
     public Handler handler = new Handler() {
@@ -182,5 +229,105 @@ public class SearchActivity extends BaseActivity {
                     public void onWebFailed(String errorMsg) {
                     }
                 });
+    }
+
+
+    public int chooseStatus = 0;
+
+    protected void chooseItem(int position) {
+        chooseStatus = position;
+        page = 1;
+        requestMerchant(position);
+        try {
+            for (int i = 0; i < textViewList.size(); i++) {
+                if (i == position) {
+                    textViewList.get(i).setChoose(true);
+                } else {
+                    textViewList.get(i).setChoose(false);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    int page = 1;
+
+    /**
+     * 根据城市获取商户列表
+     * @param type
+     */
+    private void requestMerchant(int type){
+        if (TextUtils.isEmpty(searchEt.getText().toString())) {
+            ToastUtil.ToastMessage(this, "请输入搜索内容");
+            return;
+        }
+        Map<String,Object> params = new HashMap<>();
+        params.put("county",ToolUtil.changeInteger(LocationInfo.getInstance().getChooseCity().getCountyCode()) > 0 ? LocationInfo.getInstance().getChooseCity().getCountyCode() : "");
+        params.put("city", LocationInfo.getInstance().getChooseCity().getCityID() > 0 ? LocationInfo.getInstance().getChooseCity().getCityID() : "");
+        params.put("latitude",LocationInfo.getInstance().getLocationInfo().getLatitude());
+        params.put("longitude",LocationInfo.getInstance().getLocationInfo().getLongitude());
+        params.put("pageNum", page);
+        params.put("name", ToolUtil.changeString(searchEt.getText()));
+        String method = URLConstant.COMPREHENSIVE_MERCHANT;
+        switch (type){
+            case 0:
+                method = URLConstant.COMPREHENSIVE_MERCHANT;
+                break;
+            case 1:
+                method = URLConstant.SALES_MERCHANT;
+                break;
+            case 2:
+                method = URLConstant.PRAISE_MERCHANT;
+                break;
+            case 3:
+                method = URLConstant.NEAR_MERCHANT;
+                break;
+        }
+        WebUtil.getInstance().requestPOST(this, method, params,
+                new WebUtil.WebCallBack() {
+                    @Override
+                    public void onWebSuccess(JSONObject resultJson) {
+                        resetMerchantData(resultJson.optString("list"));
+                    }
+
+                    @Override
+                    public void onWebFailed(String errorMsg) {
+                    }
+                });
+
+    }
+
+    List<MerchantInfoEntity> marchantDatas = new ArrayList<>();
+    private void resetMerchantData(String result) {
+        List<MerchantInfoEntity> datas = new Gson().fromJson(result, new TypeToken<List<MerchantInfoEntity>>(){}.getType());
+        if (page == 1) {
+            marchantDatas.clear();
+        }
+        marchantDatas.addAll(datas);
+        //     LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        recyclerView.setLayoutManager(new LinearLayoutManager(this){
+            @Override
+            public boolean canScrollVertically() {
+                //解决ScrollView里存在多个RecyclerView时滑动卡顿的问题
+                //如果你的RecyclerView是水平滑动的话可以重写canScrollHorizontally方法
+                return false;
+            }
+        });
+        //解决数据加载不完的问题
+        recyclerView.setNestedScrollingEnabled(false);
+        recyclerView.setHasFixedSize(true);
+        //解决数据加载完成后, 没有停留在顶部的问题
+        recyclerView.setFocusable(false);
+        MerchantListAdapter adapter = new MerchantListAdapter(marchantDatas, this);
+        adapter.setListener(new OnUMDItemClickListener() {
+            @Override
+            public void onClick(Object data, View view, int position) {
+                MerchantInfoEntity item = (MerchantInfoEntity) data;
+                MerchantDetailActivity.startAction(SearchActivity.this, item, 1);
+            }
+        });
+        recyclerView.setAdapter(adapter);
     }
 }

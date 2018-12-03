@@ -22,8 +22,6 @@ import com.ymd.client.utils.ToolUtil;
 
 import java.util.List;
 
-import butterknife.BindView;
-
 /**
  * 作者:rongweihe
  * 日期:2018/8/24  时间:22:52
@@ -35,6 +33,7 @@ public class OrderPageAdapter2 extends CommonRecyclerAdapter<OrderResultForm> {
 
     private OnUMDItemClickListener listener;
     private OnBtnClickListener btnClickListener;
+    private OnItemLongClickListener longClickListener;
 
     public OrderPageAdapter2(List<OrderResultForm> datas, Context mContext) {
         super(mContext);
@@ -182,6 +181,16 @@ public class OrderPageAdapter2 extends CommonRecyclerAdapter<OrderResultForm> {
                 }
             }
         });
+
+        holder.rootView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                if (longClickListener != null) {
+                    longClickListener.onClick(data, position);
+                }
+                return true;
+            }
+        });
     }
 
     @Override
@@ -213,6 +222,14 @@ public class OrderPageAdapter2 extends CommonRecyclerAdapter<OrderResultForm> {
 
     public void setBtnClickListener(OnBtnClickListener btnClickListener) {
         this.btnClickListener = btnClickListener;
+    }
+
+    public OnItemLongClickListener getLongClickListener() {
+        return longClickListener;
+    }
+
+    public void setLongClickListener(OnItemLongClickListener longClickListener) {
+        this.longClickListener = longClickListener;
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
@@ -249,4 +266,9 @@ public class OrderPageAdapter2 extends CommonRecyclerAdapter<OrderResultForm> {
     public interface OnBtnClickListener {
         public void onClick(Object data, int position, int id);
     }
+
+    public interface OnItemLongClickListener {
+        public void onClick(OrderResultForm data, int position);
+    }
+
 }

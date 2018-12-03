@@ -211,7 +211,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="@dimen/mar_pad_len_12px"
-                            android:text="优惠服务"
+                            android:text="优惠活动专区"
                             android:textColor="@color/common_text_color"
                             android:textSize="@dimen/text_size_32px" />
                     </LinearLayout>
