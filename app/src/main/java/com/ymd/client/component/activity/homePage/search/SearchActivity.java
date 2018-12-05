@@ -32,6 +32,7 @@ import com.ymd.client.component.widget.pullRefreshView.PullToRefreshLayout;
 import com.ymd.client.model.bean.homePage.MerchantInfoEntity;
 import com.ymd.client.model.constant.URLConstant;
 import com.ymd.client.model.info.LocationInfo;
+import com.ymd.client.utils.CommonShared;
 import com.ymd.client.utils.ToastUtil;
 import com.ymd.client.utils.ToolUtil;
 import com.ymd.client.web.WebUtil;
@@ -86,6 +87,8 @@ public class SearchActivity extends BaseActivity {
     //布局管理器
     private LayoutInflater mInflater;
 
+    private static final String SEARCH_HISTORY = "searchHistory";
+
     /**
      * 启动
      *
@@ -106,6 +109,7 @@ public class SearchActivity extends BaseActivity {
 
     private void initView() {
 
+        historyStrs = new Gson().fromJson(CommonShared.getString(SEARCH_HISTORY, ""), new TypeToken<List<String>>(){}.getType());;
         mInflater = LayoutInflater.from(this);
         //流式布局tag的点击方法
         historyFlt.setOnTagClickListener(new TagFlowLayout.OnTagClickListener() {
@@ -137,7 +141,7 @@ public class SearchActivity extends BaseActivity {
             }
         });
 
-        hotStrs.add("土豆");
+/*        hotStrs.add("土豆");
         hotStrs.add("麻辣烫");
         hotStrs.add("驴肉火烧");
         hotStrs.add("半天妖烤鱼");
@@ -147,9 +151,9 @@ public class SearchActivity extends BaseActivity {
         hotStrs.add("土豆");
         hotStrs.add("麻辣烫");
         hotStrs.add("驴肉火烧");
-        hotStrs.add("半天妖烤鱼");
+        hotStrs.add("半天妖烤鱼");*/
 
-        historyStrs.add("张亮麻辣烫");
+     /*   historyStrs.add("张亮麻辣烫");
         historyStrs.add("鱼");
         historyStrs.add("拉面");
         historyStrs.add("土豆");
@@ -158,7 +162,7 @@ public class SearchActivity extends BaseActivity {
         historyStrs.add("半天妖烤鱼");
         historyStrs.add("张亮麻辣烫");
         historyStrs.add("鱼");
-        historyStrs.add("拉面");
+        historyStrs.add("拉面");*/
 
         handler.sendEmptyMessage(1);
         handler.sendEmptyMessage(2);
@@ -223,6 +227,7 @@ public class SearchActivity extends BaseActivity {
                 new WebUtil.WebCallBack() {
                     @Override
                     public void onWebSuccess(JSONObject result) {
+
                     }
 
                     @Override
@@ -263,6 +268,9 @@ public class SearchActivity extends BaseActivity {
             ToastUtil.ToastMessage(this, "请输入搜索内容");
             return;
         }
+        historyStrs.add(0,ToolUtil.changeString(searchEt.getText()));
+        CommonShared.setString(SEARCH_HISTORY, new Gson().toJson(historyStrs));
+        handler.sendEmptyMessage(2);
         Map<String,Object> params = new HashMap<>();
         params.put("county",ToolUtil.changeInteger(LocationInfo.getInstance().getChooseCity().getCountyCode()) > 0 ? LocationInfo.getInstance().getChooseCity().getCountyCode() : "");
         params.put("city", LocationInfo.getInstance().getChooseCity().getCityID() > 0 ? LocationInfo.getInstance().getChooseCity().getCityID() : "");

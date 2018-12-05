@@ -40,7 +40,8 @@ public class LocationInfo implements java.io.Serializable{
 	private static CityEntity chooseCity = new CityEntity();
 	private static List<CityEntity> allCitys;
 	private static Map<Long, List<CityEntity>> countyMaps;
-	private static List<CityEntity> countyList;
+	private static List<CityEntity> countyList = new ArrayList<>();
+	private static List<Long> cityIdList = new ArrayList<>();
 	private Context applicationContext;
 
 	public static String locationStr = "";
@@ -64,8 +65,8 @@ public class LocationInfo implements java.io.Serializable{
 		countyList = new ArrayList<>();
 		if (TextUtils.isEmpty(countysStr)) {
 		} else {
-			String[] countys = countysStr.split("_");
-			for (String item : countys) {
+			cityIdList = new Gson().fromJson(countysStr, new TypeToken<List<Long>>(){}.getType());
+			for (Long item : cityIdList) {
 				List<CityEntity> list = new Gson().fromJson(CommonShared.getString(COUNTY + item, ""), new TypeToken<List<CityEntity>>(){}.getType());
 				countyMaps.put(ToolUtil.changeLong(item), list);
 			}
@@ -217,19 +218,6 @@ public class LocationInfo implements java.io.Serializable{
 		}
 	}
 
-//	private OnCityChangeListener changeListener;
-
-/*	public OnCityChangeListener getChangeListener() {
-		return changeListener;
-	}
-
-	public void setChangeListener(OnCityChangeListener changeListener) {
-		this.changeListener = changeListener;
-	}*/
-
-	public interface OnCityChangeListener {
-		void onChange(CityEntity cityEntity);
-	}
 
 	private void getLocationCounty() {
 
@@ -259,8 +247,23 @@ public class LocationInfo implements java.io.Serializable{
 		countyList = new Gson().fromJson(countyListStr, new TypeToken<List<CityEntity>>(){}.getType());
 		countyMaps.put(cityId, countyList);
 		CommonShared.setString(COUNTY + cityId, countyListStr);
-		String countyIds = CommonShared.getString(COUNTY, "");
-		CommonShared.setString(COUNTY, countyIds.concat(ToolUtil.changeString(cityId)));
+		cityIdList.add(cityId);
+		CommonShared.setString(COUNTY, new Gson().toJson(cityIdList));
 		locationChangeChooseCounty();
 	}
+
+	/*	private OnCityChangeListener changeListener;
+
+        public OnCityChangeListener getChangeListener() {
+            return changeListener;
+        }
+
+        public void setChangeListener(OnCityChangeListener changeListener) {
+            this.changeListener = changeListener;
+        }
+
+        public interface OnCityChangeListener {
+            void onChange(CityEntity cityEntity);
+        }
+    */
 }
