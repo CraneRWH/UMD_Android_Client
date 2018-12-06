@@ -169,12 +169,13 @@ public class LocationIntentService extends Service {
                     locationInfoEntity.setLatitude(location.getLatitude());
                     locationInfoEntity.setAccuracy(location.getAccuracy());
                     locationInfoEntity.setSpeed(location.getSpeed());
-                    locationInfoEntity.setCountry(locationInfoEntity.getCountry());
+                    locationInfoEntity.setCountry(location.getCountry());
                     locationInfoEntity.setProvince(location.getProvince());
                     locationInfoEntity.setCity(location.getCity());
                     locationInfoEntity.setCityCode(location.getCityCode());
                     locationInfoEntity.setAdCode(location.getAdCode());
                     locationInfoEntity.setAddress(location.getAddress());
+                    locationInfoEntity.setCounty(location.getDistrict());
                     LocationInfo.getInstance().setLocationInfo(locationInfoEntity);
                     //定位完成的时间
                     //    sb.append("定位时间: " + Utils.formatUTC(location.getTime(), "yyyy-MM-dd HH:mm:ss") + "\n");

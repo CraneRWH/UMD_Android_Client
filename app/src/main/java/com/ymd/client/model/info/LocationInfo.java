@@ -117,8 +117,8 @@ public class LocationInfo implements java.io.Serializable{
 	}
 	public void isLocationCity(Context context) {
 		try {
-			if (chooseCity!= null && !locationInfo.getCity().contains(chooseCity.getCityName())) {
-				AlertUtil.DialogMessage(context, locationInfo.getCity(), "定位城市与选择城市不符!是否使用定位城市?", 3, 0.8, "使用", "不使用",
+			if (chooseCity!= null && !locationInfo.getCounty().contains(chooseCity.getCityName())) {
+				AlertUtil.DialogMessage(context, locationInfo.getCity() + locationInfo.getCounty(), "定位城市与选择城市不符!是否使用定位城市?", 3, 0.8, "使用", "不使用",
 						new MyDialog.SureListener() {
 
 							@Override
@@ -140,7 +140,7 @@ public class LocationInfo implements java.io.Serializable{
 	public void setLocationInfo(LocationInfoEntity info) {
 		locationInfo = info;
 		CommonShared.setString(LOCATION_INFO_SETTING, new Gson().toJson(info));
-		if (ToolUtil.changeInteger(chooseCity.getCityID()) == 0)
+//		if (ToolUtil.changeInteger(chooseCity.getCityID()) == 0)
 			locationChangeChooseCity();
 	}
 
