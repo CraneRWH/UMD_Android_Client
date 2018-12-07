@@ -131,5 +131,7 @@ dependencies {
 
     // httpcore工具类
     implementation 'org.apache.httpcomponents:httpcore:4.4.4'
+
+    implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.4'
     compileOnly 'org.jbundle.util.osgi.wrapped:org.jbundle.util.osgi.wrapped.org.apache.http.client:4.1.2'
 }

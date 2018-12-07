@@ -3,6 +3,7 @@ package com.ymd.client.component.activity.order;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,10 @@ import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.ymd.client.R;
 import com.ymd.client.common.base.OnUMDItemClickListener;
 import com.ymd.client.common.base.fragment.ViewPagerFragment;
@@ -63,7 +68,8 @@ public class OrderPageFragment extends ViewPagerFragment {
     @BindView(R.id.emptyLayout)
     LinearLayout emptyLayout;
     Unbinder unbinder;
-    private ZRecyclerView recyclerView;
+    private SmartRefreshLayout refreshLayout;
+    private RecyclerView recyclerView;
 
     private int type;      //订单的状态（0：全部，1：待支付，2：退款）
     public static OrderPageFragment newInstance(int type) {
@@ -94,21 +100,20 @@ public class OrderPageFragment extends ViewPagerFragment {
     }
 
     private void initView(View view) {
-        recyclerView = (ZRecyclerView) view.findViewById(R.id.recyclerView);
+        recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
+        refreshLayout = (SmartRefreshLayout) view.findViewById(R.id.refreshLayout);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setRefreshProgressStyle(ProgressStyle.BallPulse);
-        recyclerView.setLoadingMoreProgressStyle(ProgressStyle.BallRotate);
-
-        recyclerView.setLoadingListener(new ZRecyclerView.LoadingListener() {
+        refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
-            public void onRefresh() {
+            public void onRefresh(RefreshLayout refreshlayout) {
                 page = 1;
                 requestOrderInfo();
             }
-
+        });
+        refreshLayout.setOnLoadmoreListener(new OnLoadmoreListener() {
             @Override
-            public void onLoadMore() {
+            public void onLoadmore(RefreshLayout refreshlayout) {
                 page++;
                 requestOrderInfo();
             }
@@ -138,11 +143,16 @@ public class OrderPageFragment extends ViewPagerFragment {
                     @Override
                     public void onWebSuccess(JSONObject result) {
                         resetOrderList(result.optString("list"));
+                        refreshLayout.finishRefresh();
+                        refreshLayout.finishLoadmore();
                     }
 
                     @Override
                     public void onWebFailed(String errorMsg) {
                         resetOrderList("");
+                        refreshLayout.finishRefresh();
+                        refreshLayout.finishLoadmore();
+                    //    refreshLayout.finishLoadmoreWithNoMoreData();
                     }
                 });
     }
@@ -217,7 +227,6 @@ public class OrderPageFragment extends ViewPagerFragment {
             emptyView.setVisibility(View.GONE);
         }
 
-        recyclerView.refreshComplete();
     }
 
     private void showDeleteDialog(final OrderResultForm data,final int positon) {
