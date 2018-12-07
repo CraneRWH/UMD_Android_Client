@@ -6,8 +6,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:id="@+id/mSearchLayout"
     tools:context=".component.activity.homePage.search.SearchActivity">
     <LinearLayout
+        android:id="@+id/search_llt"
         android:layout_width="match_parent"
         android:layout_height="@dimen/mar_pad_len_88px"
         android:orientation="horizontal"
@@ -67,6 +69,7 @@
         android:layout_height="match_parent"
         >
         <LinearLayout
+            android:id="@+id/result_LLT"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
@@ -104,16 +107,22 @@
                     android:layout_weight="1"
                     custom:defaultValue="@string/near_most_str" />
             </LinearLayout>
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/recyclerView"
+            <com.scwang.smartrefresh.layout.SmartRefreshLayout
+                android:id="@+id/refreshLayout"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
+                android:layout_height="match_parent">
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
+            </com.scwang.smartrefresh.layout.SmartRefreshLayout>
         </LinearLayout>
         <LinearLayout
-            android:id="@+id/history_lt"
+            android:id="@+id/show_item"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
+            android:background="@color/white"
             >
             <TextView
                 android:layout_width="wrap_content"
