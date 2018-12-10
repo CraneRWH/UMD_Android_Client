@@ -70,7 +70,7 @@ public class OrderPayResultActivity extends BaseActivity {
     TextView shopNameTv;
     @BindView(R.id.food_list_lt)
     LinearLayout foodListLt;
-    @BindView(R.id.more_pay_type_lt)
+/*    @BindView(R.id.more_pay_type_lt)
     LinearLayout morePayTypeLt;
     @BindView(R.id.remark_tv)
     TextView remarkTv;
@@ -85,7 +85,7 @@ public class OrderPayResultActivity extends BaseActivity {
     @BindView(R.id.u_dis_tv)
     TextView uDisTv;
     @BindView(R.id.order_all_money_tv)
-    TextView orderAllMoneyTv;
+    TextView orderAllMoneyTv;*/
 
     private OrderResultForm orderDetail;
     /**
@@ -120,13 +120,13 @@ public class OrderPayResultActivity extends BaseActivity {
     private void setShopData() {
 
         shopNameTv.setText(ToolUtil.changeString(orderDetail.getmName()));
-        orderCodeTv.setText(ToolUtil.changeString(orderDetail.getOrderNo()));
+       /* orderCodeTv.setText(ToolUtil.changeString(orderDetail.getOrderNo()));
         orderTimeTv.setText(ToolUtil.changeString(orderDetail.getCreateTime()));
         orderAllMoneyTv.setText(ToolUtil.changeString(orderDetail.getTotalAmt()));
         orderUTv.setText(ToolUtil.changeString(orderDetail.getuCurrency()));
-        uDisTv.setText(ToolUtil.changeString(orderDetail.getuObtain()));
+        uDisTv.setText(ToolUtil.changeString(orderDetail.getuObtain()));*/
         orderMoneyTv.setText(ToolUtil.changeString(orderDetail.getPayAmt()));
-        remarkTv.setText(ToolUtil.changeString(orderDetail.getRemarks()));
+    //    remarkTv.setText(ToolUtil.changeString(orderDetail.getRemarks()));
         createQRcode();
         /*List<Map<String ,Object>> list = new ArrayList<>();
         Map<String, Object> map = new HashMap<>();
@@ -171,7 +171,7 @@ public class OrderPayResultActivity extends BaseActivity {
             }
             nameTv.setText(ToolUtil.changeString(item.getGoodsName()));
             numTv.setText("x"+ToolUtil.changeString(item.getGoodsNum()));
-            priceTv.setText("¥"+ToolUtil.changeString(item.getGoodsAmt()));
+            priceTv.setText(ToolUtil.changeString(item.getGoodsAmt()));
             //给TextView添加文字
             //    tv.setText("第"+(x+1)+"张");
             //把行布局放到linear里

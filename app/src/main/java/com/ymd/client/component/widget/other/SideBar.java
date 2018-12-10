@@ -32,7 +32,7 @@ public class SideBar extends View {
 		*/
 	@SuppressWarnings("unchecked")
 	public static ArrayList<String> letters = new ArrayList<String>();
-	public static List<String> allLetters = Arrays.asList("HOT","A", "B", "C", "D", "E", "F", "G", "H", "I",
+	public static List<String> allLetters = Arrays.asList("定位","热门","A", "B", "C", "D", "E", "F", "G", "H", "I",
 			"J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V",
 			"W", "X", "Y", "Z");
 	private int choose = -1;// 选中

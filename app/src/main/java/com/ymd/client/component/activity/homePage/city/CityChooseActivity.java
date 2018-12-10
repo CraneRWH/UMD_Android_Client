@@ -18,6 +18,7 @@ import com.ymd.client.component.widget.other.SideBar;
 import com.ymd.client.model.bean.city.CityChooseObject;
 import com.ymd.client.model.bean.city.CityEntity;
 import com.ymd.client.model.info.LocationInfo;
+import com.ymd.client.utils.CommonShared;
 import com.ymd.client.utils.LogUtil;
 import com.ymd.client.utils.ToolUtil;
 
@@ -134,15 +135,61 @@ public class CityChooseActivity extends BaseActivity {
 
     @SuppressWarnings("unchecked")
     private void setData(){
-        List<CityEntity> citys = /*new Gson().fromJson(data, new TypeToken<List<CityEntity>>(){}.getType());*/
-                LocationInfo.getInstance().getAllCitys();
+        List<CityEntity> citys = new ArrayList<>(); /*new Gson().fromJson(data, new TypeToken<List<CityEntity>>(){}.getType());*/
+        //        LocationInfo.getInstance().getAllCitys();
         List<CityChooseObject> citysList = new ArrayList<>();
+
+        List<CityEntity> hotCitys = new ArrayList<>();
+        int w = 0;
+        for (CityEntity item : LocationInfo.getInstance().getAllCitys()) {
+            if (w < 9) {
+                hotCitys.add(item);
+            } else {
+                break;
+            }
+            w ++;
+        }
+        CityEntity locationCity = new CityEntity();
+        locationCity.setCityName(LocationInfo.getInstance().getLocationInfo().getCity());
+        locationCity.setCityFirst("定位");
+        locationCity = locationCityCode(locationCity);
+        List<CityEntity> locationCitys = new ArrayList<>();
+        locationCitys.add(locationCity);
+        locationCity.setChildrenCitys(locationCitys);
+        citys.add(locationCity);
+
+        CityEntity hotCity = new CityEntity();
+        hotCity.setCityFirst("热门");
+        hotCity.setChildrenCitys(hotCitys);
+        citys.add(hotCity);
+
+        citys.addAll(LocationInfo.getInstance().getAllCitys());
 
         cityUseLetters.clear();
         int k = 0;
         for (int i = 0 ;i < citys.size(); i++) {
             CityEntity item = citys.get(i);
             if (i == 0) {
+                CityChooseObject.letters.add(k);
+                cityUseLetters.add(item.getCityFirst());
+                CityChooseObject i1 = new CityChooseObject(CityChooseObject.SECTION, item.getCityFirst());
+                citysList.add(i1);
+                k++;
+                CityChooseObject i2 = new CityChooseObject(CityChooseObject.LOCATION, item.getCityName());
+                i2.setCitys(item.getChildrenCitys());
+                citysList.add(i2);
+                k++;
+            } else if (i == 1) {
+                CityChooseObject.letters.add(k);
+                cityUseLetters.add(item.getCityFirst());
+                CityChooseObject i1 = new CityChooseObject(CityChooseObject.SECTION, item.getCityFirst());
+                citysList.add(i1);
+                k++;
+                CityChooseObject i2 = new CityChooseObject(CityChooseObject.HOT, item.getCityName());
+                i2.setCitys(item.getChildrenCitys());
+                citysList.add(i2);
+                k++;
+            } else if (i == 2) {
                 CityChooseObject.letters.add(k);
                 cityUseLetters.add(item.getCityFirst());
                 CityChooseObject i1 = new CityChooseObject(CityChooseObject.SECTION, item.getCityFirst());
@@ -181,15 +228,16 @@ public class CityChooseActivity extends BaseActivity {
         adapter.setOnItemClick(new CityListAdapter.OnItemClick() {
 
             @Override
-            public void onItemClick(CityChooseObject bean) {
-                if (bean.getType() == CityChooseObject.ITEM) {
+            public void onItemClick(CityEntity bean) {
+            /*    if (bean.getType() == CityChooseObject.ITEM) {
                     CityEntity cityEntity = new CityEntity();
                     cityEntity.setCityFirst(bean.getCityFirst());
-                    cityEntity.setCityID(bean.getCityId());
-                    cityEntity.setCityName(bean.getCityName());
-                    LocationInfo.getInstance().setChooseCity(cityEntity);
+                    cityEntity.setCityID(bean.getCityID());
+                    cityEntity.setCityName(bean.getCityName());*/
+                    CountyChooseActivity.startAction(CityChooseActivity.this, bean.getCityID());
+                //    LocationInfo.getInstance().setChooseCity(cityEntity);
                     finish();
-                }
+            //    }
             }
         });
         listView.setAdapter(adapter);
@@ -204,7 +252,7 @@ public class CityChooseActivity extends BaseActivity {
                     cityEntity.setCityFirst(bean.getCityFirst());
                     cityEntity.setCityID(bean.getCityId());
                     cityEntity.setCityName(bean.getCityName());
-                    LocationInfo.getInstance().setChooseCity(cityEntity);
+                //    LocationInfo.getInstance().setChooseCity(cityEntity);
                     CountyChooseActivity.startAction(CityChooseActivity.this, cityEntity.getCityID());
                     finish();
                 }
@@ -212,6 +260,15 @@ public class CityChooseActivity extends BaseActivity {
         });
     }
 
+    private CityEntity locationCityCode(CityEntity city) {
+        for (CityEntity item : LocationInfo.getInstance().getAllCitys()) {
+            if (item.getCityName().contains(city.getCityName()) || city.getCityName().contains(item.getCityName())) {
+                city.setCityID(item.getCityID());
+                return city;
+            }
+        }
+        return city;
+    }
 
     @Override
     public void onActivityResult(int requestCode,int resultCode,Intent data) {

@@ -6,11 +6,12 @@
     android:orientation="vertical"
     tools:context=".component.activity.mine.setting.SettingActivity">
 
-    <include layout="@layout/header_white_bar" />
+    <include layout="@layout/header_bar" />
 
     <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/mar_pad_len_22px"
+        android:visibility="gone"
         android:background="@color/white" />
 
     <LinearLayout
@@ -19,7 +20,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/view_click"
         android:gravity="center_vertical"
-        android:minHeight="@dimen/mar_pad_len_150px"
+        android:minHeight="@dimen/mar_pad_len_164px"
         android:orientation="horizontal"
         android:padding="@dimen/mar_pad_len_12px">
 
@@ -29,8 +30,8 @@
             android:layout_weight="1"
             android:paddingLeft="@dimen/mar_pad_len_10px"
             android:text="@string/person_info_alter_img"
-            android:textColor="@color/common_text_color"
-            android:textSize="@dimen/text_size_32px" />
+            android:textColor="@color/text_gray_dark"
+            android:textSize="@dimen/text_size_26px" />
 
         <ImageView
             android:id="@+id/person_alter_head_iv"
@@ -50,6 +51,7 @@
         android:layout_height="0.1dp"
         android:layout_marginLeft="@dimen/mar_pad_len_20px"
         android:layout_marginRight="@dimen/mar_pad_len_20px"
+        android:visibility="gone"
         android:background="@color/bg_common_gray" />
 
     <LinearLayout
@@ -65,8 +67,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/person_info_nickname"
-            android:textColor="@color/common_text_color"
-            android:textSize="@dimen/text_size_32px" />
+            android:textColor="@color/text_gray_dark"
+            android:textSize="@dimen/text_size_26px" />
 
         <TextView
             android:id="@+id/person_nickname"
@@ -78,7 +80,7 @@
             android:paddingRight="@dimen/mar_pad_len_30px"
             android:text="无名氏"
             android:textColor="@color/text_gray_dark"
-            android:textSize="@dimen/text_size_32px" />
+            android:textSize="@dimen/text_size_26px" />
 
         <ImageView style="@style/default_arrow_right" />
 
@@ -89,6 +91,7 @@
         android:layout_height="0.1dp"
         android:layout_marginLeft="@dimen/mar_pad_len_20px"
         android:layout_marginRight="@dimen/mar_pad_len_20px"
+        android:visibility="gone"
         android:background="@color/bg_common_gray" />
 
     <LinearLayout
@@ -104,8 +107,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/person_info_phone"
-            android:textColor="@color/common_text_color"
-            android:textSize="@dimen/text_size_32px" />
+            android:textColor="@color/text_gray_dark"
+            android:textSize="@dimen/text_size_26px" />
 
         <TextView
             android:id="@+id/person_phone"
@@ -117,7 +120,7 @@
             android:paddingRight="@dimen/mar_pad_len_30px"
             android:text="135XXXX6972"
             android:textColor="@color/text_gray_dark"
-            android:textSize="@dimen/text_size_32px" />
+            android:textSize="@dimen/text_size_26px" />
 
         <ImageView style="@style/default_arrow_right" />
 
@@ -128,6 +131,7 @@
         android:layout_height="0.1dp"
         android:layout_marginLeft="@dimen/mar_pad_len_20px"
         android:layout_marginRight="@dimen/mar_pad_len_20px"
+        android:visibility="gone"
         android:background="@color/bg_common_gray" />
 
     <LinearLayout
@@ -143,8 +147,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/person_info_sex"
-            android:textColor="@color/common_text_color"
-            android:textSize="@dimen/text_size_32px" />
+            android:textColor="@color/text_gray_dark"
+            android:textSize="@dimen/text_size_26px" />
 
         <TextView
             android:id="@+id/person_sex"
@@ -156,7 +160,7 @@
             android:paddingRight="@dimen/mar_pad_len_30px"
             android:text="男"
             android:textColor="@color/text_gray_dark"
-            android:textSize="@dimen/text_size_32px" />
+            android:textSize="@dimen/text_size_26px" />
 
         <ImageView style="@style/default_arrow_right" />
 
@@ -167,6 +171,7 @@
         android:layout_height="0.1dp"
         android:layout_marginLeft="@dimen/mar_pad_len_20px"
         android:layout_marginRight="@dimen/mar_pad_len_20px"
+        android:visibility="gone"
         android:background="@color/bg_common_gray" />
 
     <LinearLayout
@@ -183,8 +188,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/person_info_birthday"
-            android:textColor="@color/common_text_color"
-            android:textSize="@dimen/text_size_32px" />
+            android:textColor="@color/text_gray_dark"
+            android:textSize="@dimen/text_size_26px" />
 
         <TextView
             android:id="@+id/person_birth"
@@ -196,7 +201,7 @@
             android:paddingRight="@dimen/mar_pad_len_30px"
             android:text="1995.04.28"
             android:textColor="@color/text_gray_dark"
-            android:textSize="@dimen/text_size_32px" />
+            android:textSize="@dimen/text_size_26px" />
 
         <ImageView style="@style/default_arrow_right" />
     </LinearLayout>

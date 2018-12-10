@@ -12,7 +12,7 @@
 
     <!-- 标题底色 灰色 -->
     <!--<color name="bg_header">#58b948</color>-->
-    <color name="bg_header">#5BCC7E</color>
+    <color name="bg_header">#FF8808</color>
     <color name="background_tab_pressed">#6633B5E5</color>
     <!-- 透明色 -->
     <color name="transparent">#00000000</color>
@@ -34,9 +34,10 @@
     <!-- 蓝色 -->
     <color name="blue">#32ABFE</color>
 
-    <color name="text_gray">#ebebeb</color>
-    <color name="text_gray2">#b3b3b3</color>
-    <color name="text_gray_dark">#808080</color>
+    <color name="text_gray_light">#B0B0B0</color>
+    <color name="text_gray">#9E9E9E</color>
+    <color name="text_gray2">#666666</color>
+    <color name="text_gray_dark">#6E6E6E</color>
     <color name="text_orange">#ff8f21</color>
     <color name="text_red_orange">#ff2b21</color>
 

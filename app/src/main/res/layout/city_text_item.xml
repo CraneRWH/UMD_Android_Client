@@ -11,6 +11,8 @@
         android:gravity="center"
         android:text="蓝色"
         android:textSize="@dimen/text_size_28px"
+        android:singleLine="true"
+        android:ellipsize="end"
         android:padding="8dp"
         android:background="@color/white"
         />

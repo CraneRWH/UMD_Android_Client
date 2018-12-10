@@ -116,8 +116,9 @@ public class MerchantGoodsFragment extends BaseFragment implements PersonAdapter
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     private void initView() {
+        EventBus.getDefault().isRegistered(this);
         //   setRecommendLayoutData();
-        if (!EventBus.getDefault().isRegistered(this))
+    //    if (!EventBus.getDefault().isRegistered(this))
             EventBus.getDefault().post(new GoodsEvent());
         requestRecommendData();
         requestFoodType();

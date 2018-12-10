@@ -134,7 +134,7 @@
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_size_32px"
 				android:padding="12dp"
-				android:background="@drawable/shape_rect_corner_green"
+				android:background="@drawable/shape_rect_corner_orange"
 				android:layout_margin="10dp"
                 android:visibility="gone"
                 android:text="确定" />

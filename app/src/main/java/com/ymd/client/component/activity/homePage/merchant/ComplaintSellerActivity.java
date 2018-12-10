@@ -85,7 +85,7 @@ public class ComplaintSellerActivity extends BaseActivity {
         setContentView(R.layout.activity_complaint_seller);
         ButterKnife.bind(this);
         initView();
-        setComplaintTypeData();
+    //    setComplaintTypeData();
     }
 
     int photoPosition = 0;
@@ -97,14 +97,14 @@ public class ComplaintSellerActivity extends BaseActivity {
         PictureEntity picture = new PictureEntity();
         picture.setIcon(R.mipmap.icon_comment_star_camera);
         pictures.add(picture);
-
+/*
         picture = new PictureEntity();
         picture.setIcon(R.mipmap.icon_comment_star_camera);
         pictures.add(picture);
 
         picture = new PictureEntity();
         picture.setIcon(R.mipmap.icon_comment_star_camera);
-        pictures.add(picture);
+        pictures.add(picture);*/
 
         GridLayoutManager layoutManager = new GridLayoutManager(this, 3);
         pictureGv.setLayoutManager(layoutManager);
@@ -180,7 +180,7 @@ public class ComplaintSellerActivity extends BaseActivity {
             tv.setText(ToolUtil.changeString(complaintTypeList.get(i).get("name")));
             if (ToolUtil.changeBoolean(complaintTypeList.get(i).get("isChoose"))) {
                 tv.setTextColor(Color.WHITE);
-                tv.setBackgroundResource(R.drawable.shape_rect_corner_green);
+                tv.setBackgroundResource(R.drawable.shape_rect_corner_orange);
             } else {
                 tv.setTextColor(R.color.text_gray_dark);
                 tv.setBackgroundResource(R.drawable.shape_rect_corner_gray_edge);
@@ -205,17 +205,17 @@ public class ComplaintSellerActivity extends BaseActivity {
             ToastUtil.ToastMessage(this,"请输入投诉内容");
             return;
         }
-        if (chooseType <0) {
+   /*     if (chooseType <0) {
             ToastUtil.ToastMessage(this,"请选择投诉类型");
             return;
-        }
+        }*/
         Map<String, Object> params = new HashMap<>();
         params.put("merchantId", merchantInfo.getId());
         params.put("complaintsContent", content);
         params.put("complaintsPhotoOne", ToolUtil.changeString(pictures.get(0).getUrl()));
         params.put("complaintsPhotoThree", ToolUtil.changeString(pictures.get(2).getUrl()));
         params.put("complaintsPhotoTwo", ToolUtil.changeString(pictures.get(1).getUrl()));
-        params.put("complaintsType", chooseType);
+   //     params.put("complaintsType", chooseType);
         WebUtil.getInstance().requestPOST(this, URLConstant.MERCHANT_COMPLAINT, params, true,
                 new WebUtil.WebCallBack() {
                     @Override
@@ -254,6 +254,11 @@ public class ComplaintSellerActivity extends BaseActivity {
                     @Override
                     public void onWebSuccess(JSONObject resultJson) {
                         pictures.get(photoPosition).setUrl(resultJson.optString("url"));
+                        if (photoPosition < 2) {
+                            PictureEntity picture = new PictureEntity();
+                            picture.setIcon(R.mipmap.icon_comment_star_camera);
+                            pictures.add(picture);
+                        }
                         resetPictureGrid();
                     }
 

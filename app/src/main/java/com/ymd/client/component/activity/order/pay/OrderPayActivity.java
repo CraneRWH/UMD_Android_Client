@@ -4,8 +4,10 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.media.Image;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
@@ -21,12 +23,15 @@ import com.ymd.client.R;
 import com.ymd.client.common.base.BaseActivity;
 import com.ymd.client.common.base.bean.PayInfo;
 import com.ymd.client.common.base.bean.PayOrderResult;
+import com.ymd.client.component.activity.login.LoginActivity;
 import com.ymd.client.component.event.OrderListRefreshEvent;
 import com.ymd.client.component.event.UEvent;
 import com.ymd.client.component.widget.dialog.MyDialog;
 import com.ymd.client.model.bean.order.OrderResultForm;
 import com.ymd.client.model.constant.URLConstant;
 import com.ymd.client.utils.AlertUtil;
+import com.ymd.client.utils.DataUtils;
+import com.ymd.client.utils.DateUtil;
 import com.ymd.client.utils.LogUtil;
 import com.ymd.client.utils.ToastUtil;
 import com.ymd.client.utils.ToolUtil;
@@ -43,6 +48,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -66,10 +72,10 @@ public class OrderPayActivity extends BaseActivity {
     TextView remnantTimeTv;
     @BindView(R.id.order_money_tv1)
     TextView orderMoneyTv1;
-    @BindView(R.id.shop_name_tv)
+   /* @BindView(R.id.shop_name_tv)
     TextView shopNameTv;
     @BindView(R.id.order_code_tv)
-    TextView orderCodeTv;
+    TextView orderCodeTv;*/
     @BindView(R.id.pay_type_iv1)
     ImageView payTypeIv1;
     @BindView(R.id.pay_name_tv1)
@@ -84,8 +90,8 @@ public class OrderPayActivity extends BaseActivity {
     ImageView chooseIv2;
     @BindView(R.id.pay_type_lt)
     LinearLayout payTypeLt;
-    @BindView(R.id.order_money_tv2)
-    TextView orderMoneyTv2;
+ /*   @BindView(R.id.order_money_tv2)
+    TextView orderMoneyTv2;*/
     @BindView(R.id.pay_btn)
     LinearLayout payBtn;
 
@@ -105,12 +111,14 @@ public class OrderPayActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_pay);
+        setStatusBar(R.color.white);
         ButterKnife.bind(this);
 
         initView();
     }
 
     private void initView() {
+        setTitle("支付订单");
         setPayTypeData();
 
         chooseIv1.setOnClickListener(new View.OnClickListener() {
@@ -176,9 +184,13 @@ public class OrderPayActivity extends BaseActivity {
     OrderResultForm orderDetail;
     private void resetOrderView(String resultJson) {
         orderDetail = new Gson().fromJson(resultJson, OrderResultForm.class);
-        shopNameTv.setText(orderDetail.getmName());
+    //    shopNameTv.setText(orderDetail.getmName());
         orderMoneyTv1.setText(ToolUtil.changeString(orderDetail.getPayAmt()));
-        orderMoneyTv2.setText(ToolUtil.changeString(orderDetail.getPayAmt()));
+        Long time = new Date().getTime() + 1700000;
+        TimeTask timeTask = new TimeTask(new Date(time));
+        timeTask.execute();
+
+    //    orderMoneyTv2.setText(ToolUtil.changeString(orderDetail.getPayAmt()));
     }
 
     List<Map<String ,Object>> payTypeList = new ArrayList<>();
@@ -244,13 +256,13 @@ public class OrderPayActivity extends BaseActivity {
         }
         payType = position;
         if (ToolUtil.changeBoolean(payTypeList.get(position).get("isChoose"))) {
-            view.setImageResource(R.mipmap.icon_payoptions_complete);
-            chooseIv1.setImageResource(R.mipmap.icon_payoptions_oval);
-            chooseIv2.setImageResource(R.mipmap.icon_payoptions_oval);
+            view.setImageResource(R.mipmap.icon_payoptions_complete2);
+            chooseIv1.setImageResource(R.mipmap.icon_payoptions_oval2);
+            chooseIv2.setImageResource(R.mipmap.icon_payoptions_oval2);
         } else {
-            view.setImageResource(R.mipmap.icon_payoptions_oval);
-            chooseIv1.setImageResource(R.mipmap.icon_payoptions_oval);
-            chooseIv2.setImageResource(R.mipmap.icon_payoptions_oval);
+            view.setImageResource(R.mipmap.icon_payoptions_oval2);
+            chooseIv1.setImageResource(R.mipmap.icon_payoptions_oval2);
+            chooseIv2.setImageResource(R.mipmap.icon_payoptions_oval2);
         }
     }
 
@@ -373,7 +385,6 @@ public class OrderPayActivity extends BaseActivity {
         });
     }
 
-
     private void sendPay() {
         String payTypeStr = "";
         for (Map<String,Object> item : payTypeList) {
@@ -423,5 +434,52 @@ public class OrderPayActivity extends BaseActivity {
 
                     }
                 });
+    }
+
+    class TimeTask extends AsyncTask<Void, Integer, Boolean> {
+        Date endTime;
+        long time = 1800000;
+        public TimeTask(Date time) {
+            this.endTime = time;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            remnantTimeTv.setText(DateUtil.getSpacingTime(endTime));
+            //    remnantTimeTv.setBackgroundResource(R.color.silver);
+            remnantTimeTv.setClickable(false);
+        }
+
+        @Override
+        protected void onPostExecute(Boolean aBoolean) {
+            remnantTimeTv.setClickable(false);
+        }
+
+        @Override
+        protected void onProgressUpdate(Integer... values) {
+            remnantTimeTv.setText(DateUtil.getSpacingTime(endTime));
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            while (true) {
+                if (time >= 0) {
+                    try {
+                        Thread.sleep(1000);
+                        publishProgress();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                        return false;
+                    }
+                } else {
+                    return true;
+                }
+            }
+        }
+
+        @Override
+        protected void onCancelled() {
+
+        }
     }
 }

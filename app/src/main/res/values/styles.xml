@@ -18,7 +18,7 @@
         <item name="android:background">@null</item>
         <item name="android:textSize">16sp</item>
         <item name="android:textColor">@color/white</item>
-        <item name="android:layout_height">@dimen/header_layout_view_height</item>
+        <item name="android:layout_height">wrap_content</item>
     </style>
 
     <style name="SwipeBackLayout">

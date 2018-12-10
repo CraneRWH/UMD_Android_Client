@@ -22,35 +22,38 @@
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@mipmap/icon_order_pay_head"/>
+                android:background="@mipmap/icon_order_pay_head"
+                android:visibility="gone"
+                />
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
                 android:orientation="vertical"
-                android:paddingTop="@dimen/mar_pad_len_40px"
-                android:background="@color/white"
-                android:paddingBottom="@dimen/text_size_30px"
+                android:background="@color/bg_header"
+                android:paddingBottom="@dimen/mar_pad_len_90px"
                 >
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_horizontal"
                     android:orientation="horizontal"
-                    android:visibility="gone"
+                    android:layout_marginTop="@dimen/mar_pad_len_90px"
                     >
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        style="@style/font_size_24px_gray_"
+                        android:textSize="@dimen/text_size_26px"
+                        android:textColor="@color/white"
                         android:text="支付剩余时间"
                         />
                     <TextView
                         android:id="@+id/remnant_time_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        style="@style/font_size_24px_gray_"
-                        android:text="14:42"
+                        android:textSize="@dimen/text_size_26px"
+                        android:textColor="@color/white"
+                        android:layout_marginLeft="@dimen/mar_pad_len_16px"
                         />
                 </LinearLayout>
                 <LinearLayout
@@ -58,21 +61,21 @@
                     android:layout_height="wrap_content"
                     android:gravity="center_horizontal"
                     android:orientation="horizontal"
-                    android:layout_marginTop="@dimen/mar_pad_len_24px"
+                    android:layout_marginTop="@dimen/mar_pad_len_14px"
                     >
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/common_text_color"
-                        android:textSize="@dimen/text_size_60px"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_size_48px"
                         android:text="¥"
                         />
                     <TextView
                         android:id="@+id/order_money_tv1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/common_text_color"
-                        android:textSize="@dimen/text_size_60px"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_size_48px"
                         android:text="14.42"
                         />
                 </LinearLayout>
@@ -82,6 +85,7 @@
                     android:gravity="center_horizontal"
                     android:orientation="horizontal"
                     android:layout_marginTop="@dimen/mar_pad_len_20px"
+                    android:visibility="gone"
                     >
                     <TextView
                         android:id="@+id/shop_name_tv"
@@ -206,6 +210,17 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/mar_pad_len_20px"
                 android:background="@color/text_gray"
+                android:visibility="gone"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/text_size_32px"
+                android:textColor="@color/black"
+                android:text="请选择支付方式"
+                android:layout_marginTop="@dimen/mar_pad_len_30px"
+                android:layout_marginLeft="@dimen/mar_pad_len_24px"
+                android:layout_marginBottom="@dimen/mar_pad_len_30px"
                 />
             <LinearLayout
                 android:id="@+id/pay_type_lt"
@@ -229,7 +244,7 @@
             android:layout_height="wrap_content"
             android:textSize="@dimen/text_size_36px"
             android:textColor="@color/white"
-            android:text="确认支付"
+            android:text="立即支付"
             />
         <TextView
             android:layout_width="wrap_content"
@@ -237,6 +252,7 @@
             android:textSize="@dimen/text_size_60px"
             android:textColor="@color/white"
             android:text="¥"
+            android:visibility="gone"
             />
         <TextView
             android:id="@+id/order_money_tv2"
@@ -244,6 +260,7 @@
             android:layout_height="wrap_content"
             android:textSize="@dimen/text_size_60px"
             android:textColor="@color/white"
+            android:visibility="gone"
             />
     </LinearLayout>
 </LinearLayout>

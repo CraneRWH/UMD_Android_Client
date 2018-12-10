@@ -9,7 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.ymd.client.R;
@@ -20,7 +19,6 @@ import com.ymd.client.utils.ToolUtil;
 import org.greenrobot.eventbus.EventBus;
 
 import java.util.List;
-import java.util.Map;
 
 import butterknife.BindView;
 
@@ -50,14 +48,16 @@ public class ShopCarAdapter extends RecyclerView.Adapter<ShopCarAdapter.ViewHold
     }
 
     @SuppressLint("ResourceAsColor")
-    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
 
         YmdGoodsEntity data = datas.get(position);
+        if (data == null) {
+            return;
+        }
         holder.nameTv.setText(ToolUtil.changeString(data.getGoodsName()));
-        holder.priceTv.setText("¥" + data.getPrice());
-        holder.numTv.setText(data.getBuyCount());
+        holder.priceTv.setText(ToolUtil.changeString(data.getPrice()));
+        holder.numTv.setText(ToolUtil.changeString(data.getBuyCount()));
 
         holder.addIv.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -89,7 +89,6 @@ public class ShopCarAdapter extends RecyclerView.Adapter<ShopCarAdapter.ViewHold
     }
 
 
-
     public OnUMDItemClickListener getListener() {
         return listener;
     }
@@ -101,23 +100,21 @@ public class ShopCarAdapter extends RecyclerView.Adapter<ShopCarAdapter.ViewHold
     static class ViewHolder extends RecyclerView.ViewHolder {
 
         public View rootView;
-
-        @BindView(R.id.name_tv)
-        TextView nameTv;
-        @BindView(R.id.price_tv)
-        TextView priceTv;
-        @BindView(R.id.sub_iv)
-        ImageView subIv;
-        @BindView(R.id.num_tv)
-        TextView numTv;
-        @BindView(R.id.add_iv)
-        ImageView addIv;
+        public TextView nameTv;
+        public TextView priceTv;
+        public ImageView subIv;
+        public TextView numTv;
+        public ImageView addIv;
 
         public ViewHolder(View rootView) {
             super(rootView);
             this.rootView = rootView;
+            this.nameTv = (TextView) rootView.findViewById(R.id.name_tv);
+            this.priceTv = (TextView) rootView.findViewById(R.id.price_tv);
+            this.subIv = (ImageView) rootView.findViewById(R.id.sub_iv);
+            this.numTv = (TextView) rootView.findViewById(R.id.buy_num_tv);
+            this.addIv = (ImageView) rootView.findViewById(R.id.add_iv);
         }
 
     }
-
 }

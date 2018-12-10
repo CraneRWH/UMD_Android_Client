@@ -20,70 +20,114 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/mar_pad_len_20px"
-                android:gravity="center_horizontal|bottom"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
+                android:paddingBottom="@dimen/mar_pad_len_80px"
+                >
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="¥"
-                    android:textColor="@color/text_orange"
-                    android:textSize="@dimen/text_size_36px" />
+                    android:orientation="vertical"
+                    android:background="@mipmap/icon_pay_success_bg"
+                    >
 
-                <TextView
-                    android:id="@+id/order_money_tv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/text_orange"
-                    android:textSize="@dimen/text_size_60px" />
-            </LinearLayout>
+                    <ImageView
+                        android:layout_width="@dimen/mar_pad_len_88px"
+                        android:layout_height="@dimen/mar_pad_len_88px"
+                        android:src="@mipmap/icon_pay_success_right"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="@dimen/mar_pad_len_80px"
+                        />
+                    <ImageView
+                        android:layout_width="@dimen/mar_pad_len_156px"
+                        android:layout_height="@dimen/mar_pad_len_34px"
+                        android:src="@mipmap/icon_pay_success_text"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="@dimen/mar_pad_len_24px"
+                        />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/mar_pad_len_24px"
+                        android:gravity="center_horizontal|bottom"
+                        android:layout_marginBottom="@dimen/mar_pad_len_220px"
+                        android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/pay_result_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="@dimen/mar_pad_len_40px"
-                android:text="支付成功"
-                android:textColor="@color/common_text_color"
-                android:textSize="@dimen/text_size_48px" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="共支付"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/text_size_36px" />
 
-            <ImageView
-                android:id="@+id/qr_code_iv"
-                android:layout_width="@dimen/mar_pad_len_262px"
-                android:layout_height="@dimen/mar_pad_len_262px"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="@dimen/mar_pad_len_60px"/>
+                        <TextView
+                            android:id="@+id/order_money_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/text_size_36px" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="元"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/text_size_36px" />
+                    </LinearLayout>
 
-            <com.ymd.client.component.widget.other.MyChooseItemView
-                android:id="@+id/food_code_mcv"
-                android:layout_width="80dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginBottom="@dimen/mar_pad_len_40px"
-                android:layout_marginTop="@dimen/mar_pad_len_20px"
-                custom:defaultValue="取餐码"></com.ymd.client.component.widget.other.MyChooseItemView>
+                    <TextView
+                        android:id="@+id/pay_result_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="@dimen/mar_pad_len_40px"
+                        android:text="支付成功"
+                        android:textColor="@color/common_text_color"
+                        android:visibility="gone"
+                        android:textSize="@dimen/text_size_48px" />
+
+
+                    <com.ymd.client.component.widget.other.MyChooseItemView
+                        android:id="@+id/food_code_mcv"
+                        android:layout_width="80dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginBottom="@dimen/mar_pad_len_40px"
+                        android:layout_marginTop="@dimen/mar_pad_len_20px"
+                        android:visibility="gone"
+                        custom:defaultValue="取餐码"></com.ymd.client.component.widget.other.MyChooseItemView>
+
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/qr_code_iv"
+                    android:layout_width="@dimen/mar_pad_len_400px"
+                    android:layout_height="@dimen/mar_pad_len_400px"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_centerHorizontal="true"
+                    android:background="@color/white"
+                    android:layout_marginTop="@dimen/mar_pad_len_380px"/>
+            </RelativeLayout>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/mar_pad_len_20px"
-                android:background="@color/text_gray" />
+                android:background="@color/bg_color" />
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/mar_pad_len_88px"
+                android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:paddingLeft="@dimen/mar_pad_len_20px">
+                android:paddingLeft="@dimen/mar_pad_len_24px"
+                android:paddingTop="@dimen/mar_pad_len_40px"
+                android:paddingBottom="@dimen/mar_pad_len_24px"
+                >
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="支付成功"
+                    android:text="订单详情"
                     android:textColor="@color/common_text_color"
                     android:textSize="@dimen/text_size_32px" />
 
@@ -114,7 +158,8 @@
                     android:src="@mipmap/icon_pay_phone" />
             </LinearLayout>
 
-            <View style="@style/view_detail_item_separator" />
+            <View style="@style/view_detail_item_separator"
+                android:visibility="gone"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -128,6 +173,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_margin="@dimen/mar_pad_len_20px"
+                    android:visibility="gone"
                     android:text="沙县小吃" />
 
                 <LinearLayout
@@ -164,6 +210,7 @@
                 android:gravity="center_vertical"
                 android:paddingLeft="@dimen/mar_pad_len_20px"
                 android:background="@color/text_gray"
+                android:visibility="gone"
                 >
                 <TextView
                     android:layout_width="wrap_content"
@@ -180,12 +227,15 @@
                     android:layout_marginRight="@dimen/mar_pad_len_20px"
                     />
             </LinearLayout>
-            <View style="@style/view_detail_item_separator"/>
+            <View style="@style/view_detail_item_separator"
+                android:visibility="gone"/>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:orientation="vertical"
                 android:layout_marginLeft="@dimen/mar_pad_len_20px"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                >
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -335,6 +385,13 @@
                         />
                 </LinearLayout>
             </LinearLayout>
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/icon_back_home"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/mar_pad_len_24px"
+                />
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -14,8 +13,6 @@ import android.widget.TextView;
 
 import com.ymd.client.R;
 import com.ymd.client.common.base.BaseActivity;
-import com.ymd.client.component.activity.main.MainActivity;
-import com.ymd.client.component.activity.mine.setting.config.AlterRegPhoneActivity;
 import com.ymd.client.model.constant.URLConstant;
 import com.ymd.client.utils.ToastUtil;
 import com.ymd.client.utils.ToolUtil;
@@ -28,7 +25,6 @@ import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 /**
  * 包名:com.ymd.client.component.activity.login
@@ -50,9 +46,12 @@ public class ForgetPasswrodActivity extends BaseActivity {
     EditText passwordEt;
     @BindView(R.id.login_btn)
     Button loginBtn;
+    @BindView(R.id.password_et2)
+    EditText passwordEt2;
 
     /**
      * 启动
+     *
      * @param context
      */
     public static void startAction(Activity context) {
@@ -70,7 +69,7 @@ public class ForgetPasswrodActivity extends BaseActivity {
 
 
     private void initView() {
-        setTitle("忘记密码");
+        setTitle("");
         setStatusBar(R.color.bg_header);
         mobileCodeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -108,12 +107,21 @@ public class ForgetPasswrodActivity extends BaseActivity {
             ToastUtil.ToastMessage(this, "新密码格式不正确", ToastUtil.WARN);
             return;
         }
+        String password2 = passwordEt2.getText().toString().trim();
+        if (TextUtils.isEmpty(password)) {
+            ToastUtil.ToastMessage(this, "请再次输入密码", ToastUtil.WARN);
+            return;
+        }
+        if (password.equals(password2)) {
+            ToastUtil.ToastMessage(this, "两次输入的密码不一致", ToastUtil.WARN);
+            return;
+        }
 
-        Map<String,Object> params = new HashMap<>();
+        Map<String, Object> params = new HashMap<>();
         params.put("phone", mobileNumberString);
         params.put("code", mobileCodeString);
         params.put("password", password);
-        params.put("type",0);
+        params.put("type", 0);
         WebUtil.getInstance().requestPOST(this, URLConstant.CHANGE_LOGIN_PASSWORD, params,
                 new WebUtil.WebCallBack() {
                     @Override
@@ -138,7 +146,7 @@ public class ForgetPasswrodActivity extends BaseActivity {
             return;
         }
         mobileCodeBtn.setClickable(false);
-        Map<String,Object> params = new HashMap<>();
+        Map<String, Object> params = new HashMap<>();
         params.put("phone", ToolUtil.changeString(mobileNumber.getText()));
         WebUtil.getInstance().requestPOST(this, URLConstant.GET_PHONE_CODE, params, false, true, new WebUtil.WebCallBack<Object>() {
             @Override
@@ -158,6 +166,7 @@ public class ForgetPasswrodActivity extends BaseActivity {
             }
         });
     }
+
     private TimeTask timeTask;
 
     /**
@@ -165,6 +174,7 @@ public class ForgetPasswrodActivity extends BaseActivity {
      */
     class TimeTask extends AsyncTask<Void, Integer, Boolean> {
         int time = 60;
+
         @Override
         protected void onPreExecute() {
             mobileCodeBtn.setText("(60s)");
@@ -188,7 +198,7 @@ public class ForgetPasswrodActivity extends BaseActivity {
         @Override
         protected Boolean doInBackground(Void... params) {
             while (true) {
-                if (time >=0) {
+                if (time >= 0) {
                     try {
                         Thread.sleep(1000);
                         time--;

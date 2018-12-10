@@ -1,5 +1,7 @@
 package com.ymd.client.model.bean.city;
 
+import java.util.List;
+
 /**
  * 包名:com.ymd.client.model.bean.city
  * 类名:
@@ -15,6 +17,8 @@ public class CityEntity {
 
     private String countyName;
     private long countyCode;
+
+    private List<CityEntity> childrenCitys;
 
     public long getCountyCode() {
         return countyCode;
@@ -54,5 +58,13 @@ public class CityEntity {
 
     public void setCountyName(String countyName) {
         this.countyName = countyName;
+    }
+
+    public List<CityEntity> getChildrenCitys() {
+        return childrenCitys;
+    }
+
+    public void setChildrenCitys(List<CityEntity> childrenCitys) {
+        this.childrenCitys = childrenCitys;
     }
 }

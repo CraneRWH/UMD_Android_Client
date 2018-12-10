@@ -83,7 +83,6 @@ public class PersonInfoActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_person_info);
         ButterKnife.bind(this);
-        setStatusBar(R.color.white);
         setTitle(getResources().getString(R.string.fragment_person));
 
         ciutil = new ChoiceImageUtil(this);

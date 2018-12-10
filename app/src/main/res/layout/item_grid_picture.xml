@@ -9,7 +9,6 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/mar_pad_len_240px"
         android:src="@mipmap/icon_comment_star_camera"
-        android:background="@drawable/shape_rect_gray_edge"
         android:layout_margin="@dimen/mar_pad_len_6px"
         />
 </LinearLayout>

@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.TabLayout;
@@ -31,10 +32,9 @@ import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.ymd.client.R;
 import com.ymd.client.component.activity.homePage.merchant.fragment.EvaluateSellerFragment;
-import com.ymd.client.component.activity.homePage.merchant.fragment.test.MerchantGoodsFragment_;
-import com.ymd.client.component.activity.homePage.merchant.seller.ShopCarPopupWindow;
 import com.ymd.client.component.activity.homePage.merchant.fragment.MerchantGoodsFragment;
 import com.ymd.client.component.activity.homePage.merchant.fragment.MerchantZiZhiFragment;
+import com.ymd.client.component.activity.homePage.merchant.seller.ShopCarPopupWindow;
 import com.ymd.client.component.activity.order.detail.OrderDetailActivity;
 import com.ymd.client.component.adapter.TabFragmentAdapter;
 import com.ymd.client.component.event.GoodsEvent;
@@ -42,6 +42,7 @@ import com.ymd.client.component.event.MEvent;
 import com.ymd.client.component.event.MessageEvent;
 import com.ymd.client.component.event.OrderListRefreshEvent;
 import com.ymd.client.component.widget.dialog.CommonDialogs;
+import com.ymd.client.component.widget.dialog.ShopCarDialog;
 import com.ymd.client.model.bean.homePage.MerchantInfoEntity;
 import com.ymd.client.model.bean.homePage.YmdGoodsEntity;
 import com.ymd.client.model.constant.URLConstant;
@@ -103,6 +104,16 @@ public class MerchantDetailActivity extends TabBaseActivity {
     LinearLayout footView;
     @BindView(R.id.shopCartMain)
     RelativeLayout shopCartMain;
+    @BindView(R.id.prise_tv)
+    TextView priseTv;
+    @BindView(R.id.one_need_money_tv)
+    TextView oneNeedMoneyTv;
+    @BindView(R.id.merchant_type_tv)
+    TextView merchantTypeTv;
+    @BindView(R.id.manjian_tv)
+    TextView manjianTv;
+    @BindView(R.id.buy_order_btn)
+    ImageView buyOrderBtn;
     private CollapsingToolbarLayout collapsingToolbarLayout;
     private AppBarLayout appBarLayout;
     private TabLayout slidingTabLayout;
@@ -119,6 +130,7 @@ public class MerchantDetailActivity extends TabBaseActivity {
     MerchantInfoEntity merchantInfo;
 
     ShopCarPopupWindow shopCarPopupWindow;
+//    ShopCarDialog shopCarDialog;
 
     private List<YmdGoodsEntity> buyList = new ArrayList<>();
 
@@ -139,7 +151,6 @@ public class MerchantDetailActivity extends TabBaseActivity {
         intent.putExtra("functionType", functionType);
         context.startActivity(intent);
     }
-
 
     /**
      * 启动
@@ -184,13 +195,19 @@ public class MerchantDetailActivity extends TabBaseActivity {
             @Override
             public void onClick(View view) {
                 if (!isCollection)
-                addCollection();
+                    addCollection();
                 else {
                     delCollection();
                 }
             }
         });
 
+    /*    shopCarDialog = new ShopCarDialog(this, new ShopCarDialog.ResultListener() {
+            @Override
+            public void onResult(int position) {
+
+            }
+        });*/
         shopCarPopupWindow = new ShopCarPopupWindow(this, new ShopCarPopupWindow.ResultListener() {
             @Override
             public void onResult(int position) {
@@ -201,18 +218,23 @@ public class MerchantDetailActivity extends TabBaseActivity {
         footView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-            /*    if (shopCarPopupWindow.isShowing()) {
+                /*if (shopCarDialog.isShowing()) {
+                    shopCarDialog.dismiss();
+                } else {
+                    shopCarDialog.show();
+                }*/
+                if (shopCarPopupWindow.isShowing()) {
                     shopCarPopupWindow.dismiss();
                 } else {
-                    shopCarPopupWindow.showPopupWindow(shopCartMain);
-                }*/
+                    ShopCarPopupWindow.showAsDropDown(shopCarPopupWindow, footView, 0,0);
+                }
             }
         });
         submitBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (buyList.isEmpty()) {
-                    ToastUtil.ToastMessage(MerchantDetailActivity.this,"请选择要购买的商品");
+                    ToastUtil.ToastMessage(MerchantDetailActivity.this, "请选择要购买的商品");
                 } else {
                     submitOrder();
                 }
@@ -289,6 +311,8 @@ public class MerchantDetailActivity extends TabBaseActivity {
         }
         workTimeTv.setText(ToolUtil.changeString(merchantInfo.getStartBusinessTime()) + "-" + ToolUtil.changeString(merchantInfo.getEndBusinessTime()));
 
+        priseTv.setText(ToolUtil.changeString(90));
+        oneNeedMoneyTv.setText(ToolUtil.changeString(30));
         isCollection = ToolUtil.changeInteger(merchantInfo.getCollection()) > 0 ? true : false;
         setCollectionImage();
     }
@@ -296,16 +320,16 @@ public class MerchantDetailActivity extends TabBaseActivity {
     private void setViewPager() {
 
         MerchantGoodsFragment disheslFragment = MerchantGoodsFragment.newInstance(merchantInfo);
-    //    MerchantGoodsFragment_ disheslFragment = MerchantGoodsFragment_.newInstance(merchantInfo);
+        //    MerchantGoodsFragment_ disheslFragment = MerchantGoodsFragment_.newInstance(merchantInfo);
         EvaluateSellerFragment evaluateSellerFragment = EvaluateSellerFragment.newInstance(merchantInfo);
-    //    SellerDetailFragment detailFragment = SellerDetailFragment.newInstance(merchantInfo);
+        //    SellerDetailFragment detailFragment = SellerDetailFragment.newInstance(merchantInfo);
         MerchantZiZhiFragment detailFragment = MerchantZiZhiFragment.newInstance(merchantInfo);
         mFragments.add(disheslFragment);
         mFragments.add(evaluateSellerFragment);
         mFragments.add(detailFragment);
 
         mTitles.add("点餐");
-     //   if (merchantInfo.getLatitude())
+        //   if (merchantInfo.getLatitude())
         mTitles.add("点评");
         mTitles.add("商家");
 
@@ -379,7 +403,7 @@ public class MerchantDetailActivity extends TabBaseActivity {
         Map<String, Object> params = new HashMap<>();
         params.put("merchantId", merchantInfo.getId());
         params.put("consumerId", LoginInfo.getInstance().getLoginInfo().getId());
-        WebUtil.getInstance().requestPOST(this, URLConstant.MERCHANT_COLLECTION_ADD, params,true,
+        WebUtil.getInstance().requestPOST(this, URLConstant.MERCHANT_COLLECTION_ADD, params, true,
                 new WebUtil.WebCallBack() {
                     @Override
                     public void onWebSuccess(JSONObject result) {
@@ -585,7 +609,7 @@ public class MerchantDetailActivity extends TabBaseActivity {
             for (YmdGoodsEntity item : goodsEntity.getGoods()) {
                 allMoney = ToolUtil.changeDouble(item.getPrice()) * item.getBuyCount() + allMoney;
                 count = count + item.getBuyCount();
-            //    disAllMoney = ((ToolUtil.changeDouble(item.getPrice()) * ToolUtil.changeDouble(merchantInfo.getDiscount())) / 10) * item.getBuyCount() + disAllMoney;
+                //    disAllMoney = ((ToolUtil.changeDouble(item.getPrice()) * ToolUtil.changeDouble(merchantInfo.getDiscount())) / 10) * item.getBuyCount() + disAllMoney;
                 disAllMoney = ToolUtil.changeDouble(item.getPreferentialPrice()) * item.getBuyCount() + disAllMoney;
             }
             goodsEntity.setAllMoney(allMoney);
@@ -603,7 +627,7 @@ public class MerchantDetailActivity extends TabBaseActivity {
                 buyList.addAll(goodsEntity.getGoods());
                 mainGoods = goodsEntity;
             }
-        } catch(NullPointerException e) {
+        } catch (NullPointerException e) {
             e.printStackTrace();
         }
     }
@@ -616,12 +640,12 @@ public class MerchantDetailActivity extends TabBaseActivity {
         params.put("payAmt", ToolUtil.changeString(mainGoods.getDisAllMoney()));
         params.put("totalAmt", ToolUtil.changeString(mainGoods.getAllMoney()));
         params.put("uCurrency", "0");
-        List<Map<String,Object>> list = new ArrayList<>();
+        List<Map<String, Object>> list = new ArrayList<>();
         for (YmdGoodsEntity item : buyList) {
-            Map<String,Object> map = new HashMap<>();
+            Map<String, Object> map = new HashMap<>();
             map.put("goodsId", item.getId());
             map.put("goodsNum", item.getBuyCount());
-            map.put("goodsType","0");
+            map.put("goodsType", "0");
             list.add(map);
         }
         params.put("goodslist", list);
@@ -656,13 +680,13 @@ public class MerchantDetailActivity extends TabBaseActivity {
                     @Override
                     public void confirm(String result) {
                         switch (result) {
-                            case "百度地图" :
+                            case "百度地图":
                                 toBaidu();
                                 break;
-                            case "高德地图" :
+                            case "高德地图":
                                 toGaode();
                                 break;
-                            case "腾讯地图" :
+                            case "腾讯地图":
                                 toTengxun();
                                 break;
                         }
@@ -674,16 +698,16 @@ public class MerchantDetailActivity extends TabBaseActivity {
         try {
             Intent intent = new Intent();
             double[] doubles = ToolUtil.gaoDeToBaidu(ToolUtil.changeDouble(merchantInfo.getLatitude()), ToolUtil.changeDouble(merchantInfo.getLongitude()));
-            intent.setData(Uri.parse("baidumap://map/direction?"+ "destination=" + doubles[0] + "," + doubles[1]
+            intent.setData(Uri.parse("baidumap://map/direction?" + "destination=" + doubles[0] + "," + doubles[1]
                     + "&title=" + ToolUtil.changeString(merchantInfo.getName())
-                    + "&content=" + getIntent().getStringExtra(merchantInfo.getAddress()) + "&traffic=on"+ "&mode=driving"));
+                    + "&content=" + getIntent().getStringExtra(merchantInfo.getAddress()) + "&traffic=on" + "&mode=driving"));
 //                                intent.setData(Uri.parse("baidumap://map/marker?location=" + getIntent().getStringExtra(LAT) + "," + getIntent().getStringExtra(LNG)
 //                                        + "&title=" + getIntent().getStringExtra(SHOP_TITLE)
 //                                        + "&content=" + getIntent().getStringExtra(SHOP_PHONE) + "&traffic=on"));
 
             startActivity(intent);
         } catch (Exception e) {
-            ToastUtil.ToastMessage(this,"您尚未安装百度地图或地图版本过低");
+            ToastUtil.ToastMessage(this, "您尚未安装百度地图或地图版本过低");
             Uri uri = Uri.parse("market://details?id=com.baidu.BaiduMap");
             Intent BIntent = new Intent(Intent.ACTION_VIEW, uri);
             startActivity(BIntent);
@@ -695,11 +719,11 @@ public class MerchantDetailActivity extends TabBaseActivity {
         try {
             Intent intent = Intent.getIntent("androidamap://route?sourceApplication=" + getResources().getString(R.string.app_name) + "&sname=我的位置&dlat="
                     + ToolUtil.changeDouble(merchantInfo.getLatitude()) + "&dlon=" + ToolUtil.changeDouble(merchantInfo.getLongitude())
-                    + "&dname="+ ToolUtil.changeString(merchantInfo.getName())
+                    + "&dname=" + ToolUtil.changeString(merchantInfo.getName())
                     + "&dev=1&m=2&t=3");
             startActivity(intent);
         } catch (URISyntaxException e) {
-            ToastUtil.ToastMessage(this,"您尚未安装高德地图或地图版本过低");
+            ToastUtil.ToastMessage(this, "您尚未安装高德地图或地图版本过低");
             Uri uri = Uri.parse("market://details?id=com.autonavi.minimap");
             Intent AIntent = new Intent(Intent.ACTION_VIEW, uri);
             startActivity(AIntent);
@@ -718,7 +742,7 @@ public class MerchantDetailActivity extends TabBaseActivity {
             intent.setData(uri);
             startActivity(intent);
         } catch (Exception e) {
-            ToastUtil.ToastMessage(this,"您尚未安装腾讯地图或地图版本过低");
+            ToastUtil.ToastMessage(this, "您尚未安装腾讯地图或地图版本过低");
             Uri uri = Uri.parse("market://details?id=com.tencent.map");
             Intent TIntent = new Intent(Intent.ACTION_VIEW, uri);
             startActivity(TIntent);
@@ -730,13 +754,13 @@ public class MerchantDetailActivity extends TabBaseActivity {
     private List<String> getMapApk() {
         List<String> mydata = new ArrayList<>();
         List<String> apkList = ToolUtil.getApkList(this);
-        if (apkList.contains("com.baidu.BaiduMap")){
+        if (apkList.contains("com.baidu.BaiduMap")) {
             mydata.add("百度地图");
         }
-        if (apkList.contains("com.autonavi.minimap")){
+        if (apkList.contains("com.autonavi.minimap")) {
             mydata.add("高德地图");
         }
-        if (apkList.contains("com.tencent.map")){
+        if (apkList.contains("com.tencent.map")) {
             mydata.add("腾讯地图");
         }
         return mydata;

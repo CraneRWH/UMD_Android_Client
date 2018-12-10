@@ -86,7 +86,7 @@
         android:id="@+id/submit_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/shape_rect_corner_green"
+        android:background="@drawable/shape_rect_corner_orange"
         android:gravity="center"
         android:padding="@dimen/mar_pad_len_10px"
         android:text="提交"

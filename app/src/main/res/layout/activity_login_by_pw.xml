@@ -2,9 +2,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     android:orientation="vertical">
 
-    <include layout="@layout/header_bar" />
+    <include layout="@layout/header_white_bar" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -16,20 +17,23 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <ImageView
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@mipmap/icon_umd"
-                android:layout_marginTop="@dimen/mar_pad_len_50px"
-                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/mar_pad_len_134px"
+                android:layout_gravity="center_vertical"
+                android:textSize="@dimen/text_size_60px"
+                android:text="欢迎登录"
+                android:textColor="@color/text_gray2"
+                android:layout_marginLeft="@dimen/mar_pad_len_75px"
                 />
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/mar_pad_len_50px"
-                android:paddingLeft="30dp"
-                android:paddingRight="30dp">
+                android:layout_marginTop="@dimen/mar_pad_len_88px"
+                android:paddingLeft="@dimen/mar_pad_len_75px"
+                android:paddingRight="@dimen/mar_pad_len_75px">
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="45dp"
@@ -40,8 +44,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="+86"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/text_size_36px" />
+                        android:textColor="@color/text_gray2"
+                        android:textSize="@dimen/text_size_30px" />
 
                     <ImageView
                         android:layout_width="10dp"
@@ -58,24 +62,22 @@
                         android:background="@null"
                         android:hint="请输入手机号"
                         android:inputType="number"
-                        android:paddingLeft="10dp"
+                        android:paddingLeft="@dimen/mar_pad_len_40px"
                         android:singleLine="true"
-                        android:textColor="@color/black"
+                        android:textColor="@color/text_gray"
                         android:textSize="@dimen/text_size_36px" />
                 </LinearLayout>
-                <View style="@style/view_detail_item_separator"
-                    android:layout_alignParentBottom="true"/>
             </RelativeLayout>
 
             <RelativeLayout
+                android:id="@+id/mobile_code_rlt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/mar_pad_len_20px"
-                android:paddingLeft="30dp"
-                android:paddingRight="30dp">
+                android:paddingLeft="@dimen/mar_pad_len_75px"
+                android:paddingRight="@dimen/mar_pad_len_75px">
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
+                    android:layout_height="45dp"
                     android:gravity="center_vertical"
                     android:orientation="horizontal">
 
@@ -102,9 +104,8 @@
                             android:background="@null"
                             android:hint="请输入密码"
                             android:inputType="textPassword"
-                            android:paddingLeft="10dp"
                             android:singleLine="true"
-                            android:textColor="@color/black"
+                            android:textColor="@color/text_gray"
                             android:textSize="@dimen/text_size_36px" />
                     </LinearLayout>
 
@@ -123,8 +124,6 @@
                         android:textColor="#fefefe" />
                 </LinearLayout>
 
-                <View style="@style/view_detail_item_separator"
-                    android:layout_alignParentBottom="true"/>
             </RelativeLayout>
 
             <TextView
@@ -141,10 +140,10 @@
                 android:id="@+id/login_btn"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
-                android:layout_marginTop="@dimen/mar_pad_len_100px"
-                android:layout_marginRight="@dimen/mar_pad_len_100px"
-                android:layout_marginLeft="@dimen/mar_pad_len_100px"
-                android:background="@color/bg_header"
+                android:layout_marginTop="@dimen/mar_pad_len_32px"
+                android:layout_marginRight="@dimen/mar_pad_len_75px"
+                android:layout_marginLeft="@dimen/mar_pad_len_75px"
+                android:background="@mipmap/icon_login_btn"
                 android:text="登录"
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_size_36px" />
@@ -153,8 +152,8 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:gravity="center_vertical"
-                android:layout_marginRight="@dimen/mar_pad_len_70px"
-                android:layout_marginLeft="@dimen/mar_pad_len_70px"
+                android:layout_marginRight="@dimen/mar_pad_len_35px"
+                android:layout_marginLeft="@dimen/mar_pad_len_35px"
                 >
                 <CheckBox
                     android:layout_width="0dp"
@@ -172,9 +171,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="注册账号"
-                    android:textColor="@color/text_gray_dark"
-                    android:textSize="@dimen/text_size_26px"
-                    android:padding="@dimen/mar_pad_len_30px"
+                    android:textColor="@color/text_gray2"
+                    android:textSize="@dimen/text_size_30px"
+                    android:padding="@dimen/mar_pad_len_40px"
                     />
                 <View
                     android:layout_width="0dp"
@@ -185,69 +184,46 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="忘记密码"
-                    android:textColor="@color/text_gray_dark"
-                    android:textSize="@dimen/text_size_26px"
-                    android:padding="@dimen/mar_pad_len_30px"
+                    android:textColor="@color/text_gray2"
+                    android:textSize="@dimen/text_size_30px"
+                    android:padding="@dimen/mar_pad_len_35px"
                     android:layout_gravity="right"
                     />
             </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="80dp"
+                android:layout_marginRight="80dp"
+                android:layout_marginTop="80dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/qq_iv"
+                    android:layout_width="0dp"
+                    android:layout_height="80dp"
+                    android:layout_weight="1"
+                    android:padding="20dp"
+                    android:src="@mipmap/qq_blue_circle_icon" />
+
+                <ImageView
+                    android:id="@+id/weixin_iv"
+                    android:layout_width="0dp"
+                    android:layout_height="80dp"
+                    android:layout_weight="1"
+                    android:padding="20dp"
+                    android:src="@mipmap/weixin_green_circle_icon" />
+
+
+                <ImageView
+                    android:id="@+id/weibo_iv"
+                    android:layout_width="0dp"
+                    android:layout_height="80dp"
+                    android:padding="20dp"
+                    android:layout_weight="1"
+                    android:visibility="gone"
+                    android:src="@mipmap/weibo_red_circle_icon" />
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        >
-
-        <View
-            style="@style/view_detail_item_separator"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="80dp"
-            android:layout_marginRight="80dp"
-            android:background="@color/bg_header"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:layout_margin="5dp"
-            android:background="@color/white"
-            android:text="第三方登录"
-            android:textSize="@dimen/text_size_26px"
-            android:textColor="@color/bg_header" />
-    </RelativeLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="80dp"
-        android:layout_marginRight="80dp"
-        android:visibility="gone"
-        android:orientation="horizontal">
-
-        <ImageView
-            android:id="@+id/weixin_iv"
-            android:layout_width="0dp"
-            android:layout_height="80dp"
-            android:layout_weight="1"
-            android:padding="20dp"
-            android:src="@mipmap/weixin_green_circle_icon" />
-
-        <ImageView
-            android:id="@+id/qq_iv"
-            android:layout_width="0dp"
-            android:layout_height="80dp"
-            android:layout_weight="1"
-            android:padding="20dp"
-            android:src="@mipmap/qq_blue_circle_icon" />
-
-        <ImageView
-            android:id="@+id/weibo_iv"
-            android:layout_width="0dp"
-            android:layout_height="80dp"
-            android:padding="20dp"
-            android:layout_weight="1"
-            android:src="@mipmap/weibo_red_circle_icon" />
-    </LinearLayout>
 </LinearLayout>

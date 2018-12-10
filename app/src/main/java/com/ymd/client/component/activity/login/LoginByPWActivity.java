@@ -119,7 +119,8 @@ public class LoginByPWActivity extends BaseActivity {
                 ForgetPasswrodActivity.startAction(LoginByPWActivity.this);
             }
         });
-        setRightBtn("验证码登录", new View.OnClickListener() {
+        setTitle("");
+        setRightImg(R.mipmap.icon_mobile_code_login_btn, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 LoginActivity.startAction(LoginByPWActivity.this);
@@ -130,8 +131,6 @@ public class LoginByPWActivity extends BaseActivity {
     }
 
     private void submit() {
-
-
         String mobileNumberString = mobileNumber.getText().toString().trim();
         if (TextUtils.isEmpty(mobileNumberString)) {
             ToastUtil.ToastMessage(this, "请输入手机号", ToastUtil.WARN);

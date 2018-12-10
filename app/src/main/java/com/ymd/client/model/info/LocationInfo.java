@@ -140,7 +140,7 @@ public class LocationInfo implements java.io.Serializable{
 	public void setLocationInfo(LocationInfoEntity info) {
 		locationInfo = info;
 		CommonShared.setString(LOCATION_INFO_SETTING, new Gson().toJson(info));
-//		if (ToolUtil.changeInteger(chooseCity.getCityID()) == 0)
+		if (ToolUtil.changeInteger(chooseCity.getCityID()) == 0)
 			locationChangeChooseCity();
 	}
 

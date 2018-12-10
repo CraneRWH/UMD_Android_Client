@@ -5,17 +5,16 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.EventLog;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.ymd.client.R;
 import com.ymd.client.common.base.BaseActivity;
-import com.ymd.client.component.activity.main.MainActivity;
 import com.ymd.client.component.event.LoginEvent;
 import com.ymd.client.model.constant.URLConstant;
 import com.ymd.client.model.info.LoginInfo;
@@ -25,11 +24,13 @@ import com.ymd.client.utils.ToolUtil;
 import com.ymd.client.web.WebUtil;
 
 import org.greenrobot.eventbus.EventBus;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 /**
  * 作者:rongweihe
@@ -39,6 +40,8 @@ import java.util.Map;
  */
 public class LoginActivity extends BaseActivity {
 
+    @BindView(R.id.mobile_code_rlt)
+    RelativeLayout mobileCodeRlt;
     private EditText mobileNumber;
     private EditText mobileCode;
     private TextView mobileCodeBtn;
@@ -51,6 +54,8 @@ public class LoginActivity extends BaseActivity {
 
     private TextView registerBtn;
     private String index;
+
+    private boolean isMobileCode = true;
     /**
      * 启动
      *
@@ -66,6 +71,7 @@ public class LoginActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        ButterKnife.bind(this);
         initView();
     }
 
@@ -96,12 +102,16 @@ public class LoginActivity extends BaseActivity {
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                submit();
+                if (isMobileCode) {
+                    getPhoneCode();
+                } else {
+                    submit();
+                }
             }
         });
 
-        setTitle("登录");
-        setRightBtn("密码登录", new View.OnClickListener() {
+        setTitle("");
+        setRightImg(R.mipmap.icon_login_by_password, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 LoginByPWActivity.startAction(LoginActivity.this);
@@ -148,7 +158,7 @@ public class LoginActivity extends BaseActivity {
         JSONObject userStr = jsonObject.optJSONObject("user");
         LoginInfo.setLoginInfo(userStr.toString());
         CommonShared.setString(CommonShared.LOGIN_TOKEN, jsonObject.optString("token"));
-    //    MainActivity.startAction(this);
+        //    MainActivity.startAction(this);
         EventBus.getDefault().post(new LoginEvent(true));
         finish();
     }
@@ -167,6 +177,9 @@ public class LoginActivity extends BaseActivity {
             public void onWebSuccess(JSONObject result) {
                 Log.d("Register", result.toString());
                 ToastUtil.ToastMessage(LoginActivity.this, "发送验证码成功");
+                mobileCodeRlt.setVisibility(View.VISIBLE);
+                loginBtn.setBackgroundResource(R.mipmap.icon_login_btn);
+                isMobileCode = false;
                 timeTask = new TimeTask();
                 timeTask.execute();
             }
@@ -175,6 +188,7 @@ public class LoginActivity extends BaseActivity {
             public void onWebFailed(String errorMsg) {
                 Log.d("Register", errorMsg);
 
+                mobileCodeRlt.setVisibility(View.GONE);
                 ToastUtil.ToastMessage(LoginActivity.this, "发送验证码失败", ToastUtil.WRONG);
                 mobileCodeBtn.setClickable(true);
             }
@@ -189,7 +203,7 @@ public class LoginActivity extends BaseActivity {
 
         @Override
         protected void onPreExecute() {
-            mobileCodeBtn.setText("(60s)");
+            mobileCodeBtn.setText("60S");
             //    mobileCodeBtn.setBackgroundResource(R.color.silver);
             mobileCodeBtn.setClickable(false);
         }
@@ -198,13 +212,12 @@ public class LoginActivity extends BaseActivity {
         protected void onPostExecute(Boolean aBoolean) {
             mobileCodeBtn.setText("获取验证码");
             time = 60;
-            mobileCodeBtn.setBackgroundResource(R.color.colorPrimary);
             mobileCodeBtn.setClickable(true);
         }
 
         @Override
         protected void onProgressUpdate(Integer... values) {
-            mobileCodeBtn.setText("(" + values[0] + "s)");
+            mobileCodeBtn.setText(values[0] + "S");
         }
 
         @Override
@@ -229,7 +242,7 @@ public class LoginActivity extends BaseActivity {
         protected void onCancelled() {
             mobileCodeBtn.setText("获取验证码");
             time = 60;
-            mobileCodeBtn.setBackgroundResource(R.color.bg_header);
+        //    mobileCodeBtn.setBackgroundResource(R.color.bg_header);
             mobileCodeBtn.setClickable(true);
         }
     }

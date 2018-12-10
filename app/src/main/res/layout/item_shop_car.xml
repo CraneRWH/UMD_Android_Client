@@ -6,49 +6,61 @@
     android:background="@color/white"
     android:gravity="center_vertical"
     android:paddingRight="@dimen/mar_pad_len_20px">
+    <ImageView
+        android:layout_width="@dimen/mar_pad_len_8px"
+        android:layout_height="@dimen/mar_pad_len_8px"
+        android:src="@mipmap/icon_orange_circle_litile"
+        android:layout_marginLeft="@dimen/mar_pad_len_24px"
+        />
     <TextView
         android:id="@+id/name_tv"
         android:layout_width="0dp"
         android:layout_weight="2"
         android:layout_height="match_parent"
         android:gravity="center_vertical"
-        android:paddingLeft="@dimen/mar_pad_len_20px"
-        android:text="价格由低到高"
-        android:textSize="@dimen/text_size_28px"
-        android:textColor="@color/common_text_color"
+        android:paddingLeft="@dimen/mar_pad_len_16px"
+        android:textSize="@dimen/text_size_26px"
+        android:textColor="@color/text_gray2"
         android:singleLine="true"
         android:ellipsize="end"
         />
     <TextView
-        android:id="@+id/price_tv"
-        android:layout_width="0dp"
-        android:layout_weight="1"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:gravity="center_vertical"
-        android:paddingLeft="@dimen/mar_pad_len_20px"
-        android:text="¥18"
-        android:textSize="@dimen/text_size_28px"
-        android:textColor="@color/common_text_color"
+        android:text="¥"
+        android:textSize="@dimen/text_size_24px"
+        android:textColor="@color/bg_header"
+        />
+    <TextView
+        android:id="@+id/price_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:gravity="center_vertical"
+        android:text="18"
+        android:textSize="@dimen/text_size_32px"
+        android:layout_marginRight="@dimen/mar_pad_len_40px"
+        android:textColor="@color/bg_header"
         />
     <ImageView
         android:id="@+id/sub_iv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@mipmap/sub_green_cicler_icon"
+        android:layout_width="@dimen/mar_pad_len_40px"
+        android:layout_height="@dimen/mar_pad_len_40px"
+        android:src="@mipmap/icon_sub_orange_circle"
         />
     <TextView
-        android:id="@+id/num_tv"
+        android:id="@+id/buy_num_tv"
         android:gravity="center"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:minWidth="@dimen/mar_pad_len_50px"
-        android:textSize="@dimen/text_size_28px"
-        android:textColor="@color/common_text_color"
+        android:textSize="@dimen/text_size_26px"
+        android:textColor="@color/text_gray2"
         />
     <ImageView
         android:id="@+id/add_iv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@mipmap/add_green_circle_icon"
+        android:layout_width="@dimen/mar_pad_len_40px"
+        android:layout_height="@dimen/mar_pad_len_40px"
+        android:src="@mipmap/icon_add_orange_circle"
         />
 </LinearLayout>

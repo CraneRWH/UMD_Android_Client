@@ -55,9 +55,12 @@ public class RegisterActivity extends BaseActivity {
     TextView toLoginBtn;
     @BindView(R.id.agreement_tv)
     TextView agreementTv;
+    @BindView(R.id.password_et2)
+    EditText passwordEt2;
 
     /**
      * 启动
+     *
      * @param context
      */
     public static void startAction(Activity context) {
@@ -74,8 +77,8 @@ public class RegisterActivity extends BaseActivity {
     }
 
     private void initView() {
-        setTitle("注册");
-        setStatusBar(R.color.bg_header);
+        setTitle("");
+        setStatusBar(R.color.white);
         mobileCodeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -125,19 +128,30 @@ public class RegisterActivity extends BaseActivity {
             return;
         }
 
+        String password2 = passwordEt2.getText().toString().trim();
+        if (TextUtils.isEmpty(password)) {
+            ToastUtil.ToastMessage(this, "请再次输入密码", ToastUtil.WARN);
+            return;
+        }
+
         if (!ToolUtil.isLetterDigit(password)) {
             ToastUtil.ToastMessage(this, "密码格式不正确", ToastUtil.WARN);
             return;
         }
 
-        if (!agreeCb.isChecked()) {
-            ToastUtil.ToastMessage(this, "请同意注册与服务协议", ToastUtil.WARN);
+        if (password.equals(password2)) {
+            ToastUtil.ToastMessage(this, "两次输入的密码不一致", ToastUtil.WARN);
             return;
         }
-        Map<String,Object> params= new HashMap<>();
+
+      /*  if (!agreeCb.isChecked()) {
+            ToastUtil.ToastMessage(this, "请同意注册与服务协议", ToastUtil.WARN);
+            return;
+        }*/
+        Map<String, Object> params = new HashMap<>();
         params.put("code", mobileCodeString);
         params.put("password", password);
-        params.put("phone",mobileNumberString);
+        params.put("phone", mobileNumberString);
         WebUtil.getInstance().requestPOST(this, "ymdConsumer/addConsumer", params, new WebUtil.WebCallBack() {
             @Override
             public void onWebSuccess(JSONObject result) {
@@ -158,6 +172,7 @@ public class RegisterActivity extends BaseActivity {
     }
 
     private TimeTask timeTask;
+
     private void getPhoneCode() {
         String mobileNumberString = mobileNumber.getText().toString().trim();
         if (TextUtils.isEmpty(mobileNumberString)) {
@@ -165,7 +180,7 @@ public class RegisterActivity extends BaseActivity {
             return;
         }
         mobileCodeBtn.setClickable(false);
-        Map<String,Object> params = new HashMap<>();
+        Map<String, Object> params = new HashMap<>();
         params.put("phone", ToolUtil.changeString(mobileNumber.getText()));
         WebUtil.getInstance().requestPOST(this, URLConstant.GET_PHONE_CODE, params, false, true, new WebUtil.WebCallBack<Object>() {
             @Override
@@ -191,6 +206,7 @@ public class RegisterActivity extends BaseActivity {
      */
     class TimeTask extends AsyncTask<Void, Integer, Boolean> {
         int time = 60;
+
         @Override
         protected void onPreExecute() {
             mobileCodeBtn.setText("(60s)");
@@ -214,7 +230,7 @@ public class RegisterActivity extends BaseActivity {
         @Override
         protected Boolean doInBackground(Void... params) {
             while (true) {
-                if (time >=0) {
+                if (time >= 0) {
                     try {
                         Thread.sleep(1000);
                         time--;
