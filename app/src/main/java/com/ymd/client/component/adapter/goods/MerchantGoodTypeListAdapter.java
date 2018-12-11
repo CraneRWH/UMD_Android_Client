@@ -54,7 +54,7 @@ public class MerchantGoodTypeListAdapter extends RecyclerView.Adapter<MerchantGo
         holder.itemTv.setText(ToolUtil.changeString(data.getVariety()));
         if (ToolUtil.changeBoolean(data.isChoose())) {
             holder.itemTv.setTextColor(R.color.common_text_color);
-            holder.rootView.setBackgroundResource(R.color.text_gray);
+            holder.rootView.setBackgroundResource(R.color.bg_color);
         } else {
             holder.itemTv.setTextColor(R.color.text_gray2);
             holder.rootView.setBackgroundResource(R.color.white);

@@ -140,7 +140,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@color/text_gray"
+                        android:background="@color/bg_color"
                         android:orientation="vertical"
                         android:paddingLeft="@dimen/mar_pad_len_10px">
 
@@ -176,7 +176,7 @@
         <View
             android:layout_width="@dimen/mar_pad_len_2px"
             android:layout_height="match_parent"
-            android:background="@color/text_gray" />
+            android:background="@color/bg_color" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/food_rv"

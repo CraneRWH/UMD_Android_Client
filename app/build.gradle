@@ -134,4 +134,7 @@ dependencies {
 
     implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.4'
     compileOnly 'org.jbundle.util.osgi.wrapped:org.jbundle.util.osgi.wrapped.org.apache.http.client:4.1.2'
+
+
+    implementation 'com.github.everhad:AndroidRatingStar:v1.0'
 }

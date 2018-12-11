@@ -14,6 +14,7 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.idlestar.ratingstar.RatingStarView;
 import com.ymd.client.R;
 import com.ymd.client.common.base.OnUMDItemClickListener;
 import com.ymd.client.model.bean.homePage.YmdEvaluationEntity;
@@ -114,7 +115,7 @@ public class EvaluateSellerAdapter extends RecyclerView.Adapter<EvaluateSellerAd
         @BindView(R.id.date_tv)
         TextView dateTv;
         @BindView(R.id.scoreBarView)
-        RatingBar scoreBarView;
+        RatingStarView scoreBarView;
         @BindView(R.id.desc_tv)
         TextView descTv;
         @BindView(R.id.seller_replay_tv)

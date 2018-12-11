@@ -1,17 +1,21 @@
 package com.ymd.client.component.activity.homePage.merchant.seller;
 
+import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
+import android.support.v4.widget.PopupWindowCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.PopupWindow;
 
 import com.ymd.client.R;
@@ -87,37 +91,68 @@ public class ShopCarPopupWindow extends PopupWindow {
     }
 
     public void showPopupWindow(View parent) {
+        //需要先测量，PopupWindow还未弹出时，宽高为0
+        contentView.measure(makeDropDownMeasureSpec(this.getWidth()),
+                makeDropDownMeasureSpec(this.getHeight()));
         if (!this.isShowing()) {
             // 以下拉方式显示popupwindow
         //    showAsDropDown(parent,0,0,Gravity.TOP);
             //获取需要在其上方显示的控件的位置信息
-            int[] location = new int[2];
+            /*int[] location = new int[2];
             parent.getLocationOnScreen(location);
             //在控件上方显示    向上移动y轴是负数
             showAtLocation(parent, Gravity.TOP, (location[0] + parent.getWidth() / 2) - getWidth() / 2,
-                    location[1] - contentView.getMeasuredHeight() - parent.getMeasuredHeight());
+                    location[1] - contentView.getMeasuredHeight() - parent.getMeasuredHeight());*/
+            int offsetX = Math.abs(contentView.getMeasuredWidth()-parent.getWidth()) / 2;
+            int offsetY = -(contentView.getMeasuredHeight()+parent.getHeight());
+        //    showBackgroundAnimator();
+            PopupWindowCompat.showAsDropDown(this, parent, offsetX, offsetY, Gravity.START);
         } else {
             this.dismiss();
         }
     }
 
-    /**
-     *
-     * @param pw     popupWindow
-     * @param anchor v
-     * @param xoff   x轴偏移
-     * @param yoff   y轴偏移
-     */
-    public static void showAsDropDown(final PopupWindow pw, final View anchor, final int xoff, final int yoff) {
-        if (Build.VERSION.SDK_INT >= 24) {
-            Rect visibleFrame = new Rect();
-            anchor.getGlobalVisibleRect(visibleFrame);
-            int height = anchor.getResources().getDisplayMetrics().heightPixels - visibleFrame.bottom;
-            pw.setHeight(height);
-            pw.showAsDropDown(anchor, xoff, yoff);
+    @SuppressWarnings("ResourceType")
+    private static int makeDropDownMeasureSpec(int measureSpec) {
+        int mode;
+        if (measureSpec == ViewGroup.LayoutParams.WRAP_CONTENT) {
+            mode = View.MeasureSpec.UNSPECIFIED;
         } else {
-            pw.showAsDropDown(anchor, xoff, yoff);
+            mode = View.MeasureSpec.EXACTLY;
         }
+        return View.MeasureSpec.makeMeasureSpec(View.MeasureSpec.getSize(measureSpec), mode);
+    }
+
+    private float mAlpha = 0.5f; //背景灰度  0-1  1表示全透明
+    /**
+     * 控制窗口背景的不透明度
+     */
+    private void setWindowBackgroundAlpha(float alpha) {
+        if (activity == null) return;
+        if (activity instanceof Activity) {
+            Window window = ((Activity) activity).getWindow();
+            WindowManager.LayoutParams layoutParams = window.getAttributes();
+            layoutParams.alpha = alpha;
+            window.setAttributes(layoutParams);
+        }
+    }
+
+    /**
+     * 窗口显示，窗口背景透明度渐变动画
+     */
+    private void showBackgroundAnimator() {
+        if (mAlpha >= 1f) return;
+        ValueAnimator animator = ValueAnimator.ofFloat(1.0f, mAlpha);
+        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                float alpha = (float) animation.getAnimatedValue();
+                setWindowBackgroundAlpha(alpha);
+            }
+        });
+        animator.setDuration(360);
+        animator.start();
     }
 
     public List<YmdGoodsEntity> getList() {

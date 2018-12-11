@@ -30,6 +30,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
+import com.idlestar.ratingstar.RatingStarView;
 import com.ymd.client.R;
 import com.ymd.client.component.activity.homePage.merchant.fragment.EvaluateSellerFragment;
 import com.ymd.client.component.activity.homePage.merchant.fragment.MerchantGoodsFragment;
@@ -41,6 +42,7 @@ import com.ymd.client.component.event.GoodsEvent;
 import com.ymd.client.component.event.MEvent;
 import com.ymd.client.component.event.MessageEvent;
 import com.ymd.client.component.event.OrderListRefreshEvent;
+import com.ymd.client.component.event.ShowShopCarEvent;
 import com.ymd.client.component.widget.dialog.CommonDialogs;
 import com.ymd.client.component.widget.dialog.ShopCarDialog;
 import com.ymd.client.model.bean.homePage.MerchantInfoEntity;
@@ -77,7 +79,7 @@ public class MerchantDetailActivity extends TabBaseActivity {
     @BindView(R.id.name_tv)
     TextView nameTv;
     @BindView(R.id.scoreBarView)
-    RatingBar scoreBarView;
+    RatingStarView scoreBarView;
     @BindView(R.id.work_time_tv)
     TextView workTimeTv;
     @BindView(R.id.address_tv)
@@ -226,7 +228,7 @@ public class MerchantDetailActivity extends TabBaseActivity {
                 if (shopCarPopupWindow.isShowing()) {
                     shopCarPopupWindow.dismiss();
                 } else {
-                    ShopCarPopupWindow.showAsDropDown(shopCarPopupWindow, footView, 0,0);
+                    shopCarPopupWindow.showPopupWindow(footView);
                 }
             }
         });
@@ -592,6 +594,18 @@ public class MerchantDetailActivity extends TabBaseActivity {
     public void onStop() {
         super.onStop();
         EventBus.getDefault().unregister(this);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void Event(ShowShopCarEvent event) {
+        if (event.isShow()) {
+            if (shopCarPopupWindow.isShowing()) {
+                shopCarPopupWindow.dismiss();
+                shopCarPopupWindow.showPopupWindow(footView);
+            } else {
+                shopCarPopupWindow.showPopupWindow(footView);
+            }
+        }
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

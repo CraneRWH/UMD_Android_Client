@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.ymd.client.R;
 import com.ymd.client.common.base.OnUMDItemClickListener;
+import com.ymd.client.component.event.ShowShopCarEvent;
 import com.ymd.client.model.bean.homePage.YmdGoodsEntity;
 import com.ymd.client.utils.ToolUtil;
 
@@ -76,9 +77,10 @@ public class ShopCarAdapter extends RecyclerView.Adapter<ShopCarAdapter.ViewHold
                 if (data.getBuyCount() == 0) {
                     datas.remove(position);
                 }
+                notifyDataSetChanged();
                 EventBus.getDefault().post(data);
                 EventBus.getDefault().post(datas);
-                notifyDataSetChanged();
+                EventBus.getDefault().post(new ShowShopCarEvent(true));
             }
         });
     }

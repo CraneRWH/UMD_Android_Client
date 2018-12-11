@@ -14,6 +14,7 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.idlestar.ratingstar.RatingStarView;
 import com.ymd.client.R;
 import com.ymd.client.common.base.OnUMDItemClickListener;
 import com.ymd.client.model.bean.homePage.MerchantInfoEntity;
@@ -118,7 +119,7 @@ public class MerchantListAdapter extends RecyclerView.Adapter<MerchantListAdapte
         @BindView(R.id.distance_tv)
         TextView distanceTv;
         @BindView(R.id.scoreBarView)
-        RatingBar scoreBarView;
+        RatingStarView scoreBarView;
         @BindView(R.id.work_time_tv)
         TextView workTimeTv;
         @BindView(R.id.dis_str_tv)

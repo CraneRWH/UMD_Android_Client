@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/white"
     android:orientation="vertical">
 
@@ -53,15 +54,21 @@
                         android:layout_height="wrap_content" />
                 </LinearLayout>
 
-                <RatingBar
+                <com.idlestar.ratingstar.RatingStarView
                     android:id="@+id/scoreBarView"
-                    style="@style/roomRatingBar"
+                    app:cornerRadius="4dp"
+                    app:starMargin="@dimen/mar_pad_len_6px"
+                    app:strokeWidth="4px"
+                    app:strokeColor="@color/bg_header"
+                    app:starForegroundColor="@color/bg_header"
+                    app:starBackgroundColor="#E8E8E8"
+                    app:starNum="5"
+                    app:rating="1"
+                    app:starThickness="0.7"
+                    app:drawStrokeForEmptyStar="false"
+                    app:drawStrokeForHalfStar="false"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/mar_pad_len_20px"
-                    android:isIndicator="true"
-                    android:numStars="5"
-                    android:stepSize="0.1" />
+                    android:layout_height="@dimen/mar_pad_len_20px" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
