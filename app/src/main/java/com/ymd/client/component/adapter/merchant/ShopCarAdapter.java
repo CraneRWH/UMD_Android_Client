@@ -90,6 +90,14 @@ public class ShopCarAdapter extends RecyclerView.Adapter<ShopCarAdapter.ViewHold
         return datas.size();
     }
 
+    public void clear() {
+        for (YmdGoodsEntity data : datas) {
+            datas.remove(data);
+            notifyDataSetChanged();
+            EventBus.getDefault().post(data);
+            EventBus.getDefault().post(datas);
+        }
+    }
 
     public OnUMDItemClickListener getListener() {
         return listener;

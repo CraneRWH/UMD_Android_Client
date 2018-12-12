@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.PopupWindow;
 
 import com.ymd.client.R;
@@ -41,6 +42,7 @@ public class ShopCarPopupWindow extends PopupWindow {
 
     private View contentView;
     private Activity activity;
+    private ImageView clearIv;
 
     private ResultListener listener;
 
@@ -80,12 +82,21 @@ public class ShopCarPopupWindow extends PopupWindow {
     protected void bindComponent() {
         shopCarRv = (RecyclerView) contentView.findViewById(R.id.listView);
         outSideView = (View) contentView.findViewById(R.id.outSide);
+        clearIv = (ImageView) contentView.findViewById(R.id.empty_shopping_car);
     }
 
     protected void bindInfoAndListener() {
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(activity);
         shopCarRv.setLayoutManager(layoutManager);
+
+        clearIv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                shopCaradapter.clear();
+                dismiss();
+            }
+        });
 
         refreshData();
     }
@@ -164,14 +175,15 @@ public class ShopCarPopupWindow extends PopupWindow {
         refreshData();
     }
 
+    ShopCarAdapter shopCaradapter;
     private void refreshData() {
 
         GoodsEvent goodsEvent = new GoodsEvent();
         goodsEvent.setGoods(list);
         EventBus.getDefault().post(goodsEvent);
 
-        ShopCarAdapter adapter = new ShopCarAdapter(list);
-        shopCarRv.setAdapter(adapter);
+        shopCaradapter = new ShopCarAdapter(list);
+        shopCarRv.setAdapter(shopCaradapter);
 
     }
 
