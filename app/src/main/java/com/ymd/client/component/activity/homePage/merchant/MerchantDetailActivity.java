@@ -131,8 +131,8 @@ public class MerchantDetailActivity extends TabBaseActivity {
 
     MerchantInfoEntity merchantInfo;
 
-    ShopCarPopupWindow shopCarPopupWindow;
-//    ShopCarDialog shopCarDialog;
+ //   ShopCarPopupWindow shopCarPopupWindow;
+    ShopCarDialog shopCarDialog;
 
     private List<YmdGoodsEntity> buyList = new ArrayList<>();
 
@@ -204,32 +204,36 @@ public class MerchantDetailActivity extends TabBaseActivity {
             }
         });
 
-    /*    shopCarDialog = new ShopCarDialog(this, new ShopCarDialog.ResultListener() {
+        shopCarDialog = new ShopCarDialog(this, new ShopCarDialog.ResultListener() {
+            @Override
+            public void onResult(int position) {
+                if (buyList.isEmpty()) {
+                    ToastUtil.ToastMessage(MerchantDetailActivity.this, "请选择要购买的商品");
+                } else {
+                    submitOrder();
+                }
+            }
+        });
+    /*    shopCarPopupWindow = new ShopCarPopupWindow(this, new ShopCarPopupWindow.ResultListener() {
             @Override
             public void onResult(int position) {
 
             }
         });*/
-        shopCarPopupWindow = new ShopCarPopupWindow(this, new ShopCarPopupWindow.ResultListener() {
-            @Override
-            public void onResult(int position) {
-
-            }
-        });
 
         footView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*if (shopCarDialog.isShowing()) {
+                if (shopCarDialog.isShowing()) {
                     shopCarDialog.dismiss();
                 } else {
                     shopCarDialog.show();
-                }*/
-                if (shopCarPopupWindow.isShowing()) {
+                }
+                /*if (shopCarPopupWindow.isShowing()) {
                     shopCarPopupWindow.dismiss();
                 } else {
                     shopCarPopupWindow.showPopupWindow(footView);
-                }
+                }*/
             }
         });
         submitBtn.setOnClickListener(new View.OnClickListener() {
@@ -599,22 +603,24 @@ public class MerchantDetailActivity extends TabBaseActivity {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void Event(ShowShopCarEvent event) {
         if (event.isShow()) {
-            if (shopCarPopupWindow.isShowing()) {
+         /*   if (shopCarPopupWindow.isShowing()) {
                 shopCarPopupWindow.dismiss();
                 shopCarPopupWindow.showPopupWindow(footView);
             } else {
                 shopCarPopupWindow.showPopupWindow(footView);
-            }
+            }*/
         }
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void Event(YmdGoodsEntity goodsEntity) {
-        shopCarPopupWindow.addGood(goodsEntity);
+    //    shopCarPopupWindow.addGood(goodsEntity);
+        shopCarDialog.addGood(goodsEntity);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(GoodsEvent goodsEntity) {
+        shopCarDialog.refreshGoodsView(goodsEntity);
         try {
             double allMoney = 0;
             double disAllMoney = 0;

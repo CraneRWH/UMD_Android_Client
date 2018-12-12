@@ -24,6 +24,7 @@ import com.ymd.client.common.base.OnUMDItemClickListener;
 import com.ymd.client.component.adapter.goods.MerchantGoodTypeListAdapter;
 import com.ymd.client.component.adapter.goods.MerchantGoodsListAdapter;
 import com.ymd.client.component.adapter.merchant.PersonAdapter;
+import com.ymd.client.component.event.ClearShopCarEvent;
 import com.ymd.client.component.event.GoodsEvent;
 import com.ymd.client.component.event.GoodsListEvent;
 import com.ymd.client.component.event.MEvent;
@@ -432,6 +433,27 @@ public class MerchantGoodsFragment extends BaseFragment implements PersonAdapter
             appbar.setFocusable(false);
         }
 
+    }
+
+    /**
+     * 添加 或者  删除  商品发送的消息处理
+     *
+     * @param event
+     */
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(ClearShopCarEvent event) {
+        if (event.isClear()) {
+            for (YmdGoodsEntity data : event.getGoods()) {
+                foodAdapter.refreshData(data);
+                for (int i = 0; i < recommendFoodDatas.size(); i++) {
+                    YmdGoodsEntity item = recommendFoodDatas.get(i);
+                    if (item.getId() == data.getId()) {
+                        item.setBuyCount(data.getBuyCount());
+                    }
+                }
+                refreshRecommendDatas();
+            }
+        }
     }
 
     @Override

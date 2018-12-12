@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/shape_rect_gray_edge"
+    android:gravity="bottom"
+    android:orientation="vertical" >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingBottom="@dimen/mar_pad_len_32px"
+        android:paddingTop="@dimen/mar_pad_len_32px"
+        android:paddingLeft="@dimen/mar_pad_len_24px"
+        >
+        <ImageView
+            android:layout_width="@dimen/mar_pad_len_100px"
+            android:layout_height="@dimen/mar_pad_len_25px"
+            android:src="@mipmap/icon_select_goods_text"
+            />
+        <View
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="1dp"/>
+        <ImageView
+            android:id="@+id/empty_shopping_car"
+            android:layout_width="@dimen/mar_pad_len_160px"
+            android:layout_height="@dimen/mar_pad_len_30px"
+            android:src="@mipmap/icon_empty_shopping_car"
+            android:layout_marginRight="@dimen/mar_pad_len_24px"
+            />
+    </LinearLayout>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/listView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        ></android.support.v7.widget.RecyclerView>
+    <View style="@style/view_detail_item_separator"/>
+    <View
+        android:id="@+id/outSide"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        />
+    <include
+        layout="@layout/shop_cart"/>
+</LinearLayout>
