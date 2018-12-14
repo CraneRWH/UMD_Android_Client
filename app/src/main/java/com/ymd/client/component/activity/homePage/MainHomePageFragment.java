@@ -486,6 +486,7 @@ public class MainHomePageFragment extends Fragment {
             // 千万别忘了告诉控件刷新完毕了哦！
             try {
                 bigLayout.refreshFinish(PullToRefreshLayout.SUCCEED);
+                bigLayout.loadmoreFinish(PullToRefreshLayout.LOAD_END);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -544,6 +545,9 @@ public class MainHomePageFragment extends Fragment {
         List<MerchantInfoEntity> datas = new Gson().fromJson(result, new TypeToken<List<MerchantInfoEntity>>(){}.getType());
         if (page == 1) {
             marchantDatas.clear();
+        }
+        if (datas != null && !datas.isEmpty()) {
+            page ++;
         }
         marchantDatas.addAll(datas);
    //     LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
