@@ -45,23 +45,25 @@ import butterknife.Unbinder;
  * 描述:    各种商家的列表
  * 修改历史:
  */
-public class FunctionItemListFragment extends Fragment {
+public class FunctionItemListFragment_ extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
     Unbinder unbinder;
+/*    @BindView(R.id.refresh_food_srl)
+    SmartRefreshLayout refreshFoodSrl;*/
     private int status;
     private long pid;
 
     private int functionType;
 
-    public FunctionItemListFragment() {
+    public FunctionItemListFragment_() {
         // Required empty public constructor
     }
 
-    public static FunctionItemListFragment newInstance(int type, Long pid, int functionType/*String param1, String param2*/) {
-        FunctionItemListFragment fragment = new FunctionItemListFragment();
+    public static FunctionItemListFragment_ newInstance(int type, Long pid, int functionType/*String param1, String param2*/) {
+        FunctionItemListFragment_ fragment = new FunctionItemListFragment_();
         Bundle args = new Bundle();
         args.putInt(ARG_PARAM1, type);
         args.putLong(ARG_PARAM2, pid);
@@ -84,7 +86,7 @@ public class FunctionItemListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_food_list, container, false);
+        View view = inflater.inflate(R.layout.fragment_food_list_, container, false);
         unbinder = ButterKnife.bind(this, view);
         initView();
         return view;
@@ -102,6 +104,12 @@ public class FunctionItemListFragment extends Fragment {
         });
         recyclerView.setAdapter(adapter);*/
 
+        /*refreshFoodSrl.setOnLoadmoreListener(new OnLoadmoreListener() {
+            @Override
+            public void onLoadmore(RefreshLayout refreshlayout) {
+                refreshData(status);
+            }
+        });*/
         requestMerchant(status);
     }
 

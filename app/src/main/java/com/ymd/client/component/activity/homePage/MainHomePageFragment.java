@@ -248,7 +248,7 @@ public class MainHomePageFragment extends Fragment {
         requestYH();
         chooseItem(0);
         onRefreshCityName();
-     //   requestFunctions();
+        //   requestFunctions();
         setFunctionItem();
     }
 
@@ -365,7 +365,7 @@ public class MainHomePageFragment extends Fragment {
      * 设置功能选项
      */
     private void setFunctionItem(/*String functionJson*/) {
-    //    List<YmdIndustryEntity> itemList = new Gson().fromJson(functionJson, new TypeToken<List<YmdIndustryEntity>>(){}.getType());
+        //    List<YmdIndustryEntity> itemList = new Gson().fromJson(functionJson, new TypeToken<List<YmdIndustryEntity>>(){}.getType());
         /*if (itemList == null || itemList.isEmpty()) {
             return;
         }*/
@@ -384,7 +384,7 @@ public class MainHomePageFragment extends Fragment {
                     @Override
                     public void callBackViewListener(Map<String, Object> data, View view, ViewGroup parent, int position) {
                         ImageView img = (ImageView) view.findViewById(R.id.itemImage);
-                 //       Glide.with(getActivity()).load(itemList.get(position).getImgUrl()).into(img);
+                        //       Glide.with(getActivity()).load(itemList.get(position).getImgUrl()).into(img);
                     }
                 });
         gridView.setAdapter(adapter);
@@ -394,8 +394,8 @@ public class MainHomePageFragment extends Fragment {
             /*    if (i == 0) {
                     NiceFoodActivity.startAction(getActivity());
                 } else {*/
-                    FunctionItemActivity.startAction(getActivity(), i+1);
-             //   }
+                FunctionItemActivity.startAction(getActivity(), i+1);
+                //   }
             }
         });
     }
@@ -403,7 +403,7 @@ public class MainHomePageFragment extends Fragment {
     private void requestYH() {
         Map<String,Object> params = new HashMap<>();
         params.put("countyId",LocationInfo.getInstance().getChooseCity().getCountyCode() > 0 ? LocationInfo.getInstance().getChooseCity().getCountyCode() : LocationInfo.getInstance().getChooseCity().getCityID());
-    //    params.put("city", LocationInfo.getInstance().getChooseCity().getCityID());
+        //    params.put("city", LocationInfo.getInstance().getChooseCity().getCityID());
     /*    params.put("county",LocationInfo.getInstance().getChooseCity().getCountyName());
         params.put("city", LocationInfo.getInstance().getChooseCity().getCityID());
         params.put("latitude",LocationInfo.getInstance().getLocationInfo().getLatitude());
@@ -462,7 +462,7 @@ public class MainHomePageFragment extends Fragment {
         @Override
         public View getView(ViewGroup container, int position) {
             ImageView view = new ImageView(container.getContext());
-        //    view.setImageResource(imgs[position]);
+            //    view.setImageResource(imgs[position]);
             view.setScaleType(ImageView.ScaleType.CENTER_CROP);
             Glide.with(getActivity()).load(datas.get(position).getUrl()).into(view);
             view.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
@@ -486,6 +486,7 @@ public class MainHomePageFragment extends Fragment {
             // 千万别忘了告诉控件刷新完毕了哦！
             try {
                 bigLayout.refreshFinish(PullToRefreshLayout.SUCCEED);
+                bigLayout.loadmoreFinish(PullToRefreshLayout.LOAD_END);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -545,16 +546,19 @@ public class MainHomePageFragment extends Fragment {
         if (page == 1) {
             marchantDatas.clear();
         }
+        if (datas != null && !datas.isEmpty()) {
+            page ++;
+        }
         marchantDatas.addAll(datas);
-   //     LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        //     LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()){
-                                          @Override
-                                          public boolean canScrollVertically() {
-                                              //解决ScrollView里存在多个RecyclerView时滑动卡顿的问题
-                                              //如果你的RecyclerView是水平滑动的话可以重写canScrollHorizontally方法
-                                              return false;
-                                          }
-                                      });
+            @Override
+            public boolean canScrollVertically() {
+                //解决ScrollView里存在多个RecyclerView时滑动卡顿的问题
+                //如果你的RecyclerView是水平滑动的话可以重写canScrollHorizontally方法
+                return false;
+            }
+        });
         //解决数据加载不完的问题
         recyclerView.setNestedScrollingEnabled(false);
         recyclerView.setHasFixedSize(true);
@@ -578,7 +582,7 @@ public class MainHomePageFragment extends Fragment {
                 new WebUtil.WebCallBack() {
                     @Override
                     public void onWebSuccess(JSONObject resultJson) {
-                    //    setFunctionItem(resultJson.optString("list"));
+                        //    setFunctionItem(resultJson.optString("list"));
                     }
 
                     @Override

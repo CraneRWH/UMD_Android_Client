@@ -4,6 +4,10 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
+import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.util.DisplayMetrics;
@@ -28,10 +32,11 @@ import com.ymd.client.R;
 import com.ymd.client.common.base.BaseActivity;
 import com.ymd.client.component.activity.homePage.merchant.MerchantDetailActivity;
 import com.ymd.client.component.activity.homePage.search.SearchActivity;
-import com.ymd.client.component.activity.order.PageFragmentAdapter;
+import com.ymd.client.component.adapter.TabFragmentAdapter;
 import com.ymd.client.component.event.RefreshEndEvent;
 import com.ymd.client.component.event.RefreshMerchantListEvent;
 import com.ymd.client.component.widget.other.MyChooseItemView;
+import com.ymd.client.component.widget.viewPager.CustomViewPager;
 import com.ymd.client.model.bean.homePage.YmdIndustryEntity;
 import com.ymd.client.model.bean.homePage.YmdRecommendEntity;
 import com.ymd.client.model.constant.URLConstant;
@@ -59,7 +64,7 @@ import butterknife.ButterKnife;
  * 描述:    酒店、爱车、美容美发、电影、生鲜、金融、洗浴/KTV、优币专区、其他分类等
  * 修改历史:
  */
-public class FunctionItemActivity extends BaseActivity implements ViewPager.OnPageChangeListener {
+public class FunctionItemActivity_ extends BaseActivity implements ViewPager.OnPageChangeListener {
 
     @BindView(R.id.search_layout)
     RelativeLayout searchLayout;
@@ -75,8 +80,6 @@ public class FunctionItemActivity extends BaseActivity implements ViewPager.OnPa
     MyChooseItemView chooseItem2;
     @BindView(R.id.chooseItem3)
     MyChooseItemView chooseItem3;
-    @BindView(R.id.businessViewPager)
-    ViewPager viewPager;
     @BindView(R.id.rgChannel)
     RadioGroup rgChannel;
     @BindView(R.id.hvChannel)
@@ -85,9 +88,19 @@ public class FunctionItemActivity extends BaseActivity implements ViewPager.OnPa
     LinearLayout recommendLlt;
     @BindView(R.id.refreshLayout)
     SmartRefreshLayout refreshLayout;
+    @BindView(R.id.collapsing)
+    CollapsingToolbarLayout collapsing;
+    @BindView(R.id.slidinglayout)
+    TabLayout slidinglayout;
+    @BindView(R.id.appbar)
+    AppBarLayout appbar;
+    @BindView(R.id.viewPager)
+    CustomViewPager viewPager;
+    @BindView(R.id.activity_main)
+    CoordinatorLayout activityMain;
 
 
-    private PageFragmentAdapter adapter = null;
+    private TabFragmentAdapter adapter = null;
     private List<Fragment> fragmentList = new ArrayList<Fragment>();
     private List<MyChooseItemView> textViewList;
 
@@ -100,7 +113,7 @@ public class FunctionItemActivity extends BaseActivity implements ViewPager.OnPa
      * @param context
      */
     public static void startAction(Activity context, int type) {
-        Intent intent = new Intent(context, FunctionItemActivity.class);
+        Intent intent = new Intent(context, FunctionItemActivity_.class);
         intent.putExtra("type", type);
         context.startActivity(intent);
     }
@@ -108,7 +121,7 @@ public class FunctionItemActivity extends BaseActivity implements ViewPager.OnPa
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_function_item);
+        setContentView(R.layout.activity_function_item_);
         ButterKnife.bind(this);
         EventBus.getDefault().register(this);
         initView();
@@ -155,7 +168,7 @@ public class FunctionItemActivity extends BaseActivity implements ViewPager.OnPa
             @Override
             public void onClick(View view) {
                 if (!FastDoubleClickUtil.isFastDoubleClick()) {
-                    SearchActivity.startAction(FunctionItemActivity.this);
+                    SearchActivity.startAction(FunctionItemActivity_.this);
                 }
             }
         });
@@ -195,7 +208,7 @@ public class FunctionItemActivity extends BaseActivity implements ViewPager.OnPa
             @Override
             public void onRefresh(RefreshLayout refreshlayout) {
                 requestRecommend();
-                EventBus.getDefault().post(new RefreshMerchantListEvent(true, typeList.get(chooseStatus).getPid(),1));
+                EventBus.getDefault().post(new RefreshMerchantListEvent(true, typeList.get(chooseStatus).getPid(), 1));
             }
         });
         refreshLayout.setOnLoadmoreListener(new OnLoadmoreListener() {
@@ -211,7 +224,7 @@ public class FunctionItemActivity extends BaseActivity implements ViewPager.OnPa
     protected void chooseItem(int position) {
         chooseStatus = position;
         if (!fragmentList.isEmpty() && viewPager.getAdapter() != null) {
-            ((FunctionItemListFragment) fragmentList.get(viewPager.getCurrentItem())).refreshData(chooseStatus);
+            ((FunctionItemListFragment_) fragmentList.get(viewPager.getCurrentItem())).refreshData(chooseStatus);
         }
         try {
             for (int i = 0; i < textViewList.size(); i++) {
@@ -290,7 +303,7 @@ public class FunctionItemActivity extends BaseActivity implements ViewPager.OnPa
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    MerchantDetailActivity.startAction(FunctionItemActivity.this, item.getMerchantId(), functionType);
+                    MerchantDetailActivity.startAction(FunctionItemActivity_.this, item.getMerchantId(), functionType);
                 }
             });
             recommendLayout.addView(view);
@@ -345,16 +358,19 @@ public class FunctionItemActivity extends BaseActivity implements ViewPager.OnPa
 
     }
 
+    //tab名的列表
+    private List<String> mTitles = new ArrayList<>();
     private void initViewPager() {
         for (int i = 0; i < typeList.size(); i++) {
-            FunctionItemListFragment frag = FunctionItemListFragment.newInstance(chooseStatus, typeList.get(i).getPid(), functionType);
+            mTitles.add(typeList.get(i).getName());
+            FunctionItemListFragment_ frag = FunctionItemListFragment_.newInstance(chooseStatus, typeList.get(i).getPid(), functionType);
       /*      Bundle bundle=new Bundle();
             bundle.putString("weburl", channelList.get(i).getWeburl());
             bundle.putString("name", channelList.get(i).getName());
             frag.setArguments(bundle);  */   //向Fragment传入数据
             fragmentList.add(frag);
         }
-        adapter = new PageFragmentAdapter(super.getSupportFragmentManager(), fragmentList);
+        adapter = new TabFragmentAdapter(getSupportFragmentManager(), fragmentList, mTitles);
         viewPager.setAdapter(adapter);
         //viewPager.setOffscreenPageLimit(0);
     }
