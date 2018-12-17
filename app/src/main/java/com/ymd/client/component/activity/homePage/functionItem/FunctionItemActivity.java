@@ -20,13 +20,18 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.ymd.client.R;
 import com.ymd.client.common.base.BaseActivity;
 import com.ymd.client.component.activity.homePage.merchant.MerchantDetailActivity;
 import com.ymd.client.component.activity.homePage.search.SearchActivity;
 import com.ymd.client.component.activity.order.PageFragmentAdapter;
+import com.ymd.client.component.event.RefreshEndEvent;
+import com.ymd.client.component.event.RefreshMerchantListEvent;
 import com.ymd.client.component.widget.other.MyChooseItemView;
-import com.ymd.client.model.bean.homePage.MerchantInfoEntity;
 import com.ymd.client.model.bean.homePage.YmdIndustryEntity;
 import com.ymd.client.model.bean.homePage.YmdRecommendEntity;
 import com.ymd.client.model.constant.URLConstant;
@@ -35,6 +40,9 @@ import com.ymd.client.utils.FastDoubleClickUtil;
 import com.ymd.client.utils.ToolUtil;
 import com.ymd.client.web.WebUtil;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -75,14 +83,17 @@ public class FunctionItemActivity extends BaseActivity implements ViewPager.OnPa
     HorizontalScrollView hvChannel;
     @BindView(R.id.recommend_llt)
     LinearLayout recommendLlt;
+    @BindView(R.id.refreshLayout)
+    SmartRefreshLayout refreshLayout;
 
 
-    private PageFragmentAdapter adapter=null;
-    private List<Fragment> fragmentList=new ArrayList<Fragment>();
+    private PageFragmentAdapter adapter = null;
+    private List<Fragment> fragmentList = new ArrayList<Fragment>();
     private List<MyChooseItemView> textViewList;
 
-    private String title="";
+    private String title = "";
     private int functionType = 1;
+
     /**
      * 启动
      *
@@ -99,6 +110,7 @@ public class FunctionItemActivity extends BaseActivity implements ViewPager.OnPa
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_function_item);
         ButterKnife.bind(this);
+        EventBus.getDefault().register(this);
         initView();
     }
 
@@ -142,7 +154,7 @@ public class FunctionItemActivity extends BaseActivity implements ViewPager.OnPa
         searchLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(!FastDoubleClickUtil.isFastDoubleClick()) {
+                if (!FastDoubleClickUtil.isFastDoubleClick()) {
                     SearchActivity.startAction(FunctionItemActivity.this);
                 }
             }
@@ -156,7 +168,7 @@ public class FunctionItemActivity extends BaseActivity implements ViewPager.OnPa
                     }
                 });
         viewPager.setOnPageChangeListener(this);
-    //    initTab();//动态产生RadioButton
+        //    initTab();//动态产生RadioButton
         textViewList = new ArrayList<MyChooseItemView>();
         textViewList.add(chooseItem0);
         textViewList.add(chooseItem1);
@@ -164,7 +176,7 @@ public class FunctionItemActivity extends BaseActivity implements ViewPager.OnPa
         textViewList.add(chooseItem3);
 
         chooseItem(0);
-        int i = 0 ;
+        int i = 0;
         for (MyChooseItemView item : textViewList) {
             final int position = i;
             item.setOnClickListener(new View.OnClickListener() {
@@ -178,6 +190,20 @@ public class FunctionItemActivity extends BaseActivity implements ViewPager.OnPa
 
         requestRecommend();
         requestFoodType();
+
+        refreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(RefreshLayout refreshlayout) {
+                requestRecommend();
+                EventBus.getDefault().post(new RefreshMerchantListEvent(true, typeList.get(chooseStatus).getPid(),1));
+            }
+        });
+        refreshLayout.setOnLoadmoreListener(new OnLoadmoreListener() {
+            @Override
+            public void onLoadmore(RefreshLayout refreshlayout) {
+                EventBus.getDefault().post(new RefreshMerchantListEvent(true, typeList.get(chooseStatus).getPid()));
+            }
+        });
     }
 
     public int chooseStatus = 0;
@@ -202,7 +228,7 @@ public class FunctionItemActivity extends BaseActivity implements ViewPager.OnPa
     }
 
     private void requestRecommend() {
-        Map<String,Object> params = new HashMap<>();
+        Map<String, Object> params = new HashMap<>();
         params.put("countyId", (LocationInfo.getInstance().getChooseCity().getCountyCode() == 0) ? LocationInfo.getInstance().getChooseCity().getCityID() : LocationInfo.getInstance().getChooseCity().getCountyCode());
         params.put("industry", functionType);
         WebUtil.getInstance().requestPOST(this, URLConstant.RECOMMEND_NICE_MERCHANT, params,
@@ -220,7 +246,8 @@ public class FunctionItemActivity extends BaseActivity implements ViewPager.OnPa
     }
 
     private void setRecommendMerchant(String resultJson) {
-        List<YmdRecommendEntity> list = new Gson().fromJson(resultJson, new TypeToken<List<YmdRecommendEntity>>(){}.getType());
+        List<YmdRecommendEntity> list = new Gson().fromJson(resultJson, new TypeToken<List<YmdRecommendEntity>>() {
+        }.getType());
         if (list == null || list.isEmpty()) {
             recommendLlt.setVisibility(View.GONE);
             return;
@@ -253,9 +280,9 @@ public class FunctionItemActivity extends BaseActivity implements ViewPager.OnPa
             name_tv.setText(ToolUtil.changeString(item.getGoodsName()));
             desc_tv.setText(ToolUtil.changeString(item.getMerchantName()));
             now_price_tv.setText(ToolUtil.changeString(item.getGoodsPrice()));
-        //    now_price_tv.setText(ToolUtil.changeString(item.get));
+            //    now_price_tv.setText(ToolUtil.changeString(item.get));
             //将int数组中的数据放到ImageView中
-        //    icon_iv.setImageResource(ToolUtil.changeInteger(datas.get(x).get("icon")));
+            //    icon_iv.setImageResource(ToolUtil.changeInteger(datas.get(x).get("icon")));
             Glide.with(this).load(item.getPhoto()).into(icon_iv);
             //给TextView添加文字
             //    tv.setText("第"+(x+1)+"张");
@@ -263,7 +290,7 @@ public class FunctionItemActivity extends BaseActivity implements ViewPager.OnPa
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    MerchantDetailActivity.startAction(FunctionItemActivity.this,item.getMerchantId(), functionType);
+                    MerchantDetailActivity.startAction(FunctionItemActivity.this, item.getMerchantId(), functionType);
                 }
             });
             recommendLayout.addView(view);
@@ -274,7 +301,7 @@ public class FunctionItemActivity extends BaseActivity implements ViewPager.OnPa
      * 获取种类
      */
     private void requestFoodType() {
-        Map<String,Object> params = new HashMap<>();
+        Map<String, Object> params = new HashMap<>();
         params.put("pid", functionType);
         WebUtil.getInstance().requestPOST(this, URLConstant.QUERY_FOOD_TYPE_FUNCTIONS, params,
                 new WebUtil.WebCallBack() {
@@ -294,65 +321,68 @@ public class FunctionItemActivity extends BaseActivity implements ViewPager.OnPa
     }
 
     List<YmdIndustryEntity> typeList = new ArrayList<>();
+
     private void initTab(String functionJson) {
-        typeList = new Gson().fromJson(functionJson, new TypeToken<List<YmdIndustryEntity>>(){}.getType());
+        typeList = new Gson().fromJson(functionJson, new TypeToken<List<YmdIndustryEntity>>() {
+        }.getType());
         YmdIndustryEntity firstType = new YmdIndustryEntity();
         firstType.setName("全部");
         firstType.setPid(-1l);
-        if (typeList==null) {
+        if (typeList == null) {
             typeList = new ArrayList<>();
         }
         typeList.add(0, firstType);
-        for(int i=0;i<typeList.size();i++){
-            RadioButton rb=(RadioButton)LayoutInflater.from(this).
+        for (int i = 0; i < typeList.size(); i++) {
+            RadioButton rb = (RadioButton) LayoutInflater.from(this).
                     inflate(R.layout.tab_rb, null);
             rb.setId(i);
             rb.setText(typeList.get(i).getName());
-            RadioGroup.LayoutParams params=new
+            RadioGroup.LayoutParams params = new
                     RadioGroup.LayoutParams((int) getResources().getDimension(R.dimen.mar_pad_len_200px),
                     RadioGroup.LayoutParams.WRAP_CONTENT);
-            rgChannel.addView(rb,params);
+            rgChannel.addView(rb, params);
         }
 
     }
 
-    private void initViewPager(){
-        for(int i=0;i< typeList.size();i++){
-            FunctionItemListFragment frag= FunctionItemListFragment.newInstance(chooseStatus, typeList.get(i).getPid(), functionType);
+    private void initViewPager() {
+        for (int i = 0; i < typeList.size(); i++) {
+            FunctionItemListFragment frag = FunctionItemListFragment.newInstance(chooseStatus, typeList.get(i).getPid(), functionType);
       /*      Bundle bundle=new Bundle();
             bundle.putString("weburl", channelList.get(i).getWeburl());
             bundle.putString("name", channelList.get(i).getName());
             frag.setArguments(bundle);  */   //向Fragment传入数据
             fragmentList.add(frag);
         }
-        adapter=new PageFragmentAdapter(super.getSupportFragmentManager(),fragmentList);
+        adapter = new PageFragmentAdapter(super.getSupportFragmentManager(), fragmentList);
         viewPager.setAdapter(adapter);
         //viewPager.setOffscreenPageLimit(0);
     }
 
     /**
      * 滑动ViewPager时调整ScroollView的位置以便显示按钮
+     *
      * @param idx
      */
-    private void setTab(int idx){
+    private void setTab(int idx) {
 
         if (rgChannel.getChildCount() == 0) {
             return;
         }
-        for(int i = 0 ; i < rgChannel.getChildCount(); i ++) {
-            RadioButton item=(RadioButton)rgChannel.getChildAt(i);
+        for (int i = 0; i < rgChannel.getChildCount(); i++) {
+            RadioButton item = (RadioButton) rgChannel.getChildAt(i);
 
             item.setTextColor(getResources().getColor(R.color.text_gray_dark));
         }
-        RadioButton rb=(RadioButton)rgChannel.getChildAt(idx);
+        RadioButton rb = (RadioButton) rgChannel.getChildAt(idx);
         rb.setTextColor(getResources().getColor(R.color.bg_header));
         rb.setChecked(true);
-        int left=rb.getLeft();
-        int width=rb.getMeasuredWidth();
-        DisplayMetrics metrics=new DisplayMetrics();
+        int left = rb.getLeft();
+        int width = rb.getMeasuredWidth();
+        DisplayMetrics metrics = new DisplayMetrics();
         super.getWindowManager().getDefaultDisplay().getMetrics(metrics);
-        int screenWidth=metrics.widthPixels;
-        int len=left+width/2-screenWidth/2;
+        int screenWidth = metrics.widthPixels;
+        int len = left + width / 2 - screenWidth / 2;
         hvChannel.smoothScrollTo(len, 0);//滑动ScroollView
     }
 
@@ -369,5 +399,19 @@ public class FunctionItemActivity extends BaseActivity implements ViewPager.OnPa
     @Override
     public void onPageScrollStateChanged(int state) {
 
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageSend(RefreshEndEvent endEvent) {
+        if (endEvent.isFinish()) {
+            refreshLayout.finishRefresh();
+            refreshLayout.finishLoadmore();
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 }

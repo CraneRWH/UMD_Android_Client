@@ -11,17 +11,26 @@ import android.view.ViewGroup;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
 import com.ymd.client.R;
 import com.ymd.client.common.base.OnUMDItemClickListener;
 import com.ymd.client.component.activity.homePage.merchant.MerchantDetailActivity;
 import com.ymd.client.component.adapter.goods.MerchantListAdapter;
+import com.ymd.client.component.event.RefreshEndEvent;
+import com.ymd.client.component.event.RefreshMerchantListEvent;
 import com.ymd.client.model.bean.homePage.MerchantInfoEntity;
 import com.ymd.client.model.constant.URLConstant;
 import com.ymd.client.model.info.LocationInfo;
 import com.ymd.client.web.WebUtil;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -42,10 +51,6 @@ public class FunctionItemListFragment extends Fragment {
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
     Unbinder unbinder;
-
-    private String mParam1;
-    private String mParam2;
-
     private int status;
     private long pid;
 
@@ -55,7 +60,7 @@ public class FunctionItemListFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public static FunctionItemListFragment newInstance(int type, Long pid , int functionType/*String param1, String param2*/) {
+    public static FunctionItemListFragment newInstance(int type, Long pid, int functionType/*String param1, String param2*/) {
         FunctionItemListFragment fragment = new FunctionItemListFragment();
         Bundle args = new Bundle();
         args.putInt(ARG_PARAM1, type);
@@ -73,6 +78,7 @@ public class FunctionItemListFragment extends Fragment {
             pid = getArguments().getLong(ARG_PARAM2);
             functionType = getArguments().getInt("functionType");
         }
+        EventBus.getDefault().register(this);
     }
 
     @Override
@@ -95,6 +101,7 @@ public class FunctionItemListFragment extends Fragment {
             }
         });
         recyclerView.setAdapter(adapter);*/
+
         requestMerchant(status);
     }
 
@@ -107,19 +114,20 @@ public class FunctionItemListFragment extends Fragment {
 
     /**
      * 根据城市获取商户列表
+     *
      * @param type
      */
-    private void requestMerchant(int type){
-        Map<String,Object> params = new HashMap<>();
-        params.put("county",LocationInfo.getInstance().getChooseCity().getCountyCode() > 0 ? LocationInfo.getInstance().getChooseCity().getCountyCode() : "");
+    private void requestMerchant(int type) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("county", LocationInfo.getInstance().getChooseCity().getCountyCode() > 0 ? LocationInfo.getInstance().getChooseCity().getCountyCode() : "");
         params.put("city", LocationInfo.getInstance().getChooseCity().getCityID());
-        params.put("latitude",LocationInfo.getInstance().getLocationInfo().getLatitude());
-        params.put("longitude",LocationInfo.getInstance().getLocationInfo().getLongitude());
+        params.put("latitude", LocationInfo.getInstance().getLocationInfo().getLatitude());
+        params.put("longitude", LocationInfo.getInstance().getLocationInfo().getLongitude());
         params.put("pageNum", page);
         params.put("twoClasses", pid > 0 ? pid : "");
         params.put("classes", functionType);
         String method = URLConstant.COMPREHENSIVE_MERCHANT;
-        switch (type){
+        switch (type) {
             case 0:
                 method = URLConstant.COMPREHENSIVE_MERCHANT;
                 break;
@@ -138,21 +146,33 @@ public class FunctionItemListFragment extends Fragment {
                     @Override
                     public void onWebSuccess(JSONObject resultJson) {
                         resetMerchantData(resultJson.optString("list"));
+                        EventBus.getDefault().post(new RefreshEndEvent(true));
                     }
 
                     @Override
                     public void onWebFailed(String errorMsg) {
-
+                        EventBus.getDefault().post(new RefreshEndEvent(true));
                     }
                 });
 
     }
 
+    private List<MerchantInfoEntity> allDatas = new ArrayList<>();
+
     private void resetMerchantData(String result) {
-        List<MerchantInfoEntity> datas = new Gson().fromJson(result, new TypeToken<List<MerchantInfoEntity>>(){}.getType());
+        List<MerchantInfoEntity> datas = new Gson().fromJson(result, new TypeToken<List<MerchantInfoEntity>>() {
+        }.getType());
+        if (page == 1) {
+            allDatas.clear();
+        }
+        if (datas != null && !datas.isEmpty()) {
+            page++;
+        }
+        allDatas.addAll(datas);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
-        MerchantListAdapter adapter = new MerchantListAdapter(datas, getContext());
+
+        MerchantListAdapter adapter = new MerchantListAdapter(allDatas, getContext());
         adapter.setListener(new OnUMDItemClickListener() {
             @Override
             public void onClick(Object data, View view, int position) {
@@ -177,5 +197,16 @@ public class FunctionItemListFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessage(RefreshMerchantListEvent event) {
+        if (event.isRefresh() && event.getPid() == pid) {
+            if (event.getPage() != 0) {
+                page = event.getPage();
+            }
+            requestMerchant(status);
+        }
     }
 }
