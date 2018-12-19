@@ -162,6 +162,8 @@
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
+        <!--开通会员页面-->
+        <activity android:name=".component.activity.mine.OpenMemberActivity"></activity>
     </application>
 
 </manifest>

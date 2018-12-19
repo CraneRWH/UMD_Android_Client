@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="@color/white" /><!--填充色-->
+    <stroke android:color="@color/text_orange"
+        android:width="@dimen/mar_pad_len_2px"/>
+    <corners android:radius="@dimen/mar_pad_len_10px" />
+</shape>
