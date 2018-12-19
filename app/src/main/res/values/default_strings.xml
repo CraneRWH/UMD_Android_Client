@@ -10,6 +10,7 @@
     <string name="fragment_my_banks">我的银行卡</string>
     <string name="fragment_intro">推荐有礼</string>
     <string name="fragment_coop">我要合作</string>
+    <string name="fragment_open_member">优买单会员</string>
 
     <string name="setting_title">设置</string>
     <string name="setting_alter_pw">修改登陆密码</string>
@@ -23,7 +24,7 @@
     <string name="person_info_phone">手机号</string>
     <string name="person_info_sex">性别</string>
     <string name="person_info_birthday">出生日期</string>
-    
+
     <string name="my_ub_in">收入</string>
     <string name="my_ub_out">支出</string>
 
