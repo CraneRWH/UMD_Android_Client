@@ -19,6 +19,10 @@
     <!-- 课程表——绿色 -->
     <color name="btn_blue_pressed">#0066FF</color>
     <color name="gray">#cccccc</color>
+
+    <color name="orange_bg">#ff8808</color>
+    <color name="default_text_gray">#666666</color>
+
     <!-- 白色 -->
     <color name="white">#FFFFFF</color>
     <!-- 黑色 -->

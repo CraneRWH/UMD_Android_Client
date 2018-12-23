@@ -18,6 +18,8 @@ import com.ymd.client.component.activity.login.LoginByPWActivity;
 import com.ymd.client.component.activity.mine.collection.MyCollectionActivity;
 import com.ymd.client.component.activity.mine.info.PersonInfoActivity;
 import com.ymd.client.component.activity.mine.setting.SettingActivity;
+import com.ymd.client.component.activity.mine.setting.config.AlterLoginPwActivity;
+import com.ymd.client.component.activity.mine.setting.config.AlterRegPhoneActivity;
 import com.ymd.client.component.activity.mine.ub.MyUbActivity;
 import com.ymd.client.component.event.LoginEvent;
 import com.ymd.client.component.event.LoginRefreshEvent;
@@ -26,7 +28,6 @@ import com.ymd.client.component.widget.CircleImageView;
 import com.ymd.client.model.constant.URLConstant;
 import com.ymd.client.model.info.LoginInfo;
 import com.ymd.client.utils.ToastUtil;
-import com.ymd.client.utils.ToolUtil;
 import com.ymd.client.utils.helper.PermissionHelper;
 import com.ymd.client.utils.helper.PermissionInterface;
 import com.ymd.client.web.WebUtil;
@@ -35,9 +36,6 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONObject;
-
-import java.util.HashMap;
-import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -63,8 +61,8 @@ public class MainMineFragment extends Fragment implements PermissionInterface {
     CircleImageView mHeadView;//头像
     @BindView(R.id.fragment_person_nickname)
     TextView mNickName;//昵称
-    @BindView(R.id.fragment_my_ub)
-    TextView mMyUbCount;//我的U币
+    // @BindView(R.id.fragment_my_ub)
+    // TextView mMyUbCount;//我的U币
 
     public MainMineFragment() {
         // Required empty public constructor
@@ -118,22 +116,49 @@ public class MainMineFragment extends Fragment implements PermissionInterface {
                 mHeadView.setImageResource(R.mipmap.app_icon);
             }
             mNickName.setText(LoginInfo.getInstance().getLoginInfo().getUserName());
-        //    mMyUbCount.setText(ToolUtil.changeString(LoginInfo.getInstance().getLoginInfo().getuNumber()));
+            //    mMyUbCount.setText(ToolUtil.changeString(LoginInfo.getInstance().getLoginInfo().getuNumber()));
             requestUnum();
         } else {
             mHeadView.setImageResource(R.mipmap.app_icon);
             mNickName.setText("未登录");
-            mMyUbCount.setText("");
+            // mMyUbCount.setText("");
         }
 
+    }
+
+    @OnClick({R.id.setting_alter_pw, R.id.setting_alter_phone, R.id.setting_logout})
+    void clickSetting(View view) {
+        switch (view.getId()) {
+            case R.id.setting_alter_pw:
+                //修改登陆密码
+                startActivity(new Intent(getActivity(), AlterLoginPwActivity.class));
+                break;
+            case R.id.setting_alter_phone:
+                //修改注册手机号
+                startActivity(new Intent(getActivity(), AlterRegPhoneActivity.class));
+                break;
+            case R.id.setting_logout:
+                LoginInfo.exitLogin();
+                //finish();
+        }
     }
 
     @OnClick({R.id.fragment_mine_my_ub, R.id.fragment_person_nickname, R.id.fragment_mine_my_collection, R.id.fragment_mine_my_rate,
             R.id.fragment_mine_my_cards, R.id.fragment_mine_links, R.id.fragment_mine_banks,
             R.id.fragment_mine_introduce, R.id.fragment_mine_cooperation, R.id.fragment_setting,
-            R.id.fragment_person, R.id.fragment_person_iv})
+            R.id.fragment_person, R.id.fragment_person_iv, R.id.fragment_mine_my_member,
+            R.id.fragment_mine_update})
     void click(View view) {
         switch (view.getId()) {
+            case R.id.fragment_mine_update:
+                break;
+            case R.id.fragment_mine_my_member:
+                if (!LoginInfo.isLogin) {
+                    LoginByPWActivity.startAction(getActivity());
+                } else {
+                    startActivity(new Intent(getContext(), OpenMemberActivity.class));
+                }
+                break;
             case R.id.fragment_setting:
                 //设置
                 startActivity(new Intent(getContext(), SettingActivity.class));
@@ -178,9 +203,7 @@ public class MainMineFragment extends Fragment implements PermissionInterface {
                 //我的银行卡
                 break;
             case R.id.fragment_mine_introduce:
-                //   startActivity(new Intent(getContext(), IntroduceActivity.class));
-
-                ToastUtil.ToastMessage(getActivity(), "功能开发中，敬请期待");
+                startActivity(new Intent(getContext(), IntroduceActivity.class));
                 //推荐有礼
                 break;
             case R.id.fragment_mine_cooperation:
@@ -272,7 +295,7 @@ public class MainMineFragment extends Fragment implements PermissionInterface {
                 new WebUtil.WebCallBack() {
                     @Override
                     public void onWebSuccess(JSONObject result) {
-                        mMyUbCount.setText(result.optString("data"));
+                        //mMyUbCount.setText(result.optString("data"));
                     }
 
                     @Override

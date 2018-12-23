@@ -13,11 +13,11 @@
     <string name="fragment_open_member">优买单会员</string>
 
     <string name="setting_title">设置</string>
-    <string name="setting_alter_pw">修改登陆密码</string>
+    <string name="setting_alter_pw">修改登录密码</string>
     <string name="setting_alter_ges_pw">修改手势密码</string>
     <string name="setting_ges_pw">设置手势密码</string>
     <string name="setting_alter_phone">修改注册手机号</string>
-    <string name="setting_logout">退出登陆</string>
+    <string name="setting_logout">退出登录</string>
 
     <string name="person_info_alter_img">修改头像</string>
     <string name="person_info_nickname">昵称</string>

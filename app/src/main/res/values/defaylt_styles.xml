@@ -8,6 +8,14 @@
         <item name="android:textColor">@color/white</item>
         <item name="android:textSize">16sp</item>
     </style>
+    <style name="org_btn_bg">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/mar_pad_len_92px</item>
+        <item name="android:background">@drawable/default_org_background_with_corner</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">16sp</item>
+    </style>
 
     <!-- Dialog样式 -->
     <style name="DialogStyle" parent="@android:style/Theme.Dialog">

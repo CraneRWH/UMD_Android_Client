@@ -1,11 +1,13 @@
 package com.ymd.client.component.activity.mine;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
 
 import com.ymd.client.R;
 import com.ymd.client.common.base.BaseActivity;
 import com.ymd.client.utils.StatusBarUtils;
+import com.ymd.client.utils.ToastUtil;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -35,5 +37,10 @@ public class IntroduceActivity extends BaseActivity {
     protected void setStatusBar(int resourcesId) {
         super.setStatusBar(resourcesId);
         StatusBarUtils.StatusBarLightMode(this, true);
+    }
+
+    @OnClick(R.id.introduce_share)
+    void share(View view){
+        ToastUtil.ToastMessage(this,"友盟分享出去");
     }
 }

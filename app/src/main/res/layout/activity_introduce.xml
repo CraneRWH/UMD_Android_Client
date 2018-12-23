@@ -9,4 +9,12 @@
 
     <include layout="@layout/layout_title_base"/>
 
+    <TextView
+        android:id="@+id/introduce_share"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:textColor="@color/black"
+        android:gravity="center"
+        android:text="分享"/>
+
 </LinearLayout>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:id="@+id/open_member_bg"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/mar_pad_len_92px"
+        android:padding="@dimen/mar_pad_len_22px"
+        android:background="@drawable/open_member_bg">
+
+        <TextView
+            android:id="@+id/item_open_member_name"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_vertical|left"
+            android:text="年卡"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_size_32px" />
+
+        <TextView
+            android:id="@+id/item_open_member_old_price"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginRight="@dimen/mar_pad_len_22px"
+            android:background="@drawable/open_member_line_bg"
+            android:gravity="center_vertical"
+            android:paddingLeft="@dimen/mar_pad_len_5px"
+            android:paddingRight="@dimen/mar_pad_len_5px"
+            android:text="￥240"
+            android:textColor="@color/gray"
+            android:textSize="@dimen/text_size_26px" />
+
+        <TextView
+            android:id="@+id/item_open_member_price"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:text="￥99"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_size_32px" />
+    </LinearLayout>
+</LinearLayout>

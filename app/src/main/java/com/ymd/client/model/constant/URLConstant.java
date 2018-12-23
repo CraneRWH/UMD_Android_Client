@@ -240,4 +240,13 @@ public class URLConstant {
      */
     public static final String DELETE_ORDER = "ymdOrder/deleteOrder";
 
+    /**
+     * 获取会员列表
+     */
+    public static final String QUERY_MEMBER_LIST = "hyMember/memberList";
+    /**
+     * 开通会员接口
+     */
+    public static final String OPEN_MEMBER = "hyMember/openMember";
+
 }

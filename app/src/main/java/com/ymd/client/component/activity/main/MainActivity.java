@@ -166,7 +166,9 @@ public class MainActivity extends BaseActivity {
             }
             if (tag == 1) {
                 setStatusBar(R.color.head_white);
-            } else {
+            } else if(tag == 2){
+                setStatusBar(R.color.orange_bg);
+            }else {
                 setStatusBar(R.color.bg_header);
             }
         } catch (Exception e) {
