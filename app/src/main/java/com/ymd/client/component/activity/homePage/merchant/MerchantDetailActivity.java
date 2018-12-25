@@ -6,7 +6,6 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.RequiresApi;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.TabLayout;
@@ -24,7 +23,6 @@ import android.view.animation.LinearInterpolator;
 import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -35,8 +33,8 @@ import com.ymd.client.R;
 import com.ymd.client.component.activity.homePage.merchant.fragment.EvaluateSellerFragment;
 import com.ymd.client.component.activity.homePage.merchant.fragment.MerchantGoodsFragment;
 import com.ymd.client.component.activity.homePage.merchant.fragment.MerchantZiZhiFragment;
-import com.ymd.client.component.activity.homePage.merchant.seller.ShopCarPopupWindow;
 import com.ymd.client.component.activity.order.detail.OrderDetailActivity;
+import com.ymd.client.component.activity.order.u_order.UOrderPayActivity;
 import com.ymd.client.component.adapter.TabFragmentAdapter;
 import com.ymd.client.component.event.GoodsEvent;
 import com.ymd.client.component.event.MEvent;
@@ -274,6 +272,13 @@ public class MerchantDetailActivity extends TabBaseActivity {
                 } else {
                     EventBus.getDefault().post(new MEvent(false));
                 }
+            }
+        });
+
+        buyOrderBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                UOrderPayActivity.startAction(MerchantDetailActivity.this, 0);
             }
         });
     }

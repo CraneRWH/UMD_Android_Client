@@ -79,7 +79,7 @@
         </activity>
 
         <!-- 密码登录 -->
-        <activity android:name=".component.activity.login.LoginByPWActivity"></activity>
+        <activity android:name=".component.activity.login.LoginByPWActivity" />
 
         <!-- 启动页面 -->
         <activity android:name=".component.activity.login.LogoActivity">
@@ -133,7 +133,7 @@
         <activity android:name=".component.activity.homePage.merchant.MerchantDetailActivity" />
         <activity
             android:name=".component.activity.homePage.merchant.seller.SellerDetailActivity"
-            android:label="@string/title_activity_seller_detail"/>
+            android:label="@string/title_activity_seller_detail" />
         <activity android:name=".component.activity.homePage.merchant.CommentSellerActivity" />
         <activity android:name=".component.activity.homePage.merchant.ComplaintSellerActivity" />
         <activity android:name=".component.activity.homePage.search.SearchActivity" />
@@ -145,24 +145,35 @@
         <activity android:name=".component.activity.mine.info.MemberSexChangeActivity" />
         <activity android:name=".component.activity.mine.info.NickNameChangeActivity" />
         <activity android:name=".component.activity.homePage.functionItem.FunctionItemActivity" />
+        <activity android:name=".component.activity.homePage.merchant.seller.test.MerchantDetail2Activity" />
 
-        <activity android:name=".component.activity.homePage.merchant.seller.test.MerchantDetail2Activity"/>
-        <service
-            android:name=".common.base.service.LocationIntentService" />
+        <service android:name=".common.base.service.LocationIntentService" />
+        <service android:name=".common.base.service.LocationIntentService" />
 
-        <service android:name=".common.base.service.LocationIntentService"/>
-        <activity android:name=".component.activity.login.AgreementActivity"></activity>
-        <activity android:name=".component.activity.homePage.functionItem.FunctionItemActivity_"/>
-        <activity android:name=".wxapi.WXPayEntryActivity"
+        <activity android:name=".component.activity.login.AgreementActivity" />
+        <activity android:name=".component.activity.homePage.functionItem.FunctionItemActivity_" />
+        <activity
+            android:name=".wxapi.WXPayEntryActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="true"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" >
+            android:theme="@android:style/Theme.Translucent.NoTitleBar">
             <intent-filter>
-                <action android:name="android.intent.action.VIEW"/>
-                <category android:name="android.intent.category.DEFAULT"/>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".component.activity.order.u_order.UOrderPayActivity"
+            android:label="@string/title_activity_uorder_pay"
+            android:parentActivityName=".common.base.BaseActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.ymd.client.common.base.BaseActivity" />
+        </activity>
+        <activity android:name=".component.activity.order.u_order.UOrderPayResultActivity"></activity>
         <!--开通会员页面-->
         <activity android:name=".component.activity.mine.OpenMemberActivity"></activity>
     </application>
