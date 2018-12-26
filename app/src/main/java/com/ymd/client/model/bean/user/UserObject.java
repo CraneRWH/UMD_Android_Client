@@ -82,6 +82,13 @@ public class UserObject {
     private int saleNum;
 
     /**
+     * 判断是否是会员,0 非会员 1会员
+     */
+    private int membership;
+
+    private String endTime;
+
+    /**
      *comprehensiveScore 综合评分
      */
     private int comprehensiveScore;
@@ -228,5 +235,21 @@ public class UserObject {
 
     public void setComprehensiveScore(int comprehensiveScore) {
         this.comprehensiveScore = comprehensiveScore;
+    }
+
+    public int getMembership() {
+        return membership;
+    }
+
+    public void setMembership(int membership) {
+        this.membership = membership;
+    }
+
+    public String getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(String endTime) {
+        this.endTime = endTime;
     }
 }

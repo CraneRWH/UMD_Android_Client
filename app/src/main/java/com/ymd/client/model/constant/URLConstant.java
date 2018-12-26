@@ -185,6 +185,11 @@ public class URLConstant {
     public static final String CREATE_ORDER = "ymdOrder/addOrder";
 
     /**
+     * 优惠买单生成订单
+     */
+    public static final String CREATE_U_ORDER = "ymdOrder/yhmdAddOrder";
+
+    /**
      * 取消订单
      */
     public static final String CANCLE_ORDER = "ymdConsumer/ConsumerRefuseOrder";
