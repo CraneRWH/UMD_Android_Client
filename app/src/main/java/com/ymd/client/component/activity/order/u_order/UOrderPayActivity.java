@@ -19,8 +19,7 @@ import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.ymd.client.R;
 import com.ymd.client.common.base.BaseActivity;
 import com.ymd.client.common.base.bean.PayInfo;
-import com.ymd.client.component.activity.order.pay.OrderPayActivity;
-import com.ymd.client.component.activity.order.pay.OrderPayResultActivity;
+import com.ymd.client.component.activity.mine.OpenMemberActivity;
 import com.ymd.client.component.event.OrderListRefreshEvent;
 import com.ymd.client.component.event.UEvent;
 import com.ymd.client.component.widget.dialog.MyDialog;
@@ -87,6 +86,8 @@ public class UOrderPayActivity extends BaseActivity {
 
     private UOrderObject uOrderObject;
 
+    private final static int KT_MEMBER_CODE = 1;
+
     /**
      * 启动
      *
@@ -124,6 +125,28 @@ public class UOrderPayActivity extends BaseActivity {
         merchantInfo = (MerchantInfoEntity) getIntent().getExtras().getSerializable("merchant");
         functionType = getIntent().getExtras().getInt("functionType");
 
+        payBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!FastDoubleClickUtil.isFastDoubleClick()) {
+                    sendPay();
+                }
+            }
+        });
+
+        ktMemberBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!FastDoubleClickUtil.isFastDoubleClick())
+                    startActivityForResult(new Intent(UOrderPayActivity.this, OpenMemberActivity.class), KT_MEMBER_CODE);
+            }
+        });
+
+        resetMemberView();
+    }
+
+    private void resetMemberView() {
+
         if (LoginInfo.getInstance().getLoginInfo().getMembership() == 1) {
             ktMemberLlt.setVisibility(View.GONE);
             personTypeIv.setImageResource(R.mipmap.icon_hui);
@@ -134,14 +157,6 @@ public class UOrderPayActivity extends BaseActivity {
             personPriceTv.setText("9折");
         }
 
-        payBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (!FastDoubleClickUtil.isFastDoubleClick()) {
-                    sendPay();
-                }
-            }
-        });
     }
 
     List<Map<String, Object>> payTypeList = new ArrayList<>();
@@ -405,5 +420,11 @@ public class UOrderPayActivity extends BaseActivity {
                 });
     }
 
-
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == KT_MEMBER_CODE) {
+            resetMemberView();
+        }
+    }
 }
