@@ -82,6 +82,13 @@ public class UserObject {
     private int saleNum;
 
     /**
+     * 判断是否是会员,0 非会员 1会员
+     */
+    private int membership;
+
+    private String endTime;
+
+    /**
      *comprehensiveScore 综合评分
      */
     private int comprehensiveScore;

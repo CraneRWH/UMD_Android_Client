@@ -50,6 +50,7 @@ import com.ymd.client.model.helper.AppBarStateChangeListener;
 import com.ymd.client.model.info.LoginInfo;
 import com.ymd.client.utils.AlertUtil;
 import com.ymd.client.utils.AnimationUtil;
+import com.ymd.client.utils.FastDoubleClickUtil;
 import com.ymd.client.utils.ToastUtil;
 import com.ymd.client.utils.ToolUtil;
 import com.ymd.client.web.WebUtil;
@@ -278,7 +279,10 @@ public class MerchantDetailActivity extends TabBaseActivity {
         buyOrderBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                UOrderPayActivity.startAction(MerchantDetailActivity.this, 0);
+            //    UOrderPayActivity.startAction(MerchantDetailActivity.this, 0);
+                if (!FastDoubleClickUtil.isFastDoubleClick()) {
+                    UOrderPayActivity.startAction(MerchantDetailActivity.this, merchantInfo, functionType);
+                }
             }
         });
     }
