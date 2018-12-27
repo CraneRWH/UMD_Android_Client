@@ -88,6 +88,8 @@ public class UOrderPayActivity extends BaseActivity {
 
     private final static int KT_MEMBER_CODE = 1;
 
+
+
     /**
      * 启动
      *
@@ -242,6 +244,7 @@ public class UOrderPayActivity extends BaseActivity {
                     @Override
                     public void onWebSuccess(JSONObject result) {
                         //    toOrderDetail(result.optString("id"));
+
                     }
 
                     @Override

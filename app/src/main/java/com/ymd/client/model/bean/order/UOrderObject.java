@@ -16,6 +16,36 @@ public class UOrderObject implements Serializable {
     private String msg;
     private int code;
 
+    private double getUnum;
+    private double payAmt;
+
+    private double allAmt;
+
+    public double getAllAmt() {
+        return allAmt;
+    }
+
+    public void setAllAmt(double allAmt) {
+        this.allAmt = allAmt;
+    }
+
+    public double getPayAmt() {
+        return payAmt;
+    }
+
+    public void setPayAmt(double payAmt) {
+        this.payAmt = payAmt;
+    }
+
+    public double getGetUnum() {
+
+        return getUnum;
+    }
+
+    public void setGetUnum(double getUnum) {
+        this.getUnum = getUnum;
+    }
+
     public String getMsg() {
         return msg;
     }

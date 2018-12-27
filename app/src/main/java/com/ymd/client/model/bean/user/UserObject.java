@@ -93,13 +93,6 @@ public class UserObject {
      */
     private int comprehensiveScore;
 
-    /**
-     * 判断是否是会员,0 非会员 1会员
-     */
-    private int membership;
-
-    private String endTime;
-
     public Long getId() {
         return id;
     }
