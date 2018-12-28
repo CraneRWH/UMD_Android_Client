@@ -19,7 +19,7 @@ import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.ymd.client.R;
 import com.ymd.client.common.base.BaseActivity;
 import com.ymd.client.common.base.bean.PayInfo;
-import com.ymd.client.component.activity.mine.OpenMemberActivity;
+import com.ymd.client.component.activity.mine.member.OpenMemberActivity;
 import com.ymd.client.component.event.OrderListRefreshEvent;
 import com.ymd.client.component.event.UEvent;
 import com.ymd.client.component.widget.dialog.MyDialog;

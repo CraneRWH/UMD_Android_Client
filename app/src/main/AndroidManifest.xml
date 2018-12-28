@@ -175,12 +175,10 @@
                 android:value="com.ymd.client.common.base.BaseActivity" />
         </activity>
         <activity android:name=".component.activity.order.u_order.UOrderPayResultActivity"></activity>
-        <!--开通会员页面-->
-        <activity android:name=".component.activity.mine.OpenMemberActivity"></activity>
         <!-- 开通会员页面 -->
         <activity android:name=".component.activity.mine.member.OpenMemberActivity" />
         <activity android:name=".component.activity.mine.member.PayOpenMemberActivity" />
-        <activity android:name=".component.activity.mine.member.MemberPayResultActivity"></activity>
+        <activity android:name=".component.activity.mine.member.MemberPayResultActivity"/>
 
         <!--分享-->
         <activity
