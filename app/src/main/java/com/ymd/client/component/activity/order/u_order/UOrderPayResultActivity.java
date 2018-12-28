@@ -3,12 +3,17 @@ package com.ymd.client.component.activity.order.u_order;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ymd.client.R;
 import com.ymd.client.common.base.BaseActivity;
+import com.ymd.client.component.activity.main.MainActivity;
 import com.ymd.client.model.bean.order.UOrderObject;
+import com.ymd.client.utils.ToastUtil;
 import com.ymd.client.utils.ToolUtil;
 
 import butterknife.BindView;
@@ -25,6 +30,8 @@ public class UOrderPayResultActivity extends BaseActivity {
     TextView orderMoneyTv;
     @BindView(R.id.pay_result_tv)
     TextView payResultTv;
+    @BindView(R.id.to_main_iv)
+    ImageView toMainIv;
 
     private UOrderObject orderObject;
 
@@ -45,6 +52,18 @@ public class UOrderPayResultActivity extends BaseActivity {
         setContentView(R.layout.activity_uorder_pay_result);
         ButterKnife.bind(this);
 
-        orderMoneyTv.setText(ToolUtil.changeString(orderObject.getCode()));
+        orderObject = (UOrderObject) getIntent().getExtras().getSerializable("order");
+        if (orderObject != null) {
+            orderMoneyTv.setText(ToolUtil.changeString(orderObject.getPayAmt()));
+        } else {
+            ToastUtil.ToastMessage(this,"支付未成功");
+            finish();
+        }
+        toMainIv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MainActivity.startAction(UOrderPayResultActivity.this);
+            }
+        });
     }
 }

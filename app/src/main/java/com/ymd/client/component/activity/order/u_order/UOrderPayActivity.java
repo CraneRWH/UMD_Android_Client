@@ -84,7 +84,7 @@ public class UOrderPayActivity extends BaseActivity {
     @BindView(R.id.sure_btn)
     ImageView sureBtn;
 
-    private UOrderObject uOrderObject;
+    private UOrderObject uOrderObject = new UOrderObject();
 
     private final static int KT_MEMBER_CODE = 1;
 
@@ -158,7 +158,12 @@ public class UOrderPayActivity extends BaseActivity {
             personTypeIv.setImageResource(R.mipmap.icon_pu_str);
             personPriceTv.setText("9折");
         }
-
+        if (uOrderObject != null) {
+            disMoneyTv.setText(ToolUtil.changeString(uOrderObject.getDiscountMoney()));
+            uDisMoneyTv.setText(ToolUtil.changeString(uOrderObject.getuNumber()));
+            receiveUNumTv.setText(ToolUtil.changeString(uOrderObject.getGetUnum()));
+            payMoneyTv.setText(ToolUtil.changeString(uOrderObject.getPayAmt()));
+        }
     }
 
     List<Map<String, Object>> payTypeList = new ArrayList<>();
@@ -219,6 +224,8 @@ public class UOrderPayActivity extends BaseActivity {
             if (i != position) {
                 item.put("isChoose", false);
                 ((ImageView) payTypeLt.getChildAt(i).findViewById(R.id.choose_iv)).setImageResource(R.mipmap.icon_payoptions_oval);
+            } else {
+                ((ImageView)payTypeLt.getChildAt(i).findViewById(R.id.choose_iv)).setImageResource(R.mipmap.icon_payoptions_complete2);
             }
         }
         if (position < 0) {
@@ -234,17 +241,25 @@ public class UOrderPayActivity extends BaseActivity {
             return;
         }
         double allMoney = ToolUtil.changeDouble(orderAllMoneyTv.getText());
+        uOrderObject.setAllAmt(allMoney);
         Map<String, Object> params = new HashMap<>();
         params.put("merchantId", merchantInfo.getId());
         params.put("totalAmt", allMoney);
-        params.put("uCurrency", "0");
+        params.put("uCurrency", 0);
+     /*   params.put("uObtain", uOrderObject.getGetUnum());
+        params.put("payAmt", uOrderObject.getPayAmt());
+        params.put("discountAmt", uOrderObject.getDiscountMoney());*/
         params.put("orderType", functionType == 0 ? 0 : 1);
         WebUtil.getInstance().requestPOST(this, URLConstant.CREATE_U_ORDER, params, true,
                 new WebUtil.WebCallBack() {
                     @Override
                     public void onWebSuccess(JSONObject result) {
-                        //    toOrderDetail(result.optString("id"));
-
+                        uOrderObject = new Gson().fromJson(result.toString(), UOrderObject.class);
+                        if (uOrderObject.getCode() == 0) {
+                            resetMemberView();
+                        } else {
+                            ToastUtil.ToastMessage(UOrderPayActivity.this, "获取优惠失败");
+                        }
                     }
 
                     @Override
