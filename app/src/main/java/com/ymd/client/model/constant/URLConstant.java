@@ -266,5 +266,9 @@ public class URLConstant {
      * 推荐内容
      */
     public static final String  GET_INTRODUCE_CONTENT = "ymdConsumer/recommendedRegistration";
+    /**
+     * 獲取會員信息
+     */
+    public static final String  GET_MEMBER_INFO = "hyMember/getCustomerInfo";
 
 }

@@ -7,7 +7,13 @@ import android.widget.TextView;
 
 import com.ymd.client.R;
 import com.ymd.client.common.base.BaseActivity;
+import com.ymd.client.model.constant.URLConstant;
+import com.ymd.client.model.info.LoginInfo;
+import com.ymd.client.utils.LogUtil;
 import com.ymd.client.utils.ToolUtil;
+import com.ymd.client.web.WebUtil;
+
+import org.json.JSONObject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -15,7 +21,7 @@ import butterknife.OnClick;
 
 public class MemberPayResultActivity extends BaseActivity {
 
-    @BindView(R.id.base_title)
+    @BindView(R.id.txtTitle)
     TextView mTxtTitle;//标题
 
     @BindView(R.id.order_money_tv)
@@ -28,9 +34,10 @@ public class MemberPayResultActivity extends BaseActivity {
 
     /**
      * 启动
+     *
      * @param context
      */
-    public static void startAction(Activity context, String orderNo,String money) {
+    public static void startAction(Activity context, String orderNo, String money) {
         Intent intent = new Intent(context, MemberPayResultActivity.class);
         intent.putExtra("order", orderNo);
         intent.putExtra("money", money);
@@ -48,10 +55,28 @@ public class MemberPayResultActivity extends BaseActivity {
         initView();
     }
 
-    private void initView(){
-        if (getIntent()!= null) {
+    private void getMemberInfo() {
+        WebUtil.getInstance().requestPOST(this, URLConstant.GET_MEMBER_INFO, null, true,
+                new WebUtil.WebCallBack() {
+                    @Override
+                    public void onWebSuccess(JSONObject result) {
+                        JSONObject userStr = result.optJSONObject("user");
+                        LoginInfo.setLoginInfo(userStr.toString());
+                    }
+
+                    @Override
+                    public void onWebFailed(String errorMsg) {
+
+                    }
+                });
+    }
+
+    private void initView() {
+        if (getIntent() != null) {
             money = getIntent().getExtras().getString("money");
             setShopData();
+
+            getMemberInfo();
         } else {
             finish();
         }
@@ -62,7 +87,7 @@ public class MemberPayResultActivity extends BaseActivity {
     }
 
     @OnClick(R.id.member_pay_back)
-    void back(){
+    void back() {
         finish();
     }
 }
