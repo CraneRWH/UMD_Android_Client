@@ -1,20 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".component.activity.mine.setting.SettingActivity">
 
-    <include layout="@layout/layout_title_base"/>
+    <include layout="@layout/layout_title_base" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dip"
+        android:layout_weight="1"
+        android:background="@mipmap/icon_share" />
 
     <TextView
         android:id="@+id/introduce_share"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:textColor="@color/black"
+        android:layout_height="@dimen/mar_pad_len_100px"
+        android:background="@color/orange_bg"
         android:gravity="center"
-        android:text="分享"/>
+        android:text="立即分享"
+        android:textColor="@color/white" />
 
 </LinearLayout>

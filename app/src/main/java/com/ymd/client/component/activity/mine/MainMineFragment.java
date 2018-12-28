@@ -17,6 +17,7 @@ import com.ymd.client.R;
 import com.ymd.client.component.activity.login.LoginByPWActivity;
 import com.ymd.client.component.activity.mine.collection.MyCollectionActivity;
 import com.ymd.client.component.activity.mine.info.PersonInfoActivity;
+import com.ymd.client.component.activity.mine.member.OpenMemberActivity;
 import com.ymd.client.component.activity.mine.setting.SettingActivity;
 import com.ymd.client.component.activity.mine.setting.config.AlterLoginPwActivity;
 import com.ymd.client.component.activity.mine.setting.config.AlterRegPhoneActivity;
@@ -203,7 +204,11 @@ public class MainMineFragment extends Fragment implements PermissionInterface {
                 //我的银行卡
                 break;
             case R.id.fragment_mine_introduce:
-                startActivity(new Intent(getContext(), IntroduceActivity.class));
+                if (!LoginInfo.isLogin) {
+                    LoginByPWActivity.startAction(getActivity());
+                } else {
+                    startActivity(new Intent(getContext(), IntroduceActivity.class));
+                }
                 //推荐有礼
                 break;
             case R.id.fragment_mine_cooperation:

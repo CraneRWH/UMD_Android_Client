@@ -249,4 +249,17 @@ public class URLConstant {
      */
     public static final String OPEN_MEMBER = "hyMember/openMember";
 
+    /**
+     * 支付信息
+     */
+    public static final String MEMBER_ORDER_PAY = "hyMember/pay";
+    /**
+     * 支付信息
+     */
+    public static final String  QUERY_MEMBER_ORDER = "hyMember/queryMemOrder";
+    /**
+     * 推荐内容
+     */
+    public static final String  GET_INTRODUCE_CONTENT = "ymdConsumer/recommendedRegistration";
+
 }

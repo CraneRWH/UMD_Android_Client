@@ -16,6 +16,8 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.constant.SpinnerStyle;
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
 import com.scwang.smartrefresh.layout.header.ClassicsHeader;
+import com.umeng.commonsdk.UMConfigure;
+import com.umeng.socialize.PlatformConfig;
 import com.ymd.client.model.bean.User;
 import com.ymd.client.model.info.LocationInfo;
 import com.ymd.client.model.info.LoginInfo;
@@ -114,6 +116,14 @@ public class UApplication extends MultiDexApplication {
         initUser();
 
         ToolUtil.setContext(getApplicationContext());
+
+        UMConfigure.init(this,"5b8cd3c1f29d9853ab000013"
+                ,"umeng",UMConfigure.DEVICE_TYPE_PHONE,"");
+
+        PlatformConfig.setQQZone("101534769", "a872b37699f21f77be8e3dadcd73d1e4");
+        PlatformConfig.setWeixin("wxd7ea0a0c6e613465", "b3ca6c9b45e5e763aecf00297e95db36");
+        //豆瓣RENREN平台目前只能在服务器端配置
+       // PlatformConfig.setSinaWeibo("3921700954", "04b48b094faeb16683c32669824ebdad", "http://sns.whalecloud.com");
     }
 
     private void initUser() {

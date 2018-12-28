@@ -2,6 +2,7 @@ package com.ymd.client.component.activity.order.detail;
 
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -21,6 +22,8 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.ymd.client.R;
 import com.ymd.client.common.base.OnUMDItemClickListener;
+import com.ymd.client.component.activity.login.LoginByPWActivity;
+import com.ymd.client.component.activity.mine.member.OpenMemberActivity;
 import com.ymd.client.component.activity.order.pay.OrderPayActivity;
 import com.ymd.client.component.adapter.order.OrderDetailBaofangAdapter;
 import com.ymd.client.component.event.OrderEvent;
@@ -29,6 +32,7 @@ import com.ymd.client.model.bean.order.OrderResultForm;
 import com.ymd.client.model.bean.order.YmdMerchantRooms;
 import com.ymd.client.model.bean.order.YmdOrderGoods;
 import com.ymd.client.model.constant.URLConstant;
+import com.ymd.client.model.info.LoginInfo;
 import com.ymd.client.utils.ToastUtil;
 import com.ymd.client.utils.ToolUtil;
 import com.ymd.client.web.WebUtil;
@@ -108,6 +112,18 @@ public class OrderDetailFragment extends Fragment {
 
     private int functionType;
 
+    //是否显示会员view
+    @BindView(R.id.fragment_order_detail_member)
+    View mViewMember;//会员view
+    @BindView(R.id.fragment_order_detail_member_normal)
+    View mViewNormal;//普通用户view
+    @BindView(R.id.fragment_order_detail_member_normal_1)
+    View mViewNormal1;//普通用户view
+    @BindView(R.id.fragment_member_price)
+    TextView mMemberPrice;//会员折扣价
+    @BindView(R.id.fragment_member_open)
+    TextView mMemberOpen;//去开通会员
+
     public OrderDetailFragment() {
         // Required empty public constructor
     }
@@ -149,7 +165,25 @@ public class OrderDetailFragment extends Fragment {
             }
         }
         initView(view);
+        initMemberView();
         return view;
+    }
+
+    /**
+     * 判断是否显示会员view
+     */
+    private void initMemberView() {
+        if (LoginInfo.getInstance().getLoginInfo().getMembership() == 0) {
+            //0是非会员
+            mViewMember.setVisibility(View.GONE);
+            mViewNormal.setVisibility(View.VISIBLE);
+            mViewNormal1.setVisibility(View.VISIBLE);
+        } else {
+            //会员
+            mViewNormal.setVisibility(View.GONE);
+            mViewNormal1.setVisibility(View.GONE);
+            mViewMember.setVisibility(View.VISIBLE);
+        }
     }
 
     private int roomType = 1;
@@ -208,6 +242,18 @@ public class OrderDetailFragment extends Fragment {
             }
         });
 
+        //开通会员
+        mMemberOpen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!LoginInfo.isLogin) {
+                    LoginByPWActivity.startAction(getActivity());
+                } else {
+                    startActivity(new Intent(getContext(), OpenMemberActivity.class));
+                }
+            }
+        });
+
         /*if (functionType == 1) {
             roomType = ToolUtil.changeInteger(orderDetail.getRoom());
             chooseRoomType();
@@ -238,11 +284,14 @@ public class OrderDetailFragment extends Fragment {
         disPriceTv.setText("-" + ToolUtil.changeString(orderDetail.getDiscountAmt()) + "元");
         uGetTv.setText(ToolUtil.changeString(orderDetail.getuObtain()));
         uDisPriceTv.setText("-" + ToolUtil.changeString(orderDetail.getuCurrency()));
+        //会员折扣价减少
+        mMemberPrice.setText("-" + ToolUtil.changeString(orderDetail.getDiscountAmt()) + "元");
+
         if (orderDetail != null) {
             try {
                 String[] timeStrs = orderDetail.getEatTime().split(" ");
                 dateStr = timeStrs[0];
-                timeStr = timeStrs[1].substring(0,5);
+                timeStr = timeStrs[1].substring(0, 5);
                 dateTv.setText(dateStr);
                 timeTv.setText(timeStr);
             } catch (ArrayIndexOutOfBoundsException e) {
@@ -283,7 +332,7 @@ public class OrderDetailFragment extends Fragment {
     private void resetRoomListData(String resultJson) {
         roomsList = new Gson().fromJson(resultJson, new TypeToken<List<YmdMerchantRooms>>() {
         }.getType());
-        if(orderDetail != null) {
+        if (orderDetail != null) {
             roomType = ToolUtil.changeInteger(orderDetail.getRoom());
             chooseRoomType();
             if (roomType == 0) {

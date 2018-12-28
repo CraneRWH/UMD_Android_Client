@@ -10,17 +10,18 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            >
+            android:orientation="vertical">
+
             <LinearLayout
                 android:id="@+id/food_llt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                >
+                android:orientation="vertical">
+
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/mar_pad_len_88px"
@@ -128,10 +129,10 @@
                         android:id="@+id/baofang_rv"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:paddingBottom="@dimen/mar_pad_len_5px"
                         android:paddingLeft="@dimen/mar_pad_len_25px"
+                        android:paddingTop="@dimen/mar_pad_len_7px"
                         android:paddingRight="@dimen/mar_pad_len_22px"
-                        android:paddingTop="@dimen/mar_pad_len_7px">
+                        android:paddingBottom="@dimen/mar_pad_len_5px">
 
                     </android.support.v7.widget.RecyclerView>
                 </LinearLayout>
@@ -176,7 +177,7 @@
                             android:layout_marginLeft="@dimen/mar_pad_len_54px"
                             android:layout_marginRight="@dimen/mar_pad_len_54px"
                             android:gravity="center"
-                            android:text="1"/>
+                            android:text="1" />
 
                         <ImageView
                             android:id="@+id/add_iv"
@@ -188,6 +189,7 @@
                 </RelativeLayout>
 
             </LinearLayout>
+
             <View
                 android:id="@+id/line2"
                 style="@style/view_detail_item_separator"
@@ -221,8 +223,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:visibility="gone"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:visibility="gone">
 
                 <TextView
                     style="@style/font_size_32px_gray"
@@ -263,7 +265,9 @@
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true" />
                 </RelativeLayout>
+
                 <RelativeLayout
+                    android:id="@+id/fragment_order_detail_member_normal_1"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/mar_pad_len_88px"
                     android:orientation="horizontal"
@@ -274,7 +278,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:text="折扣优惠：" />
+                        android:text="9折" />
 
                     <TextView
                         android:id="@+id/dis_price_tv"
@@ -284,6 +288,80 @@
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true" />
                 </RelativeLayout>
+
+                <!--判断会员优惠-->
+                <RelativeLayout
+                    android:id="@+id/fragment_order_detail_member_normal"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/mar_pad_len_88px"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/mar_pad_len_20px"
+                    android:visibility="gone">
+
+                    <ImageView
+                        android:id="@+id/normal_left"
+                        android:layout_width="@dimen/mar_pad_len_40px"
+                        android:layout_height="@dimen/mar_pad_len_40px"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="@dimen/mar_pad_len_10px"
+                        android:src="@mipmap/icon_normal" />
+
+                    <TextView
+                        style="@style/font_size_26px_gray_"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toRightOf="@+id/normal_left"
+                        android:text="开通会员享受8.5折优惠" />
+
+                    <TextView
+                        android:id="@+id/fragment_member_open"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:background="@drawable/fragment_main_person_bg"
+                        android:padding="@dimen/mar_pad_len_5px"
+                        android:text="立即开通"
+                        android:textSize="@dimen/text_size_26px" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/fragment_order_detail_member"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/mar_pad_len_88px"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/mar_pad_len_20px"
+                    android:visibility="gone">
+
+                    <ImageView
+                        android:id="@+id/member_left"
+                        android:layout_width="@dimen/mar_pad_len_40px"
+                        android:layout_height="@dimen/mar_pad_len_40px"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="@dimen/mar_pad_len_10px"
+                        android:src="@mipmap/icon_member" />
+
+                    <TextView
+                        style="@style/font_size_26px_gray_"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toRightOf="@+id/member_left"
+                        android:text="会员独享8.5折"
+                        android:textColor="@color/text_red_orange" />
+
+                    <TextView
+                        android:id="@+id/fragment_member_price"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:background="@drawable/fragment_main_person_bg"
+                        android:textColor="@color/text_red_orange"
+                        android:textSize="@dimen/text_size_26px" />
+                </RelativeLayout>
+
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/mar_pad_len_88px"
@@ -305,6 +383,7 @@
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true" />
                 </RelativeLayout>
+
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/mar_pad_len_88px"
@@ -326,6 +405,7 @@
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true" />
                 </RelativeLayout>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="100dp"
@@ -346,7 +426,7 @@
                         android:layout_height="match_parent"
                         android:background="@color/white"
                         android:gravity="top"
-                        android:hint="请输入备注"/>
+                        android:hint="请输入备注" />
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>

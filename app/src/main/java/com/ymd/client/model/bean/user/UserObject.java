@@ -91,7 +91,9 @@ public class UserObject {
      */
     private int membership;
 
-    private String endTime;
+    private String endDate;
+
+    private String startDate;
 
     public Long getId() {
         return id;
@@ -245,11 +247,19 @@ public class UserObject {
         this.membership = membership;
     }
 
-    public String getEndTime() {
-        return endTime;
+    public String getEndDate() {
+        return endDate;
     }
 
-    public void setEndTime(String endTime) {
-        this.endTime = endTime;
+    public void setEndDate(String endDate) {
+        this.endDate = endDate;
+    }
+
+    public String getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(String startDate) {
+        this.startDate = startDate;
     }
 }

@@ -131,9 +131,13 @@ dependencies {
 
     // httpcore工具类
     implementation 'org.apache.httpcomponents:httpcore:4.4.4'
-
     implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.4'
     compileOnly 'org.jbundle.util.osgi.wrapped:org.jbundle.util.osgi.wrapped.org.apache.http.client:4.1.2'
-
     implementation 'com.github.everhad:AndroidRatingStar:v1.0'
+    implementation files('libs/umeng-common-1.5.4.jar')
+    implementation files('libs/umeng-share-core-6.9.4.jar')
+    implementation files('libs/umeng-share-QQ-simplify-6.9.4.jar')
+    implementation files('libs/umeng-share-sina-simplify-6.9.4.jar')
+    implementation files('libs/umeng-share-wechat-simplify-6.9.4.jar')
+    implementation files('libs/umeng-sharetool-6.9.4.jar')
 }
