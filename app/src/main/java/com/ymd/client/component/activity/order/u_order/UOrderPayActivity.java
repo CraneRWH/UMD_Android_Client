@@ -223,7 +223,7 @@ public class UOrderPayActivity extends BaseActivity {
             Map<String, Object> item = payTypeList.get(i);
             if (i != position) {
                 item.put("isChoose", false);
-                ((ImageView) payTypeLt.getChildAt(i).findViewById(R.id.choose_iv)).setImageResource(R.mipmap.icon_payoptions_oval);
+                ((ImageView) payTypeLt.getChildAt(i).findViewById(R.id.choose_iv)).setImageResource(R.mipmap.icon_payoptions_oval2);
             } else {
                 ((ImageView)payTypeLt.getChildAt(i).findViewById(R.id.choose_iv)).setImageResource(R.mipmap.icon_payoptions_complete2);
             }
