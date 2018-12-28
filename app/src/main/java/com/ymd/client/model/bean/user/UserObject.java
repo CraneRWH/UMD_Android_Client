@@ -82,11 +82,6 @@ public class UserObject {
     private int saleNum;
 
     /**
-     *comprehensiveScore 综合评分
-     */
-    private int comprehensiveScore;
-
-    /**
      * 判断是否是会员,0 非会员 1会员
      */
     private int membership;
@@ -94,6 +89,11 @@ public class UserObject {
     private String endDate;
 
     private String startDate;
+
+    /**
+     *comprehensiveScore 综合评分
+     */
+    private int comprehensiveScore;
 
     public Long getId() {
         return id;

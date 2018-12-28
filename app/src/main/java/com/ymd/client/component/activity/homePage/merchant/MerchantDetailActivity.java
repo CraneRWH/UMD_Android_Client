@@ -6,7 +6,6 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.RequiresApi;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.TabLayout;
@@ -24,7 +23,6 @@ import android.view.animation.LinearInterpolator;
 import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -35,8 +33,8 @@ import com.ymd.client.R;
 import com.ymd.client.component.activity.homePage.merchant.fragment.EvaluateSellerFragment;
 import com.ymd.client.component.activity.homePage.merchant.fragment.MerchantGoodsFragment;
 import com.ymd.client.component.activity.homePage.merchant.fragment.MerchantZiZhiFragment;
-import com.ymd.client.component.activity.homePage.merchant.seller.ShopCarPopupWindow;
 import com.ymd.client.component.activity.order.detail.OrderDetailActivity;
+import com.ymd.client.component.activity.order.u_order.UOrderPayActivity;
 import com.ymd.client.component.adapter.TabFragmentAdapter;
 import com.ymd.client.component.event.GoodsEvent;
 import com.ymd.client.component.event.MEvent;
@@ -52,6 +50,7 @@ import com.ymd.client.model.helper.AppBarStateChangeListener;
 import com.ymd.client.model.info.LoginInfo;
 import com.ymd.client.utils.AlertUtil;
 import com.ymd.client.utils.AnimationUtil;
+import com.ymd.client.utils.FastDoubleClickUtil;
 import com.ymd.client.utils.ToastUtil;
 import com.ymd.client.utils.ToolUtil;
 import com.ymd.client.web.WebUtil;
@@ -273,6 +272,16 @@ public class MerchantDetailActivity extends TabBaseActivity {
                     EventBus.getDefault().post(new MEvent(true));
                 } else {
                     EventBus.getDefault().post(new MEvent(false));
+                }
+            }
+        });
+
+        buyOrderBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+            //    UOrderPayActivity.startAction(MerchantDetailActivity.this, 0);
+                if (!FastDoubleClickUtil.isFastDoubleClick()) {
+                    UOrderPayActivity.startAction(MerchantDetailActivity.this, merchantInfo, functionType);
                 }
             }
         });

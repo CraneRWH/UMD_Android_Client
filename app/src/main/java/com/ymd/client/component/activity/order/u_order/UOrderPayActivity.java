@@ -1,15 +1,12 @@
-package com.ymd.client.component.activity.order.pay;
+package com.ymd.client.component.activity.order.u_order;
 
 import android.app.Activity;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.media.Image;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -22,16 +19,16 @@ import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.ymd.client.R;
 import com.ymd.client.common.base.BaseActivity;
 import com.ymd.client.common.base.bean.PayInfo;
-import com.ymd.client.common.base.bean.PayOrderResult;
-import com.ymd.client.component.activity.login.LoginActivity;
+import com.ymd.client.component.activity.mine.OpenMemberActivity;
 import com.ymd.client.component.event.OrderListRefreshEvent;
 import com.ymd.client.component.event.UEvent;
 import com.ymd.client.component.widget.dialog.MyDialog;
-import com.ymd.client.model.bean.order.OrderResultForm;
+import com.ymd.client.model.bean.homePage.MerchantInfoEntity;
+import com.ymd.client.model.bean.order.UOrderObject;
 import com.ymd.client.model.constant.URLConstant;
+import com.ymd.client.model.info.LoginInfo;
 import com.ymd.client.utils.AlertUtil;
-import com.ymd.client.utils.DataUtils;
-import com.ymd.client.utils.DateUtil;
+import com.ymd.client.utils.FastDoubleClickUtil;
 import com.ymd.client.utils.LogUtil;
 import com.ymd.client.utils.ToastUtil;
 import com.ymd.client.utils.ToolUtil;
@@ -39,16 +36,9 @@ import com.ymd.client.web.WebUtil;
 import com.ymd.client.wxapi.WXPayEntryActivity;
 
 import org.greenrobot.eventbus.EventBus;
-import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -56,62 +46,66 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import chinapnr.android.paysdk.PayWayActivity;
-import chinapnr.android.paysdk.SdkInitFailedException;
-import chinapnr.android.paysdk.SdkManager;
 import chinapnr.android.paysdk.util.PaysdkConstants;
 
 /**
- * 作者:rongweihe
- * 日期:2018/8/29
- * 描述:    “订单支付界面”
- * 修改历史:
+ * 优惠买单
  */
-public class OrderPayActivity extends BaseActivity {
+public class UOrderPayActivity extends BaseActivity {
 
-    @BindView(R.id.remnant_time_tv)
-    TextView remnantTimeTv;
-    @BindView(R.id.order_money_tv1)
-    TextView orderMoneyTv1;
-   /* @BindView(R.id.shop_name_tv)
-    TextView shopNameTv;
-    @BindView(R.id.order_code_tv)
-    TextView orderCodeTv;*/
-    @BindView(R.id.pay_type_iv1)
-    ImageView payTypeIv1;
-    @BindView(R.id.pay_name_tv1)
-    TextView payNameTv1;
-    @BindView(R.id.pay_type_tv1)
-    TextView payTypeTv1;
-    @BindView(R.id.choose_iv1)
-    ImageView chooseIv1;
-    @BindView(R.id.pay_type_iv2)
-    ImageView payTypeIv2;
-    @BindView(R.id.choose_iv2)
-    ImageView chooseIv2;
+    @BindView(R.id.order_all_money_tv)
+    EditText orderAllMoneyTv;
+    @BindView(R.id.person_type_iv)
+    ImageView personTypeIv;
+    @BindView(R.id.person_price_tv)
+    TextView personPriceTv;
+    @BindView(R.id.dis_money_tv)
+    TextView disMoneyTv;
+    @BindView(R.id.kt_member_btn)
+    Button ktMemberBtn;
+    @BindView(R.id.kt_member_llt)
+    LinearLayout ktMemberLlt;
+    @BindView(R.id.u_dis_money_tv)
+    TextView uDisMoneyTv;
+    @BindView(R.id.receive_u_num_tv)
+    TextView receiveUNumTv;
+    @BindView(R.id.pay_money_tv)
+    TextView payMoneyTv;
     @BindView(R.id.pay_type_lt)
     LinearLayout payTypeLt;
- /*   @BindView(R.id.order_money_tv2)
-    TextView orderMoneyTv2;*/
+    @BindView(R.id.order_money_tv2)
+    TextView orderMoneyTv2;
     @BindView(R.id.pay_btn)
     LinearLayout payBtn;
 
-    private long orderId;
+    MerchantInfoEntity merchantInfo;
+    int functionType;
+
+    @BindView(R.id.sure_btn)
+    ImageView sureBtn;
+
+    private UOrderObject uOrderObject = new UOrderObject();
+
+    private final static int KT_MEMBER_CODE = 1;
+
+
 
     /**
      * 启动
+     *
      * @param context
      */
-    public static void startAction(Activity context, long id) {
-        Intent intent = new Intent(context, OrderPayActivity.class);
-        intent.putExtra("orderId",id);
+    public static void startAction(Activity context, MerchantInfoEntity merchant, int functionType) {
+        Intent intent = new Intent(context, UOrderPayActivity.class);
+        intent.putExtra("merchant", merchant);
+        intent.putExtra("functionType", functionType);
         context.startActivity(intent);
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_order_pay);
-        setStatusBar(R.color.white);
+        setContentView(R.layout.activity_uorder_pay);
         ButterKnife.bind(this);
 
         initView();
@@ -121,89 +115,69 @@ public class OrderPayActivity extends BaseActivity {
         setTitle("支付订单");
         setPayTypeData();
 
-        chooseIv1.setOnClickListener(new View.OnClickListener() {
+        sureBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                chooseIv1.setImageResource(R.mipmap.icon_payoptions_complete);
-                chooseIv2.setImageResource(R.mipmap.icon_payoptions_oval);
-                chooseType(null, -1);
+                if (!FastDoubleClickUtil.isFastDoubleClick()) {
+                    submitUOrder();
+                }
             }
         });
-        chooseIv2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                chooseIv1.setImageResource(R.mipmap.icon_payoptions_oval);
-                chooseIv2.setImageResource(R.mipmap.icon_payoptions_complete);
-                chooseType(null, -1);
-            }
-        });
+
+        merchantInfo = (MerchantInfoEntity) getIntent().getExtras().getSerializable("merchant");
+        functionType = getIntent().getExtras().getInt("functionType");
 
         payBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                sendPay();
+                if (!FastDoubleClickUtil.isFastDoubleClick()) {
+                    sendPay();
+                }
             }
         });
 
-        if (getIntent().getExtras() != null) {
-            orderId = getIntent().getExtras().getLong("orderId");
-            requestOrderDetail();
+        ktMemberBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!FastDoubleClickUtil.isFastDoubleClick())
+                    startActivityForResult(new Intent(UOrderPayActivity.this, OpenMemberActivity.class), KT_MEMBER_CODE);
+            }
+        });
+
+        resetMemberView();
+    }
+
+    private void resetMemberView() {
+
+        if (LoginInfo.getInstance().getLoginInfo().getMembership() == 1) {
+            ktMemberLlt.setVisibility(View.GONE);
+            personTypeIv.setImageResource(R.mipmap.icon_hui);
+            personPriceTv.setText("会员独享8.5折");
         } else {
-            finish();
+            ktMemberLlt.setVisibility(View.VISIBLE);
+            personTypeIv.setImageResource(R.mipmap.icon_pu_str);
+            personPriceTv.setText("9折");
         }
-
-        // 完成 SDK 初始化，生序生命周期内执行一次即可
-        // 注：如需使用后续的交易信息指纹功能，必须先完成 SDK 的初始化
-        try {
-            SdkManager.initSdk(OrderPayActivity.this.getApplication(),
-                    "",     // 线下提供的商户客户号
-                    "");    // 线下提供的初始化链接
-
-        } catch (SdkInitFailedException e) {
-            // 初始化失败，必须填写正确的商户客户号、初始化链接
-            // 并正确传入 Application 实例对象
+        if (uOrderObject != null) {
+            disMoneyTv.setText(ToolUtil.changeString(uOrderObject.getDiscountMoney()));
+            uDisMoneyTv.setText(ToolUtil.changeString(uOrderObject.getuNumber()));
+            receiveUNumTv.setText(ToolUtil.changeString(uOrderObject.getGetUnum()));
+            payMoneyTv.setText(ToolUtil.changeString(uOrderObject.getPayAmt()));
         }
     }
 
-    private void requestOrderDetail() {
-        Map<String, Object> params = new HashMap<>();
-        params.put("orderId", orderId);
-        WebUtil.getInstance().requestPOST(this, URLConstant.ORDER_DETAIL, params,true,
-                new WebUtil.WebCallBack() {
-                    @Override
-                    public void onWebSuccess(JSONObject result) {
-                        resetOrderView(result.optString("ymdOrder"));
-                    }
+    List<Map<String, Object>> payTypeList = new ArrayList<>();
 
-                    @Override
-                    public void onWebFailed(String errorMsg) {
-
-                    }
-                });
-    }
-    OrderResultForm orderDetail;
-    private void resetOrderView(String resultJson) {
-        orderDetail = new Gson().fromJson(resultJson, OrderResultForm.class);
-    //    shopNameTv.setText(orderDetail.getmName());
-        orderMoneyTv1.setText(ToolUtil.changeString(orderDetail.getPayAmt()));
-        Long time = new Date().getTime() + 1700000;
-        TimeTask timeTask = new TimeTask(new Date(time));
-        timeTask.execute();
-
-    //    orderMoneyTv2.setText(ToolUtil.changeString(orderDetail.getPayAmt()));
-    }
-
-    List<Map<String ,Object>> payTypeList = new ArrayList<>();
     private void setPayTypeData() {
         Map<String, Object> map = new HashMap<>();
-        map.put("name","支付宝支付");
+        map.put("name", "支付宝支付");
         map.put("icon", R.mipmap.icon_payoptions_zhi);
         map.put("isChoose", false);
         map.put("id", 12);
         payTypeList.add(map);
 
         map = new HashMap<>();
-        map.put("name","微信支付");
+        map.put("name", "微信支付");
         map.put("icon", R.mipmap.icon_payoptions_wei);
         map.put("isChoose", false);
         map.put("id", 10);
@@ -216,14 +190,14 @@ public class OrderPayActivity extends BaseActivity {
         payTypeList.add(map);*/
 
         //开始添加数据
-        for(int i=0; i<payTypeList.size(); i++){
+        for (int i = 0; i < payTypeList.size(); i++) {
             int position = i;
             //寻找行布局，第一个参数为行布局ID，第二个参数为这个行布局需要放到那个容器上
-            View view= LayoutInflater.from(this).inflate(R.layout.item_order_pay_type_item , payTypeLt,false);
+            View view = LayoutInflater.from(this).inflate(R.layout.item_order_pay_type_item, payTypeLt, false);
             //通过View寻找ID实例化控件
-            ImageView img= (ImageView) view.findViewById(R.id.pay_type_iv);
+            ImageView img = (ImageView) view.findViewById(R.id.pay_type_iv);
             //实例化TextView控件
-            TextView tv= (TextView) view.findViewById(R.id.pay_name_tv);
+            TextView tv = (TextView) view.findViewById(R.id.pay_name_tv);
             //将int数组中的数据放到ImageView中
             img.setImageResource(ToolUtil.changeInteger(payTypeList.get(i).get("icon")));
             //给TextView添加文字
@@ -236,19 +210,20 @@ public class OrderPayActivity extends BaseActivity {
                     chooseType(chooseView, position);
                 }
             });
-        //    chooseType(chooseView, i);
+            //    chooseType(chooseView, i);
             //把行布局放到linear里
             payTypeLt.addView(view);
         }
     }
 
-    int payType =0;
+    int payType = 0;
+
     private void chooseType(ImageView view, int position) {
-        for (int i = 0 ; i < payTypeList.size(); i ++ ) {
-            Map<String,Object> item = payTypeList.get(i);
+        for (int i = 0; i < payTypeList.size(); i++) {
+            Map<String, Object> item = payTypeList.get(i);
             if (i != position) {
                 item.put("isChoose", false);
-                ((ImageView)payTypeLt.getChildAt(i).findViewById(R.id.choose_iv)).setImageResource(R.mipmap.icon_payoptions_oval2);
+                ((ImageView) payTypeLt.getChildAt(i).findViewById(R.id.choose_iv)).setImageResource(R.mipmap.icon_payoptions_oval2);
             } else {
                 ((ImageView)payTypeLt.getChildAt(i).findViewById(R.id.choose_iv)).setImageResource(R.mipmap.icon_payoptions_complete2);
             }
@@ -257,17 +232,42 @@ public class OrderPayActivity extends BaseActivity {
             return;
         }
         payType = position;
-        if (ToolUtil.changeBoolean(payTypeList.get(position).get("isChoose"))) {
-            view.setImageResource(R.mipmap.icon_payoptions_complete2);
-            chooseIv1.setImageResource(R.mipmap.icon_payoptions_oval2);
-            chooseIv2.setImageResource(R.mipmap.icon_payoptions_oval2);
-        } else {
-            view.setImageResource(R.mipmap.icon_payoptions_oval2);
-            chooseIv1.setImageResource(R.mipmap.icon_payoptions_oval2);
-            chooseIv2.setImageResource(R.mipmap.icon_payoptions_oval2);
-        }
     }
 
+
+    private void submitUOrder() {
+        if (TextUtils.isEmpty(orderAllMoneyTv.getText())) {
+            ToastUtil.ToastMessage(this, "请输入付款金额");
+            return;
+        }
+        double allMoney = ToolUtil.changeDouble(orderAllMoneyTv.getText());
+        uOrderObject.setAllAmt(allMoney);
+        Map<String, Object> params = new HashMap<>();
+        params.put("merchantId", merchantInfo.getId());
+        params.put("totalAmt", allMoney);
+        params.put("uCurrency", 0);
+     /*   params.put("uObtain", uOrderObject.getGetUnum());
+        params.put("payAmt", uOrderObject.getPayAmt());
+        params.put("discountAmt", uOrderObject.getDiscountMoney());*/
+        params.put("orderType", functionType == 0 ? 0 : 1);
+        WebUtil.getInstance().requestPOST(this, URLConstant.CREATE_U_ORDER, params, true,
+                new WebUtil.WebCallBack() {
+                    @Override
+                    public void onWebSuccess(JSONObject result) {
+                        uOrderObject = new Gson().fromJson(result.toString(), UOrderObject.class);
+                        if (uOrderObject.getCode() == 0) {
+                            resetMemberView();
+                        } else {
+                            ToastUtil.ToastMessage(UOrderPayActivity.this, "获取优惠失败");
+                        }
+                    }
+
+                    @Override
+                    public void onWebFailed(String errorMsg) {
+
+                    }
+                });
+    }
 
     private static final int REQ_CODE = 0x123; //调用sdk返回结果的请求码
     /**
@@ -301,7 +301,7 @@ public class OrderPayActivity extends BaseActivity {
                             if (result != null && result.length() > 0) {
                                 wechatPay(result);
                             } else {
-                                ToastUtil.ToastMessage(OrderPayActivity.this, "支付异常，请联系管理员");
+                                ToastUtil.ToastMessage(UOrderPayActivity.this, "支付异常，请联系管理员");
                             }
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -310,7 +310,7 @@ public class OrderPayActivity extends BaseActivity {
 
                     @Override
                     public void onWebFailed(String errorMsg) {
-                        ToastUtil.ToastMessage(OrderPayActivity.this, "支付异常，请联系管理员");
+                        ToastUtil.ToastMessage(UOrderPayActivity.this, "支付异常，请联系管理员");
                     }
                 });
         /*Intent mIntent = new Intent(this, PayWayActivity.class);
@@ -320,7 +320,7 @@ public class OrderPayActivity extends BaseActivity {
         mIntent.putExtra(PaysdkConstants.APP_PAY_URL_KEY,wechatUrlView);
 */
 
- //       startActivityForResult(mIntent,REQ_CODE);
+        //       startActivityForResult(mIntent,REQ_CODE);
     }
     private IWXAPI api;
     private void wechatPay(String data) throws Exception  {
@@ -360,7 +360,7 @@ public class OrderPayActivity extends BaseActivity {
                                 if (resultCode == 0) {
                                     getPayResult();
                                 } else {
-                                    AlertUtil.FailDialog(OrderPayActivity.this, "订单支付失败");
+                                    AlertUtil.FailDialog(UOrderPayActivity.this, "订单支付失败");
                                 }
                             }
                         });
@@ -374,7 +374,7 @@ public class OrderPayActivity extends BaseActivity {
             e.printStackTrace();
             ToastUtil.ToastMessage(this, "支付异常，请联系管理员");
         } finally {
-    //        showPayResultDialog();
+            //        showPayResultDialog();
         }
     }
 
@@ -398,11 +398,11 @@ public class OrderPayActivity extends BaseActivity {
             ToastUtil.ToastMessage(this, "请选择付款方式");
             return;
         }
-     /*  */
+        /*  */
         if (payType == 0) {
-            gotoAlipay(ToolUtil.changeString(orderDetail.getId()), WebUtil.webUrl + "ymdOrder/pay");
+            gotoAlipay(ToolUtil.changeString(uOrderObject.getId()), WebUtil.webUrl + "ymdOrder/pay");
         } else {
-            gotoWechat(ToolUtil.changeString(orderDetail.getId()), WebUtil.webUrl + "ymdOrder/pay");
+            gotoWechat(ToolUtil.changeString(uOrderObject.getId()), WebUtil.webUrl + "ymdOrder/pay");
         }
     }
 
@@ -414,7 +414,7 @@ public class OrderPayActivity extends BaseActivity {
             }
         }
         Map<String, Object> params = new HashMap<>();
-        params.put("orderId", orderId);
+        params.put("orderId", uOrderObject.getId());
         params.put("payType", payTypeStr);
         WebUtil.getInstance().requestPOST(this, URLConstant.ORDER_PAY_INFO, params,true,
                 new WebUtil.WebCallBack() {
@@ -422,13 +422,13 @@ public class OrderPayActivity extends BaseActivity {
                     public void onWebSuccess(JSONObject result) {
                         //        resetOrderView(result.optString("ymdOrder"));
                         if (result.optInt("payStatus") == 2) {
-                            OrderPayResultActivity.startAction(OrderPayActivity.this, orderDetail);
+                            UOrderPayResultActivity.startAction(UOrderPayActivity.this, uOrderObject);
                             EventBus.getDefault().post(new OrderListRefreshEvent(true));
                             EventBus.getDefault().post(new UEvent(true));
                             finish();
                         }
                         else
-                            ToastUtil.ToastMessage(OrderPayActivity.this, "支付未成功");
+                            ToastUtil.ToastMessage(UOrderPayActivity.this, "支付未成功");
                     }
 
                     @Override
@@ -438,50 +438,11 @@ public class OrderPayActivity extends BaseActivity {
                 });
     }
 
-    class TimeTask extends AsyncTask<Void, Integer, Boolean> {
-        Date endTime;
-        long time = 1800000;
-        public TimeTask(Date time) {
-            this.endTime = time;
-        }
-
-        @Override
-        protected void onPreExecute() {
-            remnantTimeTv.setText(DateUtil.getSpacingTime(endTime));
-            //    remnantTimeTv.setBackgroundResource(R.color.silver);
-            remnantTimeTv.setClickable(false);
-        }
-
-        @Override
-        protected void onPostExecute(Boolean aBoolean) {
-            remnantTimeTv.setClickable(false);
-        }
-
-        @Override
-        protected void onProgressUpdate(Integer... values) {
-            remnantTimeTv.setText(DateUtil.getSpacingTime(endTime));
-        }
-
-        @Override
-        protected Boolean doInBackground(Void... params) {
-            while (true) {
-                if (time >= 0) {
-                    try {
-                        Thread.sleep(1000);
-                        publishProgress();
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                        return false;
-                    }
-                } else {
-                    return true;
-                }
-            }
-        }
-
-        @Override
-        protected void onCancelled() {
-
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == KT_MEMBER_CODE) {
+            resetMemberView();
         }
     }
 }

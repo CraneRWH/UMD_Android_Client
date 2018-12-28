@@ -22,6 +22,7 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <!-- 写入扩展存储，向扩展卡写入数据，用于写入离线定位数据 -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
     <uses-permission
         android:name="android.permission.WRITE_SETTINGS"
         tools:ignore="ProtectedPermissions" />
@@ -79,7 +80,7 @@
         </activity>
 
         <!-- 密码登录 -->
-        <activity android:name=".component.activity.login.LoginByPWActivity" />
+        <activity android:name=".component.activity.login.LoginByPWActivity"></activity>
 
         <!-- 启动页面 -->
         <activity android:name=".component.activity.login.LogoActivity">
@@ -146,7 +147,7 @@
         <activity android:name=".component.activity.mine.info.NickNameChangeActivity" />
         <activity android:name=".component.activity.homePage.functionItem.FunctionItemActivity" />
         <activity android:name=".component.activity.homePage.merchant.seller.test.MerchantDetail2Activity" />
-
+        <service android:name=".common.base.service.LocationIntentService" />
         <service android:name=".common.base.service.LocationIntentService" />
         <service android:name=".common.base.service.LocationIntentService" />
 
@@ -164,6 +165,18 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".component.activity.order.u_order.UOrderPayActivity"
+            android:label="@string/title_activity_uorder_pay"
+            android:parentActivityName=".common.base.BaseActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.ymd.client.common.base.BaseActivity" />
+        </activity>
+        <activity android:name=".component.activity.order.u_order.UOrderPayResultActivity"></activity>
+        <!--开通会员页面-->
+        <activity android:name=".component.activity.mine.OpenMemberActivity"></activity>
         <!-- 开通会员页面 -->
         <activity android:name=".component.activity.mine.member.OpenMemberActivity" />
         <activity android:name=".component.activity.mine.member.PayOpenMemberActivity" />
