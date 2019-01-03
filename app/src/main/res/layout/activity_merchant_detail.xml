@@ -255,6 +255,7 @@
                         android:paddingTop="@dimen/mar_pad_len_32px"
                         android:paddingBottom="@dimen/mar_pad_len_32px"
                         android:gravity="center_vertical"
+                        android:visibility="gone"
                         >
                         <ImageView
                             android:layout_width="@dimen/mar_pad_len_118px"
@@ -277,7 +278,29 @@
                             />
                     </LinearLayout>
                 </LinearLayout>
-
+                <LinearLayout
+                    android:id="@+id/buy_order_llt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/shape_rect_orange_edge"
+                    android:orientation="horizontal"
+                    android:paddingTop="@dimen/mar_pad_len_32px"
+                    android:paddingBottom="@dimen/mar_pad_len_32px"
+                    android:gravity="center"
+                    >
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/bg_header"
+                        android:textSize="@dimen/text_size_30px"
+                        android:text="优惠买单请点击这里"
+                        />
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@mipmap/icon_shouzhi"
+                        />
+                </LinearLayout>
             </LinearLayout>
 
             <android.support.v7.widget.Toolbar

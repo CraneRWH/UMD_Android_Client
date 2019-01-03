@@ -115,6 +115,8 @@ public class MerchantDetailActivity extends TabBaseActivity {
     TextView manjianTv;
     @BindView(R.id.buy_order_btn)
     ImageView buyOrderBtn;
+    @BindView(R.id.buy_order_llt)
+    LinearLayout buyOrderLlt;
     private CollapsingToolbarLayout collapsingToolbarLayout;
     private AppBarLayout appBarLayout;
     private TabLayout slidingTabLayout;
@@ -130,7 +132,7 @@ public class MerchantDetailActivity extends TabBaseActivity {
 
     MerchantInfoEntity merchantInfo;
 
- //   ShopCarPopupWindow shopCarPopupWindow;
+    //   ShopCarPopupWindow shopCarPopupWindow;
     ShopCarDialog shopCarDialog;
 
     private List<YmdGoodsEntity> buyList = new ArrayList<>();
@@ -206,10 +208,13 @@ public class MerchantDetailActivity extends TabBaseActivity {
         shopCarDialog = new ShopCarDialog(this, new ShopCarDialog.ResultListener() {
             @Override
             public void onResult(int position) {
-                if (buyList.isEmpty()) {
-                    ToastUtil.ToastMessage(MerchantDetailActivity.this, "请选择要购买的商品");
-                } else {
-                    submitOrder();
+                if (!FastDoubleClickUtil.isFastDoubleClick()) {
+                    if (buyList.isEmpty()) {
+                        UOrderPayActivity.startAction(MerchantDetailActivity.this, merchantInfo, functionType);
+                        //    ToastUtil.ToastMessage(MerchantDetailActivity.this, "请选择要购买的商品");
+                    } else {
+                        submitOrder();
+                    }
                 }
             }
         });
@@ -238,10 +243,13 @@ public class MerchantDetailActivity extends TabBaseActivity {
         submitBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (buyList.isEmpty()) {
-                    ToastUtil.ToastMessage(MerchantDetailActivity.this, "请选择要购买的商品");
-                } else {
-                    submitOrder();
+                if (!FastDoubleClickUtil.isFastDoubleClick()) {
+                    if (buyList.isEmpty()) {
+                        UOrderPayActivity.startAction(MerchantDetailActivity.this, merchantInfo, functionType);
+                        //    ToastUtil.ToastMessage(MerchantDetailActivity.this, "请选择要购买的商品");
+                    } else {
+                        submitOrder();
+                    }
                 }
             }
         });
@@ -279,7 +287,15 @@ public class MerchantDetailActivity extends TabBaseActivity {
         buyOrderBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-            //    UOrderPayActivity.startAction(MerchantDetailActivity.this, 0);
+                //    UOrderPayActivity.startAction(MerchantDetailActivity.this, 0);
+                if (!FastDoubleClickUtil.isFastDoubleClick()) {
+                    UOrderPayActivity.startAction(MerchantDetailActivity.this, merchantInfo, functionType);
+                }
+            }
+        });
+        buyOrderLlt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
                 if (!FastDoubleClickUtil.isFastDoubleClick()) {
                     UOrderPayActivity.startAction(MerchantDetailActivity.this, merchantInfo, functionType);
                 }
@@ -623,7 +639,7 @@ public class MerchantDetailActivity extends TabBaseActivity {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void Event(YmdGoodsEntity goodsEntity) {
-    //    shopCarPopupWindow.addGood(goodsEntity);
+        //    shopCarPopupWindow.addGood(goodsEntity);
         shopCarDialog.addGood(goodsEntity);
     }
 

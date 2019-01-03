@@ -143,20 +143,35 @@ public class UOrderPayActivity extends BaseActivity {
                     startActivityForResult(new Intent(UOrderPayActivity.this, OpenMemberActivity.class), KT_MEMBER_CODE);
             }
         });
+        getMemberInfo();
+    }
 
-        resetMemberView();
+    private double memberRaio = 10;
+    private void getMemberInfo() {
+        WebUtil.getInstance().requestPOST(this, URLConstant.GET_CUSTOMER_INFO, null, new WebUtil.WebCallBack() {
+            @Override
+            public void onWebSuccess(JSONObject resultJson) {
+                LoginInfo.setLoginInfo(resultJson.optString("user"));
+                memberRaio = resultJson.optDouble("memberRaio") * 10;
+                resetMemberView();
+            }
+
+            @Override
+            public void onWebFailed(String errorMsg) {
+
+            }
+        });
     }
 
     private void resetMemberView() {
-
         if (LoginInfo.getInstance().getLoginInfo().getMembership() == 1) {
             ktMemberLlt.setVisibility(View.GONE);
             personTypeIv.setImageResource(R.mipmap.icon_hui);
-            personPriceTv.setText("会员独享8.5折");
+            personPriceTv.setText("会员独享"+ memberRaio +"折");
         } else {
             ktMemberLlt.setVisibility(View.VISIBLE);
             personTypeIv.setImageResource(R.mipmap.icon_pu_str);
-            personPriceTv.setText("9折");
+            personPriceTv.setText(memberRaio +"折");
         }
         if (uOrderObject != null) {
             disMoneyTv.setText(ToolUtil.changeString(uOrderObject.getDiscountMoney()));
