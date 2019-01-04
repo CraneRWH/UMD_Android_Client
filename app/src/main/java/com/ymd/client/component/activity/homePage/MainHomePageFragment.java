@@ -44,6 +44,7 @@ import com.ymd.client.model.bean.homePage.PictureEntity;
 import com.ymd.client.model.constant.URLConstant;
 import com.ymd.client.model.info.LocationInfo;
 import com.ymd.client.utils.DataUtils;
+import com.ymd.client.utils.DeviceUtil;
 import com.ymd.client.utils.FastDoubleClickUtil;
 import com.ymd.client.utils.ToolUtil;
 import com.ymd.client.web.WebUtil;
@@ -235,7 +236,9 @@ public class MainHomePageFragment extends Fragment {
             }
         });
 */
-
+        ViewGroup.LayoutParams layoutParams = rollPagerView.getLayoutParams();
+        layoutParams.height = (int)(DeviceUtil.getWidth(getActivity()) * 1 / 3);
+        rollPagerView.setLayoutParams(layoutParams);
         onRefreshData();
     }
 

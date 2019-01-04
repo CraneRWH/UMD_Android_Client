@@ -130,7 +130,7 @@
                         <com.jude.rollviewpager.RollPagerView
                             android:id="@+id/rollPagerView"
                             android:layout_width="match_parent"
-                            android:layout_height="@dimen/mar_pad_len_196px"
+                            android:layout_height="wrap_content"
                             app:rollviewpager_play_delay="3000"
                             />
                         <!--<com.ymd.client.component.widget.viewPager.MyViewPager
