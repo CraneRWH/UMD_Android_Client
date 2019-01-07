@@ -177,12 +177,14 @@ public class OrderDetailFragment extends Fragment {
             //0是非会员
             mViewMember.setVisibility(View.GONE);
             mViewNormal.setVisibility(View.VISIBLE);
-            mViewNormal1.setVisibility(View.VISIBLE);
+            //mViewNormal1.setVisibility(View.VISIBLE);
+            mViewNormal1.setVisibility(View.GONE);
         } else {
             //会员
             mViewNormal.setVisibility(View.GONE);
             mViewNormal1.setVisibility(View.GONE);
-            mViewMember.setVisibility(View.VISIBLE);
+            //mViewMember.setVisibility(View.VISIBLE);
+            mViewMember.setVisibility(View.GONE);
         }
     }
 
@@ -285,7 +287,7 @@ public class OrderDetailFragment extends Fragment {
         uGetTv.setText(ToolUtil.changeString(orderDetail.getuObtain()));
         uDisPriceTv.setText("-" + ToolUtil.changeString(orderDetail.getuCurrency()));
         //会员折扣价减少
-        mMemberPrice.setText("-" + ToolUtil.changeString(orderDetail.getDiscountAmt()) + "元");
+       // mMemberPrice.setText("-" + ToolUtil.changeString(orderDetail.getDiscountAmt()) + "元");
 
         if (orderDetail != null) {
             try {

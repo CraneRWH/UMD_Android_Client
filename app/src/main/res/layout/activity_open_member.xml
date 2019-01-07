@@ -16,78 +16,98 @@
         <include layout="@layout/layout_title_base" />
     </LinearLayout>
 
-   <!-- <android.support.v4.widget.NestedScrollView
+    <!-- <android.support.v4.widget.NestedScrollView
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:layout_below="@+id/open_member_title"
+         android:orientation="vertical">-->
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/open_member_title"
-        android:orientation="vertical">-->
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_gravity="top"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/open_member_iv"
+                android:layout_width="match_parent"
+                android:layout_height="180dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:scaleType="fitXY"
+                android:src="@mipmap/icon_open_member" />
+
+            <ImageView
+                android:id="@+id/open_member_iv1"
+                android:layout_width="match_parent"
+                android:layout_height="180dp"
+                android:layout_marginLeft="@dimen/mar_pad_len_84px"
+                android:layout_marginTop="@dimen/mar_pad_len_200px"
+                android:layout_marginRight="@dimen/mar_pad_len_84px"
+                android:src="@mipmap/icon_open_member_1" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/mar_pad_len_22px">
+
+            <com.ymd.client.component.widget.zrecyclerview.ZRecyclerView
+                android:id="@+id/open_member_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/mar_pad_len_22px"
+                android:paddingRight="@dimen/mar_pad_len_22px" />
+
+            <ImageView
+                android:id="@+id/open_member_emptyLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:gravity="center"
+                android:visibility="gone" />
+        </RelativeLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/open_member_title"
-            android:orientation="vertical">
+            android:layout_height="@dimen/mar_pad_len_92px"
+            android:layout_marginTop="@dimen/mar_pad_len_10px"
+            android:layout_marginBottom="@dimen/mar_pad_len_10px"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:paddingLeft="@dimen/mar_pad_len_22px"
+            android:paddingRight="@dimen/mar_pad_len_22px">
 
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:scaleType="centerCrop"
-                android:src="@mipmap/ic_launcher" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical|left"
+                android:text="细则请查看"
+                android:textColor="@color/gray"
+                android:textSize="@dimen/text_size_24px" />
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/mar_pad_len_22px">
+            <TextView
+                android:id="@+id/open_member_agreement"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:paddingLeft="@dimen/mar_pad_len_5px"
+                android:paddingRight="@dimen/mar_pad_len_5px"
+                android:text="《会员服务协议》"
+                android:textColor="@color/text_orange"
+                android:textSize="@dimen/text_size_24px" />
 
-                <com.ymd.client.component.widget.zrecyclerview.ZRecyclerView
-                    android:id="@+id/open_member_view"
-                    android:layout_width="match_parent"
-                    android:paddingLeft="@dimen/mar_pad_len_22px"
-                    android:paddingRight="@dimen/mar_pad_len_22px"
-                    android:layout_height="wrap_content" />
-
-                <ImageView
-                    android:id="@+id/open_member_emptyLayout"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:gravity="center"
-                    android:visibility="gone" />
-            </RelativeLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/mar_pad_len_92px"
-                android:layout_marginTop="@dimen/mar_pad_len_10px"
-                android:layout_marginBottom="@dimen/mar_pad_len_10px"
-                android:gravity="center"
-                android:orientation="horizontal"
-                android:paddingLeft="@dimen/mar_pad_len_22px"
-                android:paddingRight="@dimen/mar_pad_len_22px">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:gravity="center_vertical|left"
-                    android:text="细则请查看"
-                    android:textColor="@color/gray"
-                    android:textSize="@dimen/text_size_24px" />
-
-                <TextView
-                    android:id="@+id/open_member_agreement"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:gravity="center_vertical"
-                    android:paddingLeft="@dimen/mar_pad_len_5px"
-                    android:paddingRight="@dimen/mar_pad_len_5px"
-                    android:text="《会员服务协议》"
-                    android:textColor="@color/text_orange"
-                    android:textSize="@dimen/text_size_24px" />
-
-            </LinearLayout>
         </LinearLayout>
+    </LinearLayout>
 
-  <!--  </android.support.v4.widget.NestedScrollView>-->
+    <!--  </android.support.v4.widget.NestedScrollView>-->
 
     <LinearLayout
         android:layout_width="match_parent"
