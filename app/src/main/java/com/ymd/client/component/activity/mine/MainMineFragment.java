@@ -62,8 +62,8 @@ public class MainMineFragment extends Fragment implements PermissionInterface {
     CircleImageView mHeadView;//头像
     @BindView(R.id.fragment_person_nickname)
     TextView mNickName;//昵称
-    // @BindView(R.id.fragment_my_ub)
-    // TextView mMyUbCount;//我的U币
+     @BindView(R.id.setting_logout)
+     TextView mTxtLogout;//退出登录
 
     public MainMineFragment() {
         // Required empty public constructor
@@ -119,10 +119,12 @@ public class MainMineFragment extends Fragment implements PermissionInterface {
             mNickName.setText(LoginInfo.getInstance().getLoginInfo().getUserName());
             //    mMyUbCount.setText(ToolUtil.changeString(LoginInfo.getInstance().getLoginInfo().getuNumber()));
             requestUnum();
+            mTxtLogout.setVisibility(View.VISIBLE);
         } else {
             mHeadView.setImageResource(R.mipmap.app_icon);
             mNickName.setText("未登录");
             // mMyUbCount.setText("");
+            mTxtLogout.setVisibility(View.GONE);
         }
 
     }
@@ -248,6 +250,7 @@ public class MainMineFragment extends Fragment implements PermissionInterface {
         } else {
             mHeadView.setImageResource(R.mipmap.app_icon);
             mNickName.setText("未登录");
+            mTxtLogout.setVisibility(View.GONE);
         }
     }
 
