@@ -32,7 +32,7 @@ public class MyAlertDialog extends Dialog {
 	
 	private Context context;
 	
-	private double width_weight = 0.4;
+	private double width_weight = 0.8;
 	
 	/*public SureListener sureListener;
 	public CancelListener cancelListener;*/

@@ -49,7 +49,7 @@ public class MyProgressDialog extends Dialog {
 		DisplayMetrics dm = getContext().getResources().getDisplayMetrics();
 		
 		LayoutParams p = getWindow().getAttributes();   
-		p.width = (int) (dm.widthPixels * 0.3);
+		p.width = (int) (dm.widthPixels * 0.8);
 		
 		getWindow().setAttributes(p);     
 		
