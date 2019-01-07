@@ -42,7 +42,7 @@
                     android:textColor="@color/text_gray2"
                     android:gravity="right"
                     android:background="@color/white"
-                    android:text="100.00"
+                    android:hint="请输入金额,例:100"
                     android:inputType="numberDecimal"
                     />
                 <ImageView
@@ -74,7 +74,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/mar_pad_len_10px"
-                    android:text="会员独享8.5折"
                     android:textColor="@color/text_red_orange"
                     android:textSize="@dimen/text_size_30px"
                     />
@@ -105,6 +104,7 @@
                     android:src="@mipmap/icon_hui"
                     android:layout_height="@dimen/mar_pad_len_30px" />
                 <TextView
+                    android:id="@+id/kt_member_tv"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"

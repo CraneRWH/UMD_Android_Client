@@ -83,11 +83,12 @@ public class UOrderPayActivity extends BaseActivity {
 
     @BindView(R.id.sure_btn)
     ImageView sureBtn;
+    @BindView(R.id.kt_member_tv)
+    TextView ktMemberTv;
 
     private UOrderObject uOrderObject = new UOrderObject();
 
     private final static int KT_MEMBER_CODE = 1;
-
 
 
     /**
@@ -146,13 +147,16 @@ public class UOrderPayActivity extends BaseActivity {
         getMemberInfo();
     }
 
-    private double memberRaio = 10;
+    private double memberRaio = 10;     //会员优惠
+    private double userRaio = 10;       //非会员优惠
+
     private void getMemberInfo() {
         WebUtil.getInstance().requestPOST(this, URLConstant.GET_MEMBER_INFO, null, new WebUtil.WebCallBack() {
             @Override
             public void onWebSuccess(JSONObject resultJson) {
                 LoginInfo.setLoginInfo(resultJson.optString("user"));
                 memberRaio = resultJson.optDouble("memberRaio") * 10;
+                userRaio = resultJson.optDouble("userRaio") * 10;
                 resetMemberView();
             }
 
@@ -167,11 +171,12 @@ public class UOrderPayActivity extends BaseActivity {
         if (LoginInfo.getInstance().getLoginInfo().getMembership() == 1) {
             ktMemberLlt.setVisibility(View.GONE);
             personTypeIv.setImageResource(R.mipmap.icon_hui);
-            personPriceTv.setText("会员独享"+ memberRaio +"折");
+            personPriceTv.setText("会员独享" + memberRaio + "折");
         } else {
             ktMemberLlt.setVisibility(View.VISIBLE);
+            ktMemberTv.setText("开通会员享受" + memberRaio + "折");
             personTypeIv.setImageResource(R.mipmap.icon_pu_str);
-            personPriceTv.setText(memberRaio +"折");
+            personPriceTv.setText(userRaio + "折");
         }
         if (uOrderObject != null) {
             disMoneyTv.setText(ToolUtil.changeString(uOrderObject.getDiscountMoney()));
@@ -240,7 +245,7 @@ public class UOrderPayActivity extends BaseActivity {
                 item.put("isChoose", false);
                 ((ImageView) payTypeLt.getChildAt(i).findViewById(R.id.choose_iv)).setImageResource(R.mipmap.icon_payoptions_oval2);
             } else {
-                ((ImageView)payTypeLt.getChildAt(i).findViewById(R.id.choose_iv)).setImageResource(R.mipmap.icon_payoptions_complete2);
+                ((ImageView) payTypeLt.getChildAt(i).findViewById(R.id.choose_iv)).setImageResource(R.mipmap.icon_payoptions_complete2);
             }
         }
         if (position < 0) {
@@ -285,30 +290,31 @@ public class UOrderPayActivity extends BaseActivity {
     }
 
     private static final int REQ_CODE = 0x123; //调用sdk返回结果的请求码
+
     /**
      * 调用支付宝支付
      */
-    private void gotoAlipay(String alipayMoneyView,String alipayUrlView){
+    private void gotoAlipay(String alipayMoneyView, String alipayUrlView) {
         Intent mIntent = new Intent(this, PayWayActivity.class);
-        mIntent.putExtra(PaysdkConstants.CHINAPNR_PAY_WAY_KEY,PaysdkConstants.ALIPAY_WAY);//选择支付宝支付
+        mIntent.putExtra(PaysdkConstants.CHINAPNR_PAY_WAY_KEY, PaysdkConstants.ALIPAY_WAY);//选择支付宝支付
         String tradeMoney = "{\"orderId\": \"%s\" } ";
         mIntent.putExtra(PaysdkConstants.PAY_PARAM_INFO_KEY, String.format(tradeMoney, alipayMoneyView));
-        mIntent.putExtra(PaysdkConstants.APP_PAY_URL_KEY,alipayUrlView);
+        mIntent.putExtra(PaysdkConstants.APP_PAY_URL_KEY, alipayUrlView);
 
         showPayResultDialog();
-        startActivityForResult(mIntent,REQ_CODE);
+        startActivityForResult(mIntent, REQ_CODE);
     }
 
     /**
      * 调用微信支付
      */
-    private void gotoWechat(String wechatMoneyView,String wechatUrlView){
-        Map<String,String> dataMap = new HashMap();
+    private void gotoWechat(String wechatMoneyView, String wechatUrlView) {
+        Map<String, String> dataMap = new HashMap();
         dataMap.put("orderId", wechatMoneyView);
         Map<String, Object> params = new HashMap<>();
         params.put("self_param_info", new Gson().toJson(dataMap));
         params.put("pay_type", "10");
-        WebUtil.getInstance().requestPOSTS(this, URLConstant.ORDER_PAY, wechatMoneyView,true,
+        WebUtil.getInstance().requestPOSTS(this, URLConstant.ORDER_PAY, wechatMoneyView, true,
                 new WebUtil.WebCallBacks<String>() {
                     @Override
                     public void onWebSuccess(String result) {
@@ -337,10 +343,12 @@ public class UOrderPayActivity extends BaseActivity {
 
         //       startActivityForResult(mIntent,REQ_CODE);
     }
+
     private IWXAPI api;
-    private void wechatPay(String data) throws Exception  {
+
+    private void wechatPay(String data) throws Exception {
         String result = ToolUtil.UrlCode2String(data);
-        LogUtil.showW("★★ "  + " ★ " + result);
+        LogUtil.showW("★★ " + " ★ " + result);
 
         JSONObject jsonObject;
         try {
@@ -350,7 +358,7 @@ public class UOrderPayActivity extends BaseActivity {
                 return;
             } else {
                 String pis = jsonObject.optString("pay_info");
-                if ( pis == null && pis.length() == 0) {
+                if (pis == null && pis.length() == 0) {
                     ToastUtil.ToastMessage(this, "支付异常，请联系管理员");
                     return;
                 } else {
@@ -404,7 +412,7 @@ public class UOrderPayActivity extends BaseActivity {
 
     private void sendPay() {
         String payTypeStr = "";
-        for (Map<String,Object> item : payTypeList) {
+        for (Map<String, Object> item : payTypeList) {
             if (ToolUtil.changeBoolean(item.get("isChoose"))) {
                 payTypeStr = ToolUtil.changeString(item.get("id"));
             }
@@ -423,7 +431,7 @@ public class UOrderPayActivity extends BaseActivity {
 
     private void getPayResult() {
         String payTypeStr = "";
-        for (Map<String,Object> item : payTypeList) {
+        for (Map<String, Object> item : payTypeList) {
             if (ToolUtil.changeBoolean(item.get("isChoose"))) {
                 payTypeStr = ToolUtil.changeString(item.get("id"));
             }
@@ -431,7 +439,7 @@ public class UOrderPayActivity extends BaseActivity {
         Map<String, Object> params = new HashMap<>();
         params.put("orderId", uOrderObject.getId());
         params.put("payType", payTypeStr);
-        WebUtil.getInstance().requestPOST(this, URLConstant.ORDER_PAY_INFO, params,true,
+        WebUtil.getInstance().requestPOST(this, URLConstant.ORDER_PAY_INFO, params, true,
                 new WebUtil.WebCallBack() {
                     @Override
                     public void onWebSuccess(JSONObject result) {
@@ -441,8 +449,7 @@ public class UOrderPayActivity extends BaseActivity {
                             EventBus.getDefault().post(new OrderListRefreshEvent(true));
                             EventBus.getDefault().post(new UEvent(true));
                             finish();
-                        }
-                        else
+                        } else
                             ToastUtil.ToastMessage(UOrderPayActivity.this, "支付未成功");
                     }
 
