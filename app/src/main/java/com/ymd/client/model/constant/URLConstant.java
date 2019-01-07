@@ -8,6 +8,7 @@ package com.ymd.client.model.constant;
  */
 public class URLConstant {
 
+    public static final String GET_CUSTOMER_INFO = "GET_CUSTOMER_INFO";
     /**
         注册
      */
