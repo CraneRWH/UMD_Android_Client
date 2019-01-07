@@ -5,6 +5,8 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -20,6 +22,7 @@ import com.ymd.client.model.constant.URLConstant;
 import com.ymd.client.model.info.LoginInfo;
 import com.ymd.client.utils.AbDateUtil;
 import com.ymd.client.utils.LogUtil;
+import com.ymd.client.utils.ScreenUtil;
 import com.ymd.client.utils.StatusBarUtils;
 import com.ymd.client.utils.ToastUtil;
 import com.ymd.client.web.WebUtil;
@@ -56,10 +59,17 @@ public class OpenMemberActivity extends BaseActivity {
     @BindView(R.id.open_member_emptyLayout)
     View mEmptyView;
 
+    @BindView(R.id.open_member_iv)
+    ImageView mIvTop;
+    @BindView(R.id.open_member_iv1)
+    ImageView mIvTop1;
+
     OpenMemberAdapter mAdapter;
     int page = 1;
 
     List<MemberCardBean> datas;
+
+    int w, h, w1, h1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,9 +79,30 @@ public class OpenMemberActivity extends BaseActivity {
         setStatusBar(R.color.white);
         mTxtTitle.setText(getResources().getString(R.string.fragment_open_member));
 
+        initImageView();
+
         initMemberView();
 
         initList();
+    }
+
+    private void initImageView() {
+        w = ScreenUtil.getScreenWidthPix(this);
+        h = (int) (w / 2.3);
+
+        mIvTop.setLayoutParams(new RelativeLayout.LayoutParams(w, h));
+        mIvTop.setScaleType(ImageView.ScaleType.FIT_XY);
+
+        w1 = ScreenUtil.getScreenWidthPix(this) - ScreenUtil.dp2px(this, 80);
+        h1 = (int) (w1 / 1.6);
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(w1, h1);
+        params.leftMargin = ScreenUtil.dip2px(this, 40);
+        params.rightMargin = ScreenUtil.dip2px(this, 40);
+        params.topMargin = (int) (h / 2) + ScreenUtil.dp2px(this, 8);
+        params.bottomMargin = 0;
+
+        mIvTop1.setLayoutParams(params);
+        mIvTop1.setScaleType(ImageView.ScaleType.FIT_XY);
     }
 
     private void initList() {
