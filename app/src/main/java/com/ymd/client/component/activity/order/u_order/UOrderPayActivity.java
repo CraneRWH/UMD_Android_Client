@@ -148,7 +148,7 @@ public class UOrderPayActivity extends BaseActivity {
 
     private double memberRaio = 10;
     private void getMemberInfo() {
-        WebUtil.getInstance().requestPOST(this, URLConstant.GET_CUSTOMER_INFO, null, new WebUtil.WebCallBack() {
+        WebUtil.getInstance().requestPOST(this, URLConstant.GET_MEMBER_INFO, null, new WebUtil.WebCallBack() {
             @Override
             public void onWebSuccess(JSONObject resultJson) {
                 LoginInfo.setLoginInfo(resultJson.optString("user"));
