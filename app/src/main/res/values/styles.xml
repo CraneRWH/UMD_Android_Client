@@ -42,7 +42,7 @@
     <style name="view_detail_item_separator">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/mar_pad_len_1_2px</item>
-        <item name="android:background">@color/text_gray</item>
+        <item name="android:background">@color/bg_gray</item>
     </style>
 
     <!--runningMain对话框样式-->

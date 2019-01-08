@@ -1,12 +1,20 @@
 package com.ymd.client.component.activity.homePage;
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -24,8 +32,14 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.jude.rollviewpager.RollPagerView;
 import com.jude.rollviewpager.adapter.StaticPagerAdapter;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.header.ClassicsHeader;
+import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.ymd.client.R;
 import com.ymd.client.common.base.OnUMDItemClickListener;
+import com.ymd.client.common.helper.UmdClassicsHeader;
 import com.ymd.client.component.activity.homePage.city.CityChooseActivity;
 import com.ymd.client.component.activity.homePage.merchant.MerchantDetailActivity;
 import com.ymd.client.component.activity.homePage.functionItem.FunctionItemActivity;
@@ -74,6 +88,8 @@ public class MainHomePageFragment extends Fragment {
     private static final String ARG_PARAM2 = "param2";
 
     Unbinder unbinder;
+    @BindView(R.id.head_bar_llt)
+    LinearLayout headBarLlt;
     @BindView(R.id.location_tv)
     TextView locationTv;
     @BindView(R.id.location_llt)
@@ -106,22 +122,13 @@ public class MainHomePageFragment extends Fragment {
     LinearLayout businessView;
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
-    @BindView(R.id.scrollView)
-    PullableScrollView scrollView;
     @BindView(R.id.bigLayout)
-    PullToRefreshLayout bigLayout;
-
-    private String mParam1;
-    private String mParam2;
-
-    private OnFragmentInteractionListener mListener;
-
+    SmartRefreshLayout bigLayout;
+    @BindView(R.id.scroll_view)
+    NestedScrollView scrollView;
+    int mAlpha = 0;
 
     private List<MyChooseItemView> textViewList;
-
-    public MainHomePageFragment() {
-        // Required empty public constructor
-    }
 
     public static MainHomePageFragment newInstance(String param1, String param2) {
         MainHomePageFragment fragment = new MainHomePageFragment();
@@ -130,15 +137,6 @@ public class MainHomePageFragment extends Fragment {
         args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
@@ -151,29 +149,7 @@ public class MainHomePageFragment extends Fragment {
         return view;
     }
 
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-    /*    if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }*/
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
-
+    @TargetApi(Build.VERSION_CODES.M)
     private void initView() {
         locationLlt.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -181,17 +157,67 @@ public class MainHomePageFragment extends Fragment {
                 CityChooseActivity.startAction(getActivity());
             }
         });
-        bigLayout.setOnRefreshListener(new PullToRefreshLayout.OnRefreshListener() {
+        bigLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
-            public void onRefresh(PullToRefreshLayout pullToRefreshLayout) {
+            public void onRefresh(RefreshLayout refreshlayout) {
+                page = 1;
                 onRefreshData();
-
+            }
+        });
+        bigLayout.setOnLoadmoreListener(new OnLoadmoreListener() {
+            @Override
+            public void onLoadmore(RefreshLayout refreshlayout) {
+                page ++;
+                requestMerchant(chooseStatus);
+            }
+        });
+        UmdClassicsHeader classicsHeader = new UmdClassicsHeader(getContext());
+        classicsHeader.setStartRefreshListener(new UmdClassicsHeader.StartRefreshListener() {
+            @Override
+            public void onStart() {
+                headBarLlt.setVisibility(View.GONE);
             }
 
             @Override
-            public void onLoadMore(PullToRefreshLayout pullToRefreshLayout) {
-                page ++;
-                requestMerchant(chooseStatus);
+            public void onEnd() {
+                headBarLlt.setVisibility(View.VISIBLE);
+            }
+        });
+        bigLayout.setRefreshHeader(classicsHeader);
+
+        scrollView.setOnScrollChangeListener(new View.OnScrollChangeListener() {
+            @Override
+            public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+                /**  ScrollView 滚动动态改变标题栏 */
+                // 滑动的最小距离（自行定义，you happy jiu ok）
+                int minHeight = 50;
+                // 滑动的最大距离（自行定义，you happy jiu ok）
+                int maxHeight = 400;
+                // 滑动距离小于定义得最小距离
+                if (v.getScrollY() <= minHeight) {
+                    mAlpha = 0;
+                }
+                // 滑动距离大于定义得最大距离
+                else if (v.getScrollY() > maxHeight) {
+                    mAlpha = 255;
+                }
+                // 滑动距离处于最小和最大距离之间
+                else {
+                    // （滑动距离 - 开始变化距离）：最大限制距离 = mAlpha ：255
+                    mAlpha = (v.getScrollY() - minHeight) * 255 / (maxHeight - minHeight);
+                }
+                // 初始状态 标题栏/导航栏透明等
+                if (mAlpha <= 0) {
+                    setViewBackgroundAlpha(headBarLlt, 0);
+                }
+                //  终止状态：标题栏/导航栏 不在进行变化
+                else if (mAlpha >= 255) {
+                    setViewBackgroundAlpha(headBarLlt, 255);
+                }
+                // 变化中状态：标题栏/导航栏随ScrollView 的滑动而产生相应变化
+                else {
+                    setViewBackgroundAlpha(headBarLlt, mAlpha);
+                }
             }
         });
 
@@ -228,18 +254,27 @@ public class MainHomePageFragment extends Fragment {
             });
         }
 
-/*
-        LocationInfo.getInstance().setChangeListener(new LocationInfo.OnCityChangeListener() {
-            @Override
-            public void onChange(CityEntity cityEntity) {
-                onRefreshCityName();
-            }
-        });
-*/
         ViewGroup.LayoutParams layoutParams = rollPagerView.getLayoutParams();
-        layoutParams.height = (int)(DeviceUtil.getWidth(getActivity()) * 1 / 3);
+        layoutParams.height = (int)(DeviceUtil.getWidth(getActivity()) * 3 / 5);
         rollPagerView.setLayoutParams(layoutParams);
+
+        setViewBackgroundAlpha(headBarLlt, 0);
+
         onRefreshData();
+    }
+
+    /**
+     * 设置View的背景透明度
+     *
+     * @param view
+     * @param alpha
+     */
+    public void setViewBackgroundAlpha(View view, int alpha) {
+        if (view == null) return;
+        Drawable drawable = view.getBackground();
+        if (drawable != null) {
+            drawable.setAlpha(alpha);
+        }
     }
 
     /**
@@ -304,36 +339,6 @@ public class MainHomePageFragment extends Fragment {
         //设置适配器
         rollPagerView.setAdapter(advAdapter);
 
-        //设置指示器（顺序依次）
-        //自定义指示器图片
-        //设置圆点指示器颜色
-        //设置文字指示器
-        //隐藏指示器
-        //mRollViewPager.setHintView(new IconHintView(this, R.drawable.point_focus, R.drawable.point_normal));
-        //   mRollViewPager.setHintView(new ColorPointHintView(getActivity(), getActivity().getColor(R.color.color_orange),Color.WHITE));
-        //mRollViewPager.setHintView(new TextHintView(this));
-        /*mRollViewPager.setHintView(null);
-        mRollViewPager.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @RequiresApi(api = Build.VERSION_CODES.O)
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                int position = mRollViewPager.getGravity();
-                setHintView(position);
-            }
-        });
-        imageNumBar.removeAllViews();
-        for(int i= 0 ; i < advAdapter.getCount(); i ++ ) {
-            View view=LayoutInflater.from(getActivity()).inflate(R.layout.main_adv_hint_item , youhuiServiceLayout,false);
-
-            TextView textView = (TextView) view.findViewById(R.id.itemText);
-
-            if (i == mRollViewPager.getGravity()) {
-                textView.setBackgroundResource(R.color.bg_header);
-            } else {
-                textView.setBackgroundResource(R.color.text_gray);
-            }
-            imageNumBar.addView(textView);
-        }*/
     }
 
     /*
@@ -368,17 +373,7 @@ public class MainHomePageFragment extends Fragment {
      * 设置功能选项
      */
     private void setFunctionItem(/*String functionJson*/) {
-        //    List<YmdIndustryEntity> itemList = new Gson().fromJson(functionJson, new TypeToken<List<YmdIndustryEntity>>(){}.getType());
-        /*if (itemList == null || itemList.isEmpty()) {
-            return;
-        }*/
         List<Map<String ,Object>> list = new ArrayList<>();
-        /*for (YmdIndustryEntity item : itemList) {
-            Map<String, Object> map = new HashMap<>();
-            map.put("name",item.getName());
-            map.put("icon", item.getImgUrl());
-            list.add(map);
-        }*/
         list.addAll(DataUtils.getFunctionsData());
 
         MySimpleAdapter adapter = new MySimpleAdapter(getActivity(), list, R.layout.function_item,
@@ -394,11 +389,7 @@ public class MainHomePageFragment extends Fragment {
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-            /*    if (i == 0) {
-                    NiceFoodActivity.startAction(getActivity());
-                } else {*/
                 FunctionItemActivity.startAction(getActivity(), i+1);
-                //   }
             }
         });
     }
@@ -406,11 +397,6 @@ public class MainHomePageFragment extends Fragment {
     private void requestYH() {
         Map<String,Object> params = new HashMap<>();
         params.put("countyId",LocationInfo.getInstance().getChooseCity().getCountyCode() > 0 ? LocationInfo.getInstance().getChooseCity().getCountyCode() : LocationInfo.getInstance().getChooseCity().getCityID());
-        //    params.put("city", LocationInfo.getInstance().getChooseCity().getCityID());
-    /*    params.put("county",LocationInfo.getInstance().getChooseCity().getCountyName());
-        params.put("city", LocationInfo.getInstance().getChooseCity().getCityID());
-        params.put("latitude",LocationInfo.getInstance().getLocationInfo().getLatitude());
-        params.put("longitude",LocationInfo.getInstance().getLocationInfo().getLongitude());*/
         WebUtil.getInstance().requestPOST(getActivity(), URLConstant.UMD_UH_PIC, params,
                 new WebUtil.WebCallBack() {
                     @Override
@@ -488,8 +474,8 @@ public class MainHomePageFragment extends Fragment {
         public void handleMessage(Message msg) {
             // 千万别忘了告诉控件刷新完毕了哦！
             try {
-                bigLayout.refreshFinish(PullToRefreshLayout.SUCCEED);
-                bigLayout.loadmoreFinish(PullToRefreshLayout.LOAD_END);
+                bigLayout.finishRefresh();
+                bigLayout.finishLoadmore();
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -532,12 +518,12 @@ public class MainHomePageFragment extends Fragment {
                     @Override
                     public void onWebSuccess(JSONObject resultJson) {
                         resetMerchantData(resultJson.optString("list"));
-                        refreshHandler.sendEmptyMessageDelayed(0, 2000);
+                        refreshHandler.sendEmptyMessageDelayed(0, 0);
                     }
 
                     @Override
                     public void onWebFailed(String errorMsg) {
-                        refreshHandler.sendEmptyMessageDelayed(0, 2000);
+                        refreshHandler.sendEmptyMessageDelayed(0, 0);
                     }
                 });
 
