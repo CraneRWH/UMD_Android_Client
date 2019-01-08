@@ -24,15 +24,16 @@ import com.ymd.client.UApplication;
 import com.ymd.client.common.base.BaseActivity;
 import com.ymd.client.common.base.service.LocationIntentService;
 import com.ymd.client.component.activity.homePage.MainHomePageFragment;
+import com.ymd.client.component.activity.login.LoginByPWActivity;
 import com.ymd.client.component.activity.mine.MainMineFragment;
 import com.ymd.client.component.activity.order.MainOrderFragment;
 import com.ymd.client.component.activity.sao.MainSaoFragment;
 import com.ymd.client.component.event.LocationFinishEvent;
 import com.ymd.client.component.event.LocationPermissionEvent;
-import com.ymd.client.component.event.OrderListRefreshEvent;
 import com.ymd.client.component.widget.dialog.CommonDialogs;
 import com.ymd.client.model.constant.Constants;
 import com.ymd.client.model.info.LocationInfo;
+import com.ymd.client.model.info.LoginInfo;
 import com.ymd.client.utils.PermissionUtils;
 import com.ymd.client.utils.helper.BottomNavigationViewHelper;
 
@@ -113,7 +114,11 @@ public class MainActivity extends BaseActivity {
                         chooseMainItem(1);
                         break;
                     case R.id.navigation_mine:
-                        chooseMainItem(2);
+                        if(!LoginInfo.isLogin){
+                            LoginByPWActivity.startAction(MainActivity.this);
+                        }else {
+                            chooseMainItem(2);
+                        }
                         break;
                     default:
                         break;
