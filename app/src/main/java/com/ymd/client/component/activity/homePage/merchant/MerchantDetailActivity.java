@@ -33,6 +33,7 @@ import com.ymd.client.R;
 import com.ymd.client.component.activity.homePage.merchant.fragment.EvaluateSellerFragment;
 import com.ymd.client.component.activity.homePage.merchant.fragment.MerchantGoodsFragment;
 import com.ymd.client.component.activity.homePage.merchant.fragment.MerchantZiZhiFragment;
+import com.ymd.client.component.activity.login.LoginActivity;
 import com.ymd.client.component.activity.order.detail.OrderDetailActivity;
 import com.ymd.client.component.activity.order.u_order.UOrderPayActivity;
 import com.ymd.client.component.adapter.TabFragmentAdapter;
@@ -210,7 +211,11 @@ public class MerchantDetailActivity extends TabBaseActivity {
             public void onResult(int position) {
                 if (!FastDoubleClickUtil.isFastDoubleClick()) {
                     if (buyList.isEmpty()) {
-                        UOrderPayActivity.startAction(MerchantDetailActivity.this, merchantInfo, functionType);
+                        if (LoginInfo.isLogin) {
+                            UOrderPayActivity.startAction(MerchantDetailActivity.this, merchantInfo, functionType);
+                        } else {
+                            LoginActivity.startAction(MerchantDetailActivity.this);
+                        }
                         //    ToastUtil.ToastMessage(MerchantDetailActivity.this, "请选择要购买的商品");
                     } else {
                         submitOrder();
@@ -245,7 +250,11 @@ public class MerchantDetailActivity extends TabBaseActivity {
             public void onClick(View v) {
                 if (!FastDoubleClickUtil.isFastDoubleClick()) {
                     if (buyList.isEmpty()) {
-                        UOrderPayActivity.startAction(MerchantDetailActivity.this, merchantInfo, functionType);
+                        if (LoginInfo.isLogin) {
+                            UOrderPayActivity.startAction(MerchantDetailActivity.this, merchantInfo, functionType);
+                        } else {
+                            LoginActivity.startAction(MerchantDetailActivity.this);
+                        }
                         //    ToastUtil.ToastMessage(MerchantDetailActivity.this, "请选择要购买的商品");
                     } else {
                         submitOrder();
@@ -289,7 +298,11 @@ public class MerchantDetailActivity extends TabBaseActivity {
             public void onClick(View view) {
                 //    UOrderPayActivity.startAction(MerchantDetailActivity.this, 0);
                 if (!FastDoubleClickUtil.isFastDoubleClick()) {
-                    UOrderPayActivity.startAction(MerchantDetailActivity.this, merchantInfo, functionType);
+                    if (LoginInfo.isLogin) {
+                        UOrderPayActivity.startAction(MerchantDetailActivity.this, merchantInfo, functionType);
+                    } else {
+                        LoginActivity.startAction(MerchantDetailActivity.this);
+                    }
                 }
             }
         });
@@ -297,7 +310,11 @@ public class MerchantDetailActivity extends TabBaseActivity {
             @Override
             public void onClick(View view) {
                 if (!FastDoubleClickUtil.isFastDoubleClick()) {
-                    UOrderPayActivity.startAction(MerchantDetailActivity.this, merchantInfo, functionType);
+                    if (LoginInfo.isLogin) {
+                        UOrderPayActivity.startAction(MerchantDetailActivity.this, merchantInfo, functionType);
+                    } else {
+                        LoginActivity.startAction(MerchantDetailActivity.this);
+                    }
                 }
             }
         });
