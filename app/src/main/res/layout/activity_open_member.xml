@@ -30,8 +30,8 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_gravity="top"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_gravity="top">
 
             <ImageView
                 android:id="@+id/open_member_iv"
@@ -51,6 +51,31 @@
                 android:layout_marginTop="@dimen/mar_pad_len_200px"
                 android:layout_marginRight="@dimen/mar_pad_len_84px"
                 android:src="@mipmap/icon_open_member_1" />
+
+            <TextView
+                android:id="@+id/open_member_tips"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="开通立享85折"
+                android:textColor="#a20f1a"
+                android:textSize="@dimen/text_size_48px" />
+
+            <TextView
+                android:id="@+id/open_member_top_money"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/open_member_tips"
+                android:text="￥20.0"
+                android:textColor="#a20f1a"
+                android:textSize="@dimen/text_size_48px" />
+            <TextView
+                android:id="@+id/open_member_top_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/open_member_top_money"
+                android:text="有效期：2019.1.1"
+                android:textColor="#d42220"
+                android:textSize="@dimen/text_size_30px" />
 
         </RelativeLayout>
 

@@ -116,6 +116,7 @@ public class MainActivity extends BaseActivity {
                     case R.id.navigation_mine:
                         if(!LoginInfo.isLogin){
                             LoginByPWActivity.startAction(MainActivity.this);
+                            return false;
                         }else {
                             chooseMainItem(2);
                         }
