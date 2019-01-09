@@ -7,9 +7,11 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.content.FileProvider;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -291,10 +293,19 @@ public class UpdateAppUtil {
 	void update() {
 		CommonShared.setBoolean("NEW_VERSION", true);
 		Intent intent = new Intent(Intent.ACTION_VIEW);
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+			File file= new File(Environment.getExternalStorageDirectory(), "/mass/apk/" + appName);
+			//参数1 上下文, 参数2 Provider主机地址 和配置文件中保持一致   参数3  共享的文件
+			Uri apkUri =
+					FileProvider.getUriForFile(mContext, "com.ymd.client.fileProvider", file);
+			intent.setDataAndType(apkUri, "application/vnd.android.package-archive");
+			//添加这一句表示对目标应用临时授权该Uri所代表的文件
+			intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+		} else {
+			intent.setDataAndType(Uri.parse("file://"+ Environment.getExternalStorageDirectory()+ "/mass/apk/" + appName),
+					"application/vnd.android.package-archive");
+		}
 		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-		intent.setDataAndType(Uri.parse("file://"+ Environment.getExternalStorageDirectory()+ "/mass/apk/" + appName),
-				"application/vnd.android.package-archive");
 		mContext.startActivity(intent);
-		System.exit(0);
 	}
 }

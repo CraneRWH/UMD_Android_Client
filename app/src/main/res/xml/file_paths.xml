@@ -9,7 +9,7 @@
     <root-path
         name="camera_photos"
         path="" />
-
+    <external-path name="download" path="" />
     <!--
     1. <files-path>这个标签是/data/data//files目录 即getFilesDir()获取到的目录。
 2. <cache-path> 这个标签表示/data/data//cache目录 即getCacheDir()获取到的目录。
