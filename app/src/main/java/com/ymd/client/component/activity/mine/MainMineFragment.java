@@ -4,6 +4,8 @@ import android.Manifest;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
@@ -31,6 +33,7 @@ import com.ymd.client.model.info.LoginInfo;
 import com.ymd.client.utils.ToastUtil;
 import com.ymd.client.utils.helper.PermissionHelper;
 import com.ymd.client.utils.helper.PermissionInterface;
+import com.ymd.client.utils.updateApp.UpdateAppUtil;
 import com.ymd.client.web.WebUtil;
 
 import org.greenrobot.eventbus.EventBus;
@@ -62,8 +65,8 @@ public class MainMineFragment extends Fragment implements PermissionInterface {
     CircleImageView mHeadView;//头像
     @BindView(R.id.fragment_person_nickname)
     TextView mNickName;//昵称
-     @BindView(R.id.setting_logout)
-     TextView mTxtLogout;//退出登录
+    @BindView(R.id.setting_logout)
+    TextView mTxtLogout;//退出登录
 
     public MainMineFragment() {
         // Required empty public constructor
@@ -146,6 +149,16 @@ public class MainMineFragment extends Fragment implements PermissionInterface {
         }
     }
 
+    private void checkUpdate() {
+        UpdateAppUtil update = new UpdateAppUtil(getActivity(), mHandler);
+        update.checkUpdate();
+    }
+
+    private Handler mHandler = new Handler() {
+        public void handleMessage(Message msg) {
+        }
+    };
+
     @OnClick({R.id.fragment_mine_my_ub, R.id.fragment_person_nickname, R.id.fragment_mine_my_collection, R.id.fragment_mine_my_rate,
             R.id.fragment_mine_my_cards, R.id.fragment_mine_links, R.id.fragment_mine_banks,
             R.id.fragment_mine_introduce, R.id.fragment_mine_cooperation, R.id.fragment_setting,
@@ -154,6 +167,7 @@ public class MainMineFragment extends Fragment implements PermissionInterface {
     void click(View view) {
         switch (view.getId()) {
             case R.id.fragment_mine_update:
+                checkUpdate();
                 break;
             case R.id.fragment_mine_my_member:
                 if (!LoginInfo.isLogin) {

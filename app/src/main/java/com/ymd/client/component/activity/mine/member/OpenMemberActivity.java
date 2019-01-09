@@ -4,7 +4,9 @@ import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
+import android.text.TextUtils;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -64,6 +66,13 @@ public class OpenMemberActivity extends BaseActivity {
     @BindView(R.id.open_member_iv1)
     ImageView mIvTop1;
 
+    @BindView(R.id.open_member_tips)
+    TextView mTxtTop;
+    @BindView(R.id.open_member_top_money)
+    TextView mTxtTopMoney;
+    @BindView(R.id.open_member_top_date)
+    TextView mTxtTopDate;
+
     OpenMemberAdapter mAdapter;
     int page = 1;
 
@@ -103,6 +112,33 @@ public class OpenMemberActivity extends BaseActivity {
 
         mIvTop1.setLayoutParams(params);
         mIvTop1.setScaleType(ImageView.ScaleType.FIT_XY);
+
+        //设置顶部会员折扣字体
+        RelativeLayout.LayoutParams textParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        textParams.leftMargin = ScreenUtil.dip2px(this, 58);
+        textParams.rightMargin = ScreenUtil.dip2px(this, 58);
+        textParams.topMargin = (int) (h / 2) + ScreenUtil.dp2px(this, 18);
+        params.bottomMargin = 0;
+        mTxtTop.setLayoutParams(textParams);
+
+        //会员节省
+        RelativeLayout.LayoutParams textParams1 = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        textParams1.leftMargin = ScreenUtil.dip2px(this, 58);
+        textParams1.rightMargin = ScreenUtil.dip2px(this, 58);
+        textParams1.topMargin = ScreenUtil.dp2px(this, 2);
+        textParams1.bottomMargin = 0;
+        textParams1.addRule(RelativeLayout.BELOW, R.id.open_member_tips);
+        mTxtTopMoney.setLayoutParams(textParams1);
+
+        //会员日期
+        RelativeLayout.LayoutParams textParams2 = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        textParams2.leftMargin = ScreenUtil.dip2px(this, 58);
+        textParams2.rightMargin = ScreenUtil.dip2px(this, 58);
+        textParams2.topMargin = ScreenUtil.dp2px(this, 2);
+        textParams2.bottomMargin = 0;
+        textParams2.addRule(RelativeLayout.BELOW, R.id.open_member_top_money);
+        mTxtTopDate.setLayoutParams(textParams2);
+
     }
 
     private void initList() {
@@ -221,9 +257,26 @@ public class OpenMemberActivity extends BaseActivity {
         if (LoginInfo.getInstance().getLoginInfo().getMembership() == 0) {
             //0是非会员
             mTxtSubmit.setText("开通会员");
+            mTxtTop.setText("开通立享8.5折");
+            mTxtTopMoney.setVisibility(View.GONE);
+            mTxtTopDate.setVisibility(View.GONE);
         } else {
             //1会员
             mTxtSubmit.setText("立即续费");
+
+            mTxtTop.setText("已为您节省");
+            mTxtTopMoney.setVisibility(View.VISIBLE);
+            mTxtTopDate.setVisibility(View.VISIBLE);
+            if (TextUtils.isEmpty(LoginInfo.getInstance().getLoginInfo().getDiscountAmount())) {
+                mTxtTopMoney.setText("￥0.00");
+            } else {
+                mTxtTopMoney.setText("￥" + LoginInfo.getInstance().getLoginInfo().getDiscountAmount());
+            }
+            if (TextUtils.isEmpty(LoginInfo.getInstance().getLoginInfo().getEndDate())) {
+                mTxtTopDate.setText("");
+            } else {
+                mTxtTopDate.setText("有效期至：" + AbDateUtil.getStringByFormat(LoginInfo.getInstance().getLoginInfo().getEndDate(), AbDateUtil.dateFormatYMD1));
+            }
         }
     }
 

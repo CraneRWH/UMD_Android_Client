@@ -90,6 +90,8 @@ public class UserObject {
 
     private String startDate;
 
+    private String discountAmount;
+
     /**
      *comprehensiveScore 综合评分
      */
@@ -261,5 +263,13 @@ public class UserObject {
 
     public void setStartDate(String startDate) {
         this.startDate = startDate;
+    }
+
+    public String getDiscountAmount() {
+        return discountAmount;
+    }
+
+    public void setDiscountAmount(String discountAmount) {
+        this.discountAmount = discountAmount;
     }
 }
