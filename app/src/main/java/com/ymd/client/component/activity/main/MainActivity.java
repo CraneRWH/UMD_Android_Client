@@ -129,10 +129,8 @@ public class MainActivity extends BaseActivity {
         });
         chooseMainItem(0);
 
-        //申请文件权限
-        applyPermissions();
-
         quanxian();
+
     }
 
     private void chooseMainItem(int tag) {
@@ -189,7 +187,7 @@ public class MainActivity extends BaseActivity {
      * 申请文件权限
      */
     private void applyPermissions() {
-        PermissionUtils.checkPermission(this, WRITE_EXTERNAL_STORAGE,
+        PermissionUtils.checkMorePermissions(this, new String[]{WRITE_EXTERNAL_STORAGE},
                 new PermissionUtils.PermissionCheckCallBack() {
                     @Override
                     public void onHasPermission() {
@@ -246,7 +244,9 @@ public class MainActivity extends BaseActivity {
                     // 权限被用户拒绝了。
                     Toast.makeText(this, "定位权限被禁止，相关地图功能无法使用！", Toast.LENGTH_LONG).show();
                 }
-
+                //申请文件权限
+                applyPermissions();
+                break;
             }
         }
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -290,7 +290,7 @@ public class MainActivity extends BaseActivity {
         lm = (LocationManager) this.getSystemService(this.LOCATION_SERVICE);
         boolean ok = lm.isProviderEnabled(LocationManager.GPS_PROVIDER);
         if (ok) {//开了定位服务
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
                     != PackageManager.PERMISSION_GRANTED) {
                 Log.e("BRG", "没有权限");
                 // 没有权限，申请权限。
