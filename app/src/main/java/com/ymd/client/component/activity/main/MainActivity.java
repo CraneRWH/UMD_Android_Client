@@ -23,6 +23,7 @@ import com.ymd.client.R;
 import com.ymd.client.UApplication;
 import com.ymd.client.common.base.BaseActivity;
 import com.ymd.client.common.base.service.LocationIntentService;
+import com.ymd.client.component.activity.cityWide.MainCityWideFragment;
 import com.ymd.client.component.activity.homePage.MainHomePageFragment;
 import com.ymd.client.component.activity.login.LoginByPWActivity;
 import com.ymd.client.component.activity.mine.MainMineFragment;
@@ -60,7 +61,7 @@ public class MainActivity extends BaseActivity {
 
     private Map<Integer, Fragment> mainFragments = new HashMap<Integer, Fragment>();
     private MainHomePageFragment homePageFragment;
-    private MainSaoFragment saoFragment;
+    private MainCityWideFragment cityWideFragment;
     private MainOrderFragment orderFragment;
     private MainMineFragment mineFragment;
 
@@ -107,18 +108,18 @@ public class MainActivity extends BaseActivity {
                     case R.id.navigation_home:
                         chooseMainItem(0);
                         break;
-                  /*  case R.id.navigation_sao:
+                    case R.id.navigation_city_wide:
                         chooseMainItem(1);
-                        break;*/
+                        break;
                     case R.id.navigation_order:
-                        chooseMainItem(1);
+                        chooseMainItem(2);
                         break;
                     case R.id.navigation_mine:
                         if(!LoginInfo.isLogin){
                             LoginByPWActivity.startAction(MainActivity.this);
                             return false;
                         }else {
-                            chooseMainItem(2);
+                            chooseMainItem(3);
                         }
                         break;
                     default:
@@ -143,21 +144,21 @@ public class MainActivity extends BaseActivity {
                     fragmentTransaction.add(R.id.fragmentLayout, homePageFragment, "home");
                     mainFragments.put(0, homePageFragment);
                 }
-                /*else if (tag == 1) {
-                    saoFragment = new MainSaoFragment();		//扫一扫选项卡
-                    fragmentTransaction.add(R.id.fragmentLayout, saoFragment, "sao");
-                    mainFragments.put(1,saoFragment);
-                }*/
                 else if (tag == 1) {
+                    cityWideFragment = new MainCityWideFragment();		//同城选项卡
+                    fragmentTransaction.add(R.id.fragmentLayout, cityWideFragment, "cityWide");
+                    mainFragments.put(1,cityWideFragment);
+                }
+                else if (tag == 2) {
                     orderFragment = new MainOrderFragment();        //订单选项卡
 
                     fragmentTransaction.add(R.id.fragmentLayout, orderFragment, "order");
-                    mainFragments.put(1, orderFragment);
-                } else if (tag == 2) {
+                    mainFragments.put(2, orderFragment);
+                } else if (tag == 3) {
                     mineFragment = new MainMineFragment();        //“我的”选项卡
 
                     fragmentTransaction.add(R.id.fragmentLayout, mineFragment, "mine");
-                    mainFragments.put(2, mineFragment);
+                    mainFragments.put(3, mineFragment);
                 }
             }
             for (int key : mainFragments.keySet()) {
@@ -168,9 +169,9 @@ public class MainActivity extends BaseActivity {
                     fragmentTransaction.hide(mainFragments.get(key));
                 }
             }
-            if (tag == 1) {
+            if (tag == 1 || tag == 2) {
                 setStatusBar(R.color.head_white);
-            } else if(tag == 2){
+            } else if(tag == 3){
                 setStatusBar(R.color.orange_bg);
             }else {
                 setStatusBar(R.color.bg_header);

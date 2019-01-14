@@ -14,7 +14,7 @@ android {
         applicationId "com.ymd.client"
         minSdkVersion 15
         targetSdkVersion 27
-        versionCode 3
+        versionCode 5
         versionName "1.0.3"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true

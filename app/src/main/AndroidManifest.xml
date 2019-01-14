@@ -148,8 +148,6 @@
         <activity android:name=".component.activity.homePage.functionItem.FunctionItemActivity" />
         <activity android:name=".component.activity.homePage.merchant.seller.test.MerchantDetail2Activity" />
         <service android:name=".common.base.service.LocationIntentService" />
-        <service android:name=".common.base.service.LocationIntentService" />
-        <service android:name=".common.base.service.LocationIntentService" />
 
         <activity android:name=".component.activity.login.AgreementActivity" />
         <activity android:name=".component.activity.homePage.functionItem.FunctionItemActivity_" />
@@ -168,11 +166,7 @@
         <activity
             android:name=".component.activity.order.u_order.UOrderPayActivity"
             android:label="@string/title_activity_uorder_pay"
-            android:parentActivityName=".common.base.BaseActivity"
             android:theme="@style/AppTheme">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.ymd.client.common.base.BaseActivity" />
         </activity>
         <activity android:name=".component.activity.order.u_order.UOrderPayResultActivity"></activity>
         <!-- 开通会员页面 -->
