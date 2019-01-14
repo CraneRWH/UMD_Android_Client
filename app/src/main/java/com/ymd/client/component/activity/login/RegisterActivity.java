@@ -139,7 +139,7 @@ public class RegisterActivity extends BaseActivity {
             return;
         }
 
-        if (password.equals(password2)) {
+        if (!password.equals(password2)) {
             ToastUtil.ToastMessage(this, "两次输入的密码不一致", ToastUtil.WARN);
             return;
         }
