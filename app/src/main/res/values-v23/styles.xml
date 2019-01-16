@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!--使用Android默认的跳转动画-->
+        <item name="android:windowAnimationStyle">@android:style/Animation.Activity</item>
+        <!--解决使用Theme.AppCompat时,button在5.0以上系统显示阴影问题-->
+        <item name="android:buttonStyle">@style/Widget.AppCompat.Button.Borderless</item>
+        <item name="android:windowLightStatusBar">true</item>
+    </style>
+</resources>

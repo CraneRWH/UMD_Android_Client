@@ -138,6 +138,8 @@ public class SearchActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 searchContent = searchEt.getText().toString().trim();
+
+                chooseItem(chooseStatus);
                 requestMerchant(chooseStatus);
             }
         });
@@ -161,7 +163,8 @@ public class SearchActivity extends BaseActivity {
 
                 @Override
                 public void onClick(View arg0) {
-                    chooseItem(position);
+                    chooseItem(chooseStatus);
+                    requestMerchant(chooseStatus);
                 }
             });
         }
@@ -176,6 +179,8 @@ public class SearchActivity extends BaseActivity {
             @Override
             public void onRefresh(RefreshLayout refreshlayout) {
                 page = 1;
+
+                chooseItem(chooseStatus);
                 requestMerchant(chooseStatus);
             }
         });
@@ -199,7 +204,6 @@ public class SearchActivity extends BaseActivity {
     protected void chooseItem(int position) {
         chooseStatus = position;
         page = 1;
-        requestMerchant(position);
         try {
             for (int i = 0; i < textViewList.size(); i++) {
                 if (i == position) {
@@ -343,6 +347,8 @@ public class SearchActivity extends BaseActivity {
     private void quickSearch(String item) {
         page = 1;
         searchContent = item;
+
+        chooseItem(chooseStatus);
         requestMerchant(chooseStatus);
     }
 

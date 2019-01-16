@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#3F51B5</color>
-
+    <!-- 透明色 -->
+    <color name="color_transparent">#00000000</color>
     <color name="common_color_gray_bg">#f3f3f3</color>
     <color name="common_color_deep_grey">#979797</color>
     <color name="common_color_black_txt">#171717</color>

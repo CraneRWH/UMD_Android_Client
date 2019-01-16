@@ -2,15 +2,16 @@
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimary</item>
-        <item name="colorAccent">@color/colorPrimary</item>
-        <!-- Customize your theme here. -->
-        <item name="android:windowActionBar">false</item>
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-        <!--<item name="android:navigationBarColor">要设置的颜色值</item>
-                 虚拟导航键（Navigation Bar）优化-->
+        <!--使用Android默认的跳转动画-->
+        <item name="android:windowAnimationStyle">@android:style/Animation.Activity</item>
+        <!--解决使用Theme.AppCompat时,button在5.0以上系统显示阴影问题-->
+        <item name="android:buttonStyle">@style/Widget.AppCompat.Button.Borderless</item>
+    </style>
+
+    <!--跳转MainActivity的时候耗时过长,会导致出现短暂黑屏,将默认背景置为透明,避免黑屏-->
+    <style name="TranslucentMainTheme" parent="AppTheme">
+        <item name="android:windowBackground">@color/color_transparent</item>
+        <!--<item name="android:windowIsTranslucent">true</item>--><!--该属性会导致跳转时闪屏-->
     </style>
     <!--导航栏中的操作按钮的样式-->
     <style name="NavigationButtonStyle">
