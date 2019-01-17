@@ -273,7 +273,7 @@ public class MainHomePageFragment extends Fragment {
         if (view == null) return;
         Drawable drawable = view.getBackground();
         if (drawable != null) {
-            drawable.setAlpha(alpha);
+            drawable.mutate().setAlpha(alpha);
         }
     }
 

@@ -64,7 +64,7 @@
         <!-- 主页面 -->
         <activity
             android:name=".component.activity.main.MainActivity"
-            android:launchMode="singleTop" />
+            android:launchMode="singleTask" />
 
         <!-- 验证码登录 -->
         <activity android:name=".component.activity.login.LoginActivity">
