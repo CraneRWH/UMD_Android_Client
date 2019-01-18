@@ -51,8 +51,8 @@ public class MyCollectionActivity extends BaseActivity {
     private List<Fragment> mFragments = new ArrayList<>();
     private FragmentContainerHelper mFragmentContainerHelper;// = new FragmentContainerHelper();
 
-    private static final String[] CHANNELS = new String[]{"全部", "美食", "酒店", "爱车", "美容美发", "电影","生鲜", "金融", "洗浴/KTV", "优币专区", "其他分类"};
-    //private static final String[] CHANNELS = new String[]{"全部", "美食", "酒店", "爱车", "电影"};
+    private static final String[] CHANNELS = new String[]{"全部", "美食", "hospital_item_icon", "爱车", "美容美发", "电影","生鲜", "jinrong_item_icon", "洗浴/KTV", "优币专区", "other_item_icon"};
+    //private static final String[] CHANNELS = new String[]{"全部", "美食", "hospital_item_icon", "爱车", "电影"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

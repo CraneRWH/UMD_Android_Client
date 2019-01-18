@@ -2,13 +2,11 @@ package com.ymd.client.utils;
 
 import com.google.gson.Gson;
 import com.ymd.client.R;
-import com.ymd.client.model.bean.homePage.MerchantInfoEntity;
+import com.ymd.client.model.bean.FunctionItemEntity;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 
 /**
@@ -45,27 +43,28 @@ public class DataUtils {
      * 首页功能选项数据
      * @return
      */
-    public static List<Map<String,Object>> getFunctionsData() {
-        List<Map<String ,Object>> list = new ArrayList<>();
-        Map<String, Object> map = new HashMap<>(); map.put("name","美食"); map.put("icon", R.mipmap.food_item_icon); list.add(map);
+    public static List<FunctionItemEntity> getFunctionsData() {
+        List<FunctionItemEntity> list = new ArrayList<>();
+        FunctionItemEntity item = new FunctionItemEntity(1, "餐饮", R.mipmap.food_item_icon); list.add(item);
 
-        map = new HashMap<>(); map.put("name","酒店"); map.put("icon", R.mipmap.hospital_item_icon); list.add(map);
+        item = new FunctionItemEntity(2, "酒店", R.mipmap.hospital_item_icon); list.add(item);
 
-        map = new HashMap<>(); map.put("name","爱车"); map.put("icon", R.mipmap.car_item_icon); list.add(map);
 
-        map = new HashMap<>(); map.put("name","美容美发"); map.put("icon", R.mipmap.meirong_item_icon); list.add(map);
+        item = new FunctionItemEntity(3, "丽人", R.mipmap.meirong_item_icon); list.add(item);
 
-        map = new HashMap<>(); map.put("name","电影"); map.put("icon", R.mipmap.movie_item_icon); list.add(map);
+        item = new FunctionItemEntity(4, "便利/商超", R.mipmap.shopping_car_item_icon); list.add(item);
 
-        map = new HashMap<>(); map.put("name","生鲜"); map.put("icon", R.mipmap.shengxian_item_icon); list.add(map);
+        item = new FunctionItemEntity(5, "金融", R.mipmap.jinrong_item_icon); list.add(item);
 
-        map = new HashMap<>(); map.put("name","金融");map.put("icon", R.mipmap.jinrong_item_icon);list.add(map);
+        item = new FunctionItemEntity(6, "娱乐休闲", R.mipmap.ktv_item_icon); list.add(item);
 
-        map = new HashMap<>(); map.put("name","洗浴/KTV");map.put("icon", R.mipmap.xiyu_item_icon);list.add(map);
+        item = new FunctionItemEntity(7, "特产/礼品", R.mipmap.gift_item_icon); list.add(item);
 
-        map = new HashMap<>(); map.put("name","优币专区"); map.put("icon", R.mipmap.ktv_item_icon); list.add(map);
+        item = new FunctionItemEntity(8, "汽车/房产", R.mipmap.car_item_icon); list.add(item);
 
-        map = new HashMap<>(); map.put("name","其他分类");map.put("icon", R.mipmap.other_item_icon);list.add(map);
+        item = new FunctionItemEntity(9, "优买单自营", R.mipmap.umd_own_sale_icon); list.add(item);
+
+        item = new FunctionItemEntity(10, "其他分类", R.mipmap.other_item_icon); list.add(item);
 
         return list;
     }

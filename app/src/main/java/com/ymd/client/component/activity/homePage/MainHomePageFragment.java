@@ -41,6 +41,7 @@ import com.ymd.client.R;
 import com.ymd.client.common.base.OnUMDItemClickListener;
 import com.ymd.client.common.helper.UmdClassicsHeader;
 import com.ymd.client.component.activity.homePage.city.CityChooseActivity;
+import com.ymd.client.component.activity.homePage.finance.FinanceActivity;
 import com.ymd.client.component.activity.homePage.merchant.MerchantDetailActivity;
 import com.ymd.client.component.activity.homePage.functionItem.FunctionItemActivity;
 import com.ymd.client.component.activity.homePage.scan.ScanCodeActivity;
@@ -52,6 +53,7 @@ import com.ymd.client.component.widget.other.MyChooseItemView;
 import com.ymd.client.component.widget.pullRefreshView.PullToRefreshLayout;
 import com.ymd.client.component.widget.pullRefreshView.PullableScrollView;
 import com.ymd.client.component.widget.recyclerView.MyGridView;
+import com.ymd.client.model.bean.FunctionItemEntity;
 import com.ymd.client.model.bean.homePage.DiscountsMerchantEntity;
 import com.ymd.client.model.bean.homePage.MerchantInfoEntity;
 import com.ymd.client.model.bean.homePage.PictureEntity;
@@ -69,6 +71,7 @@ import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -374,7 +377,12 @@ public class MainHomePageFragment extends Fragment {
      */
     private void setFunctionItem(/*String functionJson*/) {
         List<Map<String ,Object>> list = new ArrayList<>();
-        list.addAll(DataUtils.getFunctionsData());
+        for (FunctionItemEntity item : DataUtils.getFunctionsData()) {
+            Map<String,Object> map = new HashMap<>();
+            map.put("name", item.getFunctionName());
+            map.put("icon", item.getFunctionIcon());
+            list.add(map);
+        }
 
         MySimpleAdapter adapter = new MySimpleAdapter(getActivity(), list, R.layout.function_item,
                 new String[]{"name", "icon"}, new int[]{R.id.itemText, R.id.itemImage},
@@ -389,7 +397,11 @@ public class MainHomePageFragment extends Fragment {
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                FunctionItemActivity.startAction(getActivity(), i+1);
+                if (DataUtils.getFunctionsData().get(i).getPid() == 5) {
+                    FinanceActivity.startAction(getActivity());
+                } else {
+                    FunctionItemActivity.startAction(getActivity(), i + 1);
+                }
             }
         });
     }

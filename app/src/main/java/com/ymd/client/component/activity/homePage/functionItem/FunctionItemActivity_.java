@@ -61,7 +61,7 @@ import butterknife.ButterKnife;
 /**
  * 作者:rongweihe
  * 日期:2018/8/25
- * 描述:    酒店、爱车、美容美发、电影、生鲜、金融、洗浴/KTV、优币专区、其他分类等
+ * 描述:    hospital_item_icon、爱车、美容美发、电影、生鲜、jinrong_item_icon、洗浴/KTV、优币专区、其他分类等
  * 修改历史:
  */
 public class FunctionItemActivity_ extends BaseActivity implements ViewPager.OnPageChangeListener {
@@ -135,7 +135,7 @@ public class FunctionItemActivity_ extends BaseActivity implements ViewPager.OnP
                 title = "美食";
                 break;
             case 2:
-                title = "酒店";
+                title = "hospital_item_icon";
                 break;
             case 3:
                 title = "爱车";
@@ -150,7 +150,7 @@ public class FunctionItemActivity_ extends BaseActivity implements ViewPager.OnP
                 title = "生鲜";
                 break;
             case 7:
-                title = "金融";
+                title = "jinrong_item_icon";
                 break;
             case 8:
                 title = "洗浴/KTV";

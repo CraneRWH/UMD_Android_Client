@@ -140,4 +140,6 @@ dependencies {
     implementation files('libs/umeng-share-sina-simplify-6.9.4.jar')
     implementation files('libs/umeng-share-wechat-simplify-6.9.4.jar')
     implementation files('libs/umeng-sharetool-6.9.4.jar')
+
+    implementation group: 'commons-beanutils', name: 'commons-beanutils', version: '1.9.3'
 }

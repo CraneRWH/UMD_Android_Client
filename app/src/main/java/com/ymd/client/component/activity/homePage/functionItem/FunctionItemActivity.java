@@ -36,6 +36,7 @@ import com.ymd.client.model.bean.homePage.YmdIndustryEntity;
 import com.ymd.client.model.bean.homePage.YmdRecommendEntity;
 import com.ymd.client.model.constant.URLConstant;
 import com.ymd.client.model.info.LocationInfo;
+import com.ymd.client.utils.DataUtils;
 import com.ymd.client.utils.FastDoubleClickUtil;
 import com.ymd.client.utils.ToolUtil;
 import com.ymd.client.web.WebUtil;
@@ -117,38 +118,7 @@ public class FunctionItemActivity extends BaseActivity implements ViewPager.OnPa
     private void initView() {
 
         functionType = getIntent().getExtras().getInt("type");
-        switch (functionType) {
-            case 1:
-                title = "美食";
-                break;
-            case 2:
-                title = "酒店";
-                break;
-            case 3:
-                title = "爱车";
-                break;
-            case 4:
-                title = "美容美发";
-                break;
-            case 5:
-                title = "电影";
-                break;
-            case 6:
-                title = "生鲜";
-                break;
-            case 7:
-                title = "金融";
-                break;
-            case 8:
-                title = "洗浴/KTV";
-                break;
-            case 9:
-                title = "优币专区";
-                break;
-            case 10:
-                title = "其他分类等";
-                break;
-        }
+        title = DataUtils.getFunctionsData().get(functionType - 1).getFunctionName();
 
         setTitle(title);
         searchLayout.setOnClickListener(new View.OnClickListener() {
