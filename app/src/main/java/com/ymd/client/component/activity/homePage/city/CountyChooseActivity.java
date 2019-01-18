@@ -59,6 +59,7 @@ public class CountyChooseActivity extends BaseActivity {
 
     protected void bindWidgetId() {
         countyRv = (RecyclerView) findViewById(R.id.county_rv);
+        setStatusBar(R.color.bg_header);
     }
 
     protected void bindWidgetListener() {

@@ -116,7 +116,7 @@ public class FunctionItemActivity extends BaseActivity implements ViewPager.OnPa
     }
 
     private void initView() {
-
+        setStatusBar(R.color.white);
         functionType = getIntent().getExtras().getInt("type");
         title = DataUtils.getFunctionsData().get(functionType - 1).getFunctionName();
 

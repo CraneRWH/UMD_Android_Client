@@ -306,7 +306,7 @@
             <android.support.v7.widget.Toolbar
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/mar_pad_len_88px"
-                android:background="@color/head_white"
+                android:background="@color/white"
                 app:layout_collapseMode="pin">
                 <LinearLayout
                     android:id="@+id/head_view"
@@ -314,7 +314,7 @@
                     android:layout_height="match_parent"
                     android:orientation="horizontal"
                     android:gravity="center_vertical"
-                    android:background="@color/head_white">
+                    android:background="@color/white">
 
                     <ImageView
                         android:id="@+id/iv_back"

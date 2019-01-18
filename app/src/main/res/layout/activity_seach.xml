@@ -14,7 +14,7 @@
         android:layout_height="@dimen/mar_pad_len_88px"
         android:orientation="horizontal"
         android:gravity="center_vertical"
-        android:background="@color/head_white"
+        android:background="@color/white"
         >
         <ImageView
             android:id="@+id/iv_back"

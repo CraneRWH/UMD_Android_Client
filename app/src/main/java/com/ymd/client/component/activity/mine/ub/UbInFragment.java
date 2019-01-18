@@ -133,7 +133,7 @@ public class UbInFragment extends Fragment {
         if (beans != null) {
             datas.addAll(beans);
         }
-        mAdapter = new UbFragmentAdapter2(beans,getActivity());
+        mAdapter = new UbFragmentAdapter2(datas,getActivity());
         recyclerView.setAdapter(mAdapter);
         if (beans == null || beans.size() == 0) {
             recyclerView.loadMoreComplete();

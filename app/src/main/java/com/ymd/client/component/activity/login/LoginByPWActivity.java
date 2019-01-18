@@ -81,7 +81,7 @@ public class LoginByPWActivity extends BaseActivity {
 
 
     private void initView() {
-        setStatusBar(R.color.bg_header);
+        setStatusBar(R.color.white);
         registerBtn = (TextView) findViewById(R.id.register_btn);
         registerBtn.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -170,7 +170,7 @@ public class MainActivity extends BaseActivity {
                 }
             }
             if (tag == 1 || tag == 2) {
-                setStatusBar(R.color.head_white);
+                setStatusBar(R.color.white);
             } else if(tag == 3){
                 setStatusBar(R.color.orange_bg);
             }else {

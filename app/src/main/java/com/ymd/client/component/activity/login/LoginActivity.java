@@ -76,8 +76,7 @@ public class LoginActivity extends BaseActivity {
     }
 
     private void initView() {
-        //    setStatusBar(R.color.head_white);
-        setStatusBar(R.color.bg_header);
+        setStatusBar(R.color.white);
         mobileNumber = (EditText) findViewById(R.id.mobileNumber);
         mobileCode = (EditText) findViewById(R.id.mobileCode);
         mobileCodeBtn = (TextView) findViewById(R.id.mobileCodeBtn);

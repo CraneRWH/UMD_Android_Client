@@ -390,21 +390,14 @@ public class SearchActivity extends BaseActivity {
                 new WebUtil.WebCallBack() {
                     @Override
                     public void onWebSuccess(JSONObject result) {
-                        hotStrs.add("拉面");
-                        hotStrs.add("土豆");
-                        hotStrs.add("麻辣烫");
-                        hotStrs.add("驴肉火烧");
-                        hotStrs.add("半天妖烤鱼");
+                        List<String> hots = new Gson().fromJson(result.optString("list"), new TypeToken<List<String>>(){}.getType());
+                        hotStrs.clear();
+                        hotStrs.addAll(hots);
                         handler.sendEmptyMessage(1);
                     }
 
                     @Override
                     public void onWebFailed(String errorMsg) {
-                        hotStrs.add("拉面");
-                        hotStrs.add("土豆");
-                        hotStrs.add("麻辣烫");
-                        hotStrs.add("驴肉火烧");
-                        hotStrs.add("半天妖烤鱼");
                         handler.sendEmptyMessage(1);
                     }
                 });

@@ -58,7 +58,7 @@ public class CityChooseActivity extends BaseActivity {
         listView = (PinnedSectionListView) findViewById(R.id.listView);
         sideBar = (SideBar) findViewById(R.id.sidrbar);
         dialogView = (TextView) findViewById(R.id.dialog);
-
+        setStatusBar(R.color.bg_header);
     }
 
     protected void bindWidgetListener() {
